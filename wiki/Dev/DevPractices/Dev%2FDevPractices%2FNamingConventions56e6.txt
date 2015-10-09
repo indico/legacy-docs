@@ -1,0 +1,28 @@
+= Naming Conventions =
+In an effort to maintain Indico project tidy and easy to work with, please follow these naming conventions upon creation of new files or code. Refactorization of old code should also follow this conventions.
+
+=== Filenames ===
+In principle, filenames should be '''lowercase''' and remain as short and descriptive as possible. If names contain multiple words they should have '''no separation symbol''' unless it's absolutely necessary for readability. Refrain from adding prefixes to filenames and if they are  really needed consider using a folder for grouping all related files.
+
+Following, some more details regarding specific language files.
+==== CSS ====
+* CSS files should be named after the topic or context the rules they content are related to.
+* Separation symbol: None (underscore if absolutely needed)
+
+==== Javascript ====
+* Separation symbol: Dot
+
+==== Python ====
+* Separation symbol: None (underscore if absolutely needed)
+
+==== TPL ====
+* Separation symbol: None (underscore if absolutely needed)
+
+=== Definitions ===
+TODO
+
+==== CSS ====
+
+==== Javascript ====
+
+==== Python ====

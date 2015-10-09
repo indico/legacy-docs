@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/IndicoWorldWide by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      IndicoWorldWide – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="TracGuide.html" />
+        <link rel="alternate" href="IndicoWorldWide56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../wiki.html">wiki:</a><a class="pathentry" href="IndicoWorldWide.html" title="View IndicoWorldWide">IndicoWorldWide</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="WikiStart.html">Start Page</a></li><li><a href="TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/IndicoWorldWide?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc trac-nav"><h2><a href="http://svn.ipd.uka.de/trac/javaparty/wiki/TracNav">TracNav</a></h2><ul><li><a class="wiki" href="WikiStart.html">Home</a></li><li><a class="wiki" href="Features.html">Features</a></li><li><a class="wiki" href="Download.html">Download</a></li><li><a class="wiki" href="Documentation.html">Documentation</a></li><li><a class="wiki" href="Community.html">Community</a></li><li><a class="wiki" href="Team.html">Team</a></li><li class="active"><a class="wiki" href="IndicoWorldWide.html">Indico world-wide</a></li><li><a class="wiki" href="Press.html">Press</a></li><li><a class="wiki" href="3rdPartyTools.html">3rd Party Tools</a></li><li><a class="wiki" href="apps.html">Apps</a></li><li><a href="../blog/index.html">News</a></li></ul></div><p>
+</p>
+<h1 id="IndicoWorld-Wideinstallations">Indico World-Wide installations</h1>
+<p>
+Apart from the <a class="ext-link" href="http://indico.cern.ch/"><span class="icon">​</span>Indico server</a> at <acronym title="European Organization for Nuclear Research">CERN</acronym>, there are more installations world-wide. Here you can find some (111):
+</p>
+<ul><li>AR
+<ul><li><a class="ext-link" href="http://www.bijuar.edu.ar/indico/index.py"><span class="icon">​</span>BIJUAR</a>
+</li></ul></li><li>AT
+<ul><li><a class="ext-link" href="https://fec2012.iaea.org/index.py"><span class="icon">​</span>IAEA</a>
+</li></ul></li><li>BE
+<ul><li><a class="ext-link" href="http://agenda.phys.ucl.ac.be/"><span class="icon">​</span>Center for Cosmology and Particle Physics Phenomenolgy (CP3), Université catholique de Louvain</a>
+</li><li><a class="ext-link" href="https://iks32.fys.kuleuven.be/indico/index.py"><span class="icon">​</span>K.U. Leuven</a>
+</li><li><a class="ext-link" href="http://w3.iihe.ac.be/indico/index.py"><span class="icon">​</span>ULB - Brussels</a>
+</li></ul></li><li>BR
+<ul><li><a class="ext-link" href="http://indico.rnp.br/index.py"><span class="icon">​</span>RNP</a>
+</li></ul></li><li>CA
+<ul><li><a class="ext-link" href="http://indico.triumf.ca/"><span class="icon">​</span>TRIUMF</a>
+</li><li><a class="ext-link" href="http://thwaite.phys.ualberta.ca/indico-0.94/index.py"><span class="icon">​</span>University of Alberta</a>
+</li></ul></li><li>CH
+<ul><li><a class="ext-link" href="https://indico.psi.ch/index.py"><span class="icon">​</span>PSI (Paul Scherrer Institute)</a>
+</li><li><a class="ext-link" href="http://itpworkshop.unibe.ch/MaKaC/index.py"><span class="icon">​</span>Bern University</a>
+</li><li><a class="ext-link" href="http://ilcagenda.cern.ch/"><span class="icon">​</span>International Linear Collider (ILC)</a>
+</li><li><a class="ext-link" href="http://laguna.ethz.ch/indico/index.py"><span class="icon">​</span>LAGUNA</a>
+</li><li><a class="ext-link" href="http://indico.epfl.ch/"><span class="icon">​</span>EPFL</a>
+</li></ul></li><li>CL
+<ul><li><a class="ext-link" href="http://indico.cmm.uchile.cl/index.py"><span class="icon">​</span>CMM</a>
+</li><li><a class="ext-link" href="http://indico.reuna.cl/"><span class="icon">​</span>REUNA</a>
+</li></ul></li><li>CN
+<ul><li><a class="ext-link" href="https://agenda.euchinagrid.org/index.py"><span class="icon">​</span>EU-ChinaGrid</a>
+</li><li><a class="ext-link" href="http://indico.ihep.ac.cn/"><span class="icon">​</span>IHEP</a>
+</li></ul></li><li>CZ
+<ul><li><a class="ext-link" href="http://indico.fjfi.cvut.cz/index.py"><span class="icon">​</span>Fakulta jaderná a fyzikálně inženýrská (FJFI)</a>
+</li></ul></li><li>DE
+<ul><li><a class="ext-link" href="http://indico.gsi.de/"><span class="icon">​</span>GSI</a> 
+</li><li><a class="ext-link" href="http://indico.desy.de/"><span class="icon">​</span>DESY</a> 
+</li><li><a class="ext-link" href="https://www.cta-observatory.org/indico/index.py"><span class="icon">​</span>CTA Observatory</a>
+</li><li><a class="ext-link" href="http://www.bessy.de/indico/"><span class="icon">​</span>BESSY</a>
+</li><li><a class="ext-link" href="http://indico.iqo.uni-hannover.de/"><span class="icon">​</span>Institute of Quantum Optics, University of Hannover</a>
+</li><li><a class="ext-link" href="https://ikp-indico.fzk.de/"><span class="icon">​</span>Karlsruher Instituts für Technologie</a>
+</li><li><a class="ext-link" href="http://indico.mppmu.mpg.de/indico/index.py"><span class="icon">​</span>MPI fuer Physik</a>
+</li><li><a class="ext-link" href="https://indico.mpifr-bonn.mpg.de/indico/index.py"><span class="icon">​</span>Max Planck Institute for Radio Astronomy</a>
+</li><li><a class="ext-link" href="http://webapp.biotec.tu-dresden.de/conferences/"><span class="icon">​</span>TU DRESDEN</a>
+</li><li><a class="ext-link" href="http://lwapsr.ikp.physik.tu-darmstadt.de/indico/index.py"><span class="icon">​</span>TU Darmstadt</a>
+</li><li><a class="ext-link" href="http://intern.universe-cluster.de/indico/index.py"><span class="icon">​</span>Universe Cluster</a>
+</li><li><a class="ext-link" href="http://indico.uni-giessen.de/indico/index.py"><span class="icon">​</span>University of Giessen</a>
+</li><li><a class="ext-link" href="http://wwwthep.physik.uni-mainz.de/indico/index.py"><span class="icon">​</span>University of Mainz</a>
+</li><li><a class="ext-link" href="http://conference.opensuse.org/indico/index.py"><span class="icon">​</span>openSUSE</a>
+</li></ul></li><li>DK
+<ul><li><a class="ext-link" href="http://conferences.dtu.dk/"><span class="icon">​</span>DTU</a>
+</li><li><a class="ext-link" href="http://proceedings.cmwr-xvi.org/index.py"><span class="icon">​</span>DTV</a>
+</li><li><a class="ext-link" href="https://indico.nbi.ku.dk/index.py"><span class="icon">​</span>NBI</a>
+</li></ul></li><li>ES
+<ul><li><a class="ext-link" href="http://indico.ific.uv.es/indico/index.py"><span class="icon">​</span>IFIC</a>
+</li><li><a class="ext-link" href="http://193.144.64.186/indico/index.py"><span class="icon">​</span>IGFAE</a>
+</li><li><a class="ext-link" href="http://vlctesting.es/index.py"><span class="icon">​</span>ITI</a>
+</li><li><a class="ext-link" href="http://www.e-ciencia.es/indico/index.py"><span class="icon">​</span>Red de e-Ciencia</a>
+</li><li><a class="ext-link" href="http://161.111.23.207/MaKaC/index.py"><span class="icon">​</span>University of Salamanca</a>
+</li><li><a class="ext-link" href="http://indico.ifca.es/indico/"><span class="icon">​</span>http://indico.ifca.es/indico/</a> IFCA
+</li></ul></li><li><acronym title="European Union">EU</acronym>
+<ul><li><a class="ext-link" href="https://www.egi.eu/indico/index.py"><span class="icon">​</span>EGI</a>
+</li><li><a class="ext-link" href="http://indico.eu-eela.org/index.py"><span class="icon">​</span>EU-EELA</a>
+</li><li><a class="ext-link" href="http://web.eu-egi.eu/MaKaC/index.py"><span class="icon">​</span>EU-EGI</a>
+</li><li><a class="ext-link" href="https://agenda.eumedgrid.org/"><span class="icon">​</span>EU-MEDGRID</a>
+</li><li><a class="ext-link" href="http://elio6.eurolio.eu/indico/index.py"><span class="icon">​</span>EUROLIO</a>
+</li><li><a class="ext-link" href="http://indico.gisela-grid.eu/"><span class="icon">​</span>GISELA GRID</a>
+</li></ul></li><li>FR
+<ul><li><a class="ext-link" href="https://colloques.gate.cnrs.fr/index.py"><span class="icon">​</span>GATE (CNRS)</a>
+</li><li><a class="ext-link" href="http://www.ias.u-psud.fr/indico/"><span class="icon">​</span>IAS</a>
+</li><li><a class="ext-link" href="http://indico.ibgc.cnrs.fr/index.py"><span class="icon">​</span>IBGC CNRS</a>
+</li><li><a class="ext-link" href="http://indico.in2p3.fr/"><span class="icon">​</span>IN2P3</a>
+</li><li><a class="ext-link" href="http://indico.lal.in2p3.fr/"><span class="icon">​</span>LAL (IN2P3)</a>
+</li><li><a class="ext-link" href="http://lpsc.in2p3.fr/Indico"><span class="icon">​</span>LPSC (IN2P3)</a>
+</li><li><a class="ext-link" href="http://indico.mcm-services.com/"><span class="icon">​</span>MCM Services</a>
+</li></ul></li><li>GR
+<ul><li><a class="ext-link" href="http://heptools.inp.demokritos.gr/Indico/"><span class="icon">​</span>Demokritos</a>
+</li></ul></li><li>HR
+<ul><li><a class="ext-link" href="http://www.ffzg.hr/infuture/index.py"><span class="icon">​</span>FFZG</a>
+</li></ul></li><li>HU
+<ul><li><a class="ext-link" href="http://indico.kfki.hu/"><span class="icon">​</span>KFKI</a>
+</li><li><a class="ext-link" href="http://seegrid3.lpds.sztaki.hu/indico/index.py"><span class="icon">​</span>LPDS Sztaki</a>
+</li></ul></li><li><acronym title="Internet Explorer">IE</acronym>
+<ul><li><a class="ext-link" href="http://indico.ucd.ie/index.py"><span class="icon">​</span>University College Dublin</a>
+</li></ul></li><li>IL
+<ul><li><a class="ext-link" href="http://www.weizmann.ac.il/MaKaC/index.py"><span class="icon">​</span>Weizmann Institute</a>
+</li></ul></li><li>IN
+<ul><li><a class="ext-link" href="http://www.ino.tifr.res.in/MaKaC/index.py"><span class="icon">​</span>INO - TIFR</a>
+</li><li><a class="ext-link" href="http://www.iuac.res.in/atmol/MaKaC/index.py"><span class="icon">​</span>IUAC</a>
+</li><li><a class="ext-link" href="http://web1.tifr.res.in/MaKaC/index.py"><span class="icon">​</span>TIFR</a>
+</li><li><a class="ext-link" href="http://webdev.tifr.res.in/MaKaC/index.py"><span class="icon">​</span>TIFR</a>
+</li><li><a class="ext-link" href="http://indico.vecc.gov.in/indico/index.py"><span class="icon">​</span>Variable Energy Cyclotron Centre</a>
+</li></ul></li><li>IT
+<ul><li><a class="ext-link" href="http://conferences.ceinge.unina.it/index.py"><span class="icon">​</span>CEINGE</a>
+</li><li><a class="ext-link" href="http://conferences.fem-environment.eu/"><span class="icon">​</span>Fondazione E. Mach, Trento</a>
+</li><li><a class="ext-link" href="http://agenda.infn.it/index.py"><span class="icon">​</span>INFN</a>
+</li><li><a class="ext-link" href="http://agenda.ct.infn.it/index.py"><span class="icon">​</span>INFN</a>
+</li><li><a class="ext-link" href="http://www.ba.infn.it/indico/index.py"><span class="icon">​</span>INFN Bari</a>
+</li><li><a class="ext-link" href="http://www.bo.infn.it/MaKaC/"><span class="icon">​</span>INFN Bologna</a>
+</li><li><a class="ext-link" href="https://indico.pi.infn.it/"><span class="icon">​</span>INFN Pisa</a>
+</li><li><a class="ext-link" href="http://www.itb.cnr.it/indico/index.py"><span class="icon">​</span>ITB CNR</a>
+</li><li><a class="ext-link" href="http://eil.unipv.it/MaKaC/index.py"><span class="icon">​</span>University of Pavia</a>
+</li><li><a class="ext-link" href="http://agenda.fisica.uniud.it/difa/index.py"><span class="icon">​</span>University of Udine (HEP)</a>
+</li></ul></li><li>INT
+<ul><li><a class="ext-link" href="http://space-env.esa.int/indico"><span class="icon">​</span>ESA - Space Environment &amp; Effects</a>
+</li></ul></li><li>JP
+<ul><li><a class="ext-link" href="http://indico.cns.s.u-tokyo.ac.jp/index.py"><span class="icon">​</span>Center for Nuclear Research - U. of Tokyo</a>
+</li><li><a class="ext-link" href="http://kds.kek.jp/"><span class="icon">​</span>KEK</a>
+</li><li><a class="ext-link" href="http://www-sk.icrr.u-tokyo.ac.jp/indico/index.py"><span class="icon">​</span>Kamioka Observatory</a>
+</li><li><a class="ext-link" href="http://indico.riken.jp/indico/index.py"><span class="icon">​</span>RIKEN</a>
+</li></ul></li><li>MX
+<ul><li><a class="ext-link" href="http://indico.fis.cinvestav.mx/"><span class="icon">​</span>Cinvestav</a>
+</li><li><a class="ext-link" href="http://indico.nucleares.unam.mx/"><span class="icon">​</span>Mexico University</a>
+</li></ul></li><li>NL
+<ul><li><a class="ext-link" href="http://agenda.nikhef.nl/"><span class="icon">​</span>Nikhef, Nationaal instituut voor subatomaire fysica</a>
+</li><li><a class="ext-link" href="http://indico.astro.ru.nl/"><span class="icon">​</span>University of Nijmegen</a>
+</li></ul></li><li>PL
+<ul><li><a class="ext-link" href="http://indico.ifj.edu.pl/MaKaC/"><span class="icon">​</span>IFJ (Instytut Fizyki Jądrowej)</a>
+</li></ul></li><li>PT
+<ul><li><a class="ext-link" href="https://web.lip.pt/indico/"><span class="icon">​</span>LIP</a>
+</li></ul></li><li>RO
+<ul><li><a class="ext-link" href="http://www.nipne.ro/indico/index.py"><span class="icon">​</span>IFIN HH</a>
+</li><li><a class="ext-link" href="http://mona.nipne.ro/indico/index.py"><span class="icon">​</span>IFIN HH</a>
+</li></ul></li><li>RU
+<ul><li><a class="ext-link" href="http://indico.sinp.msu.ru/conference/index.py"><span class="icon">​</span>SINP</a>
+</li></ul></li><li>SE
+<ul><li><a class="ext-link" href="http://agenda.albanova.se/index.py"><span class="icon">​</span>AlbaNova</a>
+</li><li><a class="ext-link" href="http://indico.esss.lu.se/indico/index.py"><span class="icon">​</span>Lund University</a>
+</li><li><a class="ext-link" href="http://indico.hep.lu.se/"><span class="icon">​</span>Lund University (dep. of Physics)</a>
+</li></ul></li><li>SI
+<ul><li><a class="ext-link" href="http://www.est2007.si/indico/index.py"><span class="icon">​</span>EST Congress</a>
+</li><li><a class="ext-link" href="http://conferences.imfm.si/"><span class="icon">​</span>IMFM</a>
+</li></ul></li><li>SK
+<ul><li><a class="ext-link" href="http://indico.ulib.sk/"><span class="icon">​</span>Univerzitna Kniznica v Bratislave</a>
+</li></ul></li><li>TW
+<ul><li><a class="ext-link" href="http://indico.twgrid.org/"><span class="icon">​</span>TWGrid</a>
+</li></ul></li><li>UK
+<ul><li><a class="ext-link" href="http://conference.ippp.dur.ac.uk/"><span class="icon">​</span>IP3 Durham</a>
+</li><li><a class="ext-link" href="http://www2.skatelescope.org/indico/"><span class="icon">​</span>Square Kilometer Array</a>
+</li><li><a class="ext-link" href="http://hep.ph.liv.ac.uk/indico/index.py"><span class="icon">​</span>University of Liverpool</a>
+</li><li><a class="ext-link" href="http://agenda.hep.man.ac.uk/"><span class="icon">​</span>University of Manchester</a>
+</li></ul></li><li>US
+<ul><li><a class="ext-link" href="https://twindico.hep.anl.gov/indico/"><span class="icon">​</span>Argonne National Lab (ANL)</a>
+</li><li><a class="ext-link" href="https://indico.bnl.gov/index.py"><span class="icon">​</span>Brookhaven National Lab (BNL)</a>
+</li><li><a class="ext-link" href="http://conf.adsabs.harvard.edu/indico/"><span class="icon">​</span>Center For Astrophysics - Harvard</a>
+</li><li><a class="ext-link" href="https://edms.classe.cornell.edu/agenda/"><span class="icon">​</span>Cornell Laboratory for Accelerator-based Sciences and Education (CLASSE)</a>
+</li><li><a class="ext-link" href="http://hadron.physics.fsu.edu/MaKaC/index.py"><span class="icon">​</span>FSU HNP</a>
+</li><li><a class="ext-link" href="http://indico.fnal.gov/index.py"><span class="icon">​</span>Fermilab</a>
+</li><li><a class="ext-link" href="http://www.phys.hawaii.edu/indico/index.py"><span class="icon">​</span>University of Hawai (Manoa) - HEP dept</a>
+</li><li><a class="ext-link" href="http://www.npl.illinois.edu/cipanp/index-2.html"><span class="icon">​</span>University of Illinois</a>
+</li><li><a class="ext-link" href="http://ltd13.stanford.edu/papers/index.py"><span class="icon">​</span>University of Stanford</a>
+</li><li><a class="ext-link" href="http://qm09.phys.utk.edu/indico/index.py"><span class="icon">​</span>University of Tennessee-Knoxville HEP</a>
+</li><li><a class="ext-link" href="http://agenda.hep.wisc.edu/index.py"><span class="icon">​</span>University of Wisconsin-Madison HEP</a>
+</li><li><a class="ext-link" href="http://indico.phys.vt.edu/index.py"><span class="icon">​</span>VirginiaTech - Department of Physics</a>
+</li><li><a class="ext-link" href="http://indico.lns.mit.edu/indico/index.py"><span class="icon">​</span>LNS - MIT</a>
+</li></ul></li><li>VN
+<ul><li><a class="ext-link" href="http://g49.ifi.refer.org/indico/index.py"><span class="icon">​</span>Institut de la Francophonie</a>
+</li></ul></li><li>ZA
+<ul><li><a class="ext-link" href="http://indico.sagrid.ac.za/"><span class="icon">​</span>South African National Compute Grid</a>
+</li><li><a class="ext-link" href="http://indico.tlabs.ac.za/"><span class="icon">​</span>iThemba Labs</a>
+</li></ul></li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/IndicoWorldWide?action=diff&amp;version=9" title="Version 9 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-12-20T19%3A06%3A47%2B01%3A00&amp;precision=second" title="See timeline at 12/20/12 19:06:47">3 years ago</a></span>
+            <span class="trac-print">Last modified on 12/20/12 19:06:47</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../chrome/tracnav/css/tracnav.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="IndicoWorldWide56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/IndicoWorldWide by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:54:46 GMT -->
+</html>

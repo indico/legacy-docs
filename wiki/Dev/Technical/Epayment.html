@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Epayment by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/Epayment – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FEpayment56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="Epayment.html" title="View Dev/Technical/Epayment">Epayment</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/Epayment?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="E-paymentplugins">E-payment plugins</h1>
+<h2 id="Whatsanepaymentplugin">What's an epayment plugin?</h2>
+<p>
+This is a module that allows you to set up conferences with epayment capabilities. Hence, people registering in your conference will be able to pay online using paypal, worldpay, yellowpay, etc.
+</p>
+<h2 id="Howtodevelopanewepaymentplugin">How to develop a new epayment plugin?</h2>
+<p>
+The first thing you should do, it is to have a look to the other plugins that have already been developed. You should even consider to create a new plugin by copying one of existing ones (e.g. paypal) and modifying the main methods. This is because the structure is mainly the same and you have just to change some specific methods and webpages.
+</p>
+<p>
+Steps:
+</p>
+<ul><li>The first step to add a new plugin it is to create a new folder in <tt>MaKaC/plugins/EPayment/</tt> (e.g. <tt>payPal</tt>).
+</li><li>Once you have the folder, add a file called <tt>__init__.py</tt> with the following content:
+</li></ul><div class="code"><pre><span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c">##</span>
+<span class="c">## $Id$</span>
+<span class="c">##</span>
+<span class="c">## This file is part of CDS Indico.</span>
+<span class="c">## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.</span>
+<span class="c">##</span>
+<span class="c">## CDS Indico is free software; you can redistribute it and/or</span>
+<span class="c">## modify it under the terms of the GNU General Public License as</span>
+<span class="c">## published by the Free Software Foundation; either version 2 of the</span>
+<span class="c">## License, or (at your option) any later version.</span>
+<span class="c">##</span>
+<span class="c">## CDS Indico is distributed in the hope that it will be useful, but</span>
+<span class="c">## WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<span class="c">## General Public License for more details.</span>
+<span class="c">##</span>
+<span class="c">## You should have received a copy of the GNU General Public License</span>
+<span class="c">## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,</span>
+<span class="c">## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.</span>
+
+<span class="kn">from</span> <span class="nn">MaKaC.plugins</span> <span class="kn">import</span> getModules<span class="p">,</span> initModule
+
+pluginType <span class="o">=</span> <span class="s">"EPayment"</span>
+pluginName <span class="o">=</span> <span class="s">"PayPal"</span>
+
+
+modules <span class="o">=</span> <span class="p">{}</span>
+topModule <span class="o">=</span> <span class="bp">None</span>
+</pre></div><p>
+(Note that you have to write the correct <tt>pluginName</tt>)
+</p>
+<ul><li>Now, create the file <tt>epayment.py</tt> at the same level that <tt>__init__.py</tt>.
+</li><li>This file should have at least:
+<ul><li>Two classes, one in order to implement the basic operations for the epayment module, and another one for the transactions. Both classes have to inherit from the base ones. E.g.: class  <tt>PayPalMod(BaseEPayMod)</tt>, and class <tt>TransactionPayPal(BaseTransaction)</tt>. These classes have to overload a few base methods at least:
+</li></ul></li></ul><div class="code"><pre><span class="k">class</span> <span class="nc">PayPalMod</span><span class="p">(</span>BaseEPayMod<span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span>_enabled <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span>_title <span class="o">=</span> <span class="s">"paypal"</span>     <span class="c">#add your title</span>
+        <span class="bp">self</span><span class="o">.</span>_id <span class="o">=</span> <span class="s">""</span>
+   
+    <span class="k">def</span> <span class="nf">getFormHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>prix<span class="p">,</span>Currency<span class="p">):</span>
+        <span class="sd">"""
+        Returns the html form that will be used to send the information to the epayment server.
+        """</span>
+   
+    <span class="k">def</span> <span class="nf">getConfModifEPaymentURL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> conf<span class="p">):</span>
+        <span class="sd">"""
+        For each plugin there is just one URL for all requests. The plugin will have its own parameters to manage different ones (have a look to urlHandler.py). This method returns that general URL.
+        """</span>
+      
+    <span class="k">def</span> <span class="nf">setValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> data<span class="p">):</span>
+    <span class="sd">"""
+    Saves the values coming in a dict (data) in the corresponding class variables. (e.g. title, url, business, etc)
+    """</span>
+
+    <span class="c"># add more specific methods here</span>
+
+
+<span class="k">class</span> <span class="nc">TransactionPayPal</span><span class="p">(</span>BaseTransaction<span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>parms<span class="p">):</span>
+        BaseTransaction<span class="o">.</span>__init__<span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span>_Data<span class="o">=</span>parms  
+   
+    <span class="k">def</span> <span class="nf">getTransactionHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>               
+     <span class="sd">"""
+         HTML piece of code with the information we got from the epayment transaction.
+     """</span>            
+
+    <span class="k">def</span> <span class="nf">getTransactionTxt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>               
+     <span class="sd">"""
+         Plain text with the information we got from the epayment transaction.
+     """</span>       
+       
+     <span class="c"># add more specific methods here</span>
+
+          o Two methods <span class="k">as</span> follows<span class="p">:</span>
+
+<span class="k">def</span> <span class="nf">getPayMod</span><span class="p">():</span>
+    <span class="k">return</span> PayPalMod<span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">getPayModClass</span><span class="p">():</span>
+    <span class="k">return</span> PayPalMod
+</pre></div><ul><li>Create the folders: <tt>tpls</tt> and <tt>webinterface</tt>.
+</li><li>Within <tt>tpls</tt> you will place all the templates you need for your webpages
+</li><li>Within <tt>webinterface</tt>, create <tt>pages</tt> and <tt>rh</tt>.
+<ul><li><tt>rh</tt> will contain the request handlers in the same way as Indico main core.
+</li><li><tt>pages</tt> will contain the webpages creation in the same way as Indico main core.
+<ul><li>copy <tt>wcomponents.py</tt> from another plugin to yours (you need exactly the same)
+</li><li>copy <tt>urlHandlers.py</tt> from another plugin to yours. Keep the classes <tt>EPURLHandler</tt> and <tt>UHConfModifEPayment</tt>. Remove the other ones and add yours for the new plugin.
+</li></ul></li></ul></li><li>Up to here you have done the main structure for a plugin. Now it is time to create your RH and add the webpages you need. Each plugin is different because it can need to modify/add different information.
+</li></ul><p>
+<em>Tip: try to create your plugin from one that already exists.</em>
+</p>
+<h2 id="GeneralLogicFlow">General Logic Flow</h2>
+<p>
+ 
+This section is designed to give a high level overview of how the logic flows once the transaction has been processed at the vendor.  
+</p>
+<p>
+Essentially there are three steps in the process.
+</p>
+<ul><li>Vendor calls back to <tt>&lt;indicoServer&gt;/payment.py</tt>.  In this code Indico will determine which plugin module request handler to invoke.  The request handlers for the plugin modules are located in the <tt>ePaymentModif.py</tt> python module in the plugins <tt>webinterface/rh</tt> directory.
+</li><li>Plugin request handler processing
+</li><li>Display the status of the transaction
+</li></ul><h3 id="I.VendorcallsbacktoindicoServerpayment.py.">I. Vendor calls back to <tt>&lt;indicoServer&gt;/payment.py</tt>.</h3>
+<p>
+The first step in the process is to determine which payment module to invoke.  This is done in the  <tt>RHPaymentModule.process()</tt> in <tt>MaKaC/webinterface/rh/payment.py</tt>.  This method simply traverses through the list of available payment modules for a match, and then combines the value of <tt>_requestTag</tt> to determine which request handler to call.
+</p>
+<p>
+Prior to the call to the vendor, information is coded and passed along with the transaction to be used to determine the proper request hander.  In particular, the name of the epayment module and the request tag should be supplied.  The epayment module name and request tag is added in the <tt>urlHandlers.py</tt> module:
+</p>
+<div class="code"><pre>url<span class="o">.</span>addParam<span class="p">(</span> <span class="s">"EPaymentName"</span><span class="p">,</span>skipjack<span class="o">.</span>pluginName <span class="p">)</span>
+url<span class="o">.</span>addParam<span class="p">(</span> <span class="s">"requestTag"</span><span class="p">,</span> cls<span class="o">.</span>_requestTag <span class="p">)</span>
+</pre></div><p>
+The <tt>pluginName</tt> is set based on the contents of  <tt>&lt;plugin&gt;/__init__.py</tt>:
+</p>
+<div class="code"><pre>pluginType <span class="o">=</span> <span class="s">"EPayment"</span>
+pluginName <span class="o">=</span> <span class="s">"skipjack"</span>
+</pre></div><p>
+It is necessary that pluginName have a string that matches the name of the directory that the plugin is found.  For processing payments from the vendor, the <tt>requestTag</tt> should be set to "confirm".
+</p>
+<h3 id="II.Pluginrequesthandlerprocessing.">II. Plugin request handler processing.</h3>
+<p>
+In the previous step, the <tt>pluginName</tt> and <tt>requestTag</tt> were used to direct processing into the correct <tt>process()</tt> module of the plugin.  The python file <tt>MaKaC/plugins/EPayments/&lt;PLUGIN&gt;/webinterface/rh/ePaymentModif.py</tt> contains the classes for the various values of <tt>requestTag</tt>.  The most interesting class for payment processing is the class <tt>RHEPaymentConfirm&lt;PLUGIN&gt;</tt>.  Notice in this class the <tt>requestTag</tt> is set to "confirm", which is how in (I) the correct module to call was computed.
+</p>
+<p>
+The <tt>RHEPaymentConfirm&lt;PLUGIN&gt;</tt> class contains a <tt>_process()</tt> method which does the processing of the return from the payment server.  The <tt>params{}</tt> dictionary will be filled with vendor specific information that can be used to determine things like whether the transaction was successful or not.  For example, in the skipjack module (class <tt>RHEPaymentConfirmSkipjack()</tt> in <tt>MaKaC/plugins/EPayments/skipjack/webinterface/rh/ePaymentModif.py</tt>)) the variable <tt>szIsApproved</tt> is checked to determine the status of the payment.  The following code fragment either calls a success page or an error page:
+</p>
+<div class="code"><pre><span class="k">if</span> <span class="bp">self</span><span class="o">.</span>_params<span class="o">.</span>get<span class="p">(</span><span class="s">'szIsApproved'</span><span class="p">,</span><span class="s">"0"</span><span class="p">)</span> <span class="o">!=</span> <span class="s">'0'</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span>_registrant<span class="o">.</span>setPayed<span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    d<span class="o">=</span><span class="p">{}</span>
+    d<span class="p">[</span><span class="s">"shiptostate"</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span>_params<span class="o">.</span>get<span class="p">(</span><span class="s">'shiptostate'</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
+
+    <span class="o">/*</span> rest of the vendor specific information <span class="o">*/</span>
+
+    p<span class="o">=</span>ePayments<span class="o">.</span>WPEPaymentSkipjackAccepted<span class="p">(</span><span class="o">...</span><span class="p">)</span>  
+    <span class="k">return</span> p<span class="o">.</span>display<span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    d<span class="o">=</span><span class="p">{}</span>
+    d<span class="p">[</span><span class="s">"shiptostate"</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span>_params<span class="o">.</span>get<span class="p">(</span><span class="s">'shiptostate'</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
+
+    <span class="o">/*</span> rest of the vendor specific information <span class="o">*/</span>
+
+    p<span class="o">=</span>ePayments<span class="o">.</span>WPEPaymentSkipjackCancelled<span class="p">(</span><span class="o">....</span><span class="p">)</span>
+    <span class="k">return</span> p<span class="o">.</span>display<span class="p">()</span>
+</pre></div><h3 id="III.Displaythestatusofthetransaction">III. Display the status of the transaction</h3>
+<p>
+In the previous code fragment in (II), a <tt>display()</tt> method is called which will present to the user information regarding the status of the payment transaction.  When an object of &lt;X&gt; has it's display method called, the page is constructed by creating the components of that page.  Pages are prefixed with classes beginning in WP, and components that make up the page are prefixed with W.  These classes inherit from the class <tt>WTemplated</tt> in <tt>MaKaC/webinterface/components.py</tt>.  
+</p>
+<p>
+When the display method is called, the <tt>WPEPayment&lt;module&gt;Accept</tt> (WPEPaymentSkipjackAccept for example) is invoked.  This code can be found in <tt>MaKaC/plugins/EPayment/&lt;plugin&gt;/webinterface/pages/ePayments.py</tt>.  This class has a method <tt>_getBody()</tt>, which incorporates the web component into the page:
+</p>
+<div class="code"><pre>wc <span class="o">=</span> WconfirmEPaymentSkipjack<span class="p">(</span><span class="bp">self</span><span class="o">.</span>_conf<span class="p">,</span> <span class="bp">self</span><span class="o">.</span>_registrant<span class="p">)</span>
+<span class="k">return</span> wc<span class="o">.</span>getHTML<span class="p">()</span>
+</pre></div><p>
+The web component <tt>wconfirmEPaymentSkipjack</tt> in this example (<tt>wconfirmEPayment&lt;plugin&gt;</tt> in general) will incorporate a tpl file by the name <tt>confirmEPaymentSkipjack.tpl</tt>, which is constructed by simply removing the 'w' prefix from the web component classname.  By convention the tpl files contain variables <tt>trinfo</tt> and <tt>message</tt> to display the status information.  These must be set properly in <tt>vars{}</tt>.
+</p>
+<p>
+The general case for plugin modules is to display the status of the transaction at this point, but due to the fact that Skipjack displays Indico generated HTML on the Skipjack server a "trick" is played to force a redirect back through the Indico code.  This is done using the <tt>urlDisplay</tt> variable which will cause a redirect to <tt>&lt;indicoserver&gt;/payment.py</tt> with a <tt>_requestTag</tt> set to "displayInfo". 
+</p>
+<p>
+<em>(... in progress)</em>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/Epayment?action=diff&amp;version=1" title="Version 1 by pferreir: Document as it was in the sharepoint wiki. Just added some wiki markup - language correction needed">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-28T15%3A02%3A25%2B01%3A00&amp;precision=second" title="See timeline at 01/28/10 15:02:25">6 years ago</a></span>
+            <span class="trac-print">Last modified on 01/28/10 15:02:25</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FEpayment56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Epayment by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:20 GMT -->
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/502 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #502 (material pages is failing to display)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="501.html" title="Ticket #501" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t5021fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t502a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="502a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="503.html" title="Ticket #503" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="501.html" title="Ticket #501">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="503.html" title="Ticket #503">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-07-30T17%3A50%3A47%2B02%3A00&amp;precision=second" title="See timeline at 07/30/10 17:50:47">5 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-10-05T15%3A40%3A24%2B02%3A00&amp;precision=second" title="See timeline at 10/05/10 15:40:24">5 years ago</a></p>
+  </div>
+  <h2>
+    <a href="502.html" class="trac-id">#502</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=invalid">invalid</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">material pages is failing to display</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=sylvestre">sylvestre</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=critical">critical</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v0.97.html">v0.97.0</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=General">General</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=0.97.0">0.97.0</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+Going to a material page creates an exception<br />
+</p>
+<p>
+For example, going on the URL:<br />
+conferenceModification.py/materialsShow?confId=2<br />
+</p>
+<p>
+(creating the query:<br />
+XXX.51.192.X - - <a class="missing changeset" title="No changeset 30 in the repository">[30/Jul/2010:17:47:35 +0200]</a> "GET /conferenceModification.py/materialsShow?confId=2 HTTP/1.1" 200 3937 "<a class="ext-link" href="http://meetings.geiser-fp7.fr/confModifParticipants.py?confId=2"><span class="icon">​</span>http://meetings.geiser-fp7.fr/confModifParticipants.py?confId=2</a>" "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.10) Gecko/20100623 Iceweasel/3.5.10 (like Firefox/3.5.10)"<br />
+)<br />
+</p>
+<p>
+Which creates the following exception:<br />
+2010-07-30 17:47:38,461 indico.rpc      : DEBUG    json rpc request. request text= <br />
+2010-07-30 17:47:38,463 indico.rpc      : ERROR    Service request failed. Request text:<br />
+</p>
+<p>
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "/usr/lib/python2.5/site-packages/cds_indico-0.97_rc1-py2.5.egg/MaKaC/services/interface/rpc/json.py", line 99, in process<br />
+</p>
+<blockquote>
+<p>
+raise <a class="missing wiki">RequestError?</a>("ERR-R2", "Empty request.")<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+<a class="missing wiki">RequestError?</a>: ERR-R2 : Empty request. (no inner exception)<br />
+</p>
+<p>
+With Python<br />
+Python 2.5.2 (<a class="source" href="http://old.indico-software.org/log/indico/?revs=252-60911">r252:60911</a>, Jan  4 2009, 17:40:26) <br />
+[GCC 4.3.2] on linux2<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(16)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1280933380655560">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-04T16%3A49%3A40%2B02%3A00&amp;precision=second" title="See timeline at 08/04/10 16:49:40">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v0.97</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>infoneeded_new</em>
+    </li><li class="trac-field-version">
+      <strong class="trac-field-version">Version</strong>
+        set to <em>0.97</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Could we have the request text? That would help a lot.<br />
+</p>
+<p>
+Also, are other AJAX services working OK? i.e. timezone selector...<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1281065777612572">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-06T05%3A36%3A17%2B02%3A00&amp;precision=second" title="See timeline at 08/06/10 05:36:17">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I have some issues with other Ajax services <a class="missing changeset" title="No changeset 1 in the repository">[1]</a><br />
+I am using python-simplejson 1.9.2-1<br />
+</p>
+<p>
+<a class="missing changeset" title="No changeset 1 in the repository">[1]</a> <br />
+2010-08-06 05:34:17,008 indico.rpc      : DEBUG    json rpc request. request text= <br />
+2010-08-06 05:34:17,010 indico.rpc      : ERROR    Service request failed. Request text:<br />
+</p>
+<p>
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "/usr/lib/python2.5/site-packages/cds_indico-0.97_rc1-py2.5.egg/MaKaC/services/interface/rpc/json.py", line 99, in process<br />
+</p>
+<blockquote>
+<p>
+raise <a class="missing wiki">RequestError?</a>("ERR-R2", "Empty request.")<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+<a class="missing wiki">RequestError?</a>: ERR-R2 : Empty request. (no inner exception)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-3-1281358088250836">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-09T14%3A48%3A08%2B02%3A00&amp;precision=second" title="See timeline at 08/09/10 14:48:08">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>infoneeded_new</em> to <em>new</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Is the <tt>services</tt> directory well configured in Apache? Are you doing some URL rewrite magic? Maybe you can show us the part(s) of your <tt>httpd.conf</tt> that concern Indico?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1281358101898011">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-09T14%3A48%3A21%2B02%3A00&amp;precision=second" title="See timeline at 08/09/10 14:48:21">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>infoneeded_new</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-5-1281376120347196">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-09T19%3A48%3A40%2B02%3A00&amp;precision=second" title="See timeline at 08/09/10 19:48:40">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I am really using the basic configuration described in indico documentation.<br />
+See:<br />
+</p>
+<p>
+&lt;<a class="missing wiki">VirtualHost?</a> 88.191.<strong></strong>:80&gt;<br />
+</p>
+<blockquote>
+<p>
+<a class="missing wiki">DocumentRoot?</a> /opt/indico/htdocs<br />
+<a class="missing wiki">ErrorLog?</a> /var/log/apache2/meetings.geiser-fp7.eu-error.log<br />
+<a class="missing wiki">CustomLog?</a> /var/log/apache2/meetings.geiser-fp7.eu-access.log combined<br />
+<a class="missing wiki">ServerName?</a> meetings.geiser-fp7.eu<br />
+</p>
+</blockquote>
+<p>
+<a class="missing wiki">PythonInterpreter?</a> main_interpreter<br />
+<a class="missing wiki">PythonImport?</a> MaKaC::setEnvironment main_interpreter<br />
+</p>
+<p>
+&lt;Directory "/opt/indico/htdocs"&gt;<br />
+</p>
+<blockquote>
+<p>
+<a class="missing wiki">AddHandler?</a> python-program .py<br />
+<a class="missing wiki">PythonHandler?</a> mod_python.publisher<br />
+Allow from All<br />
+</p>
+<blockquote>
+<p>
+<a class="missing wiki">DirectoryIndex?</a> index.html index.cgi index.pl index.php index.xhtml index.py<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+&lt;/Directory&gt;<br />
+</p>
+<p>
+&lt;Directory "/opt/indico/htdocs/services"&gt;<br />
+</p>
+<blockquote>
+<p>
+<a class="missing wiki">SetHandler?</a> python-program<br />
+<a class="missing wiki">PythonHandler?</a> MaKaC.services.handler<br />
+<a class="missing wiki">PythonInterpreter?</a> main_interpreter<br />
+Allow from All<br />
+</p>
+</blockquote>
+<p>
+&lt;/Directory&gt;<br />
+</p>
+<p>
+Alias /images "/opt/indico/htdocs/images"<br />
+#Alias / "/opt/indico/htdocs"<br />
+</p>
+<p>
+&lt;<a class="missing wiki">/VirtualHost?</a>&gt;<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1281712987808148">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-13T17%3A23%3A07%2B02%3A00&amp;precision=second" title="See timeline at 08/13/10 17:23:07">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+A log of the HTTP communications between client and server would be very useful here. Otherwise, maybe you can use Firebug or something like that in order to find out whether the request is being done correctly.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1281994814810820">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-08-16T23%3A40%3A14%2B02%3A00&amp;precision=second" title="See timeline at 08/16/10 23:40:14">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Except some CSS warnings, firebug does not detect any error.<br />
+</p>
+<p>
+here is the full logs (if you want, I can provide an ngrep / tcpdump of the network):<br />
+<a class="ext-link" href="http://paste.debian.net/83757/"><span class="icon">​</span>http://paste.debian.net/83757/</a><br />
+</p>
+<p>
+(I could not copy/paste here because of the antispam)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1283517332311902">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-03T14%3A35%3A32%2B02%3A00&amp;precision=second" title="See timeline at 09/03/10 14:35:32">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+This doesn't tell me much :/<br />
+</p>
+<p>
+Regarding Firebug, I'd like to see both the content of the AJAX requests and their responses. Maybe a tcpdump of the POST requests would help.<br />
+Are you using some kind of proxy/load balancer in front of the server?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1283519945787154">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-03T15%3A19%3A05%2B02%3A00&amp;precision=second" title="See timeline at 09/03/10 15:19:05">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+The configuration of the server is very standard. There is such things as proxy.<br />
+</p>
+<p>
+Here is the network dump:<br />
+<a class="ext-link" href="http://sylvestre.ledru.info/bordel/dump-indico.log"><span class="icon">​</span>http://sylvestre.ledru.info/bordel/dump-indico.log</a><br />
+</p>
+<p>
+I don't know how to get the ajax requests with firebug on this pages ?! <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-10-1284495997925123">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-14T22%3A26%3A37%2B02%3A00&amp;precision=second" title="See timeline at 09/14/10 22:26:37">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Can I help on any way here ?<br />
+It is a blocker bug :/<br />
+thanks!<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-11-1285577213521609">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-27T10%3A46%3A53%2B02%3A00&amp;precision=second" title="See timeline at 09/27/10 10:46:53">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>infoneeded_new</em> to <em>new</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Hello,<br />
+</p>
+<p>
+The log you've posted doesn't seem to include the AJAX requests.<br />
+REgarding Firebug, there should be a "Console" separator that shows the AJAX requests.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-12-1285577578926060">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:12" class="cnum">
+    <a href="#comment:12">comment:12</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-27T10%3A52%3A58%2B02%3A00&amp;precision=second" title="See timeline at 09/27/10 10:52:58">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+On my version of Firebug (the latest), it does not show by default AJAX requests and I cannot find where to activate them. <br />
+</p>
+<p>
+Do you know how can I enable them ?<br />
+thanks<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-13-1285622335688018">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:13" class="cnum">
+    <a href="#comment:13">comment:13</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-27T23%3A18%3A55%2B02%3A00&amp;precision=second" title="See timeline at 09/27/10 23:18:55">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I have been digging in the code.<br />
+It fails on this line:<br />
+</p>
+<blockquote>
+<p>
+requestText = req.read()<br />
+</p>
+</blockquote>
+<p>
+in /usr/lib/python2.5/site-packages/cds_indico-0.97_rc1-py2.5.egg/MaKaC/services/interface/rpc/json.py<br />
+</p>
+<p>
+req.read() is empty<br />
+</p>
+<p>
+but req.uri is equal to:<br />
+/services/json-rpc<br />
+</p>
+<p>
+I am using python-simplejson: 2.1.1-1<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-14-1286180623710643">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:14" class="cnum">
+    <a href="#comment:14">comment:14</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-10-04T10%3A23%3A43%2B02%3A00&amp;precision=second" title="See timeline at 10/04/10 10:23:43">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>infoneeded_new</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+That's why I asked you if Apache was well configured. It seems unlikely to me that Indico is sending empty AJAX requests to the server.<br />
+Have you tried deleting <tt>vars.js.tpl</tt> inside Indico's <tt>tmp</tt> folder?<br />
+</p>
+<p>
+And if you do something like<br />
+</p>
+<pre class="wiki">curl 'http://pcituds04.cern.ch/indico/services/json-rpc' -d '{"version":"1.1","method":"timezone.getTimezones","params":{}}' -i
+</pre><p>
+What happens?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-15-1286220517022657">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:15" class="cnum">
+    <a href="#comment:15">comment:15</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-10-04T21%3A28%3A37%2B02%3A00&amp;precision=second" title="See timeline at 10/04/10 21:28:37">5 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+After digging a while, I realized that I was declaring my virtualhost as<br />
+the following in apache:<br />
+</p>
+<blockquote>
+<p>
+<a class="missing wiki">ServerName?</a> indico.ecranbleu.org<br />
+<a class="missing wiki">ServerAlias?</a> meetings.geiser-fp7.eu<br />
+</p>
+</blockquote>
+<p>
+It looks like the json was using randomly one or this other.<br />
+I guess it should be changed to use only the host declared in the<br />
+configuration.<br />
+</p>
+<p>
+Obviously, it is kind of my fault but I think it is a bug that Indico is<br />
+not providing enough feedbacks to the admin (to take that as a rude<br />
+comment, I am just trying to save time to other who might be in the same<br />
+case). ;)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-16-1286286024067063">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:16" class="cnum">
+    <a href="#comment:16">comment:16</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-10-05T15%3A40%3A24%2B02%3A00&amp;precision=second" title="See timeline at 10/05/10 15:40:24">5 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>invalid</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>infoneeded_new</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Well, it is kind of hard to properly detector such an error on the Indico side, as this is something that is blocked by the browser (due to cross domain restrictions), and that will be treated differently by each one of them.<br />
+</p>
+<p>
+Glad it works now. I will close it.<br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t5021fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t502a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="502a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/502 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:27 GMT -->
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch on Ticket #1078 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/1078.html" title="Ticket #1078" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/1078.html">Back to Ticket #1078</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/1078.html">Ticket #1078</a>: 0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File 0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch,
+                <span title="5996 bytes">5.9 KB</span>
+                (added by pedersen, <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A28%3A15%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:28:15">2 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+new version of the hooks
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/common/mail.py</a>
+        </h2>
+        <pre>From 180166a29006b56908ccca9e847365201b116110 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= &lt;bjoern.pedersen@frm2.tum.de&gt;
+Date: Wed, 22 Aug 2012 13:41:09 +0200
+Subject: [PATCH 2/4] [FEATURE] Add hook to get etxra payment details
+
+Add a hook in the payment module to get extra details from indiviual
+payment submodules
+---
+ indico/MaKaC/common/mail.py       | 36 ++++++++++++++++++------------------
+ indico/MaKaC/registration.py      | 24 ++++++++++++++++++++++--
+ indico/MaKaC/webinterface/mail.py |  3 ++-
+ 3 files changed, 42 insertions(+), 21 deletions(-)
+
+diff --git a/indico/MaKaC/common/mail.py b/indico/MaKaC/common/mail.py
+index ffe0f13..e95a577 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/common/mail.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/common/mail.py">
+                      b
+                  </th>
+                  <td><em> class GenericMailer:</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>144</th><th>144</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for ctype, vpath, content in attachments:</span> </td>
+                  </tr><tr>
+                          <th>145</th><th>145</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>146</th><th>146</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maintype, subtype = ctype.split('/', 1)</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>147</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>if maintype == 'text':</span> </td>
+                      </tr><tr>
+                        <th>148</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del># Note: we should handle calculating the charset</span> </td>
+                      </tr><tr>
+                        <th>149</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>msg = MIMEText(content , _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th>150</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>elif maintype == 'image':</span> </td>
+                      </tr><tr>
+                        <th>151</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th>152</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>msg = MIMEImage(fp.read(), _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th>153</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>elif maintype == 'audio':</span> </td>
+                      </tr><tr>
+                        <th>154</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th>155</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>msg = MIMEAudio(fp.read(), _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th>156</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>else:</span> </td>
+                      </tr><tr>
+                        <th>157</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th>158</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>msg = MIMEBase(maintype, subtype)</span> </td>
+                      </tr><tr>
+                        <th>159</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>msg.set_payload(fp.read())</span> </td>
+                      </tr><tr>
+                        <th>160</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del># Encode the payload using Base64</span> </td>
+                      </tr><tr>
+                        <th>161</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>encoders.encode_base64(msg)</span> </td>
+                      </tr><tr>
+                        <th>162</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del># Set the filename parameter</span> </td>
+                      </tr><tr>
+                        <th>163</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>msg.add_header('Content-Disposition', 'attachment', filename=vpath)</span> </td>
+                      </tr><tr>
+                        <th>164</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <del></del>outer.attach(msg)</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>147</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>if maintype == 'text':</span> </td>
+                      </tr><tr>
+                        <th> </th><th>148</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins># Note: we should handle calculating the charset</span> </td>
+                      </tr><tr>
+                        <th> </th><th>149</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>msg = MIMEText(content , _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>150</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>elif maintype == 'image':</span> </td>
+                      </tr><tr>
+                        <th> </th><th>151</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>152</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>msg = MIMEImage(fp.read(), _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>153</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>elif maintype == 'audio':</span> </td>
+                      </tr><tr>
+                        <th> </th><th>154</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>155</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>msg = MIMEAudio(fp.read(), _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>156</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>else:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>157</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>158</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>msg = MIMEBase(maintype, subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>159</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>msg.set_payload(fp.read())</span> </td>
+                      </tr><tr>
+                        <th> </th><th>160</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins># Encode the payload using Base64</span> </td>
+                      </tr><tr>
+                        <th> </th><th>161</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>encoders.encode_base64(msg)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>162</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins># Set the filename parameter</span> </td>
+                      </tr><tr>
+                        <th> </th><th>163</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>msg.add_header('Content-Disposition', 'attachment', filename=vpath)</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>164</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <ins>&nbsp; &nbsp; </ins>outer.attach(msg)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>165</th><th>165</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>166</th><th>166</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>167</th><th>167</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; toList = notification.getToList()</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/registration.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/registration.py b/indico/MaKaC/registration.py
+index b836f1a..cb6e84d 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/registration.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/registration.py">
+                      b
+                  </th>
+                  <td><em> Congratulations, your registration to %s was successful%s See your information b</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>804</th><th>804</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                  </tr><tr>
+                          <th>805</th><th>805</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return False</span> </td>
+                  </tr><tr>
+                          <th>806</th><th>806</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>807</th><th> </th><td class="l"><span>&nbsp; &nbsp; def sendEmailNewRegistrantDetailsPay(self, regForm,<del></del>registrant):</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>807</th><td class="r"><span>&nbsp; &nbsp; def sendEmailNewRegistrantDetailsPay(self, regForm,<ins>&nbsp;</ins>registrant):</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>808</th><th>808</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if not registrant.getConference().getModPay().isEnableSendEmailPaymentDetails():</span> </td>
+                  </tr><tr>
+                          <th>809</th><th>809</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return</span> </td>
+                  </tr><tr>
+                          <th>810</th><th>810</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; fromAddr = regForm.getNotificationSender()</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L812">…</a></th>
+                  <th><a href="#L812">…</a></th>
+                  <td><em> Congratulations, your registration to %s was successful%s See your information b</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>812</th><th>812</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; getTitle=strip_ml_tags(registrant.getConference().getTitle())</span> </td>
+                  </tr><tr>
+                          <th>813</th><th>813</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; idRegistrant=registrant.getIdPay()</span> </td>
+                  </tr><tr>
+                          <th>814</th><th>814</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; detailPayment=registrant.getConference().getModPay().getPaymentDetails()</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>815</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>816</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; msgs = []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>817</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; attachments = []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>818</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; for ePayMod in registrant.getConference().getModPay().getSortedEnabledModPay():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>819</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; try:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>820</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msgs.append(ePayMod.getExtraPaymentDetails(registrant))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>821</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; except Exception:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>822</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pass</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>823</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; try:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>824</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; attach = ePayMod.getExtraPaymentDetailsAttachment(registrant)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>825</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; attachments.append(attach)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>826</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; except Exception:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>827</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pass</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>828</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; detailPayment = detailPayment + "\n".join(msgs)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>829</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if len(attachments) &lt; 1:</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>830</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; attachments = None</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>815</th><th>831</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; subject=_("""Payment summary for '%s': %s""")%(strip_ml_tags(registrant.getConference().getTitle()), registrant.getFullName())</span> </td>
+                  </tr><tr>
+                          <th>816</th><th>832</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; body= _("""</span> </td>
+                  </tr><tr>
+                          <th>817</th><th>833</th><td class="l"><span>Please use this information for your payment (except for e-payment):\n</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L876">…</a></th>
+                  <th><a href="#L892">…</a></th>
+                  <td><em> Please use this information for your payment (except for e-payment):\n</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>876</th><th>892</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; registrant.getConference().getModPay().getPaymentReceiptMsg(),</span> </td>
+                  </tr><tr>
+                          <th>877</th><th>893</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "\n".join(booking), body, paymentMsg)</span> </td>
+                  </tr><tr>
+                          <th>878</th><th>894</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; to=registrant.getEmail().strip()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>879</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maildata = { "fromAddr": fromAddr, "toList": [to], "subject": subject, "body": bodyReg }</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>895</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maildata = { "fromAddr": fromAddr,</span> </td>
+                      </tr><tr>
+                        <th> </th><th>896</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"toList": [to],</span> </td>
+                      </tr><tr>
+                        <th> </th><th>897</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"subject": subject,</span> </td>
+                      </tr><tr>
+                        <th> </th><th>898</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"body": bodyReg ,</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>899</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"attachments": attachments}</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>880</th><th>900</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GenericMailer.send(GenericNotification(maildata))</span> </td>
+                  </tr><tr>
+                          <th>881</th><th>901</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>882</th><th>902</th><td class="l"><span>&nbsp; &nbsp; def sendEmailNewRegistrantConfirmPay(self, regForm,registrant):</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/mail.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/mail.py b/indico/MaKaC/webinterface/mail.py
+index f78fedb..43a63e7 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/mail.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/mail.py">
+                      b
+                  </th>
+                  <td><em> from MaKaC.common import Config</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>24</th><th>24</th><td class="l"><span>from MaKaC.i18n import _</span> </td>
+                  </tr><tr>
+                          <th>25</th><th>25</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>26</th><th>26</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>27</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>27</th><th>28</th><td class="l"><span>def getSubjectIndicoTitle():</span> </td>
+                  </tr><tr>
+                          <th>28</th><th>29</th><td class="l"><span>&nbsp; &nbsp; minfo=HelperMaKaCInfo.getMaKaCInfoInstance()</span> </td>
+                  </tr><tr>
+                          <th>29</th><th>30</th><td class="l"><span>&nbsp; &nbsp; systitle="Indico"</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L145">…</a></th>
+                  <th><a href="#L146">…</a></th>
+                  <td><em> class GenericNotification :</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>145</th><th>146</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return True</span> </td>
+                  </tr><tr>
+                          <th>146</th><th>147</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>147</th><th>148</th><td class="l"><span>&nbsp; &nbsp; def getAttachments(self):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>148</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return self._<del>bodyHTML</del></span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>149</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; return self._<ins>attachments</ins></span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>149</th><th>150</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>150</th><th>151</th><td class="l"><span>&nbsp; &nbsp; def setAttachments(self, attachments):</span> </td>
+                  </tr><tr>
+                          <th>151</th><th>152</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if attachments is None :</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/TemplateEngines by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/TemplateEngines – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FTemplateEngines56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="TemplateEngines.html" title="View Dev/Technical/TemplateEngines">TemplateEngines</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/TemplateEngines?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="a1.Introduction">1. Introduction</h1>
+<p>
+This page contains notes about choosing the new template engine for Indico. The following engines were selected for benchmarks:
+</p>
+<ul><li><a class="ext-link" href="https://espace.cern.ch/indico-soft/developers/wiki for Indico developers/Templating engine guide.aspx"><span class="icon">​</span>Indico</a>
+</li><li><a class="ext-link" href="http://www.makotemplates.org/"><span class="icon">​</span>Mako</a>
+</li><li><a class="ext-link" href="http://genshi.edgewall.org/"><span class="icon">​</span>Genshi</a> (both XML and Text based engines)
+</li><li><a class="ext-link" href="http://jinja.pocoo.org/"><span class="icon">​</span>Jinja2</a>
+</li><li><a class="ext-link" href="http://www.cheetahtemplate.org/"><span class="icon">​</span>Cheetah</a>
+</li></ul><p>
+Some points that should be considered:
+</p>
+<ul><li>Indico works with simple bytestrings. However the majority of template engines work with Unicode strings. If a bytestring containing a value &gt; 127 would be passed by Indico to the Unicode based template engine, it would raise an <tt>UnicodeDecodeError</tt> exception. A simple solution is to call <tt>decode('utf-8')</tt> on all strings before passing them to the template, but it gets more complicated if Indico passes an object to the template and then the template calls some method of the object to get a string.
+</li></ul><ul><li>Indico templates allow arbitrary Python code and some pages (e.g. RoomBookingRoomCalendarBar.tpl, NavigationDrawer.tpl) use this feature extensively. To make the integration easier, the new engine should support the inclusion of Python code in the template files. Some template engines (e.g. Django, Jinja2) take the separation of logic and presentation very seriously and allow only a very restricted subset of Python to be used in the templates. It can result in quite an awkward code.
+</li></ul><ul><li>There is a choice between Text and XML based template engines. XML templates are slower, but they ensure that the resulting page will be a valid XML document. Obviously there is also a good support for XML editors. Text based templates are faster and allow much more freedom in what you can output. Since Indico has used Text based templates throughout its lifetime, it would be easier to integrate a new Text based template. Personal opinion: maintaining Text based templates is also much easier.
+</li></ul><ul><li>Template engine should have a syntax that is easy to parse (for editors) and also easy to edit for developers. For this reason small examples of the syntax are included for each template language.
+</li></ul><h1 id="a2.Templateengines">2. Template engines</h1>
+<h2 id="a2.1.Indico">2.1. Indico</h2>
+<div class="code"><pre><span class="err">&lt;</span>% for day in iterdays( calendarStartDT, calendarEndDT ): %&gt;
+    <span class="err">&lt;</span>%
+        dayD = day.date()
+    %&gt;
+    <span class="err">&lt;</span>% if bars.has_key(day.date()): %&gt;
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"calendarDayContainer"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;strong&gt;</span><span class="err">&lt;</span>%= formatDate(dayD) %&gt;<span class="nt">&lt;/strong&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="err">&lt;</span>% end %&gt;
+<span class="err">&lt;</span>% end %&gt;
+</pre></div><p>
+Indico template engine translates the template file into the Python code and then executes it. According to the benchmarks it is quite fast. The restrictions are documented in <a class="ext-link" href="https://espace.cern.ch/indico-soft/developers/wiki for Indico developers/Templating engine guide.aspx"><span class="icon">​</span>Templating engine guide</a>.
+</p>
+<h2 id="a2.2.Mako">2.2. Mako</h2>
+<div class="code"><pre>% for day in iterdays( calendarStartDT, calendarEndDT ):
+    <span class="err">&lt;</span>%
+        dayD = day.date()
+    %&gt;
+    % if bars.has_key(day.date()):
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"calendarDayContainer"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;strong&gt;</span>${formatDate(dayD)}<span class="nt">&lt;/strong&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    % endif
+% endfor
+</pre></div><p>
+Just like Indico template engine, Mako also translates the template file into Python code. Advantage over Indico is that Mako saves the generated code to a file and when the next time the same page is requested, it skips the translation and just loads the Python module. Following benchmarks demonstrate the difference of loading time between the first and second request:
+</p>
+<table class="wiki">
+<tr><th> Component </th><th> #1 </th><th> #2 
+</th></tr><tr><td> RoomBookingRoomCalendar </td><td> 1.04649 </td><td> 0.91011 
+</td></tr><tr><td> RoomBookingManyRoomsCalendar </td><td> 1.53808 </td><td> 1.45852 
+</td></tr><tr><td> BigTest </td><td> 0.13385 </td><td> 0.11491 
+</td></tr><tr><td> UserDetails </td><td> 0.04239 </td><td> 0.00213 
+</td></tr><tr><td> CategoryMap </td><td> 0.01492 </td><td> 0.00106 
+</td></tr></table>
+<p>
+Mako also has a caching mechanism. Every template file can be defined to be cached with a directive <tt>&lt;%page cached="True"/&gt;</tt>. After the template is rendered, the result is saved in memory. On all subsequent rendering calls to the same <tt>Template</tt> object, the result from cache will be returned. Speed improvement is very big, but this caching cannot be applied to the templates with dynamic content:
+</p>
+<table class="wiki">
+<tr><th> Component </th><th> Normal </th><th> Cache 
+</th></tr><tr><td> RoomBookingRoomCalendar </td><td> 1.14111 </td><td> 0.00261 
+</td></tr><tr><td> RoomBookingManyRoomsCalendar </td><td> 1.39286 </td><td> 0.00859 
+</td></tr><tr><td> BigTest </td><td> 0.08318 </td><td> 0.00230 
+</td></tr><tr><td> UserDetails </td><td> 0.00354 </td><td> 0.00168 
+</td></tr><tr><td> CategoryMap </td><td> 0.00144 </td><td> 0.00080 
+</td></tr></table>
+<p>
+By default Mako works with Unicode strings, but there is an option to disable unicode. This can be very convenient for Indico, as described in Introduction.
+</p>
+<p>
+Mako uses the same syntax for Python code inclusion as Indico templates. Most of the Python code in Indico templates has every line wrapped in <tt>&lt;% .. %&gt;</tt>, but Mako generates faster code if all the continuous Python code lines are wrapped in just one <tt>&lt;% .. %&gt;</tt> block.
+</p>
+<h2 id="a2.3.Genshi">2.3. Genshi</h2>
+<p>
+Genshi XML based template language example:
+</p>
+<div class="code"><pre><span class="nt">&lt;py:for</span> <span class="na">each=</span><span class="s">"day in iterdays( calendarStartDT, calendarEndDT )"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?python
+        dayD = day.date()
+    ?&gt;</span>
+    <span class="nt">&lt;py:if</span> <span class="na">test=</span><span class="s">"bars.has_key(day.date())"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"calendarDayContainer"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;strong&gt;</span>${formatDate(dayD)}<span class="nt">&lt;/strong&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/py:if&gt;</span>
+<span class="nt">&lt;/py:for&gt;</span>
+</pre></div><p>
+Genshi Text based template language example:
+</p>
+<div class="code"><pre>{% for day in iterdays( calendarStartDT, calendarEndDT ) %}
+    {% python
+        dayD = day.date()
+    %}
+    {% if bars.has_key(day.date()) %}
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"calendarDayContainer"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;strong&gt;</span>${formatDate(dayD)}<span class="nt">&lt;/strong&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    {% end %}
+{% end %}
+</pre></div><p>
+Genshi was the only XML based template engine considered. It was more difficult to translate Indico templates to Genshi XML templates, than to Text based templates. Also it is not as straightforward to control what is being outputted, e.g. with symbols like <tt>&amp;</tt> or <tt>&amp;nbsp;</tt>, also HTML code <tt>&lt;div&gt;&lt;/div&gt;</tt> was automatically replaced to <tt>&lt;div/&gt;</tt> which resulted in a different looking result (at least in Firefox 3.6). It isn't allowed to put HTML tags in translatable strings. This was a problem with UserDetails.tpl page.
+</p>
+<p>
+It is allowed to include arbitrary Python code blocks, which is a plus.
+</p>
+<p>
+Genshi works with Unicode strings, so all the strings passed from Indico must be converted.
+</p>
+<p>
+Genshi also has a simple Text based engine, but according to the benchmarks, it is slower than other Text based engines.
+</p>
+<p>
+The first time the template is loaded, Genshi caching mechanism saves the parsed template in memory. Speed improvements after the first request:
+</p>
+<table class="wiki">
+<tr><th> Component </th><th> XML #1 </th><th> XML #2 </th><th> Text #1 </th><th> Text #2 
+</th></tr><tr><td> RoomBookingManyRoomsCalendar </td><td> 9.49691 </td><td> 9.10890 </td><td> 6.27557 </td><td> 5.93521 
+</td></tr><tr><td> BigTest </td><td> 5.21903 </td><td> 5.19453 </td><td> 3.28489 </td><td> 3.12738 
+</td></tr><tr><td> UserDetails </td><td> 0.08692 </td><td> 0.01119 </td><td> 0.05303 </td><td> 0.00266 
+</td></tr><tr><td> CategoryMap </td><td> 0.02770 </td><td> 0.00324 </td><td> 0.01048 </td><td> 0.00079 
+</td></tr></table>
+<h2 id="a2.4.Jinja2">2.4. Jinja2</h2>
+<div class="code"><pre><span class="nt">&lt;table&gt;</span>
+{% for row in data %}
+<span class="nt">&lt;tr&gt;</span>
+    {% for cell in row %}
+    <span class="nt">&lt;td&gt;</span>
+        {% if cell[-1] == '9' %}
+        <span class="nt">&lt;b&gt;</span>{{cell}}<span class="nt">&lt;/b&gt;</span>
+        {% endif %}
+    <span class="nt">&lt;/td&gt;</span>
+    {% endfor %}
+<span class="nt">&lt;/tr&gt;</span>
+{% endfor %}
+<span class="nt">&lt;/table&gt;</span>
+</pre></div><p>
+Jinja2 allows only restricted use of Python in templates, so it was not possible to (easily) implement the benchmarks for RoomBookingRoomCalendar and RoomBookingManyRoomsCalendar.
+</p>
+<h2 id="a2.5.Cheetah">2.5. Cheetah</h2>
+<div class="code"><pre><span class="nt">&lt;table&gt;</span>
+#for row in $data
+<span class="nt">&lt;tr&gt;</span>
+    #for cell in $row
+    <span class="nt">&lt;td&gt;</span>
+        #if $cell[-1] == '9':
+        <span class="nt">&lt;b&gt;</span>${cell}<span class="nt">&lt;/b&gt;</span>
+        #end if
+    <span class="nt">&lt;/td&gt;</span>
+    #end for
+<span class="nt">&lt;/tr&gt;</span>
+#end for
+<span class="nt">&lt;/table&gt;</span>
+</pre></div><p>
+Personal opinion: syntax is not as nice as other engines, because of all the <tt>$</tt> and <tt>#</tt> symbols.
+</p>
+<p>
+Cheetah supports the compilation of template files to Python code, but developers have to do the compilation themselves, then include the compiled Python module and render it.
+</p>
+<h1 id="a3.Benchmarks">3. Benchmarks</h1>
+<h2 id="a3.1.System">3.1. System</h2>
+<p>
+Benchmarks were performed on Intel(R) Pentium(R) 4 CPU 3.00GHz, 2 GB RAM running Ubuntu 10.04 operating system.
+</p>
+<h2 id="a3.2.Script">3.2. Script</h2>
+<p>
+The idea of the benchmarking script is summarized in the following Python-like pseudocode:
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">MaKaC.common.TemplateExec</span> <span class="kn">import</span> TemplateExec
+
+<span class="k">for</span> each template engine t <span class="ow">and</span> each component c<span class="p">:</span>
+    <span class="c"># Substitute the rendering method.</span>
+    <span class="c"># renderer(t) returns the engine specific rendering method</span>
+    <span class="c"># of the form function(tpl, params, tplFilename)</span>
+    TemplateExec<span class="o">.</span>executeTemplate <span class="o">=</span> renderer<span class="p">(</span>t<span class="p">)</span>
+
+    <span class="c"># Setup the decorator which logs the times of entry to and</span>
+    <span class="c"># exit from the function. Because of includes, executeTemplate</span>
+    <span class="c"># can be called multiple times, so we are interested in the</span>
+    <span class="c"># time of the first entry and time of the last exit.</span>
+    TemplateExec<span class="o">.</span>executeTemplate <span class="o">=</span> timing<span class="p">(</span>TemplateExec<span class="o">.</span>executeTemplate<span class="p">)</span>
+
+    <span class="c"># Run some code to initiate the rendering of c</span>
+    c<span class="o">.</span>getHTML<span class="p">()</span>
+
+    <span class="c"># EXIT_TIME is the time of the last exit from executeTemplate</span>
+    <span class="c"># ENTRY_TIME is the time of the first entry to executeTemplate</span>
+    rendering_time <span class="o">=</span> EXIT_TIME <span class="o">-</span> ENTRY_TIME
+</pre></div><h2 id="a3.3.Components">3.3. Components</h2>
+<p>
+Following components were used for benchmarks:
+</p>
+<table class="wiki">
+<tr><th> Component </th><th> Motivation 
+</th></tr><tr><td> RoomBookingRoomCalendar </td><td> Template with a lot of includes, which apparently works slow on Indico production server. Benchmarking data contained 1394 bookings during the three month span. 
+</td></tr><tr><td> RoomBookingManyRoomsCalendar </td><td> Slow on Indico production server. Benchmarked with 3068 bookings and 572 rooms (had to disable the overload condition in Indico code to make the benchmark work). 
+</td></tr><tr><td> BigTest </td><td> Not from Indico, contains two nested for loops with an if condition and some variable output inside. Renders a 100 x 100 table of numbers. 
+</td></tr><tr><td> UserDetails </td><td> Simple component with some variables and translatable strings. 
+</td></tr><tr><td> CategoryMap </td><td> Original motivation for this was inclusion of the big text and also Unicode characters. Now with different data this benchmark is quite useless. 
+</td></tr></table>
+<h2 id="a3.4.Results">3.4. Results</h2>
+<p>
+Some benchmarks were not implemented (marked with - sign). Cheetah templates were not compiled to Python modules.
+</p>
+<table class="wiki">
+<tr><th> </th><th> Indico </th><th> Mako (compiled) </th><th> Genshi XML </th><th> Genshi XML (cache) </th><th> Genshi Text </th><th> Genshi Text (cache) </th><th> Jinja2 </th><th> Jinja2 (cache) </th><th> Cheetah 
+</th></tr><tr><td> RoomBookingRoomCalendar </td><td> 6.38599 </td><td> <strong>0.99091</strong> </td><td> - </td><td> - </td><td> - </td><td> - </td><td> - </td><td> - </td><td>  - 
+</td></tr><tr><td> RoomBookingManyRoomsCalendar </td><td> 2.15272 </td><td> <strong>1.74113</strong> </td><td> 9.49691 </td><td> 9.10890 </td><td> 6.27557 </td><td> 5.93521 </td><td> - </td><td> - </td><td>  - 
+</td></tr><tr><td> BigTest </td><td> 0.60132 </td><td> 0.11450 </td><td> 5.21903 </td><td> 5.19453 </td><td> 3.28489 </td><td> 3.12738 </td><td> 0.15350 </td><td> <strong>0.10468</strong> </td><td> 1.19566 
+</td></tr><tr><td> UserDetails </td><td> 0.00625 </td><td> <strong>0.00207</strong> </td><td> 0.08692 </td><td> 0.01119 </td><td> 0.05303 </td><td> 0.00266 </td><td> 0.03847 </td><td> 0.00268 </td><td> 0.06674 
+</td></tr><tr><td> CategoryMap </td><td> 0.00078 </td><td> 0.00161 </td><td> 0.02770 </td><td> 0.00324 </td><td> 0.01048 </td><td> 0.00079  </td><td> 0.00826 </td><td> <strong>0.00060</strong> </td><td> 0.01998 
+</td></tr></table>
+<h1 id="a4.Conclusion">4. Conclusion</h1>
+<p>
+In terms of features Mako seems to be the most appropriate new template engine for Indico. Speed-wise it gets beaten in some benchmarks, but the difference is insignificant.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/TemplateEngines?action=diff&amp;version=2" title="Version 2 by mdamarac">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-02-24T18%3A39%3A04%2B01%3A00&amp;precision=second" title="See timeline at 02/24/11 18:39:04">5 years ago</a></span>
+            <span class="trac-print">Last modified on 02/24/11 18:39:04</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FTemplateEngines56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/TemplateEngines by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:20 GMT -->
+</html>

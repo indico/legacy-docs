@@ -1,0 +1,222 @@
+From 441ad80ed4d0786622a44a9fcb33a2c415fb2345 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= <bjoern.pedersen@frm2.tum.de>
+Date: Wed, 19 Sep 2012 10:48:50 +0200
+Subject: [PATCH 1/4] [FEATURE] Use the python email module
+
+Use the python email module to generate emails not only as
+plain text, but as MIME with attachments and HTML as well.
+
+Attachment definition is still a bit rough, but currently for non-text
+types a file path has to be used.
+---
+ indico/MaKaC/common/mail.py                        | 93 ++++++++++++++++++++--
+ .../MaKaC/webinterface/common/baseNotificator.py   |  3 +
+ indico/MaKaC/webinterface/mail.py                  | 35 ++++++--
+ 3 files changed, 119 insertions(+), 12 deletions(-)
+
+diff --git a/indico/MaKaC/common/mail.py b/indico/MaKaC/common/mail.py
+index bf64cde..ffe0f13 100644
+--- a/indico/MaKaC/common/mail.py
++++ b/indico/MaKaC/common/mail.py
+@@ -19,6 +19,21 @@
+ 
+ import smtplib
+ from email.utils import formatdate
++from email import encoders
++from email.message import Message
++from email.mime.audio import MIMEAudio
++from email.mime.base import MIMEBase
++from email.mime.image import MIMEImage
++from email.mime.multipart import MIMEMultipart
++from email.mime.text import MIMEText
++from email.header import Header
++from email.charset import add_charset
++from email import Charset
++# don#t encode utf-8 as base64, use quoted-printable!
++# as this sets a module global, needs to be done only once
++add_charset('utf-8', Charset.QP, Charset.QP, 'utf-8')
++
++
+ 
+ from MaKaC.common import Config
+ from MaKaC.errors import MaKaCError
+@@ -59,6 +74,7 @@ class GenericMailer:
+ 
+     @staticmethod
+     def _prepare(notification):
++        COMMASPACE = " ,"
+         fromAddr=notification.getFromAddr()
+         # what are these two loops for??
+         for to in notification.getToList() :
+@@ -68,10 +84,10 @@ class GenericMailer:
+             if len(cc) == 0 :
+                 notification.getCCList().remove(cc)
+ 
+-        to=", ".join(notification.getToList())
+-        cc=""
++        to = COMMASPACE.join(notification.getToList())
++        cc = ""
+         if len(notification.getCCList())>0:
+-            cc="Cc: %s\r\n"%", ".join(notification.getCCList())
++            cc = COMMASPACE.join(notification.getCCList())
+         if not to and not cc:
+             return
+ 
+@@ -81,8 +97,73 @@ class GenericMailer:
+             ct = "text/plain"
+         subject=notification.getSubject()
+         body=notification.getBody()
+-        msg="""Content-Type: %s; charset=\"utf-8\"\r\nFrom: %s\r\nTo: %s\r\n%sSubject: %s\r\nDate: %s\r\n\r\n%s"""%(ct, fromAddr,\
+-                to,cc,subject,formatdate(localtime=True),body)
++        try:
++            bodyHTML=notification.getBodyHTML()
++        except AttributeError:
++            bodyHTML = None
++        try:
++            attachments = notification.getAttachments()
++        except AttributeError:
++            attachments = None
++
++
++        target = None
++        if attachments:
++            outer = MIMEMultipart()
++        elif bodyHTML:
++            outer = MIMEMultipart('alternative')
++            target = outer
++        else:
++            outer = MIMEText(body, 'plain','utf-8')
++            target = outer
++
++        if bodyHTML:
++            msg = target or MIMEMultipart('alternative')
++            part1HTML = MIMEText(bodyHTML, 'html','utf-8')
++            part1Plain = MIMEText(body, 'plain', 'utf-8')
++            # Attach parts into message container.
++            # According to RFC 2046, the last part of a multipart message, in this case
++            # the HTML message, is best and preferred.
++            msg.attach(part1Plain)
++            msg.attach(part1HTML)
++        else:
++            msg = target or MIMEText(body, 'plain','utf-8')
++
++        outer['Subject'] = Header(subject,'utf-8')
++        outer['To'] = to
++        outer['CC'] = cc
++        outer['From'] = fromAddr
++
++        if outer != msg:
++            outer.attach(msg)
++
++        #add iteration over attachments
++        #for text type, the content should be the payload string,
++        #for all other types the content should be the path to a (possibly temporary) file
++        if attachments:
++            for ctype, vpath, content in attachments:
++
++                maintype, subtype = ctype.split('/', 1)
++            if maintype == 'text':
++                # Note: we should handle calculating the charset
++                msg = MIMEText(content , _subtype=subtype)
++            elif maintype == 'image':
++                with open(content, 'rb') as fp:
++                    msg = MIMEImage(fp.read(), _subtype=subtype)
++            elif maintype == 'audio':
++                with open(content, 'rb') as fp:
++                    msg = MIMEAudio(fp.read(), _subtype=subtype)
++            else:
++                with open(content, 'rb') as fp:
++                    msg = MIMEBase(maintype, subtype)
++                    msg.set_payload(fp.read())
++                    # Encode the payload using Base64
++                    encoders.encode_base64(msg)
++            # Set the filename parameter
++            msg.add_header('Content-Disposition', 'attachment', filename=vpath)
++            outer.attach(msg)
++
++
+         toList = notification.getToList()
+         ccList = notification.getCCList()
+         if hasattr(notification, 'getBCCList'):
+@@ -90,7 +171,7 @@ class GenericMailer:
+         else:
+             bccList = []
+         return {
+-            'msg': msg,
++            'msg': outer.as_string(True),
+             'toList': toList,
+             'ccList': ccList,
+             'bccList': bccList,
+diff --git a/indico/MaKaC/webinterface/common/baseNotificator.py b/indico/MaKaC/webinterface/common/baseNotificator.py
+index ba574c1..4926fff 100644
+--- a/indico/MaKaC/webinterface/common/baseNotificator.py
++++ b/indico/MaKaC/webinterface/common/baseNotificator.py
+@@ -58,6 +58,9 @@ class Notification:
+     def getBody(self):
+         return self._body
+ 
++    def getBodyHTML(self):
++        return None
++
+     def setToList(self,newList):
+         self._toList=[]
+         for to in newList:
+diff --git a/indico/MaKaC/webinterface/mail.py b/indico/MaKaC/webinterface/mail.py
+index 06c026c..f78fedb 100644
+--- a/indico/MaKaC/webinterface/mail.py
++++ b/indico/MaKaC/webinterface/mail.py
+@@ -60,15 +60,20 @@ class GenericNotification :
+             self._bccList = []
+             self._subject = ""
+             self._body = ""
++            self.bodyHTML = ""
+             self._contenttype = "text/plain"
++            self._attachments = []
+         else :
+-            self._fromAddr = data.get("fromAddr", "")
+-            self._toList = data.get("toList", [])
+-            self._ccList = data.get("ccList", [])
++            self._fromAddr = data.get("fromAddr","")
++            self._toList = data.get("toList",[])
++            self._ccList = data.get("ccList",[])
+             self._bccList = data.get("bccList", [])
+-            self._subject = data.get("subject", "")
+-            self._body = data.get("body", "")
+-            self._contenttype = data.get("content-type", "text/plain")
++            self._subject = data.get("subject","")
++            self._body = data.get("body","")
++            self._bodyHTML = data.get("bodyHTML","")
++            self._attachments = data.get("attachments",[])
++            defaultContentType = "text/html" if self._bodyHTML else "text/plain"
++            self._contenttype = data.get("content-type",defaultContentType)
+ 
+     def getContentType(self):
+         return self._contenttype
+@@ -130,6 +135,24 @@ class GenericNotification :
+         self._body = body
+         return True
+ 
++    def getBodyHTML(self):
++        return self._bodyHTML
++
++    def setBodyHTML(self, bodyHTML):
++        if bodyHTML is None :
++            return False
++        self._bodyHTML = bodyHTML
++        return True
++
++    def getAttachments(self):
++        return self._bodyHTML
++
++    def setAttachments(self, attachments):
++        if attachments is None :
++            return False
++        self._attachments = attachments
++        return True
++
+ 
+ class Mailer:
+ 
+-- 
+1.8.0.1.244.g77b598b
+

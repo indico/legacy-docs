@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Admin/install/from0.94 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:40 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Admin/install/from0.94 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Admin%252Finstall%252Ffrom0.9456e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../install.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Admin.html" title="View Admin">Admin</a><span class="pathentry sep">/</span><a class="pathentry" href="../install.html" title="View Admin/install">install</a><span class="pathentry sep">/</span><a class="pathentry" href="from0.html" title="View Admin/install/from0.94">from0.94</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../install.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Admin/install/from0.94?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h2 id="Migratingfrom0.94">Migrating from 0.94</h2>
+<p>
+We are supposing that you still have the version 0.94 of Indico.
+</p>
+<p>
+You must stop the Apache server while running the migration because user interaction with Indico could cause inconsistencies.
+</p>
+<p>
+Please, follow the steps precisely in the following order:
+</p>
+<ol><li>Still with 0.94 (normally you should be running Indico with python 2.4 and ZODB3 3.4.2):
+<ul><li>run the script tools/check_conflict_description_content.py
+</li></ul></li><li>Download and install 0.96.2:
+<ul><li>Download from <a class="ext-link" href="http://cdsware.cern.ch/indico/download/cds-indico-0.96.2.tar.gz"><span class="icon">​</span>http://cdsware.cern.ch/indico/download/cds-indico-0.96.2.tar.gz</a>
+</li><li>Run: python2.4 setup.py install
+</li><li>Install pytz:
+<ul><li>download the package: <a class="ext-link" href="http://sourceforge.net/projects/pytz"><span class="icon">​</span>http://sourceforge.net/projects/pytz</a>
+</li><li>run: python2.4 setup.py install
+</li></ul></li><li>Install simplejson:
+<ul><li>download the package:http://pypi.python.org/packages/source/s/simplejson/simplejson-2.0.9.tar.gz#md5=af5e67a39ca3408563411d357e6d5e47
+</li><li>run: python2.4 setup.py install
+</li></ul></li><li>Run the script: tools/TZMigration.py, <strong>but before read carefully</strong> here below:
+<ul><li>You will be asked to provide the category timezones file. You, as Indico admin, have to create this file in order to choose which timezone will be set to each of your categories. The file must have 2 columns (separated by 1 tab), the first one will contain the ID for each Indico category and the second one is the TZ for the corresponding category. Please, see an example <a href="http://indico-software.org/download/categories-timezones.txt">here</a>.
+</li><li>A complete list of timezone codes is <a href="http://indico-software.org/download/timezone-codes.txt">here</a>
+</li><li>On the other hand, if you do not want to create the categories timezones file, you can provide an empty file as parameter. The script will add the categories to your server timezone (default timezone). And afterwards, you will be able to change the TZ for each category by hand.
+</li></ul></li></ul></li><li>Install python 2.6
+</li><li>Install setuptools:
+<ul><li>Download: <a class="ext-link" href="http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz#md5=7df2a529a074f613b509fb44feefe74e"><span class="icon">​</span>http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz#md5=7df2a529a074f613b509fb44feefe74e</a>
+</li><li>Install: python setup.py install
+</li></ul></li><li>Install: apt-get install python-dev
+</li><li>Install ZODB3-3.8.1: sudo easy_install-2.6 ZODB3==3.8
+</li><li>Install 0.97.1:
+<ul><li>sudo easy_install-2.6 <a href="http://indico-software.org/download/indico/cds_indico-0.97.1-py2.6.egg">http://indico-software.org/download/indico/cds_indico-0.97.1-py2.6.egg</a>
+<ul><li>if you get any error ('<a class="missing wiki">NoneType?</a>' object has no attribute 'clone'), try:
+<ul><li>Install pip: easy_install-2.6 pip
+</li><li>pip install jstools
+</li><li>Download and untar: <a href="http://indico-software.org/download/indico/cds-indico-0.97.1.tar.gz">http://indico-software.org/download/indico/cds-indico-0.97.1.tar.gz</a>
+</li><li>edit setup.py and, from _getInstallRequires() method,  remove 'zope.index' and comment ZODB3 'appends'. The method should look like this:
+<pre class="wiki"> def _getInstallRequires():
+    '''Returns external packages required by Indico
+
+    These are the ones needed for runtime.'''
+
+    #base =  ['pytz', 'zope.index', 'zope.interface', 'simplejson', 'suds', 'cds-indico-extras&gt;=0.2']
+    base =  ['pytz', 'zope.interface', 'simplejson', 'suds', 'cds-indico-extras&gt;=0.2']
+    if sys.version_info[1] &lt; 5: #for Python older than 2.5
+        base.append('hashlib') # hashlib isn't a part of Python older than 2.5
+    #    base.append('ZODB3&gt;=3.8,&lt;3.9.0a')
+    #else:                       #for Python 2.5+
+    #    base.append('ZODB3&gt;=3.8')
+
+    return base
+</pre></li><li>run: python setup.py install
+</li></ul></li></ul></li><li>install: sudo apt-get install gettext
+</li><li>run: sudo indico_initial_setup (use default values when asked)
+<ul><li>Reply /opt/indico to the 1st question
+</li><li>Reply 'c' to the question about indico.conf
+</li><li>If you did <strong>not</strong> have the DB in /opt/indico/db, reply 'y' to the question about the DB. Otherwise reply 'n'.
+</li><li>If you said 'y' in the previous point, you will be asked where to install the DB. Say: /opt/indico/db
+</li><li>Hit any key to finish the script.
+</li></ul></li><li>Stop ZEO daemon
+</li><li>Move your current DB file to /opt/indico/db/Data.fs
+</li><li>Run: sudo chown www-data:www-data /opt/indico/db/*
+</li><li>Start the DB: sudo zdaemon -C /opt/indico/etc/zdctl.conf start
+</li><li>In 0.97 we have introduced a new configuration file, moving away from XML config to python-like config file. Therefore:
+<ul><li>Find the old config file for 0.96.2 (.../python2.4/site-packages/MaKaC/common/config.xml)
+</li><li>Fill /opt/indico/etc/indico.conf with the old values from config.xml
+</li></ul></li><li>Run the migration scripts:
+<ul><li>Run (if it fails claiming '<a class="missing wiki">KeyError?</a>: upcoming_events', skip this step):
+<pre class="wiki">sudo python2.6 -c "from MaKaC.common.db import DBMgr; \
+DBMgr.getInstance().startRequest(); from MaKaC.modules.base import ModulesHolder; \
+del ModulesHolder()._getIdx()['upcoming_events']; DBMgr.getInstance().endRequest()"
+</pre></li><li>Run: sudo python2.6 /opt/indico/bin/maintenance/indexes/reindexcategorynameindex.py
+</li><li>Run: sudo python2.6 /opt/indico/bin/maintenance/indexes/reindexcategorydateindex.py
+</li></ul></li></ul></li><li>Install 1.0:
+<ul><li>follow this <a href="http://indico-software.org/wiki/Admin/Installation0.98">installation steps</a>
+</li><li>and do not forget at the end to do this <a href="http://indico-software.org/wiki/Releases/Indico1.0#Upgrading">migration</a>
+</li><li>[DO only if you get the errors] We have experienced some problems accessing category because of an index that we have recreated from command line ($ sudo indico_shell):
+<pre class="wiki">from indico.core.index import Catalog
+Catalog.getIdx('categ_conf_sd').initialize(dbi)
+dbi.commit()
+</pre></li></ul></li><li>As well, you may need to configure indico.conf to point to the right folder where all the 'uploaded files' are. The variable in indico.conf is <em><a class="missing wiki">ArchiveDir?</a></em>.
+</li></ol><p>
+   
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Admin/install/from0.94?action=diff&amp;version=6" title="Version 6 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-07-16T18%3A36%3A26%2B02%3A00&amp;precision=second" title="See timeline at 07/16/13 18:36:26">2 years ago</a></span>
+            <span class="trac-print">Last modified on 07/16/13 18:36:26</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Admin%252Finstall%252Ffrom0.9456e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Admin/install/from0.94 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:41 GMT -->
+</html>

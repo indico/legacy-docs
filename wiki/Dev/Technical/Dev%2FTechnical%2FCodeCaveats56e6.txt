@@ -1,0 +1,70 @@
+= Code Caveats =
+
+This section's aim is to log some tricks and caveats that you should take into
+consideration while developing for Indico.
+
+== 1. If you add a new Javascript file, remember about packing ==
+
+If you create a new Javascript file, remember that in production files are "packed" to reduce the number of files that the browser requests.
+In a development machine, you probably have activated the server's "debug" mode, so the browser is requesting your unpacked files. In production, however, "debug" is turned off.
+
+Therefore, if you add a new .js file, remember to add the corresponding line to the proper ''.cfg'' file in ''etc/js'' (usually ''indico.cfg'').
+
+[[BR]]
+
+
+== 2. Usage of .getUser() within a management area ==
+
+'''Don't assume''' that a user is always logged in just because
+he is in the management area of an event. getUser() can return None
+because the user could have used a modification key to login. 
+So, always check that getUser() is not None.
+
+[[BR]]
+
+== 3. Do not use Python built-ins as variable names ==
+
+This is more a general Python programming tip, but most people fall into it some time or another.
+
+Try not to use Python built-in keywords, such as "type", "list", "dict", "vars", etc. as variable names.
+
+Example of problem:
+{{{
+#!py
+def mymethod(self, value, type):
+    self._type = type
+    ...
+    if type(value) is int: #we try to use Python's built-in type function to check the type of an object
+        ...
+}}}
+This will fail because we have redefined type when using it as a function argument; so the built-in "type" function is no longer available.
+
+Using [/wiki/Dev/Tools#a3.PylintwithPyDev PyLint] helps detect these problems.
+
+[[BR]]
+
+== 4. Use the right i18n (internationalization) function ==
+
+Indico's interface should be multi-language; for this, we have the _ function on the server (Python) side (import with from MaKaC.i18n import _ ), and the $T Javascript function in the client side.
+Be careful not to use a Python function inside a Javascript string, for example:
+{{{
+#!js
+var today = '<%=_("Today") %>';
+}}}
+will become, when rendered in English:
+{{{
+#!js
+var today = 'Today';
+}}}
+But when rendered in French, it will become:
+{{{
+#!js
+var today = 'Aujourd'hui';
+}}}
+This will provoke a syntax error because the string was using single quotes (').
+
+Therefore, the correct thing to do is:
+{{{
+#!js
+var today = $T("Today");
+}}}

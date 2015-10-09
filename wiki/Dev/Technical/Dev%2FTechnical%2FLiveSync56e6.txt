@@ -1,0 +1,13 @@
+== LiveSync ==
+
+This page is an attempt at documenting a bit better the livesync module.
+
+=== Events ===
+
+==== Available events ====
+ * created, deleted
+ * moved
+ * set_public, set_private
+ * acl_changed
+ * title_changed
+ * data_changed

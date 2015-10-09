@@ -1,0 +1,13 @@
+= Stefan Petrovski =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=stefan.petrovski,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=stefan.petrovski,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=stefan.petrovski)]]

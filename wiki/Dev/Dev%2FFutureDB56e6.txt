@@ -1,0 +1,214 @@
+= Next Generation Indico DB =
+
+== Action Plan ==
+
+ 1. Tecnology Survey - Getting information on suitable DBMSs
+ 2. Evaluation - Classifying options in terms of pre-defined criteria
+ 3. Prototyping
+     - Creation of small prototypes that implement isolated parts of the Indico schema, using a limited number of DB technologies
+     - Benchmarking/profiling
+ 4. Decision - evaluating results from previous 2 phases and choosing one of the options (or several, if that's the case)
+ 5. Boilerplate creation
+    - Creating a set of base classes/modules for use in future versions of Indico
+ 6. Migration
+    - Gradual (dual-DB)?
+    - Immediate?
+
+== Selection Criteria ==
+
+=== Technical ===
+ * **Software Availability** - Unless we want to jeopardize Indico's position as a widely-available Open Source solution, the chosen DB product should be equally accessible to the general public. This does, of course, discourage the use of a commercial product, unless compatibility with a similar free/open alternative is ensured.
+ * **Scalability** - It shouldn't be hard to scale up the infrastructure (more nodes), be it vertically (better machines) or horizontally (more machines).
+ * **Replication** - Data should be replicated across several machines, for fault-tolerance and/or load-balancing purposes (scalability); 
+ * **Ease of use/development**
+   - Is the DB in question easy to develop with?
+   - How are the support tools?
+
+==== Data-related ==== 
+ * **Transactions** - This is going to be a tough point. Most NoSQL solutions choose not to implement transactions, something we currently heavily rely on.
+ * **Complex Schema** - Indico has a quite complex schema. The selected platform should have:
+   - **Indexing**
+   - **Support for complex queries**
+
+=== Project-related ===
+
+ * **!Project/Community Momentum**
+   - Is the user community large?
+   - What about the ecosystem? Is it growing?
+   - Is it probable that it will stay around?
+   - Where in the hype curve are we?
+ * **Cloud-friendliness** - This is not a mandatory requirement, but ensuring that the system can be deployed across a broad range of cloud providers would be good;
+
+
+=== Cost-related ===
+
+ * **(Possible) Future costs** - Is it probable that we will need paid support in the future?
+ * **[[Dev/FutureDB/MigrationCosts|Migration costs]]**
+   - Will it be easy to move from ZODB to this technology?
+   - No, it won't. But will it be very hard or extremely hard?
+ * **Way out** - Can we easily change to something else in case we realize we made the wrong choice?
+ * **CERN** - How would the solution fit CERN's infrastructure and/or existing services? 
+
+== Possibilities ==
+
+||= Name               =||= Type              =||= License                      =||= Community Size =||
+|| ZODB                 || OODBMS              || Zope Public License            || Small            ||
+|| Wakanda              || OODBMS              || GPLv3 / AGPLv3 / Commercial    ||                  ||
+||                      ||                     ||                                ||                  ||
+|| MariaDB              || RDBMS               || GPLv2                          || Large            ||
+|| Microsoft SQL Server || RDBMS               || Commercial                     || Large            ||
+|| MySQL                || RDBMS               || GPLv2 / EULA                   || Large            ||
+|| Oracle Database      || RDBMS               || Commercial                     || Large            ||
+|| PostgresSQL          || ORDBMS              || PostgresSQL License            || Large            ||
+|| VoltDB               || RDBMS               || AGPLv3                         || Small            ||
+||                      ||                     ||                                ||                  ||
+|| Amazon DynamoDB      || NoSQL / Key-value   || Commercial                     ||                  ||
+|| FoundationDB         || NoSQL / Key-value   || Commercial                     ||                  ||
+|| LevelDB              || NoSQL / Key-value   || BSD New                        || Small            ||
+|| MemcacheDB           || NoSQL / Key-value   || BSD                            ||                  ||
+|| Oracle NoSQL         || NoSQL / Key-value   || AGPLv3 / Commercial            ||                  ||
+|| Redis                || NoSQL / Key-value   || BSD                            || Medium           ||
+|| Riak                 || NoSQL / Key-value   || Apache License 2.0             ||                  ||
+|| Tarantool            || NoSQL / Key-value   || BSD                            || Small            ||
+|| Voldemort            || NoSQL / Key-value   || Apache License 2.0             || Small            ||
+||                      ||                     ||                                ||                  ||
+|| CouchBase            || NoSQL / Document    || Commercial / Community edition || Small            ||
+|| CouchDB              || NoSQL / Document    || Apache License 2.0             || Medium           ||
+|| MongoDB              || NoSQL / Document    || AGPLv3                         || Large            ||
+|| OrientDB             || NoSQL / Document    || Apache License 2.0             ||                  ||
+|| RavenDB              || NoSQL / Document    || AGPLv3                         ||                  ||
+|| RethinkDB            || NoSQL / Document    || AGPLv3                         || Small            ||
+|| Terrastore           || NoSQL / Document    || Apache License 2.0             ||                  ||
+||                      ||                     ||                                ||                  ||
+|| Accumulo             || NoSQL / Column      || Apache License 2.0             ||                  ||
+|| Amazon SimpleDB      || NoSQL / Column      || Commercial                     ||                  ||
+|| Cassandra            || NoSQL / Column      || Apache License 2.0             ||                  ||
+|| HBase                || NoSQL / Column      || Apache License 2.0             ||                  ||
+|| Hypertable           || NoSQL / Column      || GPLv2                          ||                  ||
+||                      ||                     ||                                ||                  || 
+|| FlockDB              || NoSQL / Graph       || Apache License 2.0             ||                  || 
+|| Infinite Graph       || NoSQL / Graph       || EULA / Commercial              ||                  || 
+|| InfoGrid             || NoSQL / Graph       || AGPLv1                         || Small            ||
+|| Neo4J                || NoSQL / Graph       || GPLv3 / AGPLv3 / commercial    ||                  ||
+|| OrientDB             || NoSQL / Graph       || Apache License 2.0             ||                  ||
+
+== Technical details ==
+
+||= Name =||= Consistency =||= Atomicity =||= Scalability =||
+|| ZODB || Strong || Transactions || RelStorage, NEOPPOD, ZRS  (commercial) || 
+|| MySQL ||  Strong || Transactions || Auto-sharding, Master-Slave replication ||
+|| PostgresSQL || Strong || Transactions || Master-Slave replication, App-level sharding ||
+|| MongoDB || Strong  || Single doc modification, see below || Auto-sharding, Master-Slave, Replica sets (Primary-Secondary) ||
+|| Cassandra || Eventual || Atomic batches (since 1.2), otherwise row-level || "Auto-sharding", Peer-to-peer replication ||
+|| Redis || Strong || Transactions, no rollback || Master-slave replication, App-level sharding ||
+|| Neo4J || Strong || Transactions || Master-slave replication ||
+|| Riak || Eventual || None || "Auto-sharding", Peer-to-peer replication ||
+|| CouchDB / !CouchBase || Eventual || Single doc modification, see below ||  Master-slave replication, App-level sharding (CouchDB), Auto-sharding (!CouchBase) ||
+|| HBase || Strong || Row-level || Master-slave replication,  Auto-sharding ||
+|| Voldemort || Eventual || Key-level || "Auto-sharding", Peer-to-peer replication ||
+
+
+
+== CouchDB ==
+
+==== Disadvantages ====
+ * Requires packing ("compaction");
+
+
+== Redis ==
+=== Advantages ===
+ * Overall very good as non-authoritative storage
+ * Includes several useful data structures (ordered sets, hash tables)
+ * Easy to use, simple API
+ * The data set is all the time in memory, and can optionally be made persistent
+
+=== Disadvantages ===
+ * The data set has to fit in memory;
+ * Despite providing some nice data structures, it is still a key-value storage;
+
+=== Links ===
+ * Official docs
+    - [[http://redis.io/topics/persistence | Redis Persistence]]
+    - [[http://redis.io/topics/replication | Replication]]
+ * Others
+   - [[http://instagram-engineering.tumblr.com/post/12202313862/storing-hundreds-of-millions-of-simple-key-value-pairs#_=_ | Storing hundreds of millions of simple key-value pairs in Redis]]
+   - [[http://blog.gomiso.com/2011/05/24/how-redis-can-ruin-your-day-and-what-you-can-do-to-fix-it/ | How redis can ruin your day, and what you can do to fix it]]
+
+== ZODB ==
+
+=== Replication ===
+
+ * [[https://pypi.python.org/pypi/zc.zrs/|ZRS]] - The Zeo Foundation has recently released it as open source software. It provides primary/secondary replication.
+
+== Riak ==
+=== Advantages ===
+ * Highly distributable
+ * Supports several backends (Bitcask, LevelDB, Memory, ...)
+ * The "links" feature allows many-to-many relationships to be easily established an queried
+
+=== Disadvantages ===
+ * Ideal for large-scale distributed clusters, maybe not what we are looking for (overkill?)
+ * It's still a key-value storage, and simpler solutions exist
+
+=== Things to be considered ===
+ * Erlang
+
+=== Links ===
+ * Official docs
+   - [[http://basho.com/link-walking-by-example/ | Riak link walking by example]]
+ * Others
+   - [[http://www.slideshare.net/seancribbs/introduction-to-riak-red-dirt-ruby-conf-training | Introduction to Riak]]
+   - [[http://vimeo.com/21598799 | Riak and Scala at Yammer]]
+   - [[http://www.slideshare.net/jmuellerleile/scaling-with-riak-at-showyou | Scaling with Riak at Showyou]]
+
+== PostgreSQL ==
+
+=== Advantages ===
+ * [[http://wiki.postgresql.org/wiki/What's_new_in_PostgreSQL_9.2#JSON_datatype | JSON support]] 
+
+== Links ==
+=== Technical Information ===
+
+ * [[http://www.cs.berkeley.edu/~brewer/cs262b-2004/PODC-keynote.pdf|Eric Brewer - "Towards Robust Distributed Systems"]] 
+ * Great explanation of [[http://guide.couchdb.org/draft/consistency.html | Eventual Consistency and CAP]]
+ * [[http://www.slideshare.net/chris.e.richardson/developing-polyglot-persistence-applications-devnexus-2013 | Developing polyglot persistence applications]]
+ * [[http://www.eaipatterns.com/docs/IEEE_Software_Design_2PC.pdf | Your Coffee Shop Doesn’t Use Two-Phase Commit]]
+ * [[http://martinfowler.com/bliki/PolyglotPersistence.html | Polyglot Persistence]] (Martin Fowler)
+
+==== MongoDB ====
+
+ * [[http://docs.mongodb.org/manual/tutorial/isolate-sequence-of-operations/ | Isolate Sequence of Operations]]
+ * [[http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/ | Perform Two-phase Commits]]
+ * [[http://www.infoq.com/presentations/MongoDB-at-SourceForge | MongoDB at Sourceforge]]
+
+ * !StackOverflow questions:
+   - [[http://stackoverflow.com/questions/9588207/mongodb-atomicity-concerns-modifying-a-document-in-memory | MongoDB Atomicity Concerns — Modifying a document in memory]]
+   - [[http://stackoverflow.com/questions/7149890/what-does-mongodb-not-being-acid-compliant-really-mean | What does MongoDB not being ACID compliant really mean?]]
+
+==== CouchDB ====
+
+ * [[http://stackoverflow.com/questions/299723/can-i-do-transactions-and-locks-in-couchdb | Transactions and Locks in CouchDB]]
+
+==== PostgreSQL ====
+ * [[http://instagram-engineering.tumblr.com/post/10853187575/sharding-ids-at-instagram | Sharding IDs at Instagram]]
+ * [[http://petrohi.me/post/30848036722/scaling-out-postgres-partitioning| Scaling out PostgreSQL]]
+ * [[http://www.slideshare.net/adorepump/database-tools-by-skype | Database tools by Skype]]
+ * [[http://www.craigkerstiens.com/2012/11/30/sharding-your-database/ | Sharding your Database]]
+
+==== Cassandra ====
+ * [[http://www.slideshare.net/benjaminblack/introduction-to-cassandra-replication-and-consistency | Introduction to Cassandra Replication and Consistency]]
+
+=== Comparisons ===
+ * [[http://docs.basho.com/riak/1.2.0/references/appendices/comparisons/ | Riak vs. Others]] (Cassandra, !CouchBase, CouchDB, HBase, MongoDB, Neo4j, DynamoDB)
+ * [[http://www.slideshare.net/tim.lossen.de/cassandra-vs-redis | Cassandra vs. Redis]]
+ * [[http://highscalability.com/blog/2010/12/6/what-the-heck-are-you-actually-using-nosql-for.html | NoSQL use cases]]
+ * [[http://istc-bigdata.org/index.php/benchmarking-graph-databases/ | RDBMS vs Neo4j in PageRank and Shortest Path]]
+ * [[http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis | Cassandra vs MongoDB vs CouchDB vs Redis vs Riak vs HBase vs Couchbase vs Neo4j vs Hypertable vs ElasticSearch vs Accumulo vs VoltDB vs Scalaris comparison]]
+
+=== Love/Hate ===
+  * [[http://www.peterbe.com/plog/zodb-and-couchdb | CouchDB and ZODB]]
+  * [[http://www.plope.com/Members/chrism/why_i_like_zodb | Why I like ZODB]]
+
+
+ * http://www.slideshare.net/thobe/choosing-the-right-nosql-database
+ * http://www.slideshare.net/VeryFatBoy/nosql-roadshow-amsterdam-2012-15414012

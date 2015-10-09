@@ -1,0 +1,768 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1078 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1078 (Create a basic bank transfer payment module)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1077.html" title="Ticket #1077" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t10781fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1078a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1078a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1079.html" title="Ticket #1079" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1077.html" title="Ticket #1077">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1079.html" title="Ticket #1079">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A53%3A25%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:53:25">3 years ago</a></p>
+    <p>Last modified <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-11T01%3A56%3A15%2B01%3A00&amp;precision=second" title="See timeline at 12/11/13 01:56:15">22 months ago</a></p>
+  </div>
+  <h2>
+    <a href="1078.html" class="trac-id">#1078</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=assigned">assigned</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=enhancement">enhancement</a>
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">Create a basic bank transfer payment module</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=pedersen">pedersen</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="milestone" href="../milestone/v2-2.html">v2.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=EPayment">EPayment</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=0.98-dev">0.98-dev</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+To allow bank transfer as a payment option, a basic bank transfer module has been created. It will generate a page and email with the necessary account information.<br />
+</p>
+<p>
+Concerning the attached patches:<br />
+</p>
+<ul><li>is the file htdocs/bankTransfer.py really necessary? I modeled it after the  files for paypal and co.
+</li><li>the second patch adds a hook to inject text from the plugin to paymentDetails.
+</li></ul>
+    </div>
+  </div>
+</div>
+          
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(5)</span></h3>
+        <div class="attachments">
+          <dl class="attachments">
+              <dt>
+    <a href="../attachment/ticket/1078/0001-FEAT-Add-a-bank-transfer-payment-module.html" title="View attachment">0001-FEAT-Add-a-bank-transfer-payment-module.patch</a><a href="../raw-attachment/ticket/1078/0001-FEAT-Add-a-bank-transfer-payment-module.patch" class="trac-rawlink" title="Download">​</a>
+       (<span title="47004 bytes">45.9 KB</span>) -
+      added by <em>pedersen</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A53%3A51%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:53:51">3 years ago</a>.
+  </dt>
+              <dd>
+                Main patch
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.html" title="View attachment">0001-FEAT-Hook-to-get-etxra-payment-details.patch</a><a href="../raw-attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.patch" class="trac-rawlink" title="Download">​</a>
+       (<span title="4038 bytes">3.9 KB</span>) -
+      added by <em>pedersen</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A59%3A03%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:59:03">3 years ago</a>.
+  </dt>
+              <dd>
+                patch for hook
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.html" title="View attachment">0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch</a><a href="../raw-attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch" class="trac-rawlink" title="Download">​</a>
+       (<span title="5996 bytes">5.9 KB</span>) -
+      added by <em>pedersen</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A28%3A15%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:28:15">2 years ago</a>.
+  </dt>
+              <dd>
+                new version of the hooks
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1078/0003-FEAT-Add-a-bank-transfer-payment-module.html" title="View attachment">0003-FEAT-Add-a-bank-transfer-payment-module.patch</a><a href="../raw-attachment/ticket/1078/0003-FEAT-Add-a-bank-transfer-payment-module.patch" class="trac-rawlink" title="Download">​</a>
+       (<span title="56549 bytes">55.2 KB</span>) -
+      added by <em>pedersen</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A28%3A43%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:28:43">2 years ago</a>.
+  </dt>
+              <dd>
+                new version with pdf invoice
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1078/0004-Add-Mailorder-payment-module.html" title="View attachment">0004-Add-Mailorder-payment-module.patch</a><a href="../raw-attachment/ticket/1078/0004-Add-Mailorder-payment-module.patch" class="trac-rawlink" title="Download">​</a>
+       (<span title="54677 bytes">53.4 KB</span>) -
+      added by <em>pedersen</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A29%3A16%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:29:16">2 years ago</a>.
+  </dt>
+              <dd>
+                a mail-order credit card eapyment module
+              </dd>
+          </dl>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../zip-attachment/ticket/1078/index.html">.zip</a>
+          </p>
+          
+        </div>
+    </div>
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(17)</span></h3>
+          <div id="changelog">
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A53%3A51%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:53:51">3 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1078/0001-FEAT-Add-a-bank-transfer-payment-module.html"><em>0001-FEAT-Add-a-bank-transfer-payment-module.patch</em></a><a href="../raw-attachment/ticket/1078/0001-FEAT-Add-a-bank-transfer-payment-module.patch" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Main patch<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A59%3A03%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:59:03">3 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.html"><em>0001-FEAT-Hook-to-get-etxra-payment-details.patch</em></a><a href="../raw-attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.patch" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+patch for hook<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-1-1345643814548939">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T15%3A56%3A54%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 15:56:54">3 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Thanks a lot for the patch.<br />
+</p>
+<p>
+May I ask what is the purpose of the module? Is it only to show the account information? <br />
+How different is it from adding this information to the "Payment details" field in the E-payment module config?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1345643819557817">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T15%3A56%3A59%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 15:56:59">3 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>infoneeded_new</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-3-1345646390395078">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T16%3A39%3A50%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 16:39:50">3 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+The main difference is: This module has access to the full user information and can deleiver e.g.the full subject with a personalized ID for tracking the bank transfer. Now a user can select bank transfer explizitly on the payment page and will get a personalized display. <br />
+I plan to enhance the module to be able to also generate a pdf-invoice as attachment to the mail, so this will maybe pave a way for <a class="new ticket" href="751.html" title="task: Creation of invoice/ticket/bills....from registrant list (new)">#751</a>.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1353944296872073">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-11-26T16%3A38%3A16%2B01%3A00&amp;precision=second" title="See timeline at 11/26/12 16:38:16">3 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v1.0</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>infoneeded_new</em> to <em>new</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-5-1353944313324149">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-11-26T16%3A38%3A33%2B01%3A00&amp;precision=second" title="See timeline at 11/26/12 16:38:33">3 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>awaiting_merge</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-6-1360312114800356">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-02-08T09%3A28%3A34%2B01%3A00&amp;precision=second" title="See timeline at 02/08/13 09:28:34">3 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>awaiting_merge</em> to <em>merging</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-7-1360329158586916">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-02-08T14%3A12%3A38%2B01%3A00&amp;precision=second" title="See timeline at 02/08/13 14:12:38">3 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v1.0</em> to <em>v1.1</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>merging</em> to <em>assigned</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Hi Pedersen,<br />
+</p>
+<p>
+Thank you very much for your plugin. I was having a look at your contribution and it is a very good idea.<br />
+On the other hand, we have the feeling that creating an epayment plug-in for that is a bit too big. We definitely see the need and we'd like to propose a different solution:<br />
+</p>
+<p>
+In the Epayment tab for a conference:<br />
+</p>
+<p>
+<a class="ext-link" href="http://indico.cern.ch/ihelp/html/UserGuide/Conferences.html?highlight=epayment#e-payment"><span class="icon">​</span>http://indico.cern.ch/ihelp/html/UserGuide/Conferences.html?highlight=epayment#e-payment</a><br />
+</p>
+<p>
+There is a field named "Detail of payment". Whatever somebody writes there, it shows up in the page where one can choose the e-payment system (last step in the registration process).<br />
+</p>
+<p>
+We could add there, the possibility to insert "tags" and one tag could be "UniqueID"; in the same way as it's done in other parts of Indico (e.g.: <a class="ext-link" href="http://indico.cern.ch/ihelp/html/_images/confreg14.png"><span class="icon">​</span>http://indico.cern.ch/ihelp/html/_images/confreg14.png</a>). Then, an event organizer could write a text like:<br />
+</p>
+<pre class="wiki">
+You can pay using our e-payment system (see "Pay now" button below) or 
+by bank transfer using the following details:
+
+Subject: {UniqueID}
+Bank account: XXXXX
+Bank: YYYY''
+
+</pre><p>
+Indico would replace {UniqueID} by the real unique ID for each registrant.<br />
+</p>
+<p>
+Even more, we could rename "Detail of payment" to "Bank transfer details" and directly let Indico handle the different text choices and display of options. Indico would directly display either:<br />
+</p>
+<ul><li>You can pay by bank transfer or credit card, or
+</li><li>You can only pay by bank transfer, here the details..., or
+</li><li>You can only pay by credit card from the following button...
+</li></ul><p>
+What do you think?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1360329534131607">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-02-08T14%3A18%3A54%2B01%3A00&amp;precision=second" title="See timeline at 02/08/13 14:18:54">3 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Yes, the possibility to add tags to the details screen is a good idea. Your suggestion sounds really promising to me.<br />
+</p>
+<p>
+With the plugin I really aimed for the possibility to attach a pdf invoice with all necessary details and generate an email with all details. <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1360330332628055">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-02-08T14%3A32%3A12%2B01%3A00&amp;precision=second" title="See timeline at 02/08/13 14:32:12">3 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I see, as you have mentioned before, we would like to be able to generate bills (<a class="new ticket" href="751.html" title="task: Creation of invoice/ticket/bills....from registrant list (new)">#751</a>) directly from the list of registrants. Right now you can click and get a PDF with badges for instance. We could do the same for bills, we already have all the information (unique id, how much money they need to pay, etc) that we need.<br />
+</p>
+<p>
+If you agree on the "tags" idea and you would have the time, we would be more than happy to integrate it. Thanks again for your time!<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A28%3A15%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:28:15">2 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.html"><em>0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch</em></a><a href="../raw-attachment/ticket/1078/0002-FEATURE-Add-hook-to-get-etxra-payment-details.patch" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+new version of the hooks<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A28%3A43%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:28:43">2 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1078/0003-FEAT-Add-a-bank-transfer-payment-module.html"><em>0003-FEAT-Add-a-bank-transfer-payment-module.patch</em></a><a href="../raw-attachment/ticket/1078/0003-FEAT-Add-a-bank-transfer-payment-module.patch" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+new version with pdf invoice<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A29%3A16%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:29:16">2 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1078/0004-Add-Mailorder-payment-module.html"><em>0004-Add-Mailorder-payment-module.patch</em></a><a href="../raw-attachment/ticket/1078/0004-Add-Mailorder-payment-module.patch" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+a mail-order credit card eapyment module<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-10-1370251866987463">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-06-03T11%3A31%3A06%2B02%3A00&amp;precision=second" title="See timeline at 06/03/13 11:31:06">2 years ago</a> by pedersen
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+The changes are now available via git from <a class="ext-link" href="git://trac.frm2.tum.de/home/repos/git/frm2/webserver/indico.git"><span class="icon">​</span>git://trac.frm2.tum.de/home/repos/git/frm2/webserver/indico.git</a> as well in the brach master_email<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-11-1370437382776476">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-06-05T15%3A03%3A02%2B02%3A00&amp;precision=second" title="See timeline at 06/05/13 15:03:02">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v1.1</em> to <em>v1.2</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-12-1386723375406030">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:12" class="cnum">
+    <a href="#comment:12">comment:12</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-11T01%3A56%3A15%2B01%3A00&amp;precision=second" title="See timeline at 12/11/13 01:56:15">22 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v1.2</em> to <em>v1.3</em>
+    </li>
+  </ul>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t10781fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1078a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1078a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1078 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:39 GMT -->
+</html>

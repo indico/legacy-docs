@@ -1,0 +1,61 @@
+= Extending Indico =
+
+Indico takes advantage of the `setuptools` entry point mechanism in order to allow other packages to contribute with their own features.
+The idea is that other packages can specify their own plugins and plugin types, using the `indico.ext` and `indico.ext_types` entry points respectively.
+
+== Example ==  
+
+By default, Indico declares only the entry points for the plugins that come bundled with it (Room Booking, Collaboration, EPayment and LiveSync).
+
+=== indico/setup.py ===
+{{{
+# all Indico plugins go here
+
+[indico.ext_types]
+Collaboration = MaKaC.plugins.Collaboration
+InstantMessaging = MaKaC.plugins.InstantMessaging
+RoomBooking = MaKaC.plugins.RoomBooking
+EPayment = MaKaC.plugins.EPayment
+livesync = indico.ext.livesync
+
+
+[indico.ext]
+Collaboration.EVO = MaKaC.plugins.Collaboration.EVO
+# ...
+
+livesync.invenio = indico.ext.livesync.invenio
+livesync.cern_search = indico.ext.livesync.cern_search
+}}}
+
+A `cern_extras` separate package could declare its own indico plugin from its own `setup.py`. It should only need to specify where it is, under `indico_ext`.
+
+=== cern_extras/setup.py ===
+{{{
+[console_scripts]
+indico_foundationSync = indico_cern_extras.scripts.FoundationSync:main
+
+[indico.ext]
+EPayment.yellowPay = indico_cern_extras.plugins.yellowPay
+}}}
+Notice how the package also declares a console script that will be accessible from the `PATH`.
+
+Same for a hypothetical `fermi_extras` package, that could contain its own plugin.
+
+=== fermi_extras/setup.py ===
+{{{
+[indico.ext]
+Collaboration.WebEx = indico_fermi_extras.plugins.WebEx
+}}}
+
+Like this, packages can declare themselves to Indico without the slightest change of config file, or complicated setup processes.
+
+
+== Advantages ==
+ * Packages are independent, one can be upgraded without touching the other ones;
+ * Packages can be in any namespace, no need to be under `indico.ext` or anything like that;
+ * No need to copy plugin files to the Indico package before running the Indico setup script;
+ * Packages can declare also console scripts, which are automatically added by setuptools to the path;
+
+== Disadvantages ==
+ * Need to maintain the list of plugins bundled with Indico
+   - However, this list won't probably grow much more, and we can even in the future bundle collaboration and room booking (and others) apart from the main package;

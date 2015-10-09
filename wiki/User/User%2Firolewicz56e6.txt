@@ -1,0 +1,12 @@
+= Ian Rolewicz =
+
+== Personal plan ==
+
+ * Optimization
+ * Task daemon
+
+== Open Tickets ==
+[[TicketQuery(owner=irolewic,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=irolewic,status=closed)]]

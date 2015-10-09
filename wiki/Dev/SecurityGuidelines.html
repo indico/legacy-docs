@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/SecurityGuidelines by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/SecurityGuidelines – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FSecurityGuidelines56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="SecurityGuidelines.html" title="View Dev/SecurityGuidelines">SecurityGuidelines</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/SecurityGuidelines?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="SecurityGuidelines">Security Guidelines</h1>
+<p>
+<strong>NOTE: work in progress </strong>
+</p>
+<h2 id="Python">Python</h2>
+<h3 id="eval"><em>eval()</em></h3>
+<ul><li>Python allows a high degree of introspection and reflection
+</li></ul><div class="code"><pre><span class="o">&gt;&gt;&gt;</span> <span class="s">'foobar'</span><span class="o">.</span>__class__<span class="o">.</span>__base__
+<span class="o">&lt;</span><span class="nb">type</span> <span class="s">'basestring'</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">eval</span><span class="p">(</span><span class="s">'str(1+2)+"foo"'</span><span class="p">)</span>
+<span class="s">'3foo'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">exec</span><span class="p">(</span><span class="s">'print 1+2'</span><span class="p">)</span>
+<span class="mi">3</span>
+</pre></div><ul><li>This brings with it some of the most awesome features in the language
+<ul><li>but also the most unsafe!
+</li></ul></li></ul><ul><li><em>exec</em> is easy to exploit:
+<div class="code"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">exec</span><span class="p">(</span><span class="s">'import sys; sys.exit(-1)'</span><span class="p">)</span>
+</pre></div></li></ul><ul><li><em>eval</em> not much harder:
+<div class="code"><pre><span class="o">&gt;&gt;&gt;</span> <span class="nb">eval</span><span class="p">(</span><span class="s">"__import__('sys').exit(-1)"</span><span class="p">)</span>
+</pre></div></li></ul><h3 id="Exceptionhandling">Exception handling</h3>
+<p>
+Exceptions should be handled in layers:
+</p>
+<div class="code"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="c">#...</span>
+    a <span class="o">=</span> b <span class="o">/</span> c
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Error!"</span>
+</pre></div><p>
+How many possible ways of failing?
+</p>
+<div class="code"><pre>b<span class="p">,</span> c <span class="o">=</span> <span class="s">'a'</span><span class="p">,</span><span class="s">'a'</span>
+b<span class="p">,</span> c <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+</pre></div><p>
+Why not:
+</p>
+<div class="code"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="c">#...</span>
+    a <span class="o">=</span> b <span class="o">/</span> c
+<span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Incompatible types!"</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Division by zero!"</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"Unexpected exception!"</span>
+    <span class="k">raise</span>
+</pre></div><h4 id="except-pass"><em>except-pass</em></h4>
+<div class="code"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="c"># my dubious quality code</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div><p>
+Please, <strong>never</strong> do this.
+</p>
+<h3 id="Case3-Systemcommands">Case 3 - System commands</h3>
+<div class="code"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="o">&gt;&gt;&gt;</span> p1 <span class="o">=</span> subprocess<span class="o">.</span>Popen<span class="p">([</span><span class="s">"whoami"</span><span class="p">],</span> stdout<span class="o">=</span>subprocess<span class="o">.</span>PIPE<span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> p1<span class="o">.</span>communicate<span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="s">'pferreir</span><span class="se">\n</span><span class="s">'</span>
+</pre></div><p>
+vs.
+</p>
+<div class="code"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">getpass</span>
+<span class="o">&gt;&gt;&gt;</span> getpass<span class="o">.</span>getuser<span class="p">()</span>
+<span class="s">'pferreir'</span>
+</pre></div><p>
+Let standard libraries take care of it.
+</p>
+<h3 id="UserInputsanitization">User Input sanitization</h3>
+<ul><li>Different levels
+<ul><li>Application (<em>eval</em>, <em>exec</em>, OS calls...);
+</li><li>Database (ZODB is mostly safe on this);
+</li><li>Presentation (XSS);
+</li></ul></li></ul><ul><li>All user input should considered <strong>evil</strong> by default!
+</li></ul><h4 id="i.e.PathTraversal">i.e. Path Traversal</h4>
+<div class="code"><pre><span class="o">&gt;&gt;&gt;</span> myfile<span class="o">=</span><span class="s">'foo'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/home/pferreir/</span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> myfile<span class="p">,</span> <span class="s">'r'</span><span class="p">)</span><span class="o">.</span>read<span class="p">()</span>
+<span class="s">'F00</span><span class="se">\n</span><span class="s">'</span>
+
+<span class="o">&gt;&gt;&gt;</span> myfile<span class="o">=</span><span class="s">'../../etc/passwd'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/home/pferreir/</span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> myfile<span class="p">,</span> <span class="s">'r'</span><span class="p">)</span><span class="o">.</span>read<span class="p">()</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div><h4 id="Solutions">Solutions</h4>
+<ul><li><a class="missing wiki">Escape/Quote?</a> - i.e. HTML tag/quote escaping;
+<ul><li><em>cgi.escape()</em> - <strong>quotes are optional</strong>;
+</li></ul></li><li>Refuse (Whitelisting) - just detect faulty cases and throw an Exception;
+<ul><li>Regular Expressions;
+</li></ul></li><li>Sanitize - just remove unwanted content;
+<ul><li>Regular Expressions
+</li></ul></li></ul><h4 id="InIndico">In Indico</h4>
+<ul><li><strong><a class="missing wiki">ParameterManager?</a></strong> - does the hard work for everyone;
+</li><li>Currently being used mostly by the "services" - let's do it for the rest too!
+</li><li>By centralizing user input filtering, we reduce the number of possible security holes;
+</li></ul><h3 id="Summary">Summary</h3>
+<ul><li>Sanitize user input;
+</li><li>Least privilege principle;
+</li><li>Check return values and exceptions;
+</li><li>Show the user the least useless information possible;
+</li><li>Be a little paranoid - assume people will use it the wrong way;
+</li></ul><h2 id="XSLT">XSLT</h2>
+<p>
+<em>Coming soon</em>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/SecurityGuidelines?action=diff&amp;version=5" title="Version 5 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2009-12-02T14%3A22%3A17%2B01%3A00&amp;precision=second" title="See timeline at 12/02/09 14:22:17">6 years ago</a></span>
+            <span class="trac-print">Last modified on 12/02/09 14:22:17</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FSecurityGuidelines56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/SecurityGuidelines by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:14 GMT -->
+</html>

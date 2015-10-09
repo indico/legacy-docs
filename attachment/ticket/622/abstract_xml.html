@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/622/abstract_xml.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      abstract_xml.patch on Ticket #622 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/622/abstract_xml.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/622.html" title="Ticket #622" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/622.html">Back to Ticket #622</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/622.html">Ticket #622</a>: abstract_xml.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File abstract_xml.patch,
+                <span title="1556 bytes">1.5 KB</span>
+                (added by makub, <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-01-25T15%3A39%3A57%2B01%3A00&amp;precision=second" title="See timeline at 01/25/11 15:39:57">5 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+a better patch for both individual and mass export
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>/usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/abstractModif.py</a>
+        </h2>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/abstractModif.py.orig 2011-01-25 15:24:39.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/abstractModif.py 2011-01-25 15:22:56.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>210</th><th>210</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for f in afm.getFields():</span> </td>
+                  </tr><tr>
+                          <th>211</th><th>211</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; id = f.getId()</span> </td>
+                  </tr><tr>
+                          <th>212</th><th>212</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if f.isActive() and self._target.getField(id).strip() != "":</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>213</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x.writeTag(id.replace(" ","_"),self._target.getField(id))</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>213</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #x.writeTag(id.replace(" ","_"),self._target.getField(id))</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>214</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x.writeTag("field",self._target.getField(id),[("id",id)])</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>214</th><th>215</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; x.writeTag("Conference", self._target.getConference().getTitle())</span> </td>
+                  </tr><tr>
+                          <th>215</th><th>216</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; l = []</span> </td>
+                  </tr><tr>
+                          <th>216</th><th>217</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for au in self._target.getAuthorList():</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>/usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/conferenceModif.py</a>
+        </h2>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/conferenceModif.py.orig 2011-01-21 13:31:34.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/conferenceModif.py 2011-01-25 15:25:34.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>4479</th><th>4479</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x.writeTag("Content", abstract.getField("content"))</span> </td>
+                  </tr><tr>
+                          <th>4480</th><th>4480</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for f in self._conf.getAbstractMgr().getAbstractFieldsMgr().getFields():</span> </td>
+                  </tr><tr>
+                          <th>4481</th><th>4481</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; id = f.getId()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>4482</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x.writeTag(<del>id, abstract.getField(id)</del>)</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>4482</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x.writeTag(<ins>"field",abstract.getField(id),[("id",id)]</ins>)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>4483</th><th>4483</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; l = []</span> </td>
+                  </tr><tr>
+                          <th>4484</th><th>4484</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for au in abstract.getAuthorList():</span> </td>
+                  </tr><tr>
+                          <th>4485</th><th>4485</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if abstract.isPrimaryAuthor(au):</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/622/abstract_xml.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/622/abstract_xml.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:17 GMT -->
+</html>

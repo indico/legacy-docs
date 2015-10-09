@@ -1,0 +1,117 @@
+== Flags ==
+|| --unit || Python unit tests ||
+|| --functional || Python functional tests ||
+|| --coverage || Python coverage ||
+|| --specify=PATH || Python tests, use ''folder.file:class.function'' to specify test to run ||
+|| --pylint || Python source analysis ||
+|| --jsunit || Javascript unit tests ||
+|| --jscoverage || Javascript coverage ||
+|| --jsspecify=PATH || Javascript tests, use ''!TestCase.testname'' to specify test to run ||
+|| --jslint || Javascript source analysis ||
+|| --grid || Running functional tests on the environment specified in ''tests.conf'' ||
+
+== Python Unit tests ==
+{{{
+#!python
+#Note that the 2 following functions will be called for module, very handy if we need to run a single test
+#So we do not need to specify a setup and teardown for each class
+def setup_module():
+    DBMgr.getInstance().startRequest()
+
+def teardown_module():
+    DBMgr.getInstance().abort()
+    DBMgr.getInstance().endRequest()
+
+class TestCategories(unittest.TestCase):
+    
+    def testBasicAddAndRemoveConferences(self):
+        [...]
+        c1._addConference(conf1)
+        assert (croot.getNumConferences()==0)
+        [...]
+}}}
+
+Nosetests uses this regular expression ''(?:!^|[b_.-])[Tt]est'' to fetch tests, so our naming conventions will be:
+    * Every file name has to end with '''_test.py''' (ie ''indicop_test.py'')
+    * Every class has to start with Test with a capital T '''class !TestIndicop(unittest.!TestCase)'''
+    * Every function has to start with test '''def testIndicop()'''
+
+== Python Functional tests ==
+{{{
+#!python
+from seleniumTestCase import SeleniumTestCase
+
+class ExampleTest(SeleniumTestCase):
+    def setUp(self):
+        SeleniumTestCase.setUp(self)
+    
+    [...]
+
+    def tearDown(self):
+        SeleniumTestCase.tearDown(self)
+
+if __name__ == "__main__":
+    unittest.main()
+}}}
+
+----
+
+Delete automatically conference at the end of execution (aka in teardown):
+{{{
+#!python
+SeleniumTestCase.setConfID(self, sel.get_location())
+}}}
+
+----
+ 1. Selenium does not recognize Javascript auto-complete when a text is entered.[[BR]] ''Solution:'' Enter the whole word by hand.
+ 1. Javascript Calendar does not work either.[[BR]] ''Solution:'' Enter the date by hand.
+ 1. Do not make ''clicks'' or ''assertions'' on element containing '''IDs'''.[[BR]] ''Solution:'' Use XPath instead. Xpaths are easy to find with Firefox's plugin ''XPather''.
+ 1. When replaying, Selenium can get confused with buttons' names and can end up clicking on the wrong button.[[BR]] ''Solution:'' Once again, use XPath instead. Xpaths are easy to find with Firefox's plugin ''XPather''. For example, instead of having ''//td/tr/bla'', we use the whole path which starts with ''//html/etc''
+ 1. Popups and AJAX requests are very bothersome to test with Selenium. The latter would not wait for a page or a tab to load if we do not explicitly tell to do so.[[BR]] ''Solution:'' Use Selenium ''waitForText'' function whenever a window pops up, a tab is loading or an AJAX request is sent.[[BR]]
+''waitForElementPresent'' will wait until the element introduced in ''Target'' is present. Note that you should always put an element that doesn't appear in the referer. [[BR]]
+''waitForText'' has a similar behaviour, but waits up until the element in ''Target'' has the value in ''Value''. [[BR]]
+
+And since Selenium is so unreliable about AJAX, to ensure that the action is performed, we do some brute forcing. 
+
+----
+{{{
+#!python
+sel.click("addLink")
+for i in range(60):
+    try:
+        if "Session" == sel.get_text("link=Session"): break
+    except: pass
+    time.sleep(1)
+else: self.fail("time out")
+}}}
+Becomes:
+{{{
+#!python
+sel.click("addLink")
+for i in range(60):
+    try:
+        if "Session" == sel.get_text("link=Session"): break
+        else: sel.click("addLink")
+    except: pass
+    time.sleep(1)
+else: self.fail("time out")
+}}}
+The only line to add is '''else: sel.click("addLink")'''.
+
+----
+Naming conventions same as Python unit tests.
+
+== Javascript Unit tests ==
+{{{
+#!js
+MoveTest = TestCase("MoveTest");
+
+MoveTest.prototype.setUp = function() {
+    //your set up stuff
+};
+
+MoveTest.prototype.testUpdateEntry = function() {
+    //your tests
+    assertEquals("MSG", expectedValue, actualValue);
+};
+}}}

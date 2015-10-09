@@ -1,0 +1,129 @@
+= Rich Abstract Submission =
+
+== Abstract ==
+
+The proposal consists on improving Indico abstract editor to be able to accept [http://www.latex-project.org/ LaTeX] and [http://daringfireball.net/projects/markdown/ Markdown]/[http://www.mathjax.org/ MathJax] formulas to generate HTML and PDF compiled outputs. Using [https://code.google.com/p/pagedown/ PageDown editor] to translate the plain text from input to LaTeX documents ("book of abstracts") and HTML while live previewing the edition on a canvas.
+
+== Use Cases ==
+
+Indico abstract editor is a plain text editor for physics to submit their paper abstracts and research documentation. For a better comprehension of how useful my features are, here are some use cases:
+
+* Joe just made an incredible discovery and he wants to submit an article about it. To do this, he's used to write down some topics on a blank sheet and then copy them to Indico abstract editor, where he can easily submit plain text combined with !MathJax formulas that will be interpreted by the editor.
+* Janet is looking for some research to complement her's, she knows there is a database where she can navigate between submitted abstracts from her fellow co-workers without opening and/or saving PDF documents into her computer. She can explore the abstracts directly from her browser of choice, viewing all the complex formulas that she's used to in LaTeX documents.
+* Higgs is a newbie using !MathJax formulas, but he needs to submit a quick article to Indico. He opens the editor and with the live preview feature he can anticipate the outcome of his paper, along with any syntax errors he may correct in real time as he types.
+* Jamie has over 10 papers submitted on Indico in HTML format and he has a presentation in 30 minutes; he needs to print out some copies to offer to his audience, so he logs into Indico, opens the HTML view of the paper and clicks on that blue button on the corner "Generate LaTeX document". In a few seconds he saves the generated document and prints it out; the presentation is a success!
+
+== Deliverables ==
+
+[https://github.com/pedrogaudencio/indico Github branch] with Javascript script files to handle the canvas live preview and formula translation to show them on HTML, and Python classes/script files to manage LaTeX-to-PDF compiling and syntax error reporting/correction; also the document and article storing ("book of abstracts"). It will be primarily tested on several browsers on Linux, Mac and Windows to assure compatibility and accessibility.
+
+== Timeline ==
+
+Milestone like schedule with concise objectives for each step. Here the plan:
+
+1. Pre-GSoC:
+ * analysis to current Indico source, familiarisation with the code and define exactly what needs to be changed and implemented;
+ * also patch any existing bugs that might affect further development of the project and some general bug fixing so I get acquaintance with the base code.
+2. Community Bonding Period:
+ * read Indico documentation, learn its complexity and main behavior;
+ * read !PageDown ([http://math.stackexchange.com/questions/ask Math StackExchange editor]) wiki and documentation, discuss integration issues with project mentors and evaluate the best ways to implement;
+3. Week 1:
+ * class structures, plot diagrams, and a general draw of the final interface workflow.
+4. Week 2 to 3:
+ * make the necessary changes to the Indico user interface;
+ * design and implement the new interface elements.
+5. Week 4 to 6:
+ * implementation and integration of !PageDown Markdown converter into existing Indico editor, testing parser functionalities and evaluate security issues from possible "evil inputs";
+ * implement live preview on a canvas that shows acyclically the expected result;
+6. Mid-term evaluations deadline:
+ * by mid-term I expect to have Indico editor accepting !MathJax and LaTeX formulas and parsing them into HTML, also the live preview canvas up and running - it is probable that some bugs still exist, but I'll clean them up in the final weeks.
+7. Week 7 to 8:
+ * study, implementation and testing of the LaTeX documents generation algorithm.
+8. Week 9 to 10:
+ * integration of the LaTeX generator with the user interface.
+9. Week 11 to 12:
+ * Testing, correcting bugs and documentation.
+ 
+== Development ==
+
+=== 1. Integrating !PageDown Editor and !MathJax
+
+'''Abstract and Contribution Data Modification:'''
+
+Templates changed: `AbstractDataModification.tpl`, `ContributionDataModification.tpl`.
+
+As described in the [https://code.google.com/p/pagedown/wiki/PageDown#Markdown.Editor.js PageDown documentation], if there is more than one editor in the current page each panel has to have its unique `id`. So, we wrap the textarea inside the `<div class="wmd-panel">`, the respective buttons inside that with `<div id="wmd-button-bar-f_${ field.getId() }"></div>` - the `${ field.getId()` is a Mako function that asks for the field id (for instance, `f_content` and `f_summary`), providing an unique `id` to this div. Same thing for the `<textarea  class="wmd-input" id="wmd-input-f_${ field.getId() }">` and the preview canvas `<div id="wmd-preview-f_${ field.getId() }" class="wmd-panel wmd-preview"></div>`.
+
+Using javascript we iterate on each textarea with `class="wmd-input"` and create a converter and an editor for it - this behaviour is documented [https://code.google.com/p/pagedown/wiki/PageDown#In_the_browser here].
+
+The `PageDownMathJax.mathjaxEditing().prepareWmdForMathJax()` is loaded to handle the !MathJax inserted, it receives the editor variable, the `wmd-input` textarea id suffix and and array with the !MathJax delimiters we're using (in this case, `["$$", "$$"]` and `["\\\\(","\\\\)"]`. This was first written by [http://www.math.union.edu/~dpvc/ Davide P. Cervone] and released under ''Apache 2.0'' licence, so it has some modifications.
+
+`prepareWmdForMathJax()` acts has a hook and its purpose is to strip out every !MathJax piece of code inside the given delimiters, storing them as arguments in an array and replace them by tokens (`@@0@@`, `@@1@@`, `@@...@@`), then run Markdown, then replace the tokens by the original !MathJax afterward.
+
+=== 2. Render !Markdown/MathJax
+
+'''Abstract and Contribution Display:'''
+
+Templates changed: `AbstractDisplay.tpl`, `ContributionDisplayFull.tpl`
+
+We wrote `render_markdown()` on ''strings.py'' to convert any text from Markdown to HTML, we use it on ''abstracts.py'' and ''contributions.py'' to properly render the text in the management area. To use it as a Mako filter, we just added `m` to wrap `${abstract.getField(f.getId()) | h, m}` and `${escape(Contribution.getField(f.getId())) | m}` (which is the field that holds the content and summary of the abstract) in the templates after importing it in `TemplateExec.py` in `FILTER_IMPORTS` list.
+
+=== 3. PDF generation
+
+Classes envolved in PDF generation: `CFADisplay.py`, `abstractModif.py`, `contribDisplay.py`, `contribMod.py`, `conferenceDisplay.py`, `conferenceModif.py`
+
+''' Tested solutions: '''
+
+Since the technology chosen for the new abstracts PDF format was LaTeX, we had to convert Markdown text to LaTeX notation, these are the ones tested.
+
+
+||= Name               =||= !Conclusions/Observations =||
+|| [https://pypi.python.org/pypi/markdown2latex/ Python markdown2latex extension] || Out of date since 2009; updating it would not only solve what we need but also contribute to the community ||
+|| [https://github.com/fletcher/peg-multimarkdown/ Multimarkdown] ||  ||
+|| [http://johnmacfarlane.net/pandoc/ Pandoc] ||  ||
+
+
+''' Workflow: '''
+
+`LatexRunner()` is implemented in ''base.py'', this is an example of its behaviour from ''CFADisplay.py'' `RHUserAbstractsPDF()`:
+
+{{{
+
+filename = 'my-abstracts.pdf'
+
+pdf = AbstractsToPDF(self._conf, self._abstractIds, tz=tz)
+
+latex_template = 'LatexRHUserAbstractsPDF.tpl'
+
+kwargs = {'first_page': pdf.firstPageLatex(),
+                'title': self._target.getTitle(),
+                'page_no': i18nformat(""" _("Page") """),
+                'body': pdf.getBodyLatex()
+                }
+
+latex = LatexRunner(filename, True)
+pdffile = latex.run(latex_template, **kwargs)
+latex.cleanup()
+
+return send_file(filename, pdffile, 'PDF')
+
+}}}
+
+`filename`: name provided for the file name
+
+`pdf`: object to be converted
+
+`latex_template`: chosen LaTeX template from ''tpls/latex/'' template folder imported as a string
+
+`kwargs`: arguments that the template will receive, this is a dictionary
+
+`latex`: `LatexRunner(self, filename, has_toc = False)` handles the PDF generation from a chosen LaTeX template. It receives the name of the file and if a second argument is `True` (by default this is set to `False`) that means the pdf to generate has a ''Table of Contents'': this works the same way for every run, except for the Contributions Book that holds a Table of Contents, in this case the pdflatex command has to run twice: the first one to generate the ''.toc'' file and the second to compile it into the created ''.tex'' file. `run(self, template_name, **kwargs)` receives the chosen `latex_template` and `kwargs`, on every call this method imports the template and renders it with the arguments given into a Mako template, creates a temporary directory to store the ''.tex'', ''.log'', ''.aux'', ''.out'' (''.toc'' also, if it's the case) and generates the PDF by running `pdflatex` using `subprocess`, also storing the generated file in the temporary directory and returning its absolute path. The `cleanup()` method deletes the ''.tex'', ''.log'', ''.aux'', ''.out'' (and ''.toc'') files in the temporary directory.
+
+
+=== TO-DO:
+
+* Check if the logger event after every PDF generation is working
+
+== Extra ==
+
+[https://indico.cern.ch/conferenceDisplay.py?confId=273481 CERN presentation] slides: [https://indico.cern.ch/getFile.py/access?contribId=0&sessionId=1&resId=0&materialId=slides&confId=273481 pdf], [https://indico.cern.ch/getFile.py/access?contribId=0&sessionId=1&resId=1&materialId=slides&confId=273481 odp].

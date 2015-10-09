@@ -1,0 +1,80 @@
+[[TracNav(TOC|noreorder|nocollapse)]]
+
+
+
+= Features =
+
+[[Image(htdocs:img/picfea01.png, 220px, align=left, margin-right=30, border=1)]]
+**Multiple event support**
+
+    * Events organised in categories
+    * Category-driven navigation
+    * Time-driven navigation (calendar day/week/month overview)
+
+{{{
+#!html
+
+<br clear="all" />
+<p />
+}}}
+
+[[Image(htdocs:img/picfea02.png, 220px, align=left, margin-right=30, border=1)]]
+**Flexible event representation**
+
+    * Allows different views of the same event
+    * Provides access to the timetable and various listings (participants, contributions...)
+    * Stores all kind of files including pictures, transparencies, minutes, videos, etc.
+
+{{{
+#!html
+
+<br clear="all" />
+<p />
+}}}
+
+[[Image(htdocs:img/picfea03.png, 220px, align=left, margin-right=30, border=1)]]
+**Full management of conference cycle**
+
+    * Simple forms for creating events of various complexity
+    * Easy setup of access and modifications rights
+    * Call for abstracts, registration form, paper reviewing, track management, proceedings, listings...
+    * Easy creation of timetable and customization of the conference website
+
+{{{
+#!html
+
+<br clear="all" />
+<p />
+}}}
+
+[[Image(htdocs:img/picfea04.png, 220px, align=left, margin-right=30, border=1)]]
+**End user interactions**
+
+    * Registration
+    * Abstract submission
+    * Paper submission
+    * Slide upload
+
+
+{{{
+#!html
+
+<br clear="all" />
+<p />
+}}}
+
+[[Image(htdocs:img/indico_formats.jpg, align=left, margin-right=50, border=0)]]
+**Multiple output formats**
+
+{{{
+#!html
+
+<br clear="all" />
+<p />
+}}}
+
+To find out more about Indico's features, please check the [wiki:Documentation] page or, [wiki:Admin/Installation install] Indico
+or just give it a try [http://indico.cern.ch here].
+
+
+

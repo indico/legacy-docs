@@ -1,0 +1,8 @@
+= Indico v0.96.2 =
+
+= Download =
+ * Package (.tar.gz) - http://cdsware.cern.ch/indico/download/cds-indico-0.96.2.tar.gz
+
+= Installation =
+ 
+  Follow the instructions from [wiki:Admin/InstallationOlder here].

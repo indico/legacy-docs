@@ -1,0 +1,237 @@
+[[PageOutline]]
+= ZEO =
+
+== 1. Introduction ==
+
+
+
+ZODB does not support concurrencies processes. Only one application can open the file storage at a time. 
+ZEO is a client-server system for sharing a
+single storage among many clients.
+
+
+Normally, a ZODB storage can only
+be used by a single process.  When you use ZEO, the storage is opened
+in the ZEO server process.  Client programs connect to this process
+using a ZEO Client Storage.
+
+[[Image(http://www.gliffy.com/pubdoc/2067229/M.png)]]
+
+In principle each request made to the Apache Server creates a new process (and therefore all global variables, class variables and singleton are set again), and then each thread of this process owns its own connection.
+
+=== 1.1 Caches ===
+
+[[Image(http://www.gliffy.com/pubdoc/2060766/M.png)]]
+
+There are always two caches working with ZEO. 
+ * A Connection object has "a pickle cache", which is an in-memory cache.  By default, it holds 400 objects across transaction boundaries, regardless of how much RAM they consume. 
+ * A second-level cache (the ZEO client cache, see §3.1), seeing only requests not satisfied by the pickle cache.  It's a disk-based cache, and defaults to a maximum size of 20MB
+
+== 2. Connection ==
+=== 2.1 Picklecache ===
+Each DB Connection has a separate Picklecache.  The Cache serves two purposes. It acts like a memo for unpickling.  It also keeps recent objects in memory under the assumption that they may be used again. As already mentioned in §1.1, the size of the cache is the number of objects that can be cached, by default this number is 400.
+=== 2.2 Picklecache's strategy ===
+The least-recently used objects are booted out at transaction boundaries.
+=== 2.3 How to change the Picklecache cache size ===
+The Picklecache's cache size can be changed through the initialization of the MaKaCDB object, and this can be done as follows (assuming one wants to set it to 800 objects):
+
+{{{
+#!python
+class DBMgr:
+    def __init__( self, hostname=None, port=None ):
+        ...
+        self._db=MaKaCDB(self._storage, cache_size = 800)
+        ....
+    ...
+}}}
+
+
+== 3. ZEO client ==
+Zeo Clients create a connection with the Zeo Server each time they need to read or write in the ZODB.
+
+Indico uses ZEO and ZODB without the ZOPE support, therefore the configuration for the ZEO-Client is directly made inside the code, at its initialization. More precisely in the DBMgr class when creating the Client Storage class.
+The Client Storage class accepts these configuration values (the complete list and description can be found at: http://svn.zope.org/ZODB/trunk/doc/zeo.txt?rev=82954&view=markup)
+ * cache-size: the maximun size of the client cache, in bytes
+ * client: enables persistent cache files. If it is not specified, the client creates a temprary cache that will only be used by the current by the current object (in our case for the current process)
+ * var: the directory where persistent cache file are stored. By default, if they are persistent, the cache files are stored in the current directoy
+
+=== 3.1 ZEO Client cache ===
+Each ZEO client keeps an on-disk cache because fetching an object over the network can be much slower than fetching the object from a local File Storage. The client cache can be:
+ * ''Persistent'': the cache file is retained for user after process restarts (in order to define a cache as persistent one has to define the configuration parameter 'client' in the Client Storage initialization (see §3).
+ * ''Transient'': the cache uses temporary files that are removed when the client storage is closed
+
+When the client is connected to the server, it receives invalidations every time an object is modified. 
+If the cache is Persistent, when the client is disconnected then reconnects, it must perform cache verification to make sure its cached data is synchronized with the storage's current state.
+
+As of 2012, this cache can only be used one process at a time, which apparently renders it useless if your processes are persistent and you have enough memory to spare. See [https://mail.zope.org/pipermail/zodb-dev/2010-October/013737.html this thread] for some more info.
+
+=== 3.2 ZEO Client cache's strategy ===
+The ZEO Client cache uses a FIFO strategy. In others words there is a pointer inside the cache that goes around the file, circularly, forever.
+=== 3.3 How to change the ZEO Client cache size ===
+The default value of the zeo client cache size is 20MB. If one wants to modify this value, one has to add a 'cache-size' parameter in the construction of the DBMgr's storage field. 
+For examble if one wants to set 50Mb (5242880 bytes) of cache size, the code will be:
+
+{{{
+#!python
+class DBMgr:
+    def __init__( self, hostname=None, port=None ):
+        ...
+        self._storage=ClientStorage((hostname, port), username=cfg.getDBUserName(), password=cfg.getDBPassword(),
+                      realm=cfg.getDBRealm(), cache_size=5242880)
+        ....
+    ...
+}}}
+
+=== 3.3 How to choose the correct cache size ===
+Follow these instructions: http://svn.zope.org/ZODB/trunk/doc/zeo-client-cache-tracing.txt
+
+=== 3.4 How to compute the hit rate of the caches ===
+If you want to analyse the hit rate of both caches (Picklecache and Clientcache) (absolutely necessary in order to benchmark a filestorage and compute the amount of time spent in the Warm, Cold, Hot or Steaming' configuration of the caches) it is easier and more accurate the apply these few changes to your ZODB and ZEO code source (with Ubuntu 9.10 it can be found at /usr/local/lib/python2.X/dist-packages/ZODB3-3.X).
+Just remember:
+ * Before applying any change, always backup the file.
+ * Don't apply these changes at the code used in production
+
+Then add the following commented lines:
+
+In the file ZODB/Connection.py:
+{{{
+#!python
+def get(self, oid):
+        """Return the persistent object with oid 'oid'."""
+        """Return pickle data and serial number."""
+        if self.opened is None:
+            raise ConnectionStateError("The database connection is closed")
+        obj = self._cache.get(oid, None)
+        #f = open('/tmp/cache', 'a')
+        if obj is not None:
+            #f.write("[LOAD PICKLE] Hit %s\n" % oid_repr(oid) )
+            #f.flush()
+            return obj
+        #f.close()
+        ...
+    ...
+
+    def _store_objects(self, writer, transaction):
+        for obj in writer:
+            oid = obj._p_oid
+            #f = open('/tmp/cache', 'a')
+            #obj2 = self._cache.get(oid, None)
+            #if obj2 is not None:
+            #    f.write("[STORE PICKLE] Hit %s\n" % oid_repr(oid) )
+            #    f.flush()
+            #else:
+            #    f.write("[STORE PICKLE] Miss %s\n" % oid_repr(oid) )
+            #    f.flush()
+            #f.close()
+            serial = getattr(obj, "_p_serial", z64)
+        ...
+    ...
+
+}}}
+
+In the file ZEO/ClientStorage.py:
+{{{
+#!python
+def load(self, oid, version=''):
+    ...
+    self._lock.acquire()    # for atomic processing of invalidations
+    try:
+        t = self._cache.load(oid)
+        #f = open('/tmp/cache', 'a')
+        if t:
+        #   f.write("[LOAD CLIENT] Hit %s\n" % oid_repr(oid) )
+        #   f.flush()
+            return t
+        #else:
+        #   f.write("[LOAD CLIENT] Miss %s\n" % oid_repr(oid) )
+        #   f.flush()
+        #f.close()
+    ...
+
+def store(self, oid, serial, data, version, txn):
+    """Storage API: store data for an object."""
+    assert not version
+    #f = open('/tmp/cache', 'a')
+    #t = self._cache.load(oid)
+    #if t:
+    #    f.write("[STORE CLIENT] Hit %s\n" % oid_repr(oid) )
+    #else:
+    #    f.write("[STORE CLIENT] Miss %s\n" % oid_repr(oid) )
+    #f.flush()
+    #f.close()
+    ...
+}}}
+From this moment every use of the cache will be logged in /tmp/cache. As soon as you'll ready to compute the statistics about the hit rate just:
+{{{
+#!sh
+sudo touch /tmp/cache; sudo chmod a+wxr /tmp/cache
+python cacheAnalyser.py /tmp/cache
+}}}
+
+== 4. Different Storages ==
+=== 4.1 Clientstorage ===
+The Zeo storage. Instead of saving objects to a file, a Clientstorage sends objects over a network connection to a Storageserver
+=== 4.2 Filestorage ===
+See http://indico-software.org/wiki/Dev/Technical/DB#a2.3Filestorage .
+=== 4.3 Relstorage ===
+Relstorage is designed to be a replacement for a ZODB/Filestorage/ZEO stack. The main difference between these two solutions is that Relstorage stores objects (also called "pickles") in an existing relational database instead of creating and managing a personal file storage. This storage allows multiple ZODB clients to share the same database without any additional configuration. An important feature of Relstorage is that it is not bound to a particular RBDMS but instead users can freely choose between several supported ones, which are, at the time of writing: Oracle 10g (via cx\_Oracle, a Python extension module that allows access to Oracle databases), MySQL 5.0.32+ / 5.1.34+ (via MySQLdb 1.2.2 and above) and PostreSQL 8.1 and above (via psycopg2).
+=== 4.4 Directory Storage ===
+Another available backend storage for ZODB is Directorystorage. The main difference from the standard Filestorage of ZODB is that Directory Storage stores the data in multiple files instead of having one single big file. More precisely it creates a file per revision per object plus one file per transaction. This allows a greater degree of transparency  to the outside world, a simple way of locating objects inside the storage and the replication process is straightforward. Objects are never changed after their creation (just like with Filestorage).
+=== 4.5 Best Storage ===
+July 2010: the best storage solution is Filestorage. Details on the master thesis.
+== 5. Replication ==
+=== 5.1 Zeo Raid ===
+"The ZEO RAID storage is a proxy storage that works like a RAID controller by creating a redundant array of ZEO servers. The redundancy is similar to RAID level 1 except that each ZEO server keeps a complete copy of the database."[3]
+Therefore, up to N-1 out of N ZEO servers can fail without interrupting.
+==== 5.1.1 How to install Zeo Raid ====
+(From INSTALL.txt)
+
+1. Check out the ZEORaid code and buildout:
+
+  $ svn co svn://svn.zope.org/repos/main/gocept.zeoraid/tags/1.0b1 gocept.zeoraid
+
+2. Copy the `buildout.cfg.example` file to `buildout.cfg`:
+
+  $ cp buildout.cfg.example buildout.cfg
+
+3. Bootstrap and run the buildout with Python 2.4:
+
+  $ python2.4 bootstrap.py
+
+  $ bin/buildout
+
+4. Start the servers:
+
+  $ bin/zeo1 start
+
+  $ bin/zeo2 start
+
+  $ bin/zeoraid1 start
+
+  $ bin/zeoraid2 start
+
+==== 5.1.2 How to use Zeo Raid with Indico ====
+If the Zeo raid server is listening to the same address:port than the normal zeo indico server (by default localhost:9675), no changes are needed. Otherwise one has just to change de indico.conf file and change the value: DBConnectionParams.
+=== 5.2 ZRS [4] ===
+Zope replication service (ZRS), offered commercially from the Zope corporation (More information at http://customers.zope.com/ZRS/), provides database replication for ZODB. With the use of ZRS, it is possible to define a primary storage and one or more secondary storages for each database. ZRS does not solve problems, it just provides a fast recovery if a problem occurs, in other words ZRS minimizes the cluster downtime while maximizing the transactional integrity of the ZODB. The downtime is limited to the time necessary to detect a failure and to the time taken by the administrator to switch to a secondary ZRS replica. 
+If the primary server fails, the system falls back to a read-only mode, but it is easy and fast to reconfigure a secondary server to be the primary. Thanks to this architecture ZRS increases the availability of the application by reducing the time needed to repair and restart the entire system in the case of an unexpected crash of the primary storage (using a normal configuration, that is just a simple ZEO or ZODB server, the time needed for a restart can be very long because the storage has to be checked for consistency and, if a problem is found, it has to be restored from a backup).
+
+Clients direct all the queries to the primary storage server which basically does all the operations. After having answered to a request the primary server has to broadcast all the changes and the updates to the read-only replicas, which will execute the transactions locally. The fact of forwarding the transactions instead of sending the modified objects avoid the problem of replicating corrupted data (that is if corruption occurs in one database, that error will not be reproduced in any other storages almost for sure) and therefore, if the primary would go down, all the replicas would have a consistent and complete copy of the entire storage. Another important point of the fact that ZRS replicates at the transaction level is that each secondary storage can use a different storage (Filestorage, Relstorage, Directorystorage) without the obligation of using a pre-establish one.
+
+=== 5.3 NEO ===
+NEO is a high performance distributed fault tolerant ZODB storage, it has been developed by NEOPPOD \footnote{More information at http://www.neoppod.org/} and its aim is to improve ZODB storage scalability (load  balancing over multiple machines).  NEO is distributed and different types of nodes take place in its architecture:
+
+ * ''' 'Master' (mandatory, 1 or more):''' There is only one active master node (the 'primary master', elected by all the nodes) active at a time and it is in charge of all centralised task as oid/tid generation, broadcasting all the moves inside the cluster  (new node connection or disconnection), cluster consistency checking (it answers question like "is there enough nodes to cover all the data?"). Moreover it guarantees unicity and atomicity. All the other extra masters (also called "secondary masters") are spares and they become active only if the primary goes down and a new one has to be chosen.
+ 
+ * ''' 'Storage' nodes (mandatory, 1 or more):''' Nodes that contain object data stored in a MySQL database. 
+ 
+ * ''' 'Client' nodes:''' normal server that needs to store and to load data inside the cluster, typically any application using NEO.
+
+An important feature of NEO is that locks are done at the object level and not at the database level. ZEO uses the policy of locking the entire database when a client wants to modify an object in order to prevent concurrent transactions to modify the same object. Unfortunately this safe implementation is a bottleneck since transactions  have to wait until the end of all the unrelated active transactions in order to being able to modify an object. On the other hand NEO locks only the requested objects and let all the concurrent processes work in parallel. This feature will reduce the commit latency.
+
+== 6. References ==
+ * [1] http://pypi.python.org/pypi/gocept.zeoraid/1.0b7
+ * [2] http://wiki.zope.org/ZODB/howto.html
+ * [3] http://svn.zope.org/ZODB/trunk/doc
+ * [4] http://www.zope.com/products/zope_replication_services.html
+ * [5] http://customers.zope.com/ZRS/download.html

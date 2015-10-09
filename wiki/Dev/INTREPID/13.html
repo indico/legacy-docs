@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/13 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/INTREPID/13 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FINTREPID%252F1356e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../INTREPID.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../INTREPID.html" title="View Dev/INTREPID">INTREPID</a><span class="pathentry sep">/</span><a class="pathentry" href="13.html" title="View Dev/INTREPID/13">13</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../INTREPID.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/INTREPID/13?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <ol>
+      <li>
+        <a href="#InTRePId13">InTRePId 13</a>
+        <ol>
+          <li>
+            <a href="#Objectives">Objectives</a>
+          </li>
+          <li>
+            <a href="#Statusquo">Status quo</a>
+          </li>
+          <li>
+            <a href="#Description">Description</a>
+            <ol>
+              <li>
+                <a href="#Stylesheets">Stylesheets</a>
+              </li>
+              <li>
+                <a href="#JSTemplating">JS Templating</a>
+              </li>
+              <li>
+                <a href="#Links">Links</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#Comments">Comments</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h2 id="InTRePId13">InTRePId 13</h2>
+<p>
+<strong>Title:</strong> CSS extension and Client-side templates
+</p>
+<p>
+<strong>Author:</strong> Pedro Ferreira
+</p>
+<p>
+<strong>Date:</strong> 15/05/2013
+</p>
+<p>
+<strong>Target version:</strong> 1.2
+</p>
+<p>
+<strong>Status:</strong> <em>draft</em>
+</p>
+<h3 id="Objectives">Objectives</h3>
+<ul><li>Introduce a language that is more powerful than CSS, thus allowing us to better organize new stylesheet information and reduce the amount of replicated code;
+</li><li>Introduce a client-side templating language, as a way of letting people create dynamic client-side interfaces with no need for "pre-generated" hidden HTML code and/or ugly giant jQuery "pseudo-template" chains; 
+</li></ul><h3 id="Statusquo">Status quo</h3>
+<p>
+Stylesheet-wise, we are using plain CSS, most of which is concentrated in <tt>Default.css</tt>. With the introduction of a new CSS file structure (<tt>core.css</tt>, <tt>buttons.css</tt>, et al...), it would be nice to make sure this code remains organized and in the most modular structure possible.
+CSS poses a series of problems:
+</p>
+<ul><li>It lacks inheritance features, thus making it harder (or practically impossible) to re-use code
+</li><li>It lacks variables and other constructs, hence making it impossible to set global style parameters without having to employ a lot of automatic or even manual replacement work
+</li></ul><p>
+Client-side templates are currently provided by underscore.js, but these are very primitive. underscore's templatinb language is extremely limited.
+</p>
+<h3 id="Description">Description</h3>
+<h4 id="Stylesheets">Stylesheets</h4>
+<table class="wiki">
+<tr><td> Language </td><td> Nesting </td><td> Mixins </td><td> Variables </td><td> Syntax </td><td> Pure Python implementation? </td><td> Requirements 
+</td></tr><tr><td> SASS/SCSS </td><td> Yes </td><td> Yes </td><td> Yes </td><td style="text-align: right"> CSS superset or indented CSS-like</td><td> <a class="ext-link" href="https://github.com/Kronuz/pyScss"><span class="icon">​</span> PySCSS</a> (no SASS support) </td><td> Ruby <strong>or</strong> Python &gt;= 2.5 (PySCSS) 
+</td></tr><tr><td> LESS </td><td> Yes </td><td> Yes </td><td> Yes </td><td> CSS superset </td><td> Incomplete </td><td> Node.js 
+</td></tr><tr><td> Stylus </td><td> Yes </td><td> Yes </td><td> Yes </td><td> Indented CSS-like </td><td> No </td><td> Python &gt;= 2.5 
+</td></tr></table>
+<h4 id="JSTemplating">JS Templating</h4>
+<table class="wiki">
+<tr><td> System </td><td> Syntax </td><td> Feature set </td><td> Extensibility 
+</td></tr><tr><td> Handlebars </td><td> Moustache-like </td><td> OK </td><td> High 
+</td></tr><tr><td> twig.js </td><td> "Jinja-like" </td><td> Very complete </td><td> High 
+</td></tr></table>
+<h4 id="Links">Links</h4>
+<ul><li><a class="ext-link" href="http://designshack.net/articles/css/sass-vs-stylus-who-wins-the-minimal-syntax-battle/"><span class="icon">​</span> SASS vs Stylus</a>
+</li><li><a class="ext-link" href="http://stackoverflow.com/questions/8411066/less-vs-sass-vs"><span class="icon">​</span> LESS vs Sass vs?</a>
+</li></ul><h3 id="Comments">Comments</h3>
+<p>
+</p><div id="commenting"><form action="http://old.indico-software.org/wiki/Dev/INTREPID/13#commenting" method="post"><fieldset><legend>Add comment</legend><div class="field"><textarea rows="5" name="addcomment" cols="80" disabled="disabled" class="wikitext" id="addcomment"></textarea></div><div><label for="authoraddcomment">Your email or username:</label><input type="text" id="authoraddcomment" value="anonymous" size="30" /></div><input type="hidden" name="__FORM_TOKEN" value="610bde29a97e49ea483b83be" /><div class="buttons"><input disabled="disabled" type="submit" name="submitaddcomment" value="Add comment" size="30" /><input disabled="disabled" type="submit" name="previewaddcomment" value="Preview comment" /><input disabled="disabled" type="submit" name="canceladdcomment" value="Cancel" /></div></fieldset></form></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/INTREPID/13?action=diff&amp;version=5" title="Version 5 by jmonnich">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-05-15T14%3A44%3A38%2B02%3A00&amp;precision=second" title="See timeline at 05/15/13 14:44:38">2 years ago</a></span>
+            <span class="trac-print">Last modified on 05/15/13 14:44:38</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/wikitoolbar.js"></script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FINTREPID%252F1356e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/13 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:28 GMT -->
+</html>

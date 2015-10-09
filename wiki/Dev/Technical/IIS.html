@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/IIS by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/IIS – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FIIS56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="IIS.html" title="View Dev/Technical/IIS">IIS</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/IIS?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="IndicoonIIS">Indico on IIS</h1>
+<p>
+In this page we will cover how to have Indico installed on a Windows distribution and running on IIS.<br />
+<br />
+Keep in mind that this brief guide has been written using a Virtual Machine running Microsoft Windows Server 2008 and Indico 1.2.<br />
+The actual installation steps may vary using different machines/indico distrubutions.
+</p>
+<h2 id="Dependencies">Dependencies</h2>
+<p>
+First of all we have to install all the necessary dependencies.<br />
+<br />
+Since Indico has been developed mainly for Linux systems, and due to compatibility problems, not all the packets specified in requirements.txt are available for Windows machines.<br />
+Here follows all the original dependencies still compatible that can be installed with a simple <em>pip</em> command:
+</p>
+<ol><li>Babel
+</li><li>Mako
+</li><li><a class="missing wiki">MarkupSafe?</a>
+</li><li>ZConfig
+</li><li>ZODB3
+</li><li>argparse
+</li><li>cssmin
+</li><li>icalendar
+</li><li>jsmin
+</li><li>pojson
+</li><li>polib
+</li><li>py
+</li><li>pyPdf
+</li><li>pyatom
+</li><li>pycountry
+</li><li>pytest
+</li><li>python-dateutil
+</li><li>pytz
+</li><li>reportlab
+</li><li>simplejson
+</li><li>termcolor
+</li><li>transaction
+</li><li>wsgiref
+</li><li>zc.lockfile
+</li><li>zc.queue
+</li><li>zdaemon
+</li><li>zope.event
+</li><li>zope.index
+</li><li>zope.interface
+</li><li>ujson
+</li><li>oauth2
+</li><li>requests
+</li><li>pyScss
+</li><li>Werkzeug
+</li><li>Flask
+</li><li>beautifulsoup4
+</li><li>Pillow
+</li><li>qrcode
+</li></ol><p>
+The two missing packages from the previous list are <em>lxml</em> and <em>bcrypt</em>.<br />
+<br />
+<em>lxml</em> can be installed with this already compiled .exe file: <a class="ext-link" href="https://pythonxy.googlecode.com/files/lxml-2.3.4_py27.exe"><span class="icon">​</span>https://pythonxy.googlecode.com/files/lxml-2.3.4_py27.exe</a>.<br />
+To install <em>bcrypt</em> we can install, via <em>pip</em>, a fork for Windows of the original project, called <em>py-bcrypt-32</em>.<br />
+<br />
+Once installed the required packages, we have to install the additional indico dependencies referenced from their repositories.<br />
+Since in Windows machines is a bit tricky to do so, an easy way to have it done is to clone the indico repository in a Linux machine, launch the <em>fab setup_deps</em> script and then copy the whole source directory into your Windows machine.
+</p>
+<h2 id="Installation">Installation</h2>
+<p>
+Now we can proceed with the actual installation of Indico.<br />
+<br />
+First of all open <em>setup.py</em> and change <em>bcrypt==1.0.2</em> into <em>py-bcrypt-w32==0.2.2</em> (inside the <em>_getInstallRequires()</em> function).<br />
+<br />
+Then open the file <em>indico/MaKaC/consoleScripts/installBase.py</em> and find the following line:
+</p>
+<div class="code"><pre>fdata <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>os<span class="o">.</span>path<span class="o">.</span>join<span class="p">(</span>eggPath<span class="p">,</span><span class="s">'MaKaC'</span><span class="p">,</span><span class="s">'common'</span><span class="p">,</span><span class="s">'MaKaCConfig.py'</span><span class="p">),</span> <span class="s">'r'</span><span class="p">)</span><span class="o">.</span>read<span class="p">()</span>
+</pre></div><p>
+Encapsulate that command into a try-except statement (with <em>IOError</em> as exception to be caught) and add the following lines inside the <em>except</em> branch:
+</p>
+<div class="code"><pre><span class="k">print</span> <span class="s">"Wrong EGG configuration!"</span>
+<span class="k">continue</span>
+</pre></div><p>
+Doing so, we prevent the setup script from trying to configure bad indico eggs.<br />
+<br />
+Now we can finally launch the installation script, with <em>python setup.py install</em>, and the initial setup script, with <em>indico_initial_setup</em>.<br />
+Just be sure to specify, during the setup script, absolute Windows paths (ie. including <em>C:</em> at the beginning). The use of normal slashes (/) is always recommended, since backslashes (\) have to be escaped in strings.<br />
+<br />
+Once the setup script has finished all the configurations, go to the installation path you chose and remove the "read only" tick from the root folder (applying the change to all the files and subfolders).<br />
+Also, head to the <em>etc</em> directory, open all the configuration files there and check if the paths/urls there are correct.
+</p>
+<h2 id="ConfiguringIIS">Configuring IIS</h2>
+<p>
+Once we have correctly installed and configured Indico, we have to install a module, developed by Helicon Tech, that allows the IIS server and our WSGI application to communicate.<br />
+Just follow the guide from the Helizon Tech site: <a class="ext-link" href="http://www.helicontech.com/articles/running-wsgi-on-iis/"><span class="icon">​</span>http://www.helicontech.com/articles/running-wsgi-on-iis/</a>.<br />
+<br />
+As you reach the project configuration step, choose <strong>New Web Site</strong> in the <em>Web Site</em> field.<br />
+Choose whatever you want for the project and web site names and for the project path.<br />
+Leave the <em>IP address</em> field as <strong>All unassigned</strong>.<br />
+At last, insert the http port you choose and the host name of the machine running Indico (for testing purposes you can just use "localhost").<br />
+<br />
+Once the project installation finishes, head to the project folder and open the <em>web.config</em> file.<br />
+There, locate the <em>WSGI_APP</em> field and change the value in "indico.web.indico_wsgi.application". Also, append to the <em>PYTHONPATH</em> field the python library path (where indico is installed, basically).<br />
+You also have to locate the <em>indico.wsgi</em> file (usually inside indico/web/) and rename it to <strong>indico_wsgi.py</strong>.<br />
+<br />
+Now open the Helicon Zoo Manager, select the Indico project and the static folder under it and click on <em>enable</em>, otherwise the module will manage all the static files inside the virtual environment.<br />
+Open also the IIS Manager, select the Indico web site you just created and then <em>Bindings...</em> (on the right). There add a new binding, specifying <strong>https</strong> as protocol and the corresponding port. As for the SSL certificate, you can either choose a personal certificate or a base certificate (usually for testing purposes).
+</p>
+<h2 id="StartingIndico">Starting Indico</h2>
+<p>
+If nothing failed in the previous steps, we can now run the command to start the DB:
+</p>
+<div class="code"><pre><span class="nv">$ </span>runzeo -C C:/opt/indico/etc/zodb.conf
+</pre></div><p>
+Of course, if you installed Indico on a different path just change the command accordingly.<br />
+<br />
+To be sure that all changes take effect, open the IIS Manager and click on <strong>Restart</strong> under <em>Manage Server</em> (or <strong>start</strong> if it was stopped).<br />
+<br />
+Now we can finally access to Indico.<br />
+Just open your browser and head to the url you chose for the project.
+</p>
+<h2 id="Bugs">Bugs</h2>
+<p>
+Indico running on IIS is still not fully working.<br />
+To check the reported bugs, take a look to the following list:
+</p>
+<ol><li><a href="http://indico-software.org/ticket/1466#ticket">http://indico-software.org/ticket/1466#ticket</a>
+</li></ol></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/IIS?action=diff&amp;version=5" title="Version 5 by tpapini">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-01-27T12%3A06%3A57%2B01%3A00&amp;precision=second" title="See timeline at 01/27/14 12:06:57">21 months ago</a></span>
+            <span class="trac-print">Last modified on 01/27/14 12:06:57</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FIIS56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/IIS by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:25 GMT -->
+</html>

@@ -1,0 +1,34 @@
+= Development Ideas =
+
+Stuff we might want to do when we have the time and the resources.
+
+== Proposals ==
+
+InTRePId - '''In'''dico '''T'''echnology '''Re'''placement '''P'''roposals and '''Id'''eas
+
+ * [wiki:Dev/INTREPID/1 InTRePId 1] - Replacing the Templating Engine **(implemented)**
+ * [wiki:Dev/INTREPID/2 InTRePId 2] - A maintainable database schema
+ * [wiki:Dev/INTREPID/3 InTRePId 3] - Standardize the way of processing dates in javascript
+ * [wiki:Dev/INTREPID/4 InTRePId 4] - Create a unified notification mechanism
+ * [wiki:Dev/INTREPID/5 InTRePId 5] - New Namespace
+ * [wiki:Dev/INTREPID/6 InTRePId 6] - XML output refactoring
+ * [wiki:Dev/INTREPID/7 InTRePId 7] - Web services API **(implemented)**
+ * [wiki:Dev/INTREPID/8 InTRePId 8] - Central export service - PDF
+ * [wiki:Dev/INTREPID/9 InTRePId 9] - Proceedings
+ * [wiki:Dev/INTREPID/10 InTRePId 10] - Metadata (Microformats, RDFa, etc)
+ * [wiki:Dev/INTREPID/11 InTRePId 11] - Read-only mode
+ * [wiki:Dev/INTREPID/12 InTRePId 12] - Meta-Indico
+ * [wiki:Dev/INTREPID/13 InTRePId 13] - CSS extension and Client-side templates
+
+
+== Projects ==
+
+ * Plugins
+   * Vidyo integration
+ * [wiki:Dev/DBPerformance Database performance/scalability]
+ * [wiki:Dev/SearchPushModel Search Push Model]
+ * [wiki:Dev/MobileInterface]
+ * [wiki:Dev/FutureDB Future DB]
+   * [wiki:Dev/FutureDB/Schema/RoomBooking Room Booking Schema]
+ * [wiki:User/Dev/ETicket E-tickets]
+ * [wiki:User/Dev/RichAbstractSubmission Rich Abstract Submission]

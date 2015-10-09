@@ -1,0 +1,154 @@
+== 1. Exclusive pop up ==
+=== Description ===
+This is the most basic pop up. It just created a simple pop up without buttons. Therefore, it is mostly used to show simple information, like the progress dialog pop up. Although basic, this pop up is exclusive, which means that the user won't be able to interact with the interface out of the pop up.
+
+=== Example ===
+[[Image(ExclusivePopup.png)]]
+
+For further information, you can check the file Base.js, in which there are some implementations of an Exclusive pop up. However, here's the code to get the pop up of the image above:
+{{{
+type("ProgressDialog",["ExclusivePopup"],
+     {
+         draw: function() {
+             return this.ExclusivePopup.prototype.draw.call(
+                 this,
+                 Html.div('loadingPopup',
+                          Html.div('text', this.text)),
+                 {background: '#424242', border: 'none', padding: '20px'});
+         }
+     },
+     function(text) {
+         if (text === undefined) {
+             this.text = $T('Loading...');
+         } else {
+             this.text = text;
+         }
+         this.ExclusivePopup();
+     }
+    );
+}}}
+
+== 2. Exclusive pop up with buttons ==
+
+=== Description ===
+As you can guess by its name, it's a pop up like the one before, but with buttons. It's the "standard" pop up
+
+=== Example ===
+[[Image(ExclusivePopupWithButtons2.png)]]
+
+There are several examples of ExclusivePopupWithButtons in the file Popup.js. However, this is the code for the pop up above:
+
+{{{
+/**
+ * Utility function to display a simple alert popup.
+ * You can think of it as an "confirm" replacement.
+ * It will have a title, a close button, an OK button and a Cancel button.
+ * @param {Html or String} title The title of the error popup.
+ * @param {Element} content Anything you want to put inside.
+ * @param {function} handler A function that will be called with a boolean as argument:
+ *                   true if the user pressers "ok", or false if the user presses "cancel"
+ */
+type("ConfirmPopup", ["ExclusivePopupWithButtons"],
+    {
+         draw: function() {
+             var self = this;
+
+             var okButton = Html.input('button', {style:{marginRight: pixels(3)}}, $T('OK'));
+             okButton.observeClick(function(){
+                 self.close();
+                 self.handler(true);
+             });
+
+             var cancelButton = Html.input('button', {style:{marginLeft: pixels(3)}}, $T('Cancel'));
+             cancelButton.observeClick(function(){
+                 self.close();
+                 self.handler(false);
+             });
+
+             return this.ExclusivePopupWithButtons.prototype.draw.call(this,
+                     this.content,
+                     Html.div({}, okButton, cancelButton));
+         }
+    },
+
+    function(title, content, handler) {
+        var self = this;
+
+        this.content = content;
+        this.handler = handler;
+        this.ExclusivePopupWithButtons(Html.div({style:{textAlign: 'center'}}, title), function(){
+            self.handler(false);
+            return true;
+        });
+    }
+);
+}}}
+Nevertheless, the pop up can be as complex as you want. Here you have another example:
+
+[[Image(ExclusivePopupWithButtons.png)]]
+
+== 3. Exclusive pop up with buttons and preload ==
+
+=== Description ===
+Sometimes, you may need to do an AJAX request to the server, in order to display some information in the pop up. If so, this is your pop up!
+
+=== Specific information ===
+
+In this case, you will need to inherit from two different types:
+{{{
+type("AddChatroomDialog", ["ExclusivePopupWithButtons", "PreLoadHandler"],
+{
+...
+}
+}}}
+
+Also, the functions used to do the preload must be specified like this:
+{{{
+type("AddChatroomDialog", ["ExclusivePopupWithButtons", "PreLoadHandler"],
+{
+  _preload: [
+    function(hook) {
+        var self = this;
+        var killProgress = IndicoUI.Dialogs.Util.progress($T("Fetching information..."));
+        indicoRequest(
+          'my.request',
+          {
+             myparam: param
+          },
+          function(result, error) {
+              if (!error) {
+                  killProgress();
+                  ...
+                  hook.set(true);
+              }
+              else {
+                  killProgress();
+                  IndicoUtil.errorReport(error);
+              }
+          }        
+    },
+    function(hook) {
+    ...
+    }
+  ],
+  ...
+}}}
+
+Since events in javascript are asynchronous, we need the variable hook to inform that the request ended. Once all the preload functions set their hook to true the dialog is drawn.
+
+To execute the preload functions you need to tell the dialog to do so.. This can be done in the dialog's constructor, like this:
+{{{
+this.PreLoadHandler(
+   self._preload,
+   function() {
+      self.open();
+   });
+this.execute();
+}}}
+Without this.execute(), it won't work.
+
+
+=== Example ===
+In this case, we need a preload function to get the chat rooms created by the user. Therefore, we make the request to fetch them, and once we have them we draw the pop up with all the information.
+
+[[Image(ExclusivePopupWithButtonsAndPreload.png)]]

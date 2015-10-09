@@ -1,0 +1,41 @@
+diff --git a/indico/MaKaC/common/db.py b/indico/MaKaC/common/db.py
+index 00dc3dd..7729bfb 100644
+--- a/indico/MaKaC/common/db.py
++++ b/indico/MaKaC/common/db.py
+@@ -92,26 +92,31 @@ class DBMgr:
+             cls._instance=DBMgr(*args, **kwargs)
+         return cls._instance
+ 
++    @staticmethod
++    def _getUniqueIdentifier():
++        return "%s.%s" % (os.getpid(), threading._get_ident())
++
+     def _getConnObject(self):
+-        tid=threading._get_ident()
++        tid = DBMgr._getUniqueIdentifier()
+         if self._conn.has_key(tid):
+             return self._conn[tid]
+         return None
+ 
+     def _delConnObject(self):
+-        tid=threading._get_ident()
++        tid = DBMgr._getUniqueIdentifier()
+         del self._conn[tid]
+ 
+     def startRequest( self ):
+         """Initialise the DB and starts a new transaction.
+         """
+ 
++        tid = DBMgr._getUniqueIdentifier()
+         conn = self._getConnObject()
+         if conn is None:
+-            self._conn[threading._get_ident()]=self._db.open()
+-            Logger.get('dbmgr').debug('Allocated connection for thread %s - table size is %s' % (threading._get_ident(), len(self._conn)))
++            self._conn[tid] = self._db.open()
++            Logger.get('dbmgr').debug('Allocated connection for thread %s - table size is %s' % (tid, len(self._conn)))
+         else:
+-            Logger.get('dbmgr').debug('Reused connection for thread %s - table size is %s' % (threading._get_ident(), len(self._conn)))
++            Logger.get('dbmgr').debug('Reused connection for thread %s - table size is %s' % (tid, len(self._conn)))
+ 
+     def endRequest( self, commit=True ):
+         """Closes the DB and commits changes.

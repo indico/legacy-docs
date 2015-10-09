@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/RoomBooking by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      RoomBooking – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="TracGuide.html" />
+        <link rel="alternate" href="RoomBooking56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../wiki.html">wiki:</a><a class="pathentry" href="RoomBooking.html" title="View RoomBooking">RoomBooking</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="WikiStart.html">Start Page</a></li><li><a href="TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/RoomBooking?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="SchemaforRoomBookingModule">Schema for Room Booking Module</h1>
+<h2 id="Location">Location</h2>
+<ul><li>aspects(list)
+</li><li>avcSupportEmails(list)
+</li><li>friendlyName(str)
+</li><li>factory(?)
+</li></ul><h2 id="Room">Room</h2>
+<ul><li>dailyBookablePeriod(list)
+</li><li>equipment(str)
+</li><li>locationName(str)
+</li><li>name(str)
+</li><li>nonBookableDates(list)
+</li><li>photoId(str)
+</li><li>avaibleVC(list)
+</li><li>building(str)
+</li><li>capacity(int)
+</li><li>comments(str)
+</li><li>customAttrs(str)
+</li><li>division(str)
+</li><li>floor(str)
+</li><li>id(int)
+</li><li>isActive(bool)
+</li><li>isReservable(bool)
+</li><li>latitude(str)
+</li><li>longitude(str)
+</li><li>maxAdvanceDays(int)
+</li><li>responsibleId(str)
+</li><li>resvEndNotification(bool)
+</li><li>resvStartNotification(bool)
+</li><li>resvNotificationAssistance(bool)
+</li><li>resvNotificationToResponsible(bool)
+</li><li>resvStartNotificationBefore(bool)
+</li><li>resvsNeedConfirmation(bool)
+</li><li>roomNr(str)
+</li><li>site(str)
+</li><li>surfaceArea(str)
+</li><li>telephone(str)
+</li><li>whereIsKey(str)
+</li></ul><h2 id="Reservation">Reservation</h2>
+<ul><li>excludedDays(list)
+</li><li>createdDate(date)
+</li><li>endDate(date)
+</li><li>bookedForId(str)
+</li><li>bookedForName(str)
+</li><li>contactEmail(str)
+</li><li>contactPhone(str)
+</li><li>createdBy(str)
+</li><li>id(int)
+</li><li>isCancelled(bool)
+</li><li>isConfirmed(bool)
+</li><li>isRejected(bool)
+</li><li>needsAVCSupport(bool)
+</li><li>needsAssistance(bool)
+</li><li>reason(str)
+</li><li>repeatibility
+</li><li>history(list)
+</li><li>room
+</li><li>startEndNotification(bool)
+</li><li>useVC(list)
+</li><li>usesAVC(bool)
+</li></ul><h2 id="History">History</h2>
+<ul><li>info(list)
+</li><li>responsibleUser(str)
+</li><li>timestamp(date)
+</li></ul><h2 id="Blocking">Blocking</h2>
+<ul><li>createdBy(str)
+</li><li>createdDate(date)
+</li><li>endDate(date)
+</li><li>id(str)
+</li><li>message(str)
+</li><li>allowed(list)
+</li><li>blockedRooms(list)
+</li></ul><h2 id="BlockedRoom">Blocked Room</h2>
+<p>
+ 
+</p>
+<ul><li>active(bool)
+</li><li>notificationSent(bool)
+</li><li>rejectedBy(str)
+</li><li>rejectionReason(str)
+</li><li>roomId(str)
+</li></ul><h2 id="BlockingPrincipal">Blocking Principal</h2>
+<ul><li>id(str)
+</li><li>type(str)
+</li></ul><h2 id="Equipment">Equipment</h2>
+<ul><li>id(str)
+</li><li>location(str)
+</li><li>name(str)
+</li></ul><h2 id="CustomAttrs">Custom Attrs</h2>
+<ul><li>id(str)
+</li><li>info(dict)
+</li></ul><h2 id="Holiday">Holiday</h2>
+<ul><li>id(str)
+</li><li>day(date)
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/RoomBooking?action=diff&amp;version=1" title="Version 1 by ferhatelmas: rb schema doc init">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-10-23T17%3A27%3A02%2B02%3A00&amp;precision=second" title="See timeline at 10/23/13 17:27:02">2 years ago</a></span>
+            <span class="trac-print">Last modified on 10/23/13 17:27:02</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="RoomBooking56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/RoomBooking by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:09 GMT -->
+</html>

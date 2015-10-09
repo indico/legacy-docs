@@ -1,0 +1,14 @@
+= Bernard Kolobara =
+
+== Personal plan ==
+
+ * [wiki:Dev/ETicket E-tickets]: This is a 2 months project in order to enhance Indico with a module that generates e-ticktes. As well, a mobile app will be developed in order to provide a check-in tool.
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=bkolobar, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=bkolobar,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=bkolobar)]]

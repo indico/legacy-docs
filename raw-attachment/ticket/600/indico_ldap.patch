@@ -1,0 +1,564 @@
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/AuthenticationMgr.py ./authentication/AuthenticationMgr.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/AuthenticationMgr.py	2010-11-02 10:53:07.000000000 +0100
++++ ./authentication/AuthenticationMgr.py	2010-12-01 11:37:19.000000000 +0100
+@@ -37,6 +37,9 @@
+             if auth == "Nice":
+                 from MaKaC.authentication.NiceAuthentication import NiceAuthenticator
+                 self.AuthenticatorList.append( NiceAuthenticator() )
++            if auth == "LDAP":
++                from MaKaC.authentication.LdapAuthentication import LdapAuthenticator
++                self.AuthenticatorList.append( LdapAuthenticator() )
+         self.create = True
+ 
+ 
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/LdapAuthentication.py ./authentication/LdapAuthentication.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/LdapAuthentication.py	1970-01-01 01:00:00.000000000 +0100
++++ ./authentication/LdapAuthentication.py	2010-12-01 16:18:50.000000000 +0100
+@@ -0,0 +1,376 @@
++# -*- coding: utf-8 -*-
++##
++## LDAP authentication fo Indico
++##
++## written by Martin Kuba makub@ics.muni.cz
++#
++# This code expects a simple LDAP structure with users on one level like:
++#
++# dn: uid=john,ou=people,dc=example,dc=com
++# objectClass: inetOrgPerson
++# uid: john
++# cn: John Doe
++# mail: john@example.com
++# o: Example Inc.
++# postalAddress: Example Inc., Some City, Some Country
++# 
++# and groups listing their members by DNs, like:
++#
++# dn: cn=somegroup,ou=groups,dc=example,dc=com
++# objectClass: groupOfNames
++# cn: somegroup
++# member: uid=john,ou=people,dc=example,dc=com
++# member: uid=alice,ou=people,dc=example,dc=com
++# member: uid=bob,ou=people,dc=example,dc=com
++# description: Just a group of people ...
++#
++# Adjust it to your needs if your LDAP structure is different.
++
++
++import ldap
++import os
++import time
++import sys
++import re
++
++from MaKaC.common.general import *
++from MaKaC.authentication.baseAuthentication import Authenthicator, PIdentity
++from MaKaC.errors import MaKaCError
++
++from MaKaC.common.logger import Logger
++from MaKaC.common import Configuration
++from MaKaC.common.Configuration import Config
++
++
++class LdapAuthenticator(Authenthicator):
++    idxName = "LdapIdentities"
++    id = 'LDAP'
++    name = 'LDAP'
++    description = "LDAP Login"
++
++    def __init__(self):
++        Authenthicator.__init__(self)
++        self.UserCreator = LdapUserCreator()
++    
++    def createIdentity(self, li, avatar):
++        Logger.get("LdapAuthenticator").info("createIdentity(login="+li.getLogin()+",avatar="+avatar.getName()+" "+avatar.getSurName()+")");
++        if LdapChecker().check(li.getLogin(), li.getPassword()):
++            return LdapIdentity( li.getLogin(), avatar )
++        else:
++            return None
++    
++class LdapIdentity(PIdentity):
++    def __str__(self): 
++        return '<LdapIdentity{login:'+self.getLogin()+',tag:'+self.getAuthenticatorTag()+'}>'
++    def authenticate( self, id ):
++        "id is MaKaC.user.LoginInfo instance, self.user is Avatar"
++        Logger.get('LdapIdentity').info("authenticate("+id.getLogin()+")")
++        data = LdapChecker().check(id.getLogin(), id.getPassword())
++        if data:
++                if self.getLogin() == id.getLogin():
++                    #modify Avatar with the up-to-date info from LDAP
++                    av = self.user
++                    if 'postalAddress' in data:
++                        postalAddress=fromLDAPmultiline(data['postalAddress'])
++                        if av.getAddress()!=postalAddress:
++                            av.setAddress(postalAddress)
++                            Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified address to "+postalAddress);
++                    if 'cn' in data:
++                        name = data.get('cn');
++                        firstName = name.split(None,1)[0]
++                        surName = name.split(None,1)[-1]
++                        if av.getName()!=firstName:
++                            av.setName(firstName)
++                            Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified name to "+firstName)
++                        if av.getSurName()!=surName:
++                            av.setSurName(surName)
++                            Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified surName to "+surName)
++                    org = None
++                    if 'ou' in data and data.get('ou')!='other' and data.get('ou'):
++                        org = data.get('ou')
++                    elif 'o' in data:
++                        org = data.get('o')
++                    if org!=av.getOrganisation():
++                        av.setOrganisation(org)
++                        Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified org to "+org)
++                    if 'mail' in data:
++                        mail = data['mail']
++                        if mail!= av.getEmail():
++                            av.setEmail(mail)
++                            Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified email to "+mail)
++                    return self.user
++                else:
++                    return None
++        return None
++    def getAuthenticatorTag(self):
++        return LdapAuthenticator.getId()
++
++def objectAttributes(result_data,attributeNames):
++    """adds selected attributes"""
++    object = {'dn':result_data[0][0]}
++    mapa = result_data[0][1]
++    for name in attributeNames:
++        addAttribute(object,mapa,name)
++    return object
++
++def addAttribute(object,attrMap,attrName):
++    """safely adds attribute"""
++    if attrName in attrMap:
++        attr = attrMap[attrName]
++        if len(attr)==1:
++            object[attrName]=attr[0]
++        else:
++            object[attrName]=attr
++
++# handles communication with the LDAP server specified in indico.conf
++#
++# defualt values as specified in Configuration.py are
++# LDAPhost="ldap.example.com"
++# LDAPpeopleDN="ou=people,dc=example,dc=com"
++# LDAPgroupsDN="ou=groups,dc=example,dc=com"
++#
++# the code expects the users to be (in the LDAP) objects of type inetOrgPerson
++# identified by thier "uid" attribute, and the groups to be objects of type groupOfNames
++# with the "member" multivalued attribute containing complete DNs of users
++# which seems to be the standard LDAP setup
++#
++class LdapLDAP:
++    l = None
++    def __init__(self):
++        conf = Configuration.Config.getInstance()
++        self.ldapHost = conf.getLDAPhost()
++        self.ldapPeopleDN = conf.getLDAPpeopleDN()
++        self.ldapGroupsDN = conf.getLDAPgroupsDN()
++    # opens an anonymous LDAP connection
++    def open(self):
++        self.l = ldap.open(self.ldapHost)
++        self.l.protocol_version = ldap.VERSION3
++        return self.l
++    # verifies username and password by binding to the LDAP server
++    def openAsUser(self,userName,password):
++        self.open()
++        self.l.simple_bind_s("uid="+userName+","+self.ldapPeopleDN, password)
++    # closes LDAP connection
++    def close(self):
++        self.l.unbind_s()
++        l = None
++    # finds a user in LDAP
++    # returns a map containing dn,cn,uid,mail,o,ou and postalAddress as keys and strings as values
++    # returns None if a user is not found
++    def lookupUser(self,uid):
++        ldap_result_id = self.l.search("uid="+uid+","+self.ldapPeopleDN, ldap.SCOPE_BASE, "objectClass=inetOrgPerson")
++        while 1:
++            result_type, result_data = self.l.result(ldap_result_id, 0)
++            if (result_data == []):
++                break
++            else:
++                if result_type == ldap.RES_SEARCH_ENTRY:
++                    return objectAttributes(result_data,['uid','cn','mail','o','ou','postalAddress'])
++        return None
++    # finds users according to a specified filter
++    def findUsers(self,filter):
++        dict = {}
++        ldap_result_id = self.l.search(self.ldapPeopleDN, ldap.SCOPE_SUBTREE, filter)
++        while 1:
++                result_type, result_data = self.l.result(ldap_result_id, 0)
++                if (result_data == []):
++                    break
++                else:
++                    if result_type == ldap.RES_SEARCH_ENTRY:
++                        ret = objectAttributes(result_data,['uid','cn','mail','o','ou','postalAddress'])
++                        av= dictToAv(ret)
++                        dict[ret['mail']] = av
++        return dict
++
++    # finds a group in LDAP
++    # returns an array of groups matching the group name, each group is represented
++    # by a map with keys cn and description
++    def findGroups(self,name,exact):
++        if exact==0:
++            star='*'
++        else:
++            star=''
++        name = name.strip()
++        if len(name)>0:
++            filter='(&(objectClass=groupOfNames)(cn='+star+name+star+'))'
++        else:
++            return []
++        ldap_result_id = self.l.search(self.ldapGroupsDN, ldap.SCOPE_SUBTREE, filter)
++        groupDicts = []
++        while 1:
++            result_type, result_data = self.l.result(ldap_result_id, 0)
++            if (result_data == []):
++                break
++            else:
++                if result_type == ldap.RES_SEARCH_ENTRY:
++                    groupDicts.append( objectAttributes(result_data,['cn','description']))
++        return groupDicts
++    # finds uids of users referenced by the member attribute of the group LDAP object
++    def findGroupMemberUids(self,name):
++        ldap_result_id = self.l.search("cn="+name+","+self.ldapGroupsDN, ldap.SCOPE_BASE, "objectClass=groupOfNames")
++        members = None
++        while 1:
++            result_type, result_data = self.l.result(ldap_result_id, 0)
++            if (result_data == []):
++                break
++            else:
++                if result_type == ldap.RES_SEARCH_ENTRY:
++                    members = result_data[0][1]['member']
++        if not members:
++            return []
++        memberUids = []
++        for memberDN in members:
++            m = re.search('uid=([^,]*),',memberDN)
++            if m:
++                uid = m.group(1)
++                memberUids.append( uid ) 
++        return memberUids
++
++class LdapChecker:
++    def check(self, userName, password):
++        try:
++            ret = {}
++            ldapLdap = LdapLDAP()
++            ldapLdap.openAsUser(userName,password)
++            ret = ldapLdap.lookupUser(userName)
++            ldapLdap.close()
++            Logger.get('LdapChecker').debug("Username: %s checked: %s"%(userName,ret))
++            return ret
++        except ldap.INVALID_CREDENTIALS, e:
++            Logger.get('LdapChecker').warn("Username: %s - invalid credentials"%userName)
++            return None
++
++#conversion for inetOrgPerson.postalAddress attribute that can contain newlines encoded following the RFC 2252
++def fromLDAPmultiline(s):
++    if s:
++        return s.replace('$',"\r\n").replace('\\24','$').replace('\\5c','\\')
++    else:
++        return s
++
++class LdapUserCreator:
++    def create(self, li):
++        Logger.get('LdapUserCreator').info("create("+li.getLogin()+",password=****)")
++        # first, check if authentication is OK
++        data = LdapChecker().check(li.getLogin(), li.getPassword())
++        if not data:
++            return None
++        
++        # Search if user already exist, using email address
++        import MaKaC.user as user
++        ah = user.AvatarHolder()
++        userList = ah.match({"email":data["mail"]}, forceWithoutExtAuth=True)
++        if len(userList) == 0:
++            # User doesn't exist, create it
++            try:
++                av = user.Avatar()
++                name = data.get('cn');
++                av.setName(name.split()[0])
++                av.setSurName(name.split()[-1])
++                av.setOrganisation(data.get('o', ""))
++                av.setEmail(data['mail'])
++                if 'postalAddress' in data:
++                    av.setAddress(fromLDAPmultiline(data.get('postalAddress')))
++                #av.setTelephone(data.get('telephonenumber',""))
++                ah.add(av)
++                av.activateAccount()
++            except KeyError, e:
++                raise MaKaCError("LDAP account does not contain the mandatory data to create \
++                                  an Indico account. You can create an Indico \
++                                  account manually in order to use your LDAP login"%(urlHandlers.UHUserRegistration.getURL()))
++        else:
++            # user founded
++            av = userList[0]
++        #now create the nice identity for the user
++        na = LdapAuthenticator()
++        id = na.createIdentity( li, av)
++        na.add(id)
++        return av
++
++
++# for MaKaC.externUsers
++def dictToAv(ret):
++    av= {}
++    av["email"] = [ret['mail']]
++    av["name"]= ret['cn'].split()[0]
++    av["surName"]= ret['cn'].split()[-1]
++    if 'o' in ret:
++        av["organisation"] = [ret['o']]
++    else:
++        av["organisation"] = ['']
++    if 'postalAddress' in ret:
++        av['address'] = [ fromLDAPmultiline(ret['postalAddress']) ]
++    av["id"] = 'LDAP:'+ret['uid']
++    av["status"] = "NotCreated"
++    av["login"] = ret['uid']
++    return av
++
++def is_empty(dict,key):
++    if key not in dict:
++        return False
++    if dict[key]:
++        return True
++    else:
++        return False
++
++class LdapUser:
++
++    def match(self, criteria, exact=0):
++        Logger.get('LdapUser').debug("match(criteria"+str(criteria)+",exact="+str(exact)+")")
++        allEmpty=True
++        filter='objectClass=inetOrgPerson'
++        if exact==0:
++            star='*'
++        else:
++            star=''
++        for k, v in criteria.items():
++            if k=='email' and len(v.strip())>0:
++                filter='&('+filter+')(mail='+star+v+star+')'
++                allEmpty=False
++            elif k=='name' and len(v.strip())>0:
++                filter='&('+filter+')(cn='+star+v+star+')'
++                allEmpty=False
++            elif k=='surName' and len(v.strip())>0:
++                filter='&('+filter+')(sn='+star+v+star+')'
++                allEmpty=False
++            elif k=='organisation' and len(v.strip())>0:
++                filter='&('+filter+')(|(o='+star+v+star+')(ou='+star+v+star+'))'
++                allEmpty=False
++            elif k=='login' and len(v.strip())>0:
++                filter='&('+filter+')(uid='+star+v+star+')'
++                allEmpty=False
++        if allEmpty:
++            return {}
++        filter='('+filter+')'
++        ldapLdap = LdapLDAP()
++        ldapLdap.open()
++        dict = ldapLdap.findUsers(filter) 
++        ldapLdap.close()
++        return dict
++
++    def getById(self, id):
++        Logger.get('LdapUser').debug("getById('"+str(id)+"')")
++        ldapLdap = LdapLDAP()
++        l = ldapLdap.open()
++        ret = ldapLdap.lookupUser(id)
++        ldapLdap.close()
++        if(ret==None):
++             return None
++        av = dictToAv(ret)
++        av["id"] = id
++        av["identity"] = LdapIdentity
++        av["authenticator"] = LdapAuthenticator()
++        return av
++
++def ldapFindGroups(name,exact):
++    ldapLdap = LdapLDAP()
++    ldapLdap.open()
++    ret = ldapLdap.findGroups(name,exact)
++    ldapLdap.close()
++    return ret
++    
++def ldapFindGroupMemberUids(name):    
++    ldapLdap = LdapLDAP()
++    ldapLdap.open()
++    ret = ldapLdap.findGroupMemberUids(name)
++    ldapLdap.close()
++    return ret
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/Configuration.py ./common/Configuration.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/Configuration.py	2010-11-02 10:53:07.000000000 +0100
++++ ./common/Configuration.py	2010-12-01 16:19:25.000000000 +0100
+@@ -418,6 +418,10 @@
+             'ApacheUser'                : 'nobody',
+             'ApacheGroup'               : 'nogroup',
+             'Profile'                   : 'no',
++            #LDAP auth
++            'LDAPhost'                  : 'ldap.example.com',
++            'LDAPpeopleDN'              : 'ou=people,dc=example,dc=com',
++            'LDAPgroupsDN'              : 'ou=groups,dc=example,dc=com',
+ 
+             # Room Booking Related
+             'LightboxCssStylesheetName' : "lightbox/lightbox.css",
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/ObjectHolders.py ./common/ObjectHolders.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/ObjectHolders.py	2010-11-02 10:53:07.000000000 +0100
++++ ./common/ObjectHolders.py	2010-12-01 11:35:13.000000000 +0100
+@@ -53,7 +53,7 @@
+     """
+     __allowedIdxs = ["conferences", "avatars", "groups", "counters", 
+                     "identities", "principals", "categories", 
+-                    "localidentities", "niceidentities", "groupsregistration", 
++                    "localidentities", "niceidentities", "ldapidentities", "groupsregistration", 
+                     "fieldsregistration", "registrationform", "domains", "indexes",
+                     "trashcan", "roomsmapping", "deletedobject", "shorturl", "modules", "plugins"]
+     idxName = None
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/externUsers.py ./externUsers.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/externUsers.py	2010-11-02 10:53:07.000000000 +0100
++++ ./externUsers.py	2010-12-01 11:38:25.000000000 +0100
+@@ -27,10 +27,11 @@
+ from MaKaC.common.Configuration import Config
+ from MaKaC.i18n import _
+ from MaKaC.errors import MaKaCError
++from MaKaC.authentication.LdapAuthentication import LdapAuthenticator, LdapUser
+ 
+ class ExtUserHolder:
+     def __init__(self):
+-        self.extUserList = {"Nice":NiceUser}
++        self.extUserList = {"Nice":NiceUser, LdapAuthenticator.getId():LdapUser}
+ 
+     def getById(self, id):
+         if id in self.extUserList.keys():
+@@ -230,4 +231,4 @@
+             if doc.getElementsByTagName("login")[0].childNodes:
+                 login = doc.getElementsByTagName("login")[0].childNodes[0].nodeValue.encode("utf-8")
+         av["login"] = login
+-        return av
+\ No newline at end of file
++        return av
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/user.py ./user.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/user.py	2010-11-02 10:53:07.000000000 +0100
++++ ./user.py	2010-12-01 16:26:26.000000000 +0100
+@@ -324,6 +324,57 @@
+     def __init__(self,criteria={}):
+         filters.FilterCriteria.__init__(self,None,criteria)
+ 
++#makub
++from MaKaC.authentication.LdapAuthentication import LdapAuthenticator, ldapFindGroups, ldapFindGroupMemberUids
++
++class LdapGroup(Group):
++    groupType = "LDAP"
++    def __str__(self):
++        return "LdapGroup{id:"+self.getId()+',name:'+self.getName()+',desc:'+self.getDescription()
++
++    def addMember( self, newMember ):
++        egiLog('LdapGroup','addMember('+str(newMember)+')')
++        pass
++
++    def removeMember( self, member ):
++        egiLog('LdapGroup','removeMember('+str(newMember)+')')
++        pass
++
++    def getMemberList( self ):
++        uidList = ldapFindGroupMemberUids(self.getName())
++        avatarLists = []
++        for uid in uidList:
++            # First, try localy (fast)
++            lst = AvatarHolder().match( { 'login': uid }, exact = 1, forceWithoutExtAuth = True )
++            if not lst:
++                # If not found, try external
++                lst = AvatarHolder().match( { 'login': uid }, exact =1 )
++            avatarLists.append( lst )
++        return [ avList[0] for avList in avatarLists if avList ]
++
++    # used when checking acces to private events restricted for certain groups
++    def containsUser( self, avatar ):
++        if not avatar:
++            return False
++        login = None
++        for id in avatar.getIdentityList():
++            if id.getAuthenticatorTag()=='LDAP':
++                login = id.getLogin()
++        if not login:
++            return False
++        uidList = ldapFindGroupMemberUids(self.getName())
++        ret = login in uidList
++        return ret
++
++    # not implemented in CERNGroup, is it used for anything ?
++    def containsMember( self, avatar ):
++        return 0
++
++class EGIGroup(LdapGroup):
++    "Legacy group"
++#makub end
++
++
+ 
+ class GroupHolder(ObjectHolder):
+     """
+@@ -384,6 +435,8 @@
+             crit["name"] = crit["groupname"]
+         if "Nice" in Config.getInstance().getAuthenticatorList() and not forceWithoutExtAuth:
+             self.updateCERNGroupMatch(crit["name"][0],exact)
++        if "LDAP" in Config.getInstance().getAuthenticatorList() and not forceWithoutExtAuth:
++            self.updateLdapGroupMatch(crit["name"][0],exact)
+         match = self.getIndex().matchGroup(crit["name"][0], exact=exact)
+ 
+         if match != None:
+@@ -393,6 +446,19 @@
+                     result.append(gr)
+         return result
+ 
++    def updateLdapGroupMatch(self, name, exact=False):
++           logger.Logger.get('GroupHolder').debug("updateLdapGroupMatch(name="+name+")")
++           for grDict in ldapFindGroups(name, exact):
++               grName = grDict['cn']
++               if not self.hasKey(grName):
++                   gr = LdapGroup()
++                   gr.setId(grName)
++                   gr.setName(grName)
++                   gr.setDescription('LDAP group: '+grDict['description'])
++                   self.add(gr)
++                   logger.Logger.get('GroupHolder').debug("updateLdapGroupMatch() added"+str(gr))
++
++
+     def updateCERNGroupMatch(self, name, exact=False):
+         if not exact:
+             name = "*%s*" % name
+@@ -1395,12 +1461,16 @@
+         if not forceWithoutExtAuth:
+             euh = ExtUserHolder()
+             from MaKaC.authentication import NiceAuthentication
++            from MaKaC.authentication import LdapAuthentication
+             for authId in Config.getInstance().getAuthenticatorList():
+                 if not authId == "Local":
+                     dict = euh.getById(authId).match(criteria, exact=exact)
+-                    auth = NiceAuthentication.NiceAuthenticator()
+-
+-
++                    if authId == "Nice":
++                        auth = NiceAuthentication.NiceAuthenticator()
++                    elif authId == "LDAP":
++                        auth = LdapAuthentication.LdapAuthenticator()
++                    else:
++                       raise MaKaCError( _("Authentication type "+authId+" is not known.")) 
+                     for email in dict.keys():
+                         # TODO and TOSTUDY: result.keys should be replace it with
+                         # l=[]; for av in result.values(): l.append(av.getAllEmails())
+diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/pages/admins.py ./webinterface/pages/admins.py
+--- /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/pages/admins.py	2010-11-02 10:53:07.000000000 +0100
++++ ./webinterface/pages/admins.py	2010-12-01 11:39:49.000000000 +0100
+@@ -1861,7 +1861,7 @@
+         else:
+             self.__setGroupVars( self._group, vars )
+             vars["locator"] = self._group.getLocator().getWebForm()
+-            if isinstance(self._group, CERNGroup):
++            if isinstance(self._group, CERNGroup) or isinstance(self._group, user.LdapGroup):
+                 vars["allowModif"] = False
+         return vars
+ 

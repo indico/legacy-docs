@@ -1,0 +1,93 @@
+= Writing documentation =
+
+We use [http://sphinx.pocoo.org Sphinx] to create our documentation pages, both API and User Guides.
+The files format is [http://docutils.sourceforge.net/docs/user/rst/quickref.html reStructuredText].
+
+[[BR]]
+
+== Sphinx and Indico ==
+
+Before starting writing documentation, you will need to:
+
+ 1. Install Sphinx:
+   * For Linux users, you can install sphinx with easy_install from [http://pypi.python.org/pypi !PyPi]:
+{{{
+sudo easy_install sphinx
+}}}
+   * For Windows users it will be easier to go to http://pypi.python.org/pypi/Sphinx, download the ".egg" file and use:
+{{{
+easy_install (file_name_here).egg
+}}}
+ For more information go to: http://sphinx.pocoo.org/intro.html.
+
+
+ 2. Install the needed libraries:
+   * To create PDFs, you will need texlive and latex.
+     * In Linux, they are usually available as packages:
+{{{
+$ sudo apt-get install texlive-full
+...
+$ sudo apt-get install latex-ucs
+...
+}}}
+     * With yum:
+{{{
+yum install texlive-latex
+}}}
+     * Windows users can retrieve the package for Tex Live from [http://www.tug.org/texlive]. If during the installations there are problems, look for a way to solve them here: http://www.tug.org/texlive/doc/install-tl.html. If the problems are with the mirror - use this one: http://mirror.switch.ch/ftp/mirror/tex/systems/texlive/tlnet/. If after the installation there are missing ".exe" files or you just want to use some other, you can find them here: http://www.tug.org/svn/texlive/trunk/Master/bin/win32/.
+   * If you need to convert documentation from other formats (docbook, html, etc), you may need [http://johnmacfarlane.net/pandoc/ pandoc] or docbook.
+     * In Linux, pandoc and docbook are usually packages:
+{{{
+$ sudo apt-get install pandoc
+$ sudo apt-get install docbook
+}}}
+     * In Windows, you can download the "Windows installer" from: [http://code.google.com/p/pandoc/downloads/list]).
+     * Example of usage: from docbook to html, and from html to rst:
+{{{
+$ docbook2html --nochunks  AdminUserGuide.xml
+$ pandoc -f html -t rst AdminUserGuide.html > AdminGuide.rst
+}}}
+
+ 3. Edit/create your `*.rst` file and save it. If you have created a new .rst you will need to add it in one of the index.rst.
+
+ 4.  Compile your documentation site: `make html`. For Windows - you can use `make.bat html`.
+ 
+ 5. Check the result in the folder `_build`. It will be created here: Project_Path\doc\guides.
+
+Important: please keep the documentation structure as it is.
+
+[[BR]]
+
+== API ==
+
+The API doc is in: cds-indico/doc/api
+
+[[BR]]
+
+== User Guides ==
+
+The user guides are in: cds-indico/doc/guides
+
+[[BR]]
+
+== Generate PDFs ==
+
+{{{
+$ make latex
+$ cd _build/latex
+$ make all-pdf
+}}}
+
+'''For Windows users''': You can use "make" under Windows with the version provided into the package [http://sourceforge.net/projects/unxutils/ UnxUtils]. Don't forget to add the path to the binaries to the PATH environment variable.
+
+== Troubleshooting ==
+
+'''Q: Links do not work and URL hashes change.'''[[BR]]
+A: In rst one writes links like this: 
+
+{{{
+Go to the `Section 1 <#section-1>`_
+}}}
+
+If the sentence that you want to convert into a link ("Section 1") is the same as the title of the target section, the URL hash (#section-1) will be replaced by a random ID (e.g. #id3).
+To avoid this, write a different sentence for the link and it will work correctly.

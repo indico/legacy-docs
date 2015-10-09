@@ -1,0 +1,13 @@
+= Claude Bossy =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=cbossy,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=cbossy,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=cbossy)]]

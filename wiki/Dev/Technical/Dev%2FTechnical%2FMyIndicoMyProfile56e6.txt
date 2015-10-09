@@ -1,0 +1,10 @@
+= My Indico: My Profile =
+'''My Indico''' pretends to bring more relevant information about the interactions of a user in Indico to his '''My Profile''' area. As for now, this area contains the following tabs:
+
+* [wiki:Dev/Technical/DashboardContents Dashboard]
+* Account Details
+* Preferences
+* Favorites
+* HTTP Api
+
+From these, the '''Dashboard''' tab is the one paving the road towards My Indico, providing a summary of events that are relevant to the user. The rest are expected to suffer changes as well in order to improve the relevance of the information given.

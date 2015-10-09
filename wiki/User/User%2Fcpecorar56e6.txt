@@ -1,0 +1,10 @@
+= Cyril Pecoraro =
+
+== Open Tickets ==
+[[TicketQuery(owner=cpecorar,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=cpecorar,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=cpecorar)]]

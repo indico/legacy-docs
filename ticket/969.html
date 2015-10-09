@@ -1,0 +1,869 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/969 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #969 (Exception type: 	&lt;type 'exceptions.KeyError'&gt; Exception message: 	'it' -- In CentOs 6)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="968.html" title="Ticket #968" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t9691fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t969a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="969a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="970.html" title="Ticket #970" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="968.html" title="Ticket #968">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="970.html" title="Ticket #970">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-01-04T20%3A56%3A37%2B01%3A00&amp;precision=second" title="See timeline at 01/04/12 20:56:37">4 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-06-28T14%3A36%3A23%2B02%3A00&amp;precision=second" title="See timeline at 06/28/12 14:36:23">3 years ago</a></p>
+  </div>
+  <h2>
+    <a href="969.html" class="trac-id">#969</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=worksforme">worksforme</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">Exception type: 	&lt;type 'exceptions.KeyError'&gt; Exception message: 	'it' -- In CentOs 6</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=soleantelada">soleantelada</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=high">high</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v0.99.html">v0.99.0</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=General">General</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=0.98-dev">0.98-dev</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+I'm testing Indico and it keeps giving me this kind of error everytime I try to create a conference,lecture or meeting.<br />
+In fact it gives me the error but it is created anyway.<br />
+</p>
+<p>
+any hint? maybe I'm missing something? The machine is centOs 6. Please help<br />
+</p>
+<p>
+This is the error log<br />
+</p>
+<p>
+ERROR DETAILS<br />
+</p>
+<p>
+Exception type:         &lt;type 'exceptions.<a class="missing wiki">KeyError?</a>'&gt;<br />
+Exception message:         'it'<br />
+Traceback:         <br />
+</p>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/rh/base.py", line 566, in process<br />
+</p>
+<blockquote>
+<p>
+res = self._process()<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/rh/conferenceModif.py", line 140, in _process<br />
+</p>
+<blockquote>
+<p>
+return p.display(<strong>pars)<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/pages/base.py", line 185, in display<br />
+</p>
+<blockquote>
+<p>
+self._display( params ), \<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/pages/main.py", line 159, in _display<br />
+</p>
+<blockquote>
+<p>
+body = WMainBase(self._getBody( params ), self._timezone, self._getNavigationDrawer(),<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/pages/conferences.py", line 1726, in _getBody<br />
+</p>
+<blockquote>
+<p>
+return self._applyFrame( self._getPageContent( params ) )<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/simple_event.py", line 271, in _getPageContent<br />
+</p>
+<blockquote>
+<p>
+return wc.getHTML( pars )<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/wcomponents.py", line 212, in getHTML<br />
+</p>
+<blockquote>
+<p>
+tempHTML = templateEngine.render(self.tplFile, vars)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/common/TemplateExec.py", line 62, in render<br />
+</p>
+<blockquote>
+<p>
+return template.render(<strong>params)<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/template.py", line 302, in render<br />
+</p>
+<blockquote>
+<p>
+return runtime._render(self, self.callable_, args, data)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 660, in _render<br />
+</p>
+<blockquote>
+<p>
+<strong>_kwargs_for_callable(callable_, data))<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 692, in _render_context<br />
+</p>
+<blockquote>
+<p>
+_exec_template(inherit, lclcontext, args=args, kwargs=kwargs)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 718, in _exec_template<br />
+</p>
+<blockquote>
+<p>
+callable_(context, *args, <strong>kwargs)<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/opt/indico/tmp/mako_modules/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/tpls/SEConfModifMainData.tpl.py", line 25, in render_body<br />
+</p>
+<blockquote>
+<p>
+runtime._include_file(context, '<a class="missing wiki">EventModifMainData?</a>.tpl', _template_uri, evtType='lecture', confObj=self_._conf)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 587, in _include_file<br />
+</p>
+<blockquote>
+<p>
+callable_(ctx, <strong>_kwargs_for_include(callable_, context._data, </strong>kwargs))<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/opt/indico/tmp/mako_modules/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/tpls/EventModifMainData.tpl.py", line 291, in render_body<br />
+</p>
+<blockquote>
+<p>
+styleOptions = info.HelperMaKaCInfo.getMaKaCInfoInstance().getStyleManager().getStyleDictForEventType(confObj.getType())<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/common/info.py", line 566, in getStyleDictForEventType<br />
+</p>
+<blockquote>
+<p>
+return dict((styleID, styles[styleID]) for styleID in self._eventStylesheets.get(type, []))<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/common/info.py", line 566, in <br />
+</p>
+<blockquote>
+<p>
+return dict((styleID, styles[styleID]) for styleID in self._eventStylesheets.get(type, []))<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+Request handler:         RHConferenceModification<br />
+URL:         <a class="ext-link" href="https://conferencesdev.lbl.gov/indico/conferenceModification.py?confId=23"><span class="icon">​</span>https://conferencesdev.lbl.gov/indico/conferenceModification.py?confId=23</a><br />
+Params:         confId = 23<br />
+HTTP headers:         <br />
+</p>
+<p>
+COOKIE: Enabled=true; <span class="underline">utma=91291207.628382744.1325618837.1325643118.1325705767.3; </span>utmz=91291207.1325705767.3.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=lbl; <span class="underline">qca=P0-1298663027-1325618837375; </span>utmb=91291207.3.10.1325705767; <span class="underline">utmc=91291207; MAKACSESSION=E47C552295537A8B<br />
+ACCEPT-CHARSET: ISO-8859-1,utf-8;q=0.7,*;q=0.7<br />
+USER-AGENT: Mozilla/5.0 (Ubuntu; X11; Linux i686; rv:8.0) Gecko/20100101 Firefox/8.0<br />
+CONNECTION: keep-alive<br />
+REFERER: <a class="ext-link" href="https://conferencesdev.lbl.gov/indico/conferenceDisplay.py?confId=23"><span class="icon">​</span>https://conferencesdev.lbl.gov/indico/conferenceDisplay.py?confId=23</a><br />
+HOST: conferencesdev.lbl.gov<br />
+ACCEPT: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8<br />
+ACCEPT-LANGUAGE: en-us,en;q=0.5<br />
+ACCEPT-ENCODING: gzip, deflate<br />
+</span></p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(6)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1325711360769166">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-01-04T22%3A09%3A20%2B01%3A00&amp;precision=second" title="See timeline at 01/04/12 22:09:20">4 years ago</a> by soleantelada
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+This is the error trying to create a meeting.<br />
+</p>
+<p>
+ERROR DETAILS<br />
+</p>
+<p>
+Exception type:         &lt;type 'exceptions.<a class="missing wiki">KeyError?</a>'&gt;<br />
+Exception message:         'administrative3'<br />
+Traceback:         <br />
+</p>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/rh/base.py", line 566, in process<br />
+</p>
+<blockquote>
+<p>
+res = self._process()<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/rh/conferenceModif.py", line 140, in _process<br />
+</p>
+<blockquote>
+<p>
+return p.display(<strong>pars)<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/pages/base.py", line 185, in display<br />
+</p>
+<blockquote>
+<p>
+self._display( params ), \<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/pages/main.py", line 159, in _display<br />
+</p>
+<blockquote>
+<p>
+body = WMainBase(self._getBody( params ), self._timezone, self._getNavigationDrawer(),<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/pages/conferences.py", line 1726, in _getBody<br />
+</p>
+<blockquote>
+<p>
+return self._applyFrame( self._getPageContent( params ) )<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/meeting.py", line 723, in _getPageContent<br />
+</p>
+<blockquote>
+<p>
+return wc.getHTML( pars )<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/wcomponents.py", line 212, in getHTML<br />
+</p>
+<blockquote>
+<p>
+tempHTML = templateEngine.render(self.tplFile, vars)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/common/TemplateExec.py", line 62, in render<br />
+</p>
+<blockquote>
+<p>
+return template.render(<strong>params)<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/template.py", line 302, in render<br />
+</p>
+<blockquote>
+<p>
+return runtime._render(self, self.callable_, args, data)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 660, in _render<br />
+</p>
+<blockquote>
+<p>
+<strong>_kwargs_for_callable(callable_, data))<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 692, in _render_context<br />
+</p>
+<blockquote>
+<p>
+_exec_template(inherit, lclcontext, args=args, kwargs=kwargs)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 718, in _exec_template<br />
+</p>
+<blockquote>
+<p>
+callable_(context, *args, <strong>kwargs)<br />
+</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/opt/indico/tmp/mako_modules/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/tpls/MConfModifMainData.tpl.py", line 26, in render_body<br />
+</p>
+<blockquote>
+<p>
+runtime._include_file(context, '<a class="missing wiki">EventModifMainData?</a>.tpl', _template_uri, evtType='meeting', confObj=self_._conf)<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/Mako-0.5.0-py2.6.egg/mako/runtime.py", line 587, in _include_file<br />
+</p>
+<blockquote>
+<p>
+callable_(ctx, <strong>_kwargs_for_include(callable_, context._data, </strong>kwargs))<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/opt/indico/tmp/mako_modules/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/webinterface/tpls/EventModifMainData.tpl.py", line 291, in render_body<br />
+</p>
+<blockquote>
+<p>
+styleOptions = info.HelperMaKaCInfo.getMaKaCInfoInstance().getStyleManager().getStyleDictForEventType(confObj.getType())<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/common/info.py", line 566, in getStyleDictForEventType<br />
+</p>
+<blockquote>
+<p>
+return dict((styleID, styles[styleID]) for styleID in self._eventStylesheets.get(type, []))<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/MaKaC/common/info.py", line 566, in <br />
+</p>
+<blockquote>
+<p>
+return dict((styleID, styles[styleID]) for styleID in self._eventStylesheets.get(type, []))<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+Request handler:         RHConferenceModification<br />
+URL:         <a class="ext-link" href="https://conferencesdev.lbl.gov/indico/conferenceModification.py?confId=25"><span class="icon">​</span>https://conferencesdev.lbl.gov/indico/conferenceModification.py?confId=25</a><br />
+Params:         confId = 25<br />
+HTTP headers:         <br />
+</p>
+<p>
+COOKIE: Enabled=true; <span class="underline">utma=91291207.628382744.1325618837.1325643118.1325705767.3; </span>utmz=91291207.1325705767.3.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=lbl; <span class="underline">qca=P0-1298663027-1325618837375; </span>utmc=91291207; MAKACSESSION=E47C552295537A8B<br />
+ACCEPT-CHARSET: ISO-8859-1,utf-8;q=0.7,*;q=0.7<br />
+USER-AGENT: Mozilla/5.0 (Ubuntu; X11; Linux i686; rv:8.0) Gecko/20100101 Firefox/8.0<br />
+CONNECTION: keep-alive<br />
+REFERER: <a class="ext-link" href="https://conferencesdev.lbl.gov/indico/conferenceCreation.py?event_type=meeting"><span class="icon">​</span>https://conferencesdev.lbl.gov/indico/conferenceCreation.py?event_type=meeting</a><br />
+HOST: conferencesdev.lbl.gov<br />
+ACCEPT: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8<br />
+ACCEPT-LANGUAGE: en-us,en;q=0.5<br />
+ACCEPT-ENCODING: gzip, deflate<br />
+</p>
+<p>
+Logged user:         ANTELADA TOLEDANO, Soledad &lt;satoledano@…&gt;<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1325724131812581">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-01-05T01%3A42%3A11%2B01%3A00&amp;precision=second" title="See timeline at 01/05/12 01:42:11">4 years ago</a> by soleantelada
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+The database migration fails <br />
+</p>
+<p>
+Migration failed! DB may be in  an inconsistent state:<br />
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "migrate_0.97_0.98.py", line 454, in main<br />
+</p>
+<blockquote>
+<p>
+return runMigration(withRBDB=args.useRBDB, prevVersion=parse_version(args.prevVersion))<br />
+</p>
+</blockquote>
+<p>
+File "migrate_0.97_0.98.py", line 424, in runMigration<br />
+</p>
+<blockquote>
+<p>
+task(dbi, withRBDB, prevVersion)<br />
+</p>
+</blockquote>
+<p>
+File "migrate_0.97_0.98.py", line 176, in runPluginMigration<br />
+</p>
+<blockquote>
+<p>
+livesync.db.updateDBStructures(root)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/indico-0.98_rc1-py2.6.egg/indico/ext/livesync/db.py", line 46, in updateDBStructures<br />
+</p>
+<blockquote>
+<p>
+raise Exception("This DB seems to already have livesync installed")<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+Exception: This DB seems to already have livesync installed<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-3-1325732704539639">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-01-05T04%3A05%3A04%2B01%3A00&amp;precision=second" title="See timeline at 01/05/12 04:05:04">4 years ago</a> by soleantelada
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Problem solved using a fresh new database<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1339060267858532">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-06-07T11%3A11%3A07%2B02%3A00&amp;precision=second" title="See timeline at 06/07/12 11:11:07">3 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v0.98.1</em> to <em>v0.99.0</em>
+    </li><li class="trac-field-version">
+      <strong class="trac-field-version">Version</strong>
+        set to <em>0.98-dev</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Do you still have this issue with the latest versions?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-5-1339094621731356">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-06-07T20%3A43%3A41%2B02%3A00&amp;precision=second" title="See timeline at 06/07/12 20:43:41">3 years ago</a> by soleantelada
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Not so far..<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1340886983795756">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-06-28T14%3A36%3A23%2B02%3A00&amp;precision=second" title="See timeline at 06/28/12 14:36:23">3 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>worksforme</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>closed</em>
+    </li>
+  </ul>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t9691fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t969a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="969a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/969 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:54 GMT -->
+</html>

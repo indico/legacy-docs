@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/984/setShortURL.py by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      setShortURL.py on Ticket #984 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/984/setShortURL.py" type="application/x-python; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/984.html" title="Ticket #984" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../pygments/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/984.html">Back to Ticket #984</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/984.html">Ticket #984</a>: setShortURL.py</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File setShortURL.py,
+                <span title="1087 bytes">1.1 KB</span>
+                (added by ricceri, <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-02-07T10%3A35%3A30%2B01%3A00&amp;precision=second" title="See timeline at 02/07/12 10:35:30">4 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+Script for manually set the <a class="missing wiki">ShortUrlTag?</a>
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <table class="code"><thead><tr><th class="lineno" title="Line numbers">Line</th><th class="content"> </th></tr></thead><tbody><tr><th id="L1"><a href="#L1">1</a></th><td><span class="kn">import</span> <span class="nn">getopt</span><span class="o">,</span> <span class="nn">sys</span></td></tr><tr><th id="L2"><a href="#L2">2</a></th><td><span class="kn">from</span> <span class="nn">MaKaC.common</span> <span class="kn">import</span> DBMgr</td></tr><tr><th id="L3"><a href="#L3">3</a></th><td><span class="kn">from</span> <span class="nn">MaKaC.conference</span> <span class="kn">import</span> ConferenceHolder</td></tr><tr><th id="L4"><a href="#L4">4</a></th><td><span class="kn">from</span> <span class="nn">MaKaC.common.url</span> <span class="kn">import</span> ShortURLMapper</td></tr><tr><th id="L5"><a href="#L5">5</a></th><td> </td></tr><tr><th id="L6"><a href="#L6">6</a></th><td><span class="k">def</span> <span class="nf">usage</span><span class="p">():</span></td></tr><tr><th id="L7"><a href="#L7">7</a></th><td>    <span class="k">print</span> <span class="s">"Usage: </span><span class="si">%s</span><span class="s"> -i 44 -t tag"</span> <span class="o">%</span> sys<span class="o">.</span>argv<span class="p">[</span><span class="mi">0</span><span class="p">]</span></td></tr><tr><th id="L8"><a href="#L8">8</a></th><td></td></tr><tr><th id="L9"><a href="#L9">9</a></th><td><span class="k">def</span> <span class="nf">main</span><span class="p">():</span></td></tr><tr><th id="L10"><a href="#L10">10</a></th><td>    <span class="k">try</span><span class="p">:</span></td></tr><tr><th id="L11"><a href="#L11">11</a></th><td>        opts<span class="p">,</span> args <span class="o">=</span> getopt<span class="o">.</span>getopt<span class="p">(</span>sys<span class="o">.</span>argv<span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">"i:t:"</span><span class="p">,</span> <span class="p">[</span><span class="s">"id="</span><span class="p">,</span><span class="s">"tag="</span><span class="p">])</span></td></tr><tr><th id="L12"><a href="#L12">12</a></th><td>    <span class="k">except</span> getopt<span class="o">.</span>GetoptError<span class="p">,</span> err<span class="p">:</span></td></tr><tr><th id="L13"><a href="#L13">13</a></th><td>        <span class="c"># print help information and exit:</span></td></tr><tr><th id="L14"><a href="#L14">14</a></th><td>        <span class="k">print</span> <span class="nb">str</span><span class="p">(</span>err<span class="p">)</span> <span class="c"># will print something like "option -a not recognized"</span></td></tr><tr><th id="L15"><a href="#L15">15</a></th><td>        usage<span class="p">()</span></td></tr><tr><th id="L16"><a href="#L16">16</a></th><td>        sys<span class="o">.</span>exit<span class="p">(</span><span class="mi">0</span><span class="p">)</span></td></tr><tr><th id="L17"><a href="#L17">17</a></th><td>    <span class="nb">id</span> <span class="o">=</span> <span class="bp">None</span></td></tr><tr><th id="L18"><a href="#L18">18</a></th><td>    tag <span class="o">=</span> <span class="bp">None</span> </td></tr><tr><th id="L19"><a href="#L19">19</a></th><td>    <span class="k">for</span> o<span class="p">,</span> a <span class="ow">in</span> opts<span class="p">:</span></td></tr><tr><th id="L20"><a href="#L20">20</a></th><td>        <span class="k">if</span> o <span class="o">==</span> <span class="s">"-i"</span><span class="p">:</span></td></tr><tr><th id="L21"><a href="#L21">21</a></th><td>            <span class="nb">id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>a<span class="p">)</span></td></tr><tr><th id="L22"><a href="#L22">22</a></th><td>        <span class="k">elif</span> o <span class="o">==</span> <span class="s">"-t"</span><span class="p">:</span></td></tr><tr><th id="L23"><a href="#L23">23</a></th><td>            tag <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>a<span class="p">)</span></td></tr><tr><th id="L24"><a href="#L24">24</a></th><td>        <span class="k">else</span><span class="p">:</span></td></tr><tr><th id="L25"><a href="#L25">25</a></th><td>            <span class="k">assert</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"unhandled option"</span></td></tr><tr><th id="L26"><a href="#L26">26</a></th><td> </td></tr><tr><th id="L27"><a href="#L27">27</a></th><td>    dbi <span class="o">=</span> DBMgr<span class="o">.</span>getInstance<span class="p">()</span></td></tr><tr><th id="L28"><a href="#L28">28</a></th><td>    dbi<span class="o">.</span>startRequest<span class="p">()</span></td></tr><tr><th id="L29"><a href="#L29">29</a></th><td></td></tr><tr><th id="L30"><a href="#L30">30</a></th><td>    <span class="k">if</span> <span class="nb">id</span> <span class="ow">and</span> tag<span class="p">:</span></td></tr><tr><th id="L31"><a href="#L31">31</a></th><td>        ch <span class="o">=</span> ConferenceHolder<span class="p">()</span></td></tr><tr><th id="L32"><a href="#L32">32</a></th><td>        conf <span class="o">=</span> ch<span class="o">.</span>getById<span class="p">(</span><span class="nb">id</span><span class="p">)</span></td></tr><tr><th id="L33"><a href="#L33">33</a></th><td>        <span class="k">print</span> <span class="s">"Setting ShortURLTag of </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span>conf<span class="o">.</span>getTitle<span class="p">(),</span> tag<span class="p">)</span></td></tr><tr><th id="L34"><a href="#L34">34</a></th><td>        <span class="nb">sum</span> <span class="o">=</span> ShortURLMapper<span class="p">()</span></td></tr><tr><th id="L35"><a href="#L35">35</a></th><td>        <span class="nb">sum</span><span class="o">.</span>add<span class="p">(</span>tag<span class="p">,</span>conf<span class="p">)</span></td></tr><tr><th id="L36"><a href="#L36">36</a></th><td>    <span class="k">else</span><span class="p">:</span></td></tr><tr><th id="L37"><a href="#L37">37</a></th><td>        usage<span class="p">()</span></td></tr><tr><th id="L38"><a href="#L38">38</a></th><td>        sys<span class="o">.</span>exit<span class="p">(</span><span class="mi">0</span><span class="p">)</span></td></tr><tr><th id="L39"><a href="#L39">39</a></th><td>    dbi<span class="o">.</span>endRequest<span class="p">()</span></td></tr><tr><th id="L40"><a href="#L40">40</a></th><td>    dbi<span class="o">.</span>commit<span class="p">()</span></td></tr><tr><th id="L41"><a href="#L41">41</a></th><td><span class="k">if</span> __name__ <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span></td></tr><tr><th id="L42"><a href="#L42">42</a></th><td>    main<span class="p">()</span></td></tr></tbody></table>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/984/setShortURL.py">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/984/setShortURL.py by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:28 GMT -->
+</html>

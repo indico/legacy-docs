@@ -1,0 +1,89 @@
+= Migration Costs =
+
+== Schema Migration ==
+
+ * Object-oriented logic ("manager", "holder", etc...) to table-like or key-value paradigm;
+   - `badgeTemplateManager` -> `badgeConfig` ...
+   - Class logic has to be either abstracted (ORM?) or changed.
+
+=== Event ===
+
+==== Simple ====
+
+ * id (str)
+ * title (str)
+ * created (datetime)
+ * modified (datetime)
+ * description (str)
+ * start_date (datetime)
+ * end_date (datetime)
+ * timezone (str)
+ * screen_start_date (datetime)
+ * screen_end_date (datetime)
+ * contact_info (str)
+ * programDescription
+ * owner(s)
+ * logo (str)
+ * contribTypes (dict)
+ * sessionCoordinatorRights (list)
+ * registrants (dict)
+ * bookings (dict)
+ * accessKey (str)
+ * modifKey (str)
+ * closed (bool)
+ * visibility (int)
+ * sections (list)
+ * enableSessionSlots (bool)
+ * enableSessions (bool)
+ * autoSolveConflicts (bool)
+ * keywords (str)
+ * orgText (str)
+ * comments (str)
+ * shortTag (str)
+
+==== Complex ====
+
+ * chairs (list)
+ * sessions (list)
+ * contributions (list)
+ * program (list)
+ * accessController (?)
+ * materials (dict)
+ * schedule (?)
+ * alarms (dict)
+ * abstractMgr (?)
+ * trackCoordinators (?)
+ * supportInfo (?)
+ * authorIndex (?)
+ * speakerIndex (?)
+ * primAuthIdx (?)
+ * sessionCoordinators (?)
+ * submitterIdx (?)
+ * boaConfig (?)
+ * registrationForm (?)
+ * evaluations (list)
+ * pendingQueuesMgr (?)
+ * participation (?)
+ * logHandler (?)
+ * reportNumberHolder (?)
+ * badgeTemplateManager (?)
+ * posterTemplateManager (?)
+ * confPaperReview (?)
+ * confAbstractReview (?)
+ * CSBookingManager (?)
+
+==== Really needed? ====
+
+ * chairmanText?
+ * places?
+ * rooms?
+ * chairGen?
+ * sessionGenerator?
+ * contribGenerator
+ * materialGenerator?
+ * alarmCounter?
+ * contribTypeGenerator?
+ * evalutationCounter?
+ * registrantGenerator?
+ * paper, slides, video, poster, minutes?
+ * observers?

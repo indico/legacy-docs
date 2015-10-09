@@ -1,0 +1,112 @@
+--- conference.py.bak	2011-06-16 19:02:43.651903000 +0200
++++ conference.py	2011-06-12 13:53:36.631365000 +0200
+@@ -896,11 +896,18 @@
+         spkStyle.spaceAfter=0
+         spkStyle.leading=14
+         self._styles["speakers"]=spkStyle
++        authStyle=getSampleStyleSheet()["Normal"]
++        authStyle.fontSize=12.5
++        authStyle.spaceBefore=0
++        authStyle.spaceAfter=0
++        authStyle.leading=14
++        self._styles["authors"]=authStyle
+         abstractStyle=getSampleStyleSheet()["Normal"]
+-        abstractStyle.fontSize=10.0
+-        abstractStyle.spaceBefore=0
++        abstractStyle.fontSize=11.0
++        abstractStyle.spaceBefore=10
+         abstractStyle.spaceAfter=0
+-        abstractStyle.alignment=TA_LEFT
++        abstractStyle.leading=14
++        abstractStyle.alignment=TA_JUSTIFY
+         self._styles["abstract"]=abstractStyle
+         ttInfoStyle=getSampleStyleSheet()["Normal"]
+         ttInfoStyle.fontSize=10.0
+@@ -935,16 +942,47 @@
+             else:
+                 caption="%s - %s"%(contrib.getId(),contrib.getTitle())
+             p1=Paragraph(escape(caption),self._styles["title"])
++# Speaker
+             lspk=[]
+             for spk in contrib.getSpeakerList():
+-                fullName=spk.getFullName()
+-                instit=spk.getAffiliation().strip()
+-                if instit!="":
+-                    fullName="%s (%s)"%(fullName, instit)
++                fullName=spk.getFullNameNoTitle()
+                 lspk.append("%s"%escape(fullName))
+-            speakers= _("""<b>_("Presenter"): %s</b>""")%"; ".join(lspk)
+-            p2=Paragraph(speakers,self._styles["speakers"])
+-            abstract=contrib.getDescription()
++# Authors
++            lauthors=[]
++            lcoauthors=[]
++            hasCoAuthors=False
++            for author in contrib.getAuthorList() :
++                fullName = author.getFullNameNoTitle()
++# check if name is a speaker, if so, underline it. Always "escape" name.
++                if fullName in lspk:
++                    fullName="<u>%s</u>"%escape(fullName)
++                else:
++                    fullName="%s"%escape(fullName)
++
++                instit=author.getAffiliation().strip()
++                if instit!="":
++                    fullName="%s (%s)"%(fullName, escape(instit))
++# check if name is primary or co-author, and file accordingly.
++		if contrib.isPrimaryAuthor(author):
++                    lauthors.append("%s"%fullName)
++                else:
++                    lcoauthors.append("%s"%fullName)
++                    hasCoAuthors=True
++
++            if (hasCoAuthors):
++                authors= _("""<b>_("Primary authors"):</b> <i>%s</i>""")%"; ".join(lauthors)
++            else:
++                authors= _("""<b>_("Authors"):</b> <i>%s</i>""")%"; ".join(lauthors)
++
++            if (hasCoAuthors):
++                coauthors= _("""<b>_("Co-authors"):</b> <i>%s</i></br>""")%"; ".join(lcoauthors)
++
++            p2a=Paragraph(authors,self._styles["authors"])
++# Co-author
++            if (hasCoAuthors):
++                p2b=Paragraph(coauthors,self._styles["authors"])
++# done
++            abstract="   %s"%(contrib.getDescription())
+             p3=Paragraph(escape(abstract),self._styles["abstract"])
+             ses=""
+             if contrib.getSession() is not None:
+@@ -960,7 +998,12 @@
+             else:
+                 text = ses
+             p4=Paragraph(escape(text),self._styles["tt_info"])
+-            abs=KeepTogether([p1,p4,p2,p3])
++#            abs=KeepTogether([p1,p4,p2,p2b,p3])
++            if (hasCoAuthors):
++                abs=KeepTogether([p1,p4,p2a,p2b,p3])
++            else:
++                abs=KeepTogether([p1,p4,p2a,p3])
++#            abs=KeepTogether([p1,p4,p2,p3])
+             story.append(abs)
+             story.append(Spacer(1,0.4*inch))
+ 
+@@ -1976,11 +2019,17 @@
+         spkStyle.spaceAfter=0
+         spkStyle.leading=14
+         self._styles["speakers"]=spkStyle
++        authStyle=getSampleStyleSheet()["Normal"]
++        authStyle.fontSize=10.0
++        authStyle.spaceBefore=0
++        authStyle.spaceAfter=0
++        authStyle.leading=14
++        self._styles["authors"]=authStyle
+         abstractStyle=getSampleStyleSheet()["Normal"]
+         abstractStyle.fontSize=10.0
+         abstractStyle.spaceBefore=0
+         abstractStyle.spaceAfter=0
+-        abstractStyle.alignment=TA_LEFT
++        abstractStyle.alignment=TA_JUSTIFY
+         self._styles["abstract"]=abstractStyle
+         ttInfoStyle=getSampleStyleSheet()["Normal"]
+         ttInfoStyle.fontSize=10.0

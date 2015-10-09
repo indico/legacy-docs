@@ -1,0 +1,49 @@
+= Indico v0.98 =
+
+If you need a detailed installation process, please read [wiki:Admin/Installation0.98 here].
+
+== `easy_install` ==
+
+{{{
+easy_install indico
+}}}
+
+Please note that the package had been renamed from `cds-indico` to `indico`. **Make sure you delete the old `.egg` file before installing**.
+
+== Download ==
+
+If you prefer to download the egg or tarball to install manually:
+
+ * [[http://indico-software.org/download/indico/indico-0.98-py2.7.egg|Egg]] for Python 2.7
+ * [[http://indico-software.org/download/indico/indico-0.98-py2.6.egg|Egg]] for Python 2.6
+ * [[http://indico-software.org/download/indico/indico-0.98.tar.gz|Tarball]]
+
+== Upgrading ==
+
+=== from 0.97.x/0.98 ===
+
+{{{
+python /path/to/indico/bin/migration/migrate_0.97_0.98.py --prev-version=<version>
+}}}
+
+Replacing `<version>` by the version you are upgrading from (e.g. `0.97`).
+
+If you are using the Room Booking module, you should add the `--with-rb` parameter;
+
+If you are upgrading from 0.97b, you should also follow the section "[[http://indico-software.org/wiki/Releases/Indico0.97.1#fromv0.97borGitRepo|from v0.97b or Git Repo]]".
+
+=== from 0.96.2 ===
+
+Since the new version comes with more indexes, '''after installing 0.97xx''' you will have to run the
+scripts:
+
+{{{
+/indico_home_directory/bin/maintenance/indexes/reindexcategorynameindex.py
+/indico_home_directory/bin/maintenance/indexes/reindexcategorydateindex.py
+}}}
+
+(then proceed as if you were coming from 0.97.x)
+
+=== from older versions ===
+
+Check the instructions [wiki:Admin/Installation0.98 here].

@@ -1,0 +1,609 @@
+
+= CDS Indico 0.97b to 0.98rc1 migration on Debian Squeeze, ''by Cristiano Valli'' =
+
+
+== Source Documentation Reference ==
+
+http://indico-software.org/wiki/Admin/Installation0.98 http://indico-software.org/wiki/Releases/Indico0.98-rc1#Upgrading http://indico-software.org/wiki/Releases/Indico0.97.1#fromv0.97borGitRepo
+
+== OS type ==
+
+Debian GNU/Linux 6.0 \n \l
+
+== Debian Package Requirements: ==
+
+You just have to install standard Indico required packages python-dev (straightforward) that's necessary to compile ZODB latest release using python setuptools easy_install util.
+
+ This is the command you have to perform:
+
+
+
+
+
+{{{
+#apt-get install apache2 libapache2-mod-wsgi python python-dev python-tz python-zopeinterface python-setuptools python-reportlab python-libxslt1 python-libxml2 python-imaging python-dateutil python-support libxslt1-dev libxml2-dev
+#a2enmod wsgi
+}}}
+
+== CDS Indico 0.98rc1 installation steps ==
+
+Basically if you installed all packages required you can use python setuptools to install everything you need for successful Indico installation. These are actions you have to perform:
+
+
+
+
+
+# upgrade setuptools to latest release (from http://pypi.python.org/pypi/setuptools):
+
+{{{
+#easy_install -U setuptools
+}}}
+
+
+
+
+# install Indico and all dependencies using setuptools:
+
+{{{
+#easy_install indico
+Searching for indico
+Reading http://pypi.python.org/simple/indico/
+Reading http://indico-software.org
+Reading http://indico-software.org/wiki/Releases/Indico0.98-rc1
+Best match: indico 0.98-rc1
+Downloading http://indico-software.org/download/indico/indico-0.98_rc1-py2.6.egg
+Processing indico-0.98_rc1-py2.6.egg
+creating /usr/local/lib/python2.6/dist-packages/indico-0.98_rc1-py2.6.egg
+Extracting indico-0.98_rc1-py2.6.egg to /usr/local/lib/python2.6/dist-packages
+Adding indico 0.98-rc1 to easy-install.pth file
+Installing indico_livesync script to /usr/local/bin
+Installing indico_scheduler script to /usr/local/bin
+Installing indico_initial_setup script to /usr/local/bin
+Installing indico_ctl script to /usr/local/bin
+Installing indico_shell script to /usr/local/bin
+Installed /usr/local/lib/python2.6/dist-packages/indico-0.98_rc1-py2.6.egg
+Reading http://indico-software.org/wiki/Admin/Installation/IndicoExtras
+Processing dependencies for indico
+Searching for argparse
+Reading http://pypi.python.org/simple/argparse/
+Reading http://code.google.com/p/argparse/
+Best match: argparse 1.2.1
+Downloading http://argparse.googlecode.com/files/argparse-1.2.1.tar.gz
+Processing argparse-1.2.1.tar.gz
+Running argparse-1.2.1/setup.py -q bdist_egg --dist-dir /tmp/easy_install-VPCGu1/argparse-1.2.1/egg-dist-tmp-Tz9EQ3
+warning: no previously-included files matching '*.pyc' found anywhere in distribution
+warning: no previously-included files matching '*.pyo' found anywhere in distribution
+warning: no previously-included files matching '*.orig' found anywhere in distribution
+warning: no previously-included files matching '*.rej' found anywhere in distribution
+no previously-included directories found matching 'doc/_build'
+no previously-included directories found matching 'env24'
+no previously-included directories found matching 'env25'
+no previously-included directories found matching 'env26'
+no previously-included directories found matching 'env27'
+zip_safe flag not set; analyzing archive contents...
+Adding argparse 1.2.1 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/argparse-1.2.1-py2.6.egg
+Searching for pyatom
+Reading http://pypi.python.org/simple/pyatom/
+Reading http://bitbucket.org/sramana/pyatom
+Best match: pyatom 1.2
+Downloading http://pypi.python.org/packages/source/p/pyatom/pyatom-1.2.tar.gz#md5=672f635773cf502813f908a0faae7d2e
+Processing pyatom-1.2.tar.gz
+Running pyatom-1.2/setup.py -q bdist_egg --dist-dir /tmp/easy_install-CDcrW1/pyatom-1.2/egg-dist-tmp-2CZaMa
+zip_safe flag not set; analyzing archive contents...
+Adding pyatom 1.2 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/pyatom-1.2-py2.6.egg
+Searching for icalendar
+Reading http://pypi.python.org/simple/icalendar/
+Reading http://codespeak.net/icalendar/
+Reading https://github.com/collective/icalendar
+Reading https://gihub.com/collective/icalendar
+Download error on https://gihub.com/collective/icalendar: timed out -- Some packages may not be found!
+Best match: icalendar 3.0.1b1
+Downloading http://pypi.python.org/packages/source/i/icalendar/icalendar-3.0.1b1.tar.gz#md5=419a06afbd5eef1325c762baf5ae4ead
+Processing icalendar-3.0.1b1.tar.gz
+Running icalendar-3.0.1b1/setup.py -q bdist_egg --dist-dir /tmp/easy_install-FfMH28/icalendar-3.0.1b1/egg-dist-tmp-9K1zNz
+warning: no previously-included files matching '*.pyc' found under directory 'src/icalendar'
+Adding icalendar 3.0.1b1 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/icalendar-3.0.1b1-py2.6.egg
+Searching for babel
+Reading http://pypi.python.org/simple/babel/
+Reading http://babel.edgewall.org/
+Reading http://babel.edgewall.org/wiki/Download
+Best match: Babel 0.9.6
+Downloading http://pypi.python.org/packages/2.6/B/Babel/Babel-0.9.6-py2.6.egg#md5=e66698fb97c8dc0a7c6b7b86c91d62be
+Processing Babel-0.9.6-py2.6.egg
+creating /usr/local/lib/python2.6/dist-packages/Babel-0.9.6-py2.6.egg
+Extracting Babel-0.9.6-py2.6.egg to /usr/local/lib/python2.6/dist-packages
+Adding Babel 0.9.6 to easy-install.pth file
+Installing pybabel script to /usr/local/bin
+Installed /usr/local/lib/python2.6/dist-packages/Babel-0.9.6-py2.6.egg
+Searching for mako>=0.4.1
+Reading http://pypi.python.org/simple/mako/
+Reading http://www.makotemplates.org/
+Best match: Mako 0.6.2
+Downloading http://pypi.python.org/packages/source/M/Mako/Mako-0.6.2.tar.gz#md5=b467eb01c2227e205784faa3bef96725
+Processing Mako-0.6.2.tar.gz
+Running Mako-0.6.2/setup.py -q bdist_egg --dist-dir /tmp/easy_install-aEikLi/Mako-0.6.2/egg-dist-tmp-6dMMsz
+warning: no files found matching '*.xml' under directory 'examples'
+warning: no files found matching '*.mako' under directory 'examples'
+warning: no files found matching 'ez_setup.py'
+no previously-included directories found matching 'doc/build/output'
+Adding Mako 0.6.2 to easy-install.pth file
+Installing mako-render script to /usr/local/bin
+Installed /usr/local/lib/python2.6/dist-packages/Mako-0.6.2-py2.6.egg
+Searching for pypdf
+Reading http://pypi.python.org/simple/pypdf/
+Reading http://pybrary.net/pyPdf/
+Reading http://stompstompstomp.com/pyPdf/
+Download error on http://stompstompstomp.com/pyPdf/: [Errno -5] No address associated with hostname -- Some packages may not be found!
+Reading http://stompstompstomp.com/pyPdf/
+Download error on http://stompstompstomp.com/pyPdf/: [Errno -5] No address associated with hostname -- Some packages may not be found!
+Reading http://stompstompstomp.com/pyPdf/
+Download error on http://stompstompstomp.com/pyPdf/: [Errno -5] No address associated with hostname -- Some packages may not be found!
+Reading http://stompstompstomp.com/pyPdf/
+Download error on http://stompstompstomp.com/pyPdf/: [Errno -5] No address associated with hostname -- Some packages may not be found!
+Best match: pyPdf 1.13
+Downloading http://pybrary.net/pyPdf/pyPdf-1.13.zip
+Processing pyPdf-1.13.zip
+Running pyPdf-1.13/setup.py -q bdist_egg --dist-dir /tmp/easy_install-sd0d0P/pyPdf-1.13/egg-dist-tmp-euJ0Lx
+zip_safe flag not set; analyzing archive contents...
+Adding pyPdf 1.13 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/pyPdf-1.13-py2.6.egg
+Searching for zc.queue
+Reading http://pypi.python.org/simple/zc.queue/
+Best match: zc.queue 1.3
+Downloading http://pypi.python.org/packages/source/z/zc.queue/zc.queue-1.3.tar.gz#md5=93113bec10a9ddb51b774607fe2a683d
+Processing zc.queue-1.3.tar.gz
+Running zc.queue-1.3/setup.py -q bdist_egg --dist-dir /tmp/easy_install-YNpmt7/zc.queue-1.3/egg-dist-tmp-hkH05V
+Adding zc.queue 1.3 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/zc.queue-1.3-py2.6.egg
+Searching for lxml
+Reading http://pypi.python.org/simple/lxml/
+Reading http://codespeak.net/lxml
+Best match: lxml 2.3.3
+Downloading http://pypi.python.org/packages/source/l/lxml/lxml-2.3.3.tar.gz#md5=a7825793c69d004f388ec6600bad7a6f
+Processing lxml-2.3.3.tar.gz
+Running lxml-2.3.3/setup.py -q bdist_egg --dist-dir /tmp/easy_install-JkrfXI/lxml-2.3.3/egg-dist-tmp-1sZrc5
+Building lxml version 2.3.3.
+Building without Cython.
+Using build configuration of libxslt 1.1.26
+Building against libxml2/libxslt in the following directory: /usr/lib
+Adding lxml 2.3.3 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/lxml-2.3.3-py2.6-linux-i686.egg
+Searching for MarkupSafe>=0.9.2
+Reading http://pypi.python.org/simple/MarkupSafe/
+Reading http://dev.pocoo.org/
+Best match: MarkupSafe 0.15
+Downloading http://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-0.15.tar.gz#md5=4e7c4d965fe5e033fa2d7bb7746bb186
+Processing MarkupSafe-0.15.tar.gz
+Running MarkupSafe-0.15/setup.py -q bdist_egg --dist-dir /tmp/easy_install-0Osck9/MarkupSafe-0.15/egg-dist-tmp-_ju01C
+Adding MarkupSafe 0.15 to easy-install.pth file
+Installed /usr/local/lib/python2.6/dist-packages/MarkupSafe-0.15-py2.6-linux-i686.egg
+Finished processing dependencies for indico
+}}}
+
+
+
+ if you experience some errors during dependencies installation process you can use easy_install to setup manually, like:
+
+
+
+{{{
+#easy_install -U pytz
+#easy_install -U reportlab
+#easy_install -U simplejson
+}}}
+
+
+
+ this is an extract of standard Debian Lenny python installation libraries after indico setup:
+
+{{{
+# ls /usr/local/lib/python2.6/dist-packages/
+argparse-1.2.1-py2.6.egg         JSTools-0.6-py2.6.egg                 reportlab-2.5-py2.6-linux-i686.egg     ZConfig-2.9.2-py2.6.egg
+Babel-0.9.6-py2.6.egg            lxml-2.3.3-py2.6-linux-i686.egg       setuptools-0.6c11-py2.6.egg-info       zc.queue-1.3-py2.6.egg
+cds_indico_extras-0.2-py2.6.egg  Mako-0.6.2-py2.6.egg                  setuptools.pth                         zdaemon-2.0.4-py2.6.egg
+distribute-0.6.24-py2.6.egg      MarkupSafe-0.15-py2.6-linux-i686.egg  simplejson-2.3.2-py2.6-linux-i686.egg  ZODB3-3.10.5-py2.6-linux-i686.egg
+easy-install.pth                 pyatom-1.2-py2.6.egg                  suds-0.4-py2.6.egg                     zope.event-3.5.1-py2.6.egg
+icalendar-3.0.1b1-py2.6.egg      pyPdf-1.13-py2.6.egg                  transaction-1.2.0-py2.6.egg            zope.index-3.6.3-py2.6-linux-i686.egg
+indico-0.98_rc1-py2.6.egg        pytz-2011n-py2.6.egg                  zc.lockfile-1.0.0-py2.6.egg
+}}}
+
+
+# after indico installation (into /usr/local/lib/python2.6/dist-packages/indico-0.98_rc1-py2.6.egg/) you will have 3 configuration files you have to edit for your custom indico site configuration:
+
+
+
+
+/usr/local/lib/python2.6/dist-packages/indico-0.98_rc1-py2.6.egg/etc/indico.conf.sample
+/usr/local/lib/python2.6/dist-packages/indico-0.98_rc1-py2.6.egg/etc/zdctl.conf.sample
+/usr/local/lib/python2.6/dist-packages/indico-0.98_rc1-py2.6.egg/etc/zodb.conf.sample
+
+
+
+
+ you can copy to /root and rename to .conf and edit.
+
+
+
+
+#* Basically for indico.conf you have to change website URL service (HTTP and HTTPS), indico directory installation data and ApacheUser and Group (look for yours into /etc/apache2/envvars):
+
+
+
+
+
+{{{
+BaseURL              = "https://yourip"
+#if your indico can be reached using https
+BaseSecureURL        = "https://yourip"
+ArchiveDir           = "/opt/indico/archive"
+BinDir               = "/opt/indico/bin"
+ConfigurationDir     = "/opt/indico/etc"
+DocumentationDir     = "/opt/indico/doc"
+HtdocsDir            = "/opt/indico/htdocs"
+LogDir               = "/opt/indico/log"
+UploadedFilesTempDir = "/opt/indico/tmp"
+XMLCacheDir          = "/opt/indico/cache"
+#------------------------------------------------------------------------------
+# SMTP
+#------------------------------------------------------------------------------
+SmtpServer           = "localhost"
+SmtpLogin            = ""
+SmtpPassword         = ""
+# If your SMTP server is using TLS write "yes", otherwise write "no"
+SmtpUseTLS           = "no"
+#------------------------------------------------------------------------------
+# EMAIL ADDRESSES
+#------------------------------------------------------------------------------
+# SupportEmail is the email address where all automatically generated
+# application errors will be sent to.
+SupportEmail         = "root@localhost"
+# PublicSupportEmail is an email address that will be shown in Indico and where
+# users are expected to find help when they have using the website.
+PublicSupportEmail   = "root@localhost"
+#------------------------------------------------------------------------------
+# APACHE
+#------------------------------------------------------------------------------
+# If you change either ApacheUser or ApacheGroup after installation and you
+# are on Linux you need to chown -R the directories pointed at by
+#   - LogDir
+#   - UploadedFilesTempDir
+# ApacheUser is the user that Apache runs as (Look for "User" inside httpd.conf)
+ApacheUser = "www-data"
+# ApacheGroup is the group that Apache runs as (Look for "Group" inside httpd.conf)
+ApacheGroup = "www-data"
+}}}
+
+
+#* /opt/indico/etc/zodb.conf (just change for your ZODB path installation and log file):
+
+
+
+
+<zeo>
+address 127.0.0.1:9675
+monitor-address localhost:8091
+</zeo>
+<filestorage 1>
+path /opt/indico/db/Data.fs
+</filestorage>
+<eventlog>
+<logfile>
+path /opt/indico/log/zeo.log
+format %(asctime)s %(message)s
+</logfile>
+</eventlog>
+
+
+
+
+
+#* /opt/indico/etc/zdctl.conf (change user that will run daemon - have to be apache user - ZODB configuraration file and socket path):
+
+
+
+
+<runner>
+  program       runzeo -C /opt/indico/etc/zodb.conf
+  user          www-data
+  daemon        true
+  directory     /opt/indico/db
+  socket-name   /opt/indico/db/zdsock
+</runner>
+<environment>
+  PYTHON_EGG_CACHE /opt/indico/tmp/egg-cache
+</environment>
+
+
+
+
+
+
+# now run indico initialization with your own setup configurations:
+
+
+
+{{{
+#/usr/local/bin/indico_initial_setup --existing-config=/opt/indico/etc/indico.conf
+}}}
+
+
+
+
+
+
+
+
+# optional) if you have existing database and document's archive, you can import simply with scp from old machine (in the example old archives into /otp/indico/archive and old database into /opt/indico/db/Data.fs):
+
+
+
+{{{
+#scp -r root@<old_indico_ip_server>:/opt/indico/archive /opt/indico/.
+#scp -r root@<old_indico_ip_server>:/opt/indico/db/Data.fs /opt/indico/db/.
+}}}
+
+
+
+
+
+ if you have to migrate from old version (we did from 0.97b) you just have to:
+
+
+
+ -start ZODB instance and migrate from previous DB version:
+
+
+
+
+cd /opt/indico
+zdaemon -C etc/zdctl.conf start
+python ./bin/migration/migrate_0.97_0.98.py --prev-version=0.97
+
+
+
+
+
+
+ -purge upcomingEvents from existing Database instance using this command:
+
+
+
+
+
+
+python -c "from MaKaC.common.db import DBMgr; DBMgr.getInstance().startRequest(); from indico.modules import ModuleHolder; del ModuleHolder()._getIdx()['upcoming_events']; DBMgr.getInstance().endRequest()"
+
+
+
+
+
+
+ Remark: it's important to check permissions on indico destination directory!
+
+
+
+{{{
+#chown -R www-data:www-data /opt/indico
+}}}
+
+
+
+ There are also other tools that can be useful after a re-import of old archives.
+
+ You can find into bin/maintenance/.
+
+ You can use to rebuild category indexes, name, dates, cleanup existing websessions and pack database:
+
+
+
+{{{
+#cd /opt/indico
+#python ./bin/maintenance/cleanupWebSessions.py
+#python ./bin/maintenance/category_integrity.py
+#python ./bin/maintenance/fix_utf8_errors.py
+#python ./bin/maintenance/packDB.py
+#python ./bin/maintenance/indexes/all_index_check.py
+#python ./bin/maintenance/indexes/reindexcategories.py
+#python ./bin/maintenance/indexes/reindexcategorynameindex.py
+#python ./bin/maintenance/indexes/reindexcategorydateindex.py
+}}}
+
+
+
+
+# to start CDS Indico you can use new scheduler:
+
+
+
+{{{
+#sudo -u www-data /usr/local/bin/indico_scheduler -f start
+}}}
+
+
+
+ you have 3 options:
+
+
+
+ -start Indico daemon:
+
+{{{
+#sudo -u www-data /usr/local/bin/indico_scheduler -f start
+}}}
+
+
+
+ -stop:
+
+{{{
+#sudo -u www-data /usr/local/bin/indico_scheduler stop
+}}}
+
+
+
+ -restart:
+
+{{{
+#sudo -u www-data /usr/local/bin/indico_scheduler stop
+#sudo -u www-data /usr/local/bin/indico_scheduler -f start
+}}}
+
+
+
+
+
+
+
+
+# add Indico configuration to your apache VirtualHost website config, just like this example (for HTTPS):
+
+
+
+{{{
+#vi /etc/apache2/sites-enabled/<your_ssl_website>
+...
+AddDefaultCharset UTF-8
+<IfModule mod_ssl.c>
+NameVirtualHost *:443
+<VirtualHost *:443>
+        ServerSignature On
+        ServerAdmin webmaster@localhost
+        ServerName <your_ssl_website>
+        ServerAlias <your_ssl_website_cname1> <your_ssl_website_cname2>
+        DocumentRoot /opt/indico/htdocs
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        Alias /indico/images "/opt/indico/htdocs/images"
+        Alias /indico/css "/opt/indico/htdocs/css"
+        Alias /indico/js "/opt/indico/htdocs/js"
+        Alias /indico/ihelp "/opt/indico/htdocs/ihelp"
+         WSGIScriptAlias / "/opt/indico/htdocs/index.wsgi"
+        BrowserMatch "MSIE [2-6]" \
+                nokeepalive ssl-unclean-shutdown \
+                downgrade-1.0 force-response-1.0
+        BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
+...
+}}}
+
+
+
+
+
+
+
+
+# add Indico configuration to your apache VirtualHost website config, just like this example (for HTTP):
+
+
+
+{{{
+#vi /etc/apache2/sites-enabled/<your_website>
+...
+AddDefaultCharset UTF-8
+NameVirtualHost *:80
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName <your_website>
+        DocumentRoot /opt/indico/htdocs
+        Alias /indico/images "/opt/indico/htdocs/images"
+        Alias /indico/css "/opt/indico/htdocs/css"
+        Alias /indico/js "/opt/indico/htdocs/js"
+        Alias /indico/ihelp "/opt/indico/htdocs/ihelp"
+        WSGIDaemonProcess WSGIDAEMON processes=1 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/opt/indico/tmp/egg-cache
+        WSGIScriptAlias / "/opt/indico/htdocs/index.wsgi"
+        <Directory "/opt/indico/htdocs">
+            WSGIProcessGroup WSGIDAEMON
+            WSGIApplicationGroup %{GLOBAL}
+            AllowOverride None
+            Options None
+            Order deny,allow
+            Allow from all
+        </Directory>
+...
+}}}
+
+
+
+
+
+
+
+
+# start apache2:
+
+
+
+{{{
+#/etc/init.d/apache2 start
+}}}
+
+
+
+
+
+
+
+
+# start/stop of ZODB and Indico into indico init.d custom script:
+
+
+
+{{{
+#!/bin/bash
+PATH=/usr/local/bin:/bin:/usr/bin
+DAEMON="Indico"
+ZODB_CMD="zdaemon -C /opt/indico/etc/zdctl.conf"
+INDICO_CMD="sudo -u www-data /usr/local/bin/indico_scheduler"
+# INDICO_CMD="python /usr/local/lib/python2.6/dist-packages/cds_indico-0.97.1-py2.6.egg/MaKaC/consoleScripts/taskDaemon.py"
+## INDICO_CMD="python /usr/lib/python2.5/site-packages/cds_indico-0.97b-py2.5.egg/MaKaC/consoleScripts/taskDaemon.py"
+# Get lsb functions
+. /lib/lsb/init-functions
+. /etc/default/rcS
+case "$1" in
+ start)
+  log_begin_msg "Starting $DAEMON services..."
+#   $DAEMON $OPTIONS_START
+  $ZODB_CMD start
+  $INDICO_CMD -f start
+  log_end_msg $?
+  ;;
+ stop)
+
+
+  log_begin_msg "Stopping $DAEMON services..."
+#   $DAEMON $OPTIONS_STOP
+  $ZODB_CMD stop
+  kill -TERM `ps aux|grep indico|grep -v grep| awk '{print $2}'`
+  kill -KILL `ps aux|grep indico|grep -v grep| awk '{print $2}'`
+  #$INDICO_CMD stop
+  log_end_msg $?
+  ;;
+ restart)
+  $0 stop
+  $0 start
+  ;;
+ *)
+  echo "Usage: $0 {start|stop|restart}"
+  exit 1
+esac
+exit 0
+}}}
+
+
+
+ after this you can save and just to restart the entire chain you can type:
+
+
+
+{{{
+#/etc/init.d/apache2 stop
+#/etc/init.d/indico stop
+#/etc/init.d/indico start
+#/etc/init.d/apache2 start
+}}}

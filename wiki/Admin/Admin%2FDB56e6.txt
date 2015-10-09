@@ -1,0 +1,9 @@
+= Database ZODB =
+
+== Interesting documents to read about ZODB ==
+
+ * [http://wiki.zope.org/ZODB/FileStorageBackup]
+ * [http://www.zope.org/Members/adytumsolutions/HowToLoveZODB_PartV]
+ * [http://plone.org/documentation/kb/debug-zodb-bloat]
+ * [http://www.erp5.org/UnderstandingPersistency]
+ * [http://pypi.python.org/pypi/zodbbrowser]

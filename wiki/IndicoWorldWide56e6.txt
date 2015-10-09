@@ -1,0 +1,159 @@
+[[TracNav(TOC|noreorder)]]
+
+= Indico World-Wide installations =
+
+Apart from the [http://indico.cern.ch Indico server] at CERN, there are more installations world-wide. Here you can find some (111):
+
+ * AR
+   * [http://www.bijuar.edu.ar/indico/index.py BIJUAR]
+ * AT
+   * [https://fec2012.iaea.org/index.py IAEA]
+ * BE
+   * [http://agenda.phys.ucl.ac.be Center for Cosmology and Particle Physics Phenomenolgy (CP3), Université catholique de Louvain]
+   * [https://iks32.fys.kuleuven.be/indico/index.py K.U. Leuven]
+   * [http://w3.iihe.ac.be/indico/index.py ULB - Brussels]
+ * BR
+   * [http://indico.rnp.br/index.py RNP]
+ * CA
+   * [http://indico.triumf.ca TRIUMF]
+   * [http://thwaite.phys.ualberta.ca/indico-0.94/index.py University of Alberta]
+ * CH
+   * [https://indico.psi.ch/index.py PSI (Paul Scherrer Institute)]
+   * [http://itpworkshop.unibe.ch/MaKaC/index.py Bern University]
+   * [http://ilcagenda.cern.ch/ International Linear Collider (ILC)]
+   * [http://laguna.ethz.ch/indico/index.py LAGUNA]
+   * [http://indico.epfl.ch/ EPFL]
+ * CL
+   * [http://indico.cmm.uchile.cl/index.py CMM]
+   * [http://indico.reuna.cl/ REUNA]
+ * CN
+   * [https://agenda.euchinagrid.org/index.py EU-ChinaGrid]
+   * [http://indico.ihep.ac.cn/ IHEP]
+ * CZ
+   * [http://indico.fjfi.cvut.cz/index.py Fakulta jaderná a fyzikálně inženýrská (FJFI)]
+ * DE
+   * [http://indico.gsi.de/ GSI] 
+   * [http://indico.desy.de/ DESY] 
+   * [https://www.cta-observatory.org/indico/index.py CTA Observatory]
+   * [http://www.bessy.de/indico/ BESSY]
+   * [http://indico.iqo.uni-hannover.de Institute of Quantum Optics, University of Hannover]
+   * [https://ikp-indico.fzk.de/ Karlsruher Instituts für Technologie]
+   * [http://indico.mppmu.mpg.de/indico/index.py MPI fuer Physik]
+   * [https://indico.mpifr-bonn.mpg.de/indico/index.py Max Planck Institute for Radio Astronomy]
+   * [http://webapp.biotec.tu-dresden.de/conferences/ TU DRESDEN]
+   * [http://lwapsr.ikp.physik.tu-darmstadt.de/indico/index.py TU Darmstadt]
+   * [http://intern.universe-cluster.de/indico/index.py Universe Cluster]
+   * [http://indico.uni-giessen.de/indico/index.py University of Giessen]
+   * [http://wwwthep.physik.uni-mainz.de/indico/index.py University of Mainz]
+   * [http://conference.opensuse.org/indico/index.py openSUSE]
+ * DK
+   * [http://conferences.dtu.dk/ DTU]
+   * [http://proceedings.cmwr-xvi.org/index.py DTV]
+   * [https://indico.nbi.ku.dk/index.py NBI]
+ * ES
+   * [http://indico.ific.uv.es/indico/index.py IFIC]
+   * [http://193.144.64.186/indico/index.py IGFAE]
+   * [http://vlctesting.es/index.py ITI]
+   * [http://www.e-ciencia.es/indico/index.py Red de e-Ciencia]
+   * [http://161.111.23.207/MaKaC/index.py University of Salamanca]
+   * [http://indico.ifca.es/indico/] IFCA
+ * EU
+   * [https://www.egi.eu/indico/index.py EGI]
+   * [http://indico.eu-eela.org/index.py EU-EELA]
+   * [http://web.eu-egi.eu/MaKaC/index.py EU-EGI]
+   * [https://agenda.eumedgrid.org/ EU-MEDGRID]
+   * [http://elio6.eurolio.eu/indico/index.py EUROLIO]
+   * [http://indico.gisela-grid.eu/ GISELA GRID]
+ * FR
+   * [https://colloques.gate.cnrs.fr/index.py GATE (CNRS)]
+   * [http://www.ias.u-psud.fr/indico/ IAS]
+   * [http://indico.ibgc.cnrs.fr/index.py IBGC CNRS]
+   * [http://indico.in2p3.fr IN2P3]
+   * [http://indico.lal.in2p3.fr LAL (IN2P3)]
+   * [http://lpsc.in2p3.fr/Indico LPSC (IN2P3)]
+   * [http://indico.mcm-services.com/ MCM Services]
+ * GR
+   * [http://heptools.inp.demokritos.gr/Indico/ Demokritos]
+ * HR
+   * [http://www.ffzg.hr/infuture/index.py FFZG]
+ * HU
+   * [http://indico.kfki.hu KFKI]
+   * [http://seegrid3.lpds.sztaki.hu/indico/index.py LPDS Sztaki]
+ * IE
+   * [http://indico.ucd.ie/index.py University College Dublin]
+ * IL
+   * [http://www.weizmann.ac.il/MaKaC/index.py Weizmann Institute]
+ * IN
+   * [http://www.ino.tifr.res.in/MaKaC/index.py INO - TIFR]
+   * [http://www.iuac.res.in/atmol/MaKaC/index.py IUAC]
+   * [http://web1.tifr.res.in/MaKaC/index.py TIFR]
+   * [http://webdev.tifr.res.in/MaKaC/index.py TIFR]
+   * [http://indico.vecc.gov.in/indico/index.py Variable Energy Cyclotron Centre]
+ * IT
+   * [http://conferences.ceinge.unina.it/index.py CEINGE]
+   * [http://conferences.fem-environment.eu/ Fondazione E. Mach, Trento]
+   * [http://agenda.infn.it/index.py INFN]
+   * [http://agenda.ct.infn.it/index.py INFN]
+   * [http://www.ba.infn.it/indico/index.py INFN Bari]
+   * [http://www.bo.infn.it/MaKaC/ INFN Bologna]
+   * [https://indico.pi.infn.it/ INFN Pisa]
+   * [http://www.itb.cnr.it/indico/index.py ITB CNR]
+   * [http://eil.unipv.it/MaKaC/index.py University of Pavia]
+   * [http://agenda.fisica.uniud.it/difa/index.py University of Udine (HEP)]
+ * INT
+   * [http://space-env.esa.int/indico ESA - Space Environment & Effects]
+ * JP
+   * [http://indico.cns.s.u-tokyo.ac.jp/index.py Center for Nuclear Research - U. of Tokyo]
+   * [http://kds.kek.jp/ KEK]
+   * [http://www-sk.icrr.u-tokyo.ac.jp/indico/index.py Kamioka Observatory]
+   * [http://indico.riken.jp/indico/index.py RIKEN]
+ * MX
+   * [http://indico.fis.cinvestav.mx/ Cinvestav]
+   * [http://indico.nucleares.unam.mx/ Mexico University]
+ * NL
+   * [http://agenda.nikhef.nl/ Nikhef, Nationaal instituut voor subatomaire fysica]
+   * [http://indico.astro.ru.nl/ University of Nijmegen]
+ * PL
+   * [http://indico.ifj.edu.pl/MaKaC/ IFJ (Instytut Fizyki Jądrowej)]
+ * PT
+   * [https://web.lip.pt/indico/ LIP]
+ * RO
+   * [http://www.nipne.ro/indico/index.py IFIN HH]
+   * [http://mona.nipne.ro/indico/index.py IFIN HH]
+ * RU
+   * [http://indico.sinp.msu.ru/conference/index.py SINP]
+ * SE
+   * [http://agenda.albanova.se/index.py AlbaNova]
+   * [http://indico.esss.lu.se/indico/index.py Lund University]
+   * [http://indico.hep.lu.se/ Lund University (dep. of Physics)]
+ * SI
+   * [http://www.est2007.si/indico/index.py EST Congress]
+   * [http://conferences.imfm.si/ IMFM]
+ * SK
+   * [http://indico.ulib.sk Univerzitna Kniznica v Bratislave]
+ * TW
+   * [http://indico.twgrid.org/ TWGrid]
+ * UK
+   * [http://conference.ippp.dur.ac.uk IP3 Durham]
+   * [http://www2.skatelescope.org/indico/ Square Kilometer Array]
+   * [http://hep.ph.liv.ac.uk/indico/index.py University of Liverpool]
+   * [http://agenda.hep.man.ac.uk/ University of Manchester]
+ * US
+   * [https://twindico.hep.anl.gov/indico/ Argonne National Lab (ANL)]
+   * [https://indico.bnl.gov/index.py Brookhaven National Lab (BNL)]
+   * [http://conf.adsabs.harvard.edu/indico/ Center For Astrophysics - Harvard]
+   * [https://edms.classe.cornell.edu/agenda/ Cornell Laboratory for Accelerator-based Sciences and Education (CLASSE)]
+   * [http://hadron.physics.fsu.edu/MaKaC/index.py FSU HNP]
+   * [http://indico.fnal.gov/index.py Fermilab]
+   * [http://www.phys.hawaii.edu/indico/index.py University of Hawai (Manoa) - HEP dept]
+   * [http://www.npl.illinois.edu/cipanp/index-2.html University of Illinois]
+   * [http://ltd13.stanford.edu/papers/index.py University of Stanford]
+   * [http://qm09.phys.utk.edu/indico/index.py University of Tennessee-Knoxville HEP]
+   * [http://agenda.hep.wisc.edu/index.py University of Wisconsin-Madison HEP]
+   * [http://indico.phys.vt.edu/index.py VirginiaTech - Department of Physics]
+   * [http://indico.lns.mit.edu/indico/index.py LNS - MIT]
+ * VN
+   * [http://g49.ifi.refer.org/indico/index.py Institut de la Francophonie]
+ * ZA
+   * [http://indico.sagrid.ac.za South African National Compute Grid]
+   * [http://indico.tlabs.ac.za/ iThemba Labs]

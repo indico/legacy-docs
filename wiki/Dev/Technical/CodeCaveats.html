@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/CodeCaveats by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/CodeCaveats – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FCodeCaveats56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="CodeCaveats.html" title="View Dev/Technical/CodeCaveats">CodeCaveats</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/CodeCaveats?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="CodeCaveats">Code Caveats</h1>
+<p>
+This section's aim is to log some tricks and caveats that you should take into
+consideration while developing for Indico.
+</p>
+<h2 id="a1.IfyouaddanewJavascriptfilerememberaboutpacking">1. If you add a new Javascript file, remember about packing</h2>
+<p>
+If you create a new Javascript file, remember that in production files are "packed" to reduce the number of files that the browser requests.
+In a development machine, you probably have activated the server's "debug" mode, so the browser is requesting your unpacked files. In production, however, "debug" is turned off.
+</p>
+<p>
+Therefore, if you add a new .js file, remember to add the corresponding line to the proper <em>.cfg</em> file in <em>etc/js</em> (usually <em>indico.cfg</em>).
+</p>
+<p>
+<br />
+</p>
+<h2 id="a2.Usageof.getUserwithinamanagementarea">2. Usage of .getUser() within a management area</h2>
+<p>
+<strong>Don't assume</strong> that a user is always logged in just because
+he is in the management area of an event. getUser() can return None
+because the user could have used a modification key to login. 
+So, always check that getUser() is not None.
+</p>
+<p>
+<br />
+</p>
+<h2 id="a3.DonotusePythonbuilt-insasvariablenames">3. Do not use Python built-ins as variable names</h2>
+<p>
+This is more a general Python programming tip, but most people fall into it some time or another.
+</p>
+<p>
+Try not to use Python built-in keywords, such as "type", "list", "dict", "vars", etc. as variable names.
+</p>
+<p>
+Example of problem:
+</p>
+<div class="code"><pre><span class="k">def</span> <span class="nf">mymethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> value<span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span>_type <span class="o">=</span> <span class="nb">type</span>
+    <span class="o">...</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span>value<span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span> <span class="c">#we try to use Python's built-in type function to check the type of an object</span>
+        <span class="o">...</span>
+</pre></div><p>
+This will fail because we have redefined type when using it as a function argument; so the built-in "type" function is no longer available.
+</p>
+<p>
+Using <a href="../Tools.html#a3.PylintwithPyDev">PyLint</a> helps detect these problems.
+</p>
+<p>
+<br />
+</p>
+<h2 id="a4.Usetherighti18ninternationalizationfunction">4. Use the right i18n (internationalization) function</h2>
+<p>
+Indico's interface should be multi-language; for this, we have the _ function on the server (Python) side (import with from MaKaC.i18n import _ ), and the $T Javascript function in the client side.
+Be careful not to use a Python function inside a Javascript string, for example:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">today</span> <span class="o">=</span> <span class="s1">'&lt;%=_("Today") %&gt;'</span><span class="p">;</span>
+</pre></div><p>
+will become, when rendered in English:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">today</span> <span class="o">=</span> <span class="s1">'Today'</span><span class="p">;</span>
+</pre></div><p>
+But when rendered in French, it will become:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">today</span> <span class="o">=</span> <span class="s1">'Aujourd'</span><span class="nx">hui</span><span class="err">'</span><span class="p">;</span>
+</pre></div><p>
+This will provoke a syntax error because the string was using single quotes (').
+</p>
+<p>
+Therefore, the correct thing to do is:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">today</span> <span class="o">=</span> <span class="nx">$T</span><span class="p">(</span><span class="s2">"Today"</span><span class="p">);</span>
+</pre></div></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/CodeCaveats?action=diff&amp;version=4" title="Version 4 by dmartinc">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-03-25T13%3A59%3A32%2B01%3A00&amp;precision=second" title="See timeline at 03/25/10 13:59:32">6 years ago</a></span>
+            <span class="trac-print">Last modified on 03/25/10 13:59:32</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FCodeCaveats56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/CodeCaveats by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:25 GMT -->
+</html>

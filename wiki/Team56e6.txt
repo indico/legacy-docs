@@ -1,0 +1,77 @@
+[[TracNav(TOC|noreorder)]]
+
+= The Indico Team =
+
+== Current Members ==
+ * Thomas Baron (2004-) 
+ * [wiki:User/pferreir José Pedro Ferreira] (2007-)
+ * [wiki:User/aavilesd Alejandro Avilés] (2013-)
+ * [wiki:User/tpapini Tommaso Papini] (2013)
+ * [wiki:User/jmonnich Adrian Monnich] (2014-)
+ * [wiki:User/iliastrichopoulos Ilias Trichopoulos] (2014-)
+ * [wiki:User/jdafflon Jacques Dafflon] (2014-)
+
+== Past Members ==
+
+=== !Staff/Fellow ===
+ * [wiki:User/jbenito José Benito Gonzalez] (2003-2006, 2008-2014)
+ * [wiki:User/arescope Alberto Resco] (2011-)
+ * Jean-Yves Le Meur (2002-2004) - Original Project Leader
+ * Eric Simon (2002-2004)
+ * Hector Sanchez (2002-2004) - Original programming
+ * David Bourillot (2004-2008) - Original programming
+
+=== Technical !Student/Internship ===
+ * [wiki:User/iandriop Iason Andriopoulos] (2013)
+ * [wiki:User/ferhatelmas Ferhat Elmas] (2013)
+ * [wiki:User/jmonnich Adrian Monnich] (2013)
+ * [wiki:User/jatrzask Jakub Trzaskoma] (2012-2013)
+ * [wiki:User/mpugh Matt Pugh] (2011-2012)
+ * [wiki:User/cbossy Claude Bossy] (2012)
+ * [wiki:User/cwachter Christophe Wachter] (2012)
+ * [wiki:User/jmonnich Adrian Monnich] (2011)
+ * [wiki:User/acastill Alexis Castilla Hernández] (2010-2011)
+ * [wiki:User/gcerto Giuseppe Certo] (2011)
+ * [wiki:User/mdamarac Marius Damarackas] (2011)
+ * [wiki:User/lsyroka Leszek Syroka] (2010-2011)
+ * [wiki:User/cemunoz Cesar Muñoz] (2009-2010)
+ * [wiki:User/dgalimbe Davide Galimberti] (2010)
+ * [wiki:User/irolewicz Ian Rolewicz] (2010)
+ * [wiki:User/cangelov Cvetelina Angelova] (2009-2010)
+ * [wiki:User/dmartinc David Martin Clavo] (2006, 2008-2010)
+ * [wiki:User/jnguyenx Jeremy Nguyen Xuan] (2009)
+ * Erik Ragnerstam (2009)
+ * Ewa Banaszek
+ * Marion Albertini (2007-2008)
+ * Nicolas Michel (2007)
+ * Pascal Vogt (2008)
+ * Piotr Wlodarek (2006-2007)
+ * Vanessa Turney (2005)
+
+=== Summer Students ===
+ * [wiki:User/bkolobar Bernard Kolobara] (2013)
+ * [wiki:User/pgaunden Pedro Gaudencio] (2013)
+ * [wiki:User/alacerda Ana Clara Lacerda de Siqueira] (2012)
+ * [wiki:User/stefan.petrovski Stefan Petrovski] (2011)
+ * [wiki:User/asalah Abdul Hafeth Salah] (2011)
+ * [wiki:User/jurandnogiec Jurand Nogiec] (2011)
+ * [wiki:User/nmihajlo Nikolche Mihajlovski] (2010)
+ * [wiki:User/dcampora Daniel Hugo Cámpora Pérez] (2010)
+ * Juan Alonso (2009)
+ * Martin Tverdal (2009)
+ * Pierre-Luc Hemery (2008)
+ * Piia-Maria Sinkkonnen (2008)
+ * Tomas Novotny (2007)
+ * Alexandre Delhay (2007)
+ * Emilio Villar Castillo (2006)
+
+=== Child of staff ===
+ * [wiki:User/cpecorar Cyril Pecoraro] (2012)
+ * [wiki:User/acostach Anamaria Costache] (2011)
+ * Francesca Martelli (2014)
+ * Marcel Balle (2014)
+
+== Other Contributors ==
+ * Jim Fromm (FNAL) - Timezone awareness
+ * João Fernandes (CERN)
+ * [wiki:User/jherr Jeremy Herr] (2010)

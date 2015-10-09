@@ -1,0 +1,88 @@
+
+== Migrating from 0.94 ==
+
+We are supposing that you still have the version 0.94 of Indico.
+
+You must stop the Apache server while running the migration because user interaction with Indico could cause inconsistencies.
+
+Please, follow the steps precisely in the following order:
+
+1. Still with 0.94 (normally you should be running Indico with python 2.4 and ZODB3 3.4.2):
+  * run the script tools/check_conflict_description_content.py
+2. Download and install 0.96.2:
+  * Download from http://cdsware.cern.ch/indico/download/cds-indico-0.96.2.tar.gz
+  * Run: python2.4 setup.py install
+  * Install pytz:
+    * download the package: http://sourceforge.net/projects/pytz
+    * run: python2.4 setup.py install
+  * Install simplejson:
+    * download the package:http://pypi.python.org/packages/source/s/simplejson/simplejson-2.0.9.tar.gz#md5=af5e67a39ca3408563411d357e6d5e47
+    * run: python2.4 setup.py install
+  * Run the script: tools/TZMigration.py, '''but before read carefully''' here below:
+    * You will be asked to provide the category timezones file. You, as Indico admin, have to create this file in order to choose which timezone will be set to each of your categories. The file must have 2 columns (separated by 1 tab), the first one will contain the ID for each Indico category and the second one is the TZ for the corresponding category. Please, see an example [http://indico-software.org/download/categories-timezones.txt here].
+    * A complete list of timezone codes is [http://indico-software.org/download/timezone-codes.txt here]
+    * On the other hand, if you do not want to create the categories timezones file, you can provide an empty file as parameter. The script will add the categories to your server timezone (default timezone). And afterwards, you will be able to change the TZ for each category by hand.
+3. Install python 2.6
+4. Install setuptools:
+  * Download: http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz#md5=7df2a529a074f613b509fb44feefe74e
+  * Install: python setup.py install
+5. Install: apt-get install python-dev
+6. Install ZODB3-3.8.1: sudo easy_install-2.6 ZODB3==3.8
+7. Install 0.97.1:
+  * sudo easy_install-2.6 http://indico-software.org/download/indico/cds_indico-0.97.1-py2.6.egg
+    * if you get any error ('NoneType' object has no attribute 'clone'), try:
+      * Install pip: easy_install-2.6 pip
+      * pip install jstools
+      * Download and untar: http://indico-software.org/download/indico/cds-indico-0.97.1.tar.gz
+      * edit setup.py and, from _getInstallRequires() method,  remove 'zope.index' and comment ZODB3 'appends'. The method should look like this:
+      {{{ 
+ def _getInstallRequires():
+    '''Returns external packages required by Indico
+
+    These are the ones needed for runtime.'''
+
+    #base =  ['pytz', 'zope.index', 'zope.interface', 'simplejson', 'suds', 'cds-indico-extras>=0.2']
+    base =  ['pytz', 'zope.interface', 'simplejson', 'suds', 'cds-indico-extras>=0.2']
+    if sys.version_info[1] < 5: #for Python older than 2.5
+        base.append('hashlib') # hashlib isn't a part of Python older than 2.5
+    #    base.append('ZODB3>=3.8,<3.9.0a')
+    #else:                       #for Python 2.5+
+    #    base.append('ZODB3>=3.8')
+
+    return base
+      }}}
+      * run: python setup.py install
+  * install: sudo apt-get install gettext
+  * run: sudo indico_initial_setup (use default values when asked)
+    * Reply /opt/indico to the 1st question
+    * Reply 'c' to the question about indico.conf
+    * If you did '''not''' have the DB in /opt/indico/db, reply 'y' to the question about the DB. Otherwise reply 'n'.
+    * If you said 'y' in the previous point, you will be asked where to install the DB. Say: /opt/indico/db
+    * Hit any key to finish the script.
+  * Stop ZEO daemon
+  * Move your current DB file to /opt/indico/db/Data.fs
+  * Run: sudo chown www-data:www-data /opt/indico/db/*
+  * Start the DB: sudo zdaemon -C /opt/indico/etc/zdctl.conf start
+  * In 0.97 we have introduced a new configuration file, moving away from XML config to python-like config file. Therefore:
+    * Find the old config file for 0.96.2 (.../python2.4/site-packages/MaKaC/common/config.xml)
+    * Fill /opt/indico/etc/indico.conf with the old values from config.xml
+  * Run the migration scripts:
+    * Run (if it fails claiming 'KeyError: upcoming_events', skip this step):
+    {{{
+    sudo python2.6 -c "from MaKaC.common.db import DBMgr; \
+    DBMgr.getInstance().startRequest(); from MaKaC.modules.base import ModulesHolder; \
+    del ModulesHolder()._getIdx()['upcoming_events']; DBMgr.getInstance().endRequest()"
+    }}}
+    * Run: sudo python2.6 /opt/indico/bin/maintenance/indexes/reindexcategorynameindex.py
+    * Run: sudo python2.6 /opt/indico/bin/maintenance/indexes/reindexcategorydateindex.py
+8. Install 1.0:
+  * follow this [http://indico-software.org/wiki/Admin/Installation0.98 installation steps]
+  * and do not forget at the end to do this [http://indico-software.org/wiki/Releases/Indico1.0#Upgrading migration]
+  * [DO only if you get the errors] We have experienced some problems accessing category because of an index that we have recreated from command line ($ sudo indico_shell):
+     {{{
+     from indico.core.index import Catalog
+     Catalog.getIdx('categ_conf_sd').initialize(dbi)
+     dbi.commit()
+     }}}
+9. As well, you may need to configure indico.conf to point to the right folder where all the 'uploaded files' are. The variable in indico.conf is ''ArchiveDir''.
+   

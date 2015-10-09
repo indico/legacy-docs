@@ -1,0 +1,105 @@
+= Indico HTTP Export API =
+
+== Proposal ==
+
+See [[Dev/INTREPID/7]]
+
+== Brainstorming ==
+
+ * URLs
+   - http://indico.cern.ch/export/categ/2l5.json?&orderby=date&descending=true&from=20100120&to=20110202T150000Z00&limit=10
+   - http://indico.cern.ch/export/event/1234.json
+   - http://indico.cern.ch/export/event/1234/0.json
+
+ * Output granularity:
+   - events
+   - sessions / contributions
+   - only contributions
+   - sub-contributions
+
+ * Criteria (only one? several?)
+   - Name - regexp?
+   - Date/time
+     - event criterion: start date, end date, happening
+     - absolute interval: from/to
+     - relative interval (next 2 hours, 5 days, 1 month...)
+   - ID (URL implicit?)
+   - Location - extension?
+
+ * Results
+   - Limit (number of results)
+   - Order by (criterion)
+     . date
+     . alphabetic
+     . ...
+   - Suppress sorting if the result set is getting too big;
+     * either just fail or return the incomplete set;
+   - Descending - order of appearance
+
+ * Metadata
+   - Authors/speakers
+   - Whole timetable? (w/ breaks, etc)
+   - Materials?
+   - Protection data?
+
+ * Formats:
+   - URL encoded?
+   - JSON
+     - jsonp?
+   - XML
+   - HTML 4
+   - HTML 5 Microdata ?
+   - YAML ?
+   - RDF ?
+   - CSV ?
+
+
+== Access ==
+
+ * HTTPS only
+ * HTTP auth?
+ * Cookie?
+ * SSO? Is there anything?
+ * API key for specific user? 
+   - http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html
+ * client-side certificates?
+
+== Others ==
+
+ * Caching
+   - File, memory, memcached?
+
+== Current URLS ==
+
+ * Category
+   - /export/categ/ID.TYPE
+
+ * Event
+   - /export/event/ID.TYPE
+   - /export/timetable/ID.TYPE -> /export/event/0/timetable.TYPE
+   - /export/event/EVENT_ID/session/SESSION_ID.type
+   - /export/event/EVENT_ID/contribution/SESSION_ID.type
+   - /export/event/search/TERM.type
+
+ * Registration
+   - /export/event/EVENT_ID/registrant/REGISTRANT_ID/checkin.TYPE
+   - /export/event/EVENT_ID/registrant/all.TYPE
+
+ * File
+   - /export/event/EVENT_ID/session/SESSION_ID/contrib/CONTRIBUTION_ID/subcontrib/SUBCONTRIBUTION_ID/material/MATERIAL_ID/RESOURCE_ID.TYPE
+
+ * User
+   - /export/user/ID.type
+   - /export/user/(linked|categ)_events.type?userid=USER_ID -> /export/user/USER_ID/(linked|categ)_events.type
+
+ * Collaboration
+   - /export/video/SERVICE_ID.TYPE --> /export/cs/video/SERVICE_ID.TYPE 
+   - /export/eAgreements/EVENT_ID.type --> /export/event/EVENT_ID/cs/eagreements.TYPE 
+   - /export/recordingManager/createLink.json -> /export/cs/recordingmanager/create_link.json 
+
+ * Roombooking
+   - /api/roomBooking/bookRoom.json
+   - /export/reservation/LOCATION.TYPE  -> 
+   - /export/room/LOCATION/ID.TYPE
+   - /export/roomName/LOCATION/ROOMNAME.TYPE -> export/room/LOCATION/search/ROOMNAME.TYPE
+

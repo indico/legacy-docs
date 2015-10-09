@@ -1,0 +1,913 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1373?cversion=1&cnum_hist=2 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1373 (Wrong matching e-mail (false positive))
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1372.html" title="Ticket #1372" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t13731fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1373a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1373a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1374.html" title="Ticket #1374" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1372.html" title="Ticket #1372">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1374.html" title="Ticket #1374">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A09%3A49%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:09:49">2 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T16%3A43%3A36%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 16:43:36">2 years ago</a></p>
+  </div>
+  <h2>
+    <a href="1373.html" class="trac-id">#1373</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=fixed">fixed</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">Wrong matching e-mail (false positive)</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=hoffmann">hoffmann</a></td>
+      <th id="h_owner">Owned by:</th>
+      <td headers="h_owner"><a href="http://old.indico-software.org/query?status=!closed&amp;owner=arescope">arescope</a></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=blocker">blocker</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-4.html">v1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=Database">Database</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=0.99">0.99</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+Here is a tough one, and unfortunately it is quite urgent.<br />
+</p>
+<p>
+We have two users (Anne Green and Anne Green), who requested an account within some months distance. Due to operator error the second request got merged into the first account, although it is indeed a different person.<br />
+</p>
+<p>
+Everything has been cleaned up so far, I thought, but it seems to be impossible to request an account with the e-mail of the second requester again. See files attached:<br />
+</p>
+<p>
+indico1.png - Form filled for new user<br />
+</p>
+<p>
+indico2.png - user information of the existing user<br />
+</p>
+<p>
+When requesting the account for the new user, we get the message that the user already exists with address 'anne.green@…' and the usual suggestion to re-sent the password.<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(4)</span></h3>
+        <div class="attachments">
+          <dl class="attachments">
+              <dt>
+    <a href="../attachment/ticket/1373/indico1.html" title="View attachment">indico1.png</a><a href="../raw-attachment/ticket/1373/indico1.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="128004 bytes">125.0 KB</span>) -
+      added by <em>hoffmann</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A10%3A21%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:10:21">2 years ago</a>.
+  </dt>
+              <dd>
+                User registration form filled for new user
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1373/indico2.html" title="View attachment">indico2.png</a><a href="../raw-attachment/ticket/1373/indico2.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="128293 bytes">125.3 KB</span>) -
+      added by <em>hoffmann</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A10%3A36%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:10:36">2 years ago</a>.
+  </dt>
+              <dd>
+                User information of existing user
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1373/app.html" title="View attachment">app.php</a><a href="../raw-attachment/ticket/1373/app.php" class="trac-rawlink" title="Download">​</a>
+       (<span title="708 bytes">708 bytes</span>) -
+      added by <em>Slavon</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-31T15%3A14%3A04%2B01%3A00&amp;precision=second" title="See timeline at 12/31/13 15:14:04">22 months ago</a>.
+  </dt>
+              <dd>
+                <a class="ext-link" href="http://howtotreatpot.tumblr.com/"><span class="icon">​</span>http://howtotreatpot.tumblr.com/</a>
+              </dd>
+              <dt>
+    <a href="../attachment/ticket/1373/func.html" title="View attachment">func.php</a><a href="../raw-attachment/ticket/1373/func.php" class="trac-rawlink" title="Download">​</a>
+       (<span title="2845 bytes">2.8 KB</span>) -
+      added by <em>Slavon</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-31T15%3A14%3A24%2B01%3A00&amp;precision=second" title="See timeline at 12/31/13 15:14:24">22 months ago</a>.
+  </dt>
+              <dd>
+                <a class="ext-link" href="http://pndsorethroatby.tumblr.com/"><span class="icon">​</span>http://pndsorethroatby.tumblr.com/</a>
+              </dd>
+          </dl>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../zip-attachment/ticket/1373/index.html">.zip</a>
+          </p>
+          
+        </div>
+    </div>
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(20)</span></h3>
+          <div id="changelog">
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A10%3A21%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:10:21">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1373/indico1.html"><em>indico1.png</em></a><a href="../raw-attachment/ticket/1373/indico1.png" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+User registration form filled for new user<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A10%3A36%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:10:36">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1373/indico2.html"><em>indico2.png</em></a><a href="../raw-attachment/ticket/1373/indico2.png" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+User information of existing user<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-1-1376989943771154">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A12%3A23%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:12:23">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Trying to investigate in the database, the match does not seem to run correctly:<br />
+</p>
+<div class="code"><pre>In <span class="p">[</span><span class="mi">119</span><span class="p">]:</span> ah<span class="o">=</span>AvatarHolder<span class="p">()</span>
+
+In <span class="p">[</span><span class="mi">120</span><span class="p">]:</span> ah<span class="o">.</span>match<span class="p">({</span><span class="s">'email'</span><span class="p">:</span><span class="s">'agreen@physics'</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span>getEmail<span class="p">()</span>
+Out<span class="p">[</span><span class="mi">120</span><span class="p">]:</span> <span class="s">'anne.green@nottingham.ac.uk'</span>
+
+In <span class="p">[</span><span class="mi">121</span><span class="p">]:</span> ah<span class="o">.</span>match<span class="p">({</span><span class="s">'email'</span><span class="p">:</span><span class="s">'agreen@physics'</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span>getSecondaryEmails<span class="p">()</span>
+Out<span class="p">[</span><span class="mi">121</span><span class="p">]:</span> <span class="p">[]</span>
+</pre></div><p>
+Why does match() deliver the avatar for anne.green@nottingham, when asked for agreen@physics???<br />
+</p>
+
+    </div>
+  <div class="trac-lastedit ">
+    Last edited <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T12%3A28%3A25%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 12:28:25">2 years ago</a>
+        by hoffmann
+      (<a href="1373a4e8.html?cversion=0&amp;cnum_hist=1#comment:1">previous</a>)
+      (<a href="1373e835.html?action=comment-diff&amp;cnum=1&amp;version=1">diff</a>)
+  </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1376990379392166">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T11%3A19%3A39%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 11:19:39">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Tried /opt/indico/bin/maintenance/indexes/reindexusers.py, no change.<br />
+</p>
+<p>
+Oh, and yes: match() only returns one object:<br />
+</p>
+<div class="code"><pre>In <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> ah<span class="o">.</span>match<span class="p">({</span><span class="s">'email'</span><span class="p">:</span><span class="s">'agreen@physics'</span><span class="p">})</span>
+Out<span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="p">[</span><span class="o">&lt;</span>MaKaC<span class="o">.</span>user<span class="o">.</span>Avatar <span class="nb">object</span> at <span class="mh">0xa3d5a6c</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+    </div>
+  <div class="trac-lastedit ">
+    Last edited <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T12%3A28%3A41%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 12:28:41">2 years ago</a>
+        by hoffmann
+      (<a href="13736e7a.html?cversion=0&amp;cnum_hist=2#comment:2">previous</a>)
+      (<a href="13732f34.html?action=comment-diff&amp;cnum=2&amp;version=1">diff</a>)
+  </div>
+
+              </div>
+              <div class="change" id="trac-change-3-1376994231401190">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T12%3A23%3A51%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 12:23:51">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I am not sure, if I can debug this until the end, but in case someone catches up, this may help save some time:<br />
+<a href="http://old.indico-software.org/browser/indico/indico/MaKaC/user.py#L1496">browser/indico/indico/MaKaC/user.py</a> indicates how the matching is done in the <a class="missing wiki">AvatarHolder?</a> class. Indeed it uses the indexes, which seems to confirm that the indexing is corrupted:<br />
+</p>
+<div class="code"><pre>In <span class="p">[</span><span class="mi">16</span><span class="p">]:</span> IndexesHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="s">'email'</span><span class="p">)</span><span class="o">.</span>matchUser<span class="p">(</span><span class="s">'agreen@physics'</span><span class="p">)</span>
+Out<span class="p">[</span><span class="mi">16</span><span class="p">]:</span> <span class="p">[</span><span class="s">'269'</span><span class="p">]</span>
+
+In <span class="p">[</span><span class="mi">17</span><span class="p">]:</span> ah<span class="o">.</span>getById<span class="p">(</span>IndexesHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="s">'email'</span><span class="p">)</span><span class="o">.</span>matchUser<span class="p">(</span><span class="s">'agreen@physics'</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span>getEmail<span class="p">()</span>
+Out<span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="s">'anne.green@nottingham.ac.uk'</span>
+</pre></div><p>
+See you later ... ?<br />
+</p>
+
+    </div>
+  <div class="trac-lastedit ">
+    Last edited <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T12%3A27%3A56%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 12:27:56">2 years ago</a>
+        by hoffmann
+      (<a href="13735dc8.html?cversion=0&amp;cnum_hist=3#comment:3">previous</a>)
+      (<a href="1373dfdf.html?action=comment-diff&amp;cnum=3&amp;version=1">diff</a>)
+  </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1376995379267268">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:5" class="follow-up">↓ 5</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T12%3A42%3A59%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 12:42:59">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Well, I <strong>beleive</strong> I found the flaw in the design, looking at <a href="http://old.indico-software.org/browser/indico/indico/MaKaC/common/indexes.py#L141">the source for the EmailIndex class</a>:<br />
+</p>
+<p>
+<tt>indexUser</tt> will add email and secondaryEmails (plural!) to the index for a given user.<br />
+</p>
+<p>
+<tt>unindexUser</tt> will remove email and secondaryEmails from the index for a given user.<br />
+</p>
+<p>
+In between, whenever the secondaryEmails change or are removed, they apparently are <em>not</em> removed from the index, although the update of email seems to trigger a correct index update.<br />
+ <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-5-1377000249310935">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+        in reply to:
+    <a href="#comment:4">↑ 4</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T14%3A04%3A09%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 14:04:09">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1373.html#comment:4" title="Comment 4 for Ticket #1373">hoffmann</a>:<br />
+</p>
+<p>
+<tt>getEmails()</tt> should be used instead of the successive <tt>getEmail()</tt> and <tt>getSecondaryEmails()</tt> calls.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1377000650007828">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T14%3A10%3A50%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 14:10:50">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+If you want a simple test case:<br />
+</p>
+<ul><li>Create a user (default <a class="missing wiki">InDiCo?</a> Authenticator db)
+</li><li>Go to <a class="ext-link" href="http://your.indico.site/indico/userDetails.py?userId=XXX"><span class="icon">​</span>http://your.indico.site/indico/userDetails.py?userId=XXX</a>
+</li><li>Edit secondary email there: 123@…
+</li><li>Test with indico_shell for example <tt>ei.matchUser('123@domain.net')</tt>
+</li><li>It is empty.
+</li></ul><p>
+Conclusion: Secondary emails that have been modified through the user interface are not updated in <tt>EmailIndex</tt>.<br />
+</p>
+<p>
+NB: Same operation with primary email address updates the index correctly! (Do not forget dbi.sync() in indico_shell, unless you reopen it.)<br />
+</p>
+
+    </div>
+  <div class="trac-lastedit ">
+    Last edited <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T14%3A20%3A35%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 14:20:35">2 years ago</a>
+        by hoffmann
+      (<a href="13735571.html?cversion=0&amp;cnum_hist=6#comment:6">previous</a>)
+      (<a href="1373197a.html?action=comment-diff&amp;cnum=6&amp;version=1">diff</a>)
+  </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1377001701529024">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T14%3A28%3A21%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 14:28:21">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Here is the workaround to cleanup the database. Sorry, I cannot provide more right now. Probably both the userDetails and userMerge interface code should be re-read carefully regarding index update. Also a repair script alike <tt>reindexusers.py</tt> in <a href="http://old.indico-software.org/browser/indico/bin/maintenance/indexes">browser/indico/bin/maintenance/indexes</a> could be helpful.<br />
+</p>
+<p>
+This is my recipe for "repair":<br />
+</p>
+<div class="code"><pre>ei<span class="o">=</span>IndexesHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="s">'email'</span><span class="p">)</span>
+n<span class="o">=</span>ei<span class="o">.</span>matchUser<span class="p">(</span><span class="s">'agreen@physics'</span><span class="p">)</span> <span class="c"># partial match, OK!</span>
+ei<span class="o">.</span>_withdrawItem<span class="p">(</span><span class="s">'agreen@physics.edu.au'</span><span class="p">,</span> n<span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c"># use full address (index value) here!</span>
+dbi<span class="o">.</span>commit<span class="p">()</span>
+</pre></div>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1377006664199449">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T15%3A51%3A04%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 15:51:04">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v1.1</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-9-1377006672453607">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T15%3A51%3A12%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 15:51:12">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-owner">
+      <strong class="trac-field-owner">Owner</strong>
+        set to <em>arescope</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>assigned</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-10-1377012383287396">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T17%3A26%3A23%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 17:26:23">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+There was a bug that when editing the secondary email in the user profile page the reindexing was not being applied. I already made the patch.<br />
+</p>
+<p>
+With that patch all the related problems will not occur again.<br />
+</p>
+<p>
+Best regards,<br />
+</p>
+<p>
+Alberto<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-11-1377012745680966">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T17%3A32%3A25%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 17:32:25">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>assigned</em> to <em>awaiting_merge</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-12-1377015755582004">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:12" class="cnum">
+    <a href="#comment:12">comment:12</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:13" class="follow-up">↓ 13</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T18%3A22%3A35%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 18:22:35">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I would also fix the syntax in <tt>indexUser</tt> and <tt>unindexUser</tt> as described above (use <tt>getEmails()</tt>, not <tt>getEmail()</tt> and conditionally <tt>getSecondaryEmails</tt>).<br />
+</p>
+<p>
+But do as you want.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-13-1377066921085450">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:13" class="cnum">
+    <a href="#comment:13">comment:13</a>
+  </span>
+        in reply to:
+    <a href="#comment:12">↑ 12</a>
+        ;
+          <span>follow-up:</span>
+    <a href="#comment:14" class="follow-up">↓ 14</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-21T08%3A35%3A21%2B02%3A00&amp;precision=second" title="See timeline at 08/21/13 08:35:21">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1373.html#comment:12" title="Comment 12 for Ticket #1373">hoffmann</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+I would also fix the syntax in <tt>indexUser</tt> and <tt>unindexUser</tt> as described above (use <tt>getEmails()</tt>, not <tt>getEmail()</tt> and conditionally <tt>getSecondaryEmails</tt>).<br />
+</p>
+<p>
+But do as you want.<br />
+</p>
+</blockquote>
+<p>
+It was already patched like that :-). I forgot to tell you :-)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-14-1377086061243204">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:14" class="cnum">
+    <a href="#comment:14">comment:14</a>
+  </span>
+        in reply to:
+    <a href="#comment:13">↑ 13</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-21T13%3A54%3A21%2B02%3A00&amp;precision=second" title="See timeline at 08/21/13 13:54:21">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1373.html#comment:13" title="Comment 13 for Ticket #1373">arescope</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+It was already patched like that :-). I forgot to tell you :-)<br />
+</p>
+</blockquote>
+<p>
++1 :-)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-15-1377182581216708">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:15" class="cnum">
+    <a href="#comment:15">comment:15</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T16%3A43%3A01%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 16:43:01">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>awaiting_merge</em> to <em>merging</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-16-1377182616324723">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:16" class="cnum">
+    <a href="#comment:16">comment:16</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T16%3A43%3A36%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 16:43:36">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>merging</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+commit: <a class="changeset" href="http://old.indico-software.org/changeset/c69c96395895e756dd64977d7b8432b4895aa3d4/indico" title="[FIX] Reindex email when set secondary email
+
+- Closes #1373">c69c96395895e756dd64977d7b8432b4895aa3d4</a><br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-31T15%3A14%3A04%2B01%3A00&amp;precision=second" title="See timeline at 12/31/13 15:14:04">22 months ago</a> by Slavon
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1373/app.html"><em>app.php</em></a><a href="../raw-attachment/ticket/1373/app.php" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+<a class="ext-link" href="http://howtotreatpot.tumblr.com/"><span class="icon">​</span>http://howtotreatpot.tumblr.com/</a><br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-31T15%3A14%3A24%2B01%3A00&amp;precision=second" title="See timeline at 12/31/13 15:14:24">22 months ago</a> by Slavon
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/1373/func.html"><em>func.php</em></a><a href="../raw-attachment/ticket/1373/func.php" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+<a class="ext-link" href="http://pndsorethroatby.tumblr.com/"><span class="icon">​</span>http://pndsorethroatby.tumblr.com/</a><br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t13731fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1373a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1373a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1373?cversion=1&cnum_hist=2 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:46 GMT -->
+</html>

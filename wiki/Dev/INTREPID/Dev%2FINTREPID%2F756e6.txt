@@ -1,0 +1,100 @@
+[[PageOutline]]
+
+== InTRePId 7 ==
+'''Title:''' An HTTP API for Data Export
+
+'''Author:''' ''Pedro Ferreira'', ''Adrian Mönnich''
+
+'''Date:''' April 2011
+
+'''Target version:''' v0.98
+
+'''Status:''' implemented
+
+
+=== Objectives ===
+
+ * Creating a '''centralized data access API''' for Indico;
+ * '''Replacing''' the existing '''export scripts''' (`export.py`...) with something more usable and possibly more efficient;
+ * Enabling the quick implementation of '''export capabilities''' for '''different data formats''';
+ * Allowing '''access to protected information''', through the use of some '''authentication''' mechanism;
+ * Introducing some kind of '''control/logging mechanism''' that allows us to know who is using what and how often;
+ * Introducing '''defense mechanisms''' against abusive uses of the API;
+ * Creating '''extension points''' that allow different '''plugins''' to use this mechanism and add their own data;
+
+=== Status quo ===
+
+Currently, a series of scripts are used in order to provide data from Indico in different formats:
+ * `export.py` - enables access to HTML, XML, RSS and iCal listings of events contained in specific categories and following specific date spans;
+ * `exportReservations.py` - provides XML and CSV lists of reservations between a specified date span;
+ * RSS/iCal interfaces - same as `export.py` (for the corresponding formats), with the addition that they apply only to upcoming events, and that the iCal interface can also export the components of an event (contributions);
+ * XML Gateway - provides information about webcasts;
+
+=== Description ===
+
+==== Requirements ====
+
+ * A basic "as REST as possible" HTTP API for data export;
+ * An easy to use, flexible and intuitive query URL syntax;
+ * Support for different data formats;
+   - XML
+   - JSON/JSONP
+   - HTML 4 snippets (with proper CSS classes);
+   - RSS
+   - iCal
+   - CSV ? 
+   - HTML 5 with CSS and microdata ?
+   - YAML ?
+   - RDF ?
+
+ * A safe and easy to use authentication mechanism;
+ * HTTPS support (HTTPS only?);
+ * Reasonable load on Indico/DB, obtained among others through caching of results;
+ * Support for an "API key" kind of mechanism, including a list of authorized users/keys and their access level as well as some access statistics;
+ * Timezone support - both for querying and display of results;
+
+==== Specification details ====
+
+===== Date and time formats =====
+The user should be able to specify dates and times in both an absolute and a relative way:
+ * Using a subset of ISO8601;
+ * Using the keywords `yesterday`, `today`, `now`, `tomorrow`. `now` would be the current date/time while the others would change value according to their context:
+   * Date of the day in question, 00:00, if specified as `from`;
+   * Date of the day in question, 23:59 if specified as `to`; 
+ * Using a relative notation like `5d`, `-1h`, `2d1h30m`, etc...
+
+If not specified, date and time parameters should extend to minus or plus infinity.
+
+===== Time zone support =====
+
+Some details about timezone support:
+
+ * API users should be able to specify a timezone in which the results should be displayed; Otherwise, results should be displayed in their original timezones;
+ * If a user specifies a timezone (previous point), the API should consider that all other parameters (start date, etc...) are '''in the same timezone'''.
+
+==== Authentication ====
+
+Users should be able to request API keys from their profile pages. These API keys will grant whoever uses them equal rights to the user in terms of data access. There should be as well an encryption key, a shared secret that should be used to sign the request (ordered list of parameters), and that will guarantee that no-one has simply stolen the API key and used it to produce their own request.
+
+{{{
+signature = sha1(ordered_query_string + enc_key)
+}}}
+
+HTTPS support should be available, thus guaranteeing a secure communication channel.
+
+==== Examples ====
+
+{{{
+#!js
+[
+  {
+    id: 1234,
+    title: "An event",
+    datetime: { date: "2011-03-01",
+                time: "20:00" }
+  }
+]
+}}}
+
+=== Comments ===
+[[AddComment]]

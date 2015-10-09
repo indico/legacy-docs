@@ -1,0 +1,46 @@
+[[PageOutline]]
+
+= Indico Guidelines =
+
+In this page we will show a list of guidelines to follow when developing new modules in Indico. 
+[[BR]]
+The main idea is that before integrating a branch or a module, the developers will go through these guidelines in order to check if they respected them. This page was done after a usability analysis of our web service and aims to avoid some inconsistencies in the design of Indico.
+
+''(The first version will list the findings of the usability analysis but might not be complete, it is then highly encouraged to review this page from time to time in order to update or add any content)''
+
+
+== 1. Standardize task sequences ==
+Check that your interface respects the Indico style.
+
+If you have implemented something that is already present in Indico for another module, like a table, a search user field, a bullet list and so on, respect the style of the existing code. Don't confuse the user with another way to represent the same information.[[BR]]
+Same thing concerning a task sequence, if there already is one way to do something, do it the same way. Do not confuse the user with a different sequence of clicks which does exactly the same as another one. The rule is: there should be only one unique way to do something.
+
+== 2. Mandatory fields == 
+Show clearly a mandatory field in a form.
+
+If your code contains forms with mandatory fields, inform the user before he submits the form.
+
+Use a '*' sign to indicate the field as mandatory.
+If the user forget to input a value or input an invalid format, show the error by highlighting the field in red. [[BR]]
+This can be done in !JavaScript by using the !IndicoUtil.parameterManager class.
+
+== 3. Terminology and Jargon == 
+Keep in mind that Indico's users are not necessarily IT specialists.[[BR]]
+Ensure that the terms used are understandable by everyone and don't need a specific knowledge. However, if you are forced to use a complex term, define it, either on the same page, using a tooltip help or, if applicable, by updating the Glossary that you can find in the help section.
+
+== 4. Images and Icons == 
+If you have any images, icons or image buttons in your code, be sure that their functions are clear enough. In any case, you should add to the HTML tag the 'alt' and 'title' attributes.[[BR]]
+The 'alt' attribute will specify an alternate text for an image in case the image will not appear.[[BR]]
+The 'title' attribute will specify extra information about an element. This one is essential in case an icon's function is not clear enough.
+
+== 5. Test on different browsers ==
+It is known that some browsers show a webpage differently than another one. To avoid bad surprises, take some time to test your module in the other most used browsers. Usually it involves Firefox, Chrome, Internet Explorer and Safari. You can look at some statistics about the most commonly used ones at this page [http://www.w3schools.com/browsers/browsers_stats.asp Browser statistics] .
+
+== 6. Documentation and Help ==
+If necessary, do not forget to write the documentation about your module. Try to be as clear as possible and illustrate every steps with images and screenshots. More details about the documentation can be found here [wiki:Dev/Doc Writing Documentation].
+
+== 7. Use meaningful labels ==
+Avoid links names as 'click here', 'more...' and so on. Use clear links names, the user needs to understand directly by looking at the link where he will be redirected. He should not have to read the text around to know where the 'click here' link will bring him.
+
+== 8. Respect the colour rules ==
+Indico follows a strict colour rule to show a warning, success or anything else. Please, respect it, more information can be found here [wiki:/Dev/DevPractices/UserInterfaceGuidelines User Interface Guidelines].

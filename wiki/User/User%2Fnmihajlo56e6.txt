@@ -1,0 +1,13 @@
+= Nikolche Mihajlovski =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=nmihajlo,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=nmihajlo,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=nmihajlo)]]

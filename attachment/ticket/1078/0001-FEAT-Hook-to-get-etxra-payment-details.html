@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      0001-FEAT-Hook-to-get-etxra-payment-details.patch on Ticket #1078 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/1078.html" title="Ticket #1078" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/1078.html">Back to Ticket #1078</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/1078.html">Ticket #1078</a>: 0001-FEAT-Hook-to-get-etxra-payment-details.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File 0001-FEAT-Hook-to-get-etxra-payment-details.patch,
+                <span title="4038 bytes">3.9 KB</span>
+                (added by pedersen, <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A59%3A03%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:59:03">3 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+patch for hook
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py</a>
+        </h2>
+        <pre>From 395b041e5cd087a61813649b3e34ae8fd46b2cf7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= &lt;bjoern.pedersen@frm2.tum.de&gt;
+Date: Wed, 22 Aug 2012 13:41:09 +0200
+Subject: [PATCH] [FEAT] Hook to get etxra payment details
+
+ * add a hook to enable payment plugins to inject text into the payment
+   details used in e.g. the registration email.
+---
+ .../plugins/EPayment/bankTransfer/epayment.py      | 61 ++++++----------------
+ indico/MaKaC/registration.py                       |  9 ++++
+ 2 Dateien geÃ€ndert, 24 Zeilen hinzugefÃŒgt(+), 46 Zeilen entfernt(-)
+
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py b/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
+index 80fcb42..3f8e16f 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py">
+                      b
+                  </th>
+                  <td><em> class BankTransferMod(BaseEPayMod):</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>75</th><th>75</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; except:</span> </td>
+                  </tr><tr>
+                          <th>76</th><th>76</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pass</span> </td>
+                  </tr><tr>
+                          <th>77</th><th>77</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>78</th><th> </th><td class="l"><span>&nbsp; &nbsp; def get<del></del>PaymentDetails(self):</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>78</th><td class="r"><span>&nbsp; &nbsp; def get<ins>Extra</ins>PaymentDetails(self):</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>79</th><th>79</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>80</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; txt="""&lt;td align="right"&gt;&lt;b&gt;account bank&lt;/b&gt;&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>81</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="left"&gt;%s&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>82</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;/tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>83</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>84</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="right"&gt;&lt;b&gt;account BLZ&lt;/b&gt;&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>85</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="left"&gt;%s&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>86</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;/tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>87</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>88</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="right"&gt;&lt;b&gt;account Number&lt;/b&gt;&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>89</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="left"&gt;%s&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>90</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;/tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>91</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>92</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="right"&gt;&lt;b&gt;account IBAN&lt;/b&gt;&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>93</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="left"&gt;%s&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>94</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;/tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>95</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>96</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="right"&gt;&lt;b&gt;account SWIFT&lt;/b&gt;&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>97</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="left"&gt;%s&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>98</th><th> </th><td class="l"><span>&nbsp; &nbsp; &lt;/tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>99</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;tr&gt;</span> </td>
+                      </tr><tr>
+                        <th>100</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="right"&gt;&lt;b&gt;Subject&lt;/b&gt;&lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>101</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;td align="left"&gt;PK-Nr %s ID &lt;/td&gt;</span> </td>
+                      </tr><tr>
+                        <th>102</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/tr&gt;</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>80</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; txt="""\tBank: %s\n</span> </td>
+                      </tr><tr>
+                        <th> </th><th>81</th><td class="r"><span>\tBLZ: %s\n</span> </td>
+                      </tr><tr>
+                        <th> </th><th>82</th><td class="r"><span>\tAccount: %s\n</span> </td>
+                      </tr><tr>
+                        <th> </th><th>83</th><td class="r"><span>\tIBAN: %s\n</span> </td>
+                      </tr><tr>
+                        <th> </th><th>84</th><td class="r"><span>\tSWIFT: %s\n</span> </td>
+                      </tr><tr>
+                        <th> </th><th>85</th><td class="r"><span>\tSubject: PK-Nr %s&nbsp; ID \n</span> </td>
+                      </tr><tr>
+                        <th> </th><th>86</th><td class="r"><span>"""%(</span> </td>
+                      </tr><tr>
+                        <th> </th><th>87</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountBank(),</span> </td>
+                      </tr><tr>
+                        <th> </th><th>88</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountBLZ(),</span> </td>
+                      </tr><tr>
+                        <th> </th><th>89</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountNumber(),</span> </td>
+                      </tr><tr>
+                        <th> </th><th>90</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountIBAN(),</span> </td>
+                      </tr><tr>
+                        <th> </th><th>91</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountSwift(),</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>92</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getPKNumber())</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>103</th><th>93</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="first">
+                          <th>104</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/table&gt;"""%(</del> </td>
+                  </tr><tr>
+                          <th>105</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountBank(),</del> </td>
+                  </tr><tr>
+                          <th>106</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountBLZ(),</del> </td>
+                  </tr><tr>
+                          <th>107</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountNumber(),</del> </td>
+                  </tr><tr>
+                          <th>108</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountIBAN(),</del> </td>
+                  </tr><tr>
+                          <th>109</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountSwift(),</del> </td>
+                  </tr><tr>
+                          <th>110</th><th> </th><td class="l"><del>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getPKNumber())</del> </td>
+                  </tr><tr>
+                          <th>111</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; txt="""\tBank: %s\n</del> </td>
+                  </tr><tr>
+                          <th>112</th><th> </th><td class="l"><del>#\tBLZ: %s\n</del> </td>
+                  </tr><tr>
+                          <th>113</th><th> </th><td class="l"><del>#\tAccount: %s\n</del> </td>
+                  </tr><tr>
+                          <th>114</th><th> </th><td class="l"><del>#\tIBAN: %s\n</del> </td>
+                  </tr><tr>
+                          <th>115</th><th> </th><td class="l"><del>#\tSWIFT: %s\n</del> </td>
+                  </tr><tr>
+                          <th>116</th><th> </th><td class="l"><del>#\tSubject: PK-Nr %s&nbsp; ID \n</del> </td>
+                  </tr><tr>
+                          <th>117</th><th> </th><td class="l"><del>#"""%(</del> </td>
+                  </tr><tr>
+                          <th>118</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountBank(),</del> </td>
+                  </tr><tr>
+                          <th>119</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountBLZ(),</del> </td>
+                  </tr><tr>
+                          <th>120</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountNumber(),</del> </td>
+                  </tr><tr>
+                          <th>121</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountIBAN(),</del> </td>
+                  </tr><tr>
+                          <th>122</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getAccountSwift(),</del> </td>
+                  </tr><tr>
+                          <th>123</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.getPKNumber())</del> </td>
+                  </tr><tr>
+                          <th>124</th><th> </th><td class="l"><del>#</del> </td>
+                  </tr><tr class="last">
+                          <th>125</th><th> </th><td class="l"><del>#&nbsp; &nbsp; &nbsp; &nbsp; raise Exception("test")</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>126</th><th>94</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return txt</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>95</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>127</th><th>96</th><td class="l"><span>&nbsp; &nbsp; def getdetailPayment(self):</span> </td>
+                  </tr><tr>
+                          <th>128</th><th>97</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return self._detailPayment</span> </td>
+                  </tr><tr>
+                          <th>129</th><th>98</th><td class="l"><span>&nbsp; &nbsp; def setdetailPayment(self, detailPayment):</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/registration.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/registration.py b/indico/MaKaC/registration.py
+index 3545980..61f02ef 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/registration.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/registration.py">
+                      b
+                  </th>
+                  <td><em> Congratulations, your registration to %s was successful%s See your information b</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>812</th><th>812</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; getTitle=strip_ml_tags(registrant.getConference().getTitle())</span> </td>
+                  </tr><tr>
+                          <th>813</th><th>813</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; idRegistrant=registrant.getIdPay()</span> </td>
+                  </tr><tr>
+                          <th>814</th><th>814</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; detailPayment=registrant.getConference().getModPay().getPaymentDetails()</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>815</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>816</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; msgs = []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>817</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; for ePayMod in registrant.getConference().getModPay().getSortedEnabledModPay():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>818</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; try:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>819</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msgs.append(ePayMod.getExtraPaymentDetails())</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>820</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; except Exception:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>821</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; pass</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>822</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; detailPayment = detailPayment + "\n".join(msgs)</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>823</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>815</th><th>824</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; subject=_("""Payment summary for '%s': %s""")%(strip_ml_tags(registrant.getConference().getTitle()), registrant.getFullName())</span> </td>
+                  </tr><tr>
+                          <th>816</th><th>825</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; body= _("""</span> </td>
+                  </tr><tr>
+                          <th>817</th><th>826</th><td class="l"><span>Please use this information for your payment (except for e-payment):\n</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1078/0001-FEAT-Hook-to-get-etxra-payment-details.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+</html>

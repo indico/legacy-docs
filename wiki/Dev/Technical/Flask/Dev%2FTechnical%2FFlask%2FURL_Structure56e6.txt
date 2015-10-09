@@ -1,0 +1,114 @@
+= Indico URL Structure =
+
+Note: All headings here contain the blueprint name and url prefix if applicable
+
+== Administration - `admin` - `/admin` ==
+
+* `/settings/` - various settings
+* `/networks/` - IP domains. "networks" describes it better though
+* `/users/` - User administration (except settings)
+* `/users/groups/` - Group administration
+* `/plugins/` - Plugin administration. "subdirectories" for plugin types/ids
+
+Everything else is pretty obvious.
+
+== API - `api` ==
+JSON-RPC and HTTP_API. No change in the URL structure compared to the current one. One `build_only` rule to create the base URL for the export/api
+
+== Category - `category` - `/category` ==
+* Short URLs (ID only) are in `!/categ/` and `!/c/`
+* First path element is always the category ID wherever possible
+
+== Category Management - `category_mgmt` - `/category/<categId>/manage` ==
+* `!/category/<id>/create/` contains creation of subcategories (and events, but in separate Blueprint)
+
+Everything else should be obvious.
+
+== Files - `files` ==
+File/Material access. Has lots of different URLs for accessing files at various positions so the URLs stay pretty. If you add something that goes through the normal RHFileAccess just add another rule for the same endpoint `'getFile-access'`. But for new stuff that has a custom RH please use a different endpoint name!
+
+== Legacy - `legacy` ==
+Automatically generated. '''Do not modify.'''
+
+Contains only the xmlGateway - everything else has proper rules. As soon as xmlGateway is gone the `legacy` Blueprint should be removed, too. However, the `legacy_endpoints` set needs to be kept - but it should probably moved into a new module `indico.web.flask.legacy`
+
+== Legacy Scripts - `legacy_scripts` - `/scripts` ==
+Only contains the exportReservations.py script. As soon as the only remaining user of this script has switched to the API this blueprint shall be burninated.
+
+[[Image(http://i.stack.imgur.com/Zm85C.png,10%)]]
+
+== Misc - `misc` ==
+Various things that do not justify a separate blueprint. Please don't abuse it by putting stuff there that DOES belong into another blueprint.
+
+== OAuth - `oauth` ==
+Everything OAuth-related. Both the endpoints accessed by the consumer and the ones accessed by the user when authorizing an app or viewing his list of authorized apps.
+
+== Room Booking - `rooms` - `/rooms` ==
+The non-admin part of the room booking system.
+
+Because of the way the room booking system works the URLs are not always perfect - some things are simply accessible from too many different locations (e.g. the last page of the room booking form is used when cloning, too). However, it's kept as nice as possibly.
+
+For existing rooms/bookings the URL contains both the location name and the room/booking ID.
+
+== Room Booking Admin - `rooms_admin` - `/admin/rooms` ==
+Administration part of the room booking system. The URL schema is pretty obvious and should not require further explanation.
+
+== User - `user` - `/user` ==
+Everything user-related while not logged in such as Register, Login, Logout, Lost Password, etc. is directly within this url namespace.
+
+Anything that's used while logged in is usually also accessible for an admin viewing/editing another user. For this purpose all those paths are available both directly within the blueprint's namespace and with `/<userId>` in case it's not the own user.
+
+== Event ==
+Because of the enormous size of the event related blueprints (they are pretty the main part of Indico) those blueprints are split into packages within `indico.web.flask.blueprints.event`. The only exception is the `event_creation` blueprint which is very small and thus a simple module.
+
+=== Event creation - `event_creation` - `/event/create` ===
+The URL always contains the event type (`lecture`, `meeting`, `conference`). `simple_event` is automatically redirected to `lecture` since the latter is much nicer and more meaningful.
+
+As mentioned in the category management blueprint event creation inside a category is done elsewhere: here.
+The URLs for it similar to the subcategory creation but in the same style as the event creation when no category is specified.
+
+=== Event display - `event` - `/event/<confId>` ===
+
+Contains everything that's part of an event but not related to management.
+
+Split into submodules to improve readability and structure:
+
+* `main` contains the ShortURL handling (`_event_or_shorturl`), the event home page and global event stuff such as custom CSS, logo and pictures.
+* `abstracts` contains the Call For Abstracts system
+* `contributions` contains contributions, subcontributions and authors/speakers. Most contribution rules support a session prefix if the contribution appears within a session.
+* `evaluation` contains the evaluation module (you didn't expect this, did you? :p)
+* `misc` contains things like custom pages, material packages, email form and participation invitation handling
+* `paperreviewing` contains the parts of the paper reviewing system that are accessible to normal users
+* `registration` contains the registration form in its various steps
+* `schedule` contains timetable, program and sessions (contributions inside sessions are in `contributions` though)
+* `users` contains indico login and registration within an event
+
+The logic behind the url structure within those modules should be pretty obvious. Explaining it for everything would be way too long and you most likely wouldn't read it anyway or, as a new developer, would have to read through a wall of text that is not really helpful to you.
+
+=== Event management - `event_mgmt` - `/event/<confId>/manage` ===
+
+Contains everything management-related of an event. This includes large parts of the paper reviewing system.
+
+
+Split into submodules to improve readability and structure:
+
+* `main` contains the gateway redirecting users to the most appropriate management page (according to their access) and the modification key stuff
+* `abstracts` contains the management/reviewing part of the Call For Abstract system
+* `contributions` contain contribution management (also with the session prefix if applicable). contribution paper reviewing is in `paperreviewing` though
+* `evaluation` contains evaluation setup and results
+* `general` contains the general settings of an event. Contribution types are also here because it's on the same page...
+* `layout` contains all the layout customization things including image upload
+* `lists` contains the lists of speakers, conveners and pending users - and the corresponding email forums
+* `misc` contains logs and material
+* `paperreviewing` contains everything PR related that is not public.
+* `participants` contains the participant lists/management for meetings
+* `payment` contains the epayment part of the registration form
+* `protection` contains access control of the event
+* `registration` contains the registration form setup and registrant list/management
+* `rooms` contains the event-specific room booking system. The URLs are very similar to the ones in the `rooms` blueprint
+* `schedule` contains the timetable management. The session timetable is in the `session` blueprint
+* `sessions` contains session management and also the session timetable
+* `tools` contains all event manager tools: alarms, cloning, deletion, lock/unlock, posters, badges, material package, offline website
+* `tracks` contains the event program and track management. all track-related abstract things (mostly reviewing-related) are here, too.
+
+The logic behind the url structure within those modules should be pretty obvious. Explaining it for everything would be way too long and you most likely wouldn't read it anyway or, as a new developer, would have to read through a wall of text that is not really helpful to you.

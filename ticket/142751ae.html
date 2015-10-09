@@ -1,0 +1,997 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1427?cversion=0&cnum_hist=4 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1427 (error installing indico 1.1.1 on RHEL6 "No module named persistent")
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1426.html" title="Ticket #1426" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t14271fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1427a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1427a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1428.html" title="Ticket #1428" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1426.html" title="Ticket #1426">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1428.html" title="Ticket #1428">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-09T01%3A22%3A53%2B01%3A00&amp;precision=second" title="See timeline at 11/09/13 01:22:53">2 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-04-10T14%3A12%3A00%2B02%3A00&amp;precision=second" title="See timeline at 04/10/14 14:12:00">18 months ago</a></p>
+  </div>
+  <h2>
+    <a href="1427.html" class="trac-id">#1427</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=fixed">fixed</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">error installing indico 1.1.1 on RHEL6 "No module named persistent"</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=bartelt">bartelt</a></td>
+      <th id="h_owner">Owned by:</th>
+      <td headers="h_owner"><a href="http://old.indico-software.org/query?status=!closed&amp;owner=pferreir">pferreir</a></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-4.html">v1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=General">General</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=1.1">1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+This is my first time installing indico (or anything) with easy_install. I am a python newby. I am working on a newly installed RHEL6.4 (64-bit) server.<br />
+I did:<br />
+easy_install pip<br />
+pip install reportlab PIL<br />
+</p>
+<p>
+Those went fine.  Then I did<br />
+easy_install indico<br />
+which did a lot of things, but then:<br />
+</p>
+<p>
+Installed /usr/lib/python2.6/site-packages/six-1.4.1-py2.6.egg<br />
+Searching for BTrees<br />
+Reading <a class="ext-link" href="http://pypi.python.org/simple/BTrees/"><span class="icon">​</span>http://pypi.python.org/simple/BTrees/</a><br />
+Best match: BTrees 4.0.8<br />
+Downloading <a class="ext-link" href="https://pypi.python.org/packages/source/B/BTrees/BTrees-4.0.8.tar.gz#md5=7f5df4cf8dd50fb0c584c0929a406c92"><span class="icon">​</span>https://pypi.python.org/packages/source/B/BTrees/BTrees-4.0.8.tar.gz#md5=7f5df4cf8dd50fb0c584c0929a406c92</a><br />
+Processing BTrees-4.0.8.tar.gz<br />
+Running BTrees-4.0.8/setup.py -q bdist_egg --dist-dir /tmp/easy_install-UjaTjH/BTrees-4.0.8/egg-dist-tmp-EQHj8N<br />
+warning: no previously-included files matching '*.dll' found anywhere in distribution<br />
+warning: no previously-included files matching '*.pyc' found anywhere in distribution<br />
+warning: no previously-included files matching '*.pyo' found anywhere in distribution<br />
+warning: no previously-included files matching '*.so' found anywhere in distribution<br />
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "/usr/bin/easy_install", line 9, in &lt;module&gt;<br />
+</p>
+<blockquote>
+<p>
+load_entry_point('distribute==0.6.10', 'console_scripts', 'easy_install')()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 1715, in main<br />
+</p>
+<blockquote>
+<p>
+with_ei_usage(lambda:<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 1696, in with_ei_usage<br />
+</p>
+<blockquote>
+<p>
+return f()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 1719, in &lt;lambda&gt;<br />
+</p>
+<blockquote>
+<p>
+distclass=<a class="missing wiki">DistributionWithoutHelpCommands?</a>, <strong>kw<br />
+</strong></p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/core.py", line 152, in setup<br />
+</p>
+<blockquote>
+<p>
+dist.run_commands()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 975, in run_commands<br />
+</p>
+<blockquote>
+<p>
+self.run_command(cmd)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 995, in run_command<br />
+</p>
+<blockquote>
+<p>
+cmd_obj.run()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 236, in run<br />
+</p>
+<blockquote>
+<p>
+self.easy_install(spec, not self.no_deps)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 472, in easy_install<br />
+</p>
+<blockquote>
+<p>
+return self.install_item(spec, dist.location, tmpdir, deps)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 504, in install_item<br />
+</p>
+<blockquote>
+<p>
+self.process_distribution(spec, dist, deps)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 545, in process_distribution<br />
+</p>
+<blockquote>
+<p>
+[requirement], self.local_index, self.easy_install<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 538, in resolve<br />
+</p>
+<blockquote>
+<p>
+dist = best[req.key] = env.best_match(req, self, installer)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 780, in best_match<br />
+</p>
+<blockquote>
+<p>
+return self.obtain(req, installer) # try and download/install<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 792, in obtain<br />
+</p>
+<blockquote>
+<p>
+return installer(requirement)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 472, in easy_install<br />
+</p>
+<blockquote>
+<p>
+return self.install_item(spec, dist.location, tmpdir, deps)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 502, in install_item<br />
+</p>
+<blockquote>
+<p>
+dists = self.install_eggs(spec, download, tmpdir)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 681, in install_eggs<br />
+</p>
+<blockquote>
+<p>
+return self.build_and_install(setup_script, setup_base)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 958, in build_and_install<br />
+</p>
+<blockquote>
+<p>
+self.run_setup(setup_script, setup_base, args)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 947, in run_setup<br />
+</p>
+<blockquote>
+<p>
+run_setup(setup_script, args)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/sandbox.py", line 29, in run_setup<br />
+</p>
+<blockquote>
+<p>
+lambda: execfile(<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/sandbox.py", line 70, in run<br />
+</p>
+<blockquote>
+<p>
+return func()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/sandbox.py", line 31, in &lt;lambda&gt;<br />
+</p>
+<blockquote>
+<p>
+{'<span class="underline">file</span>':setup_script, '<span class="underline">name</span>':'<span class="underline">main</span>'}<br />
+</p>
+</blockquote>
+<p>
+File "setup.py", line 158, in &lt;module&gt;<br />
+File "/usr/lib64/python2.6/distutils/core.py", line 152, in setup<br />
+</p>
+<blockquote>
+<p>
+dist.run_commands()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 975, in run_commands<br />
+</p>
+<blockquote>
+<p>
+self.run_command(cmd)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 995, in run_command<br />
+</p>
+<blockquote>
+<p>
+cmd_obj.run()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/bdist_egg.py", line 174, in run<br />
+</p>
+<blockquote>
+<p>
+cmd = self.call_command('install_lib', warn_dir=0)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/bdist_egg.py", line 161, in call_command<br />
+</p>
+<blockquote>
+<p>
+self.run_command(cmdname)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/cmd.py", line 333, in run_command<br />
+</p>
+<blockquote>
+<p>
+self.distribution.run_command(command)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 995, in run_command<br />
+</p>
+<blockquote>
+<p>
+cmd_obj.run()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/install_lib.py", line 20, in run<br />
+</p>
+<blockquote>
+<p>
+self.build()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/command/install_lib.py", line 119, in build<br />
+</p>
+<blockquote>
+<p>
+self.run_command('build_ext')<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/cmd.py", line 333, in run_command<br />
+</p>
+<blockquote>
+<p>
+self.distribution.run_command(command)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 995, in run_command<br />
+</p>
+<blockquote>
+<p>
+cmd_obj.run()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/build_ext.py", line 46, in run<br />
+</p>
+<blockquote>
+<p>
+_build_ext.run(self)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/command/build_ext.py", line 340, in run<br />
+</p>
+<blockquote>
+<p>
+self.build_extensions()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/command/build_ext.py", line 449, in build_extensions<br />
+</p>
+<blockquote>
+<p>
+self.build_extension(ext)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/build_ext.py", line 182, in build_extension<br />
+</p>
+<blockquote>
+<p>
+_build_ext.build_extension(self,ext)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/command/build_ext.py", line 499, in build_extension<br />
+</p>
+<blockquote>
+<p>
+depends=ext.depends)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/ccompiler.py", line 613, in compile<br />
+</p>
+<blockquote>
+<p>
+depends, extra_postargs)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/ccompiler.py", line 371, in _setup_compile<br />
+</p>
+<blockquote>
+<p>
+pp_opts = gen_preprocess_options(macros, incdirs)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/ccompiler.py", line 1146, in gen_preprocess_options<br />
+</p>
+<blockquote>
+<p>
+pp_opts.append ("-I%s" % dir)<br />
+</p>
+</blockquote>
+<p>
+File "setup.py", line 49, in <span class="underline">str</span><br />
+File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 862, in resource_filename<br />
+</p>
+<blockquote>
+<p>
+return get_provider(package_or_requirement).get_resource_filename(<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/pkg_resources.py", line 180, in get_provider<br />
+</p>
+<blockquote>
+<p>
+<span class="underline">import</span>(moduleOrReq)<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+<a class="missing wiki">ImportError?</a>: No module named persistent<br />
+</p>
+<p>
+Please advise on how to proceed with the installation.<br />
+thanks, John<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(9)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1384179217160749">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-11T15%3A13%3A37%2B01%3A00&amp;precision=second" title="See timeline at 11/11/13 15:13:37">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v1.1</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-2-1384179475104637">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-11T15%3A17%3A55%2B01%3A00&amp;precision=second" title="See timeline at 11/11/13 15:17:55">2 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-owner">
+      <strong class="trac-field-owner">Owner</strong>
+        set to <em>pferreir</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>assigned</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-3-1384180611015873">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-11T15%3A36%3A51%2B01%3A00&amp;precision=second" title="See timeline at 11/11/13 15:36:51">2 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+Indico 1.1.2 has just been released. It should fix this issue. You should, however clean up your Zope python packages first, so, generally the ones starting with <tt>z*</tt> or <tt>Z*</tt> in your site-packages dir (e.g. <tt>/usr/lib/python2.7/site-packages/</tt>), as well as <tt>persistent</tt>. <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1384202603310951">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-11T21%3A43%3A23%2B01%3A00&amp;precision=second" title="See timeline at 11/11/13 21:43:23">2 years ago</a> by bartelt
+  </h3>
+    <div class="comment searchable">
+      <p>
+Thanks.  What exactly do you mean by "clean up"?  Can I just the .egg files?<br />
+</p>
+
+    </div>
+  <div class="trac-lastedit trac-shade">
+    Version 0, edited <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-11T21%3A43%3A23%2B01%3A00&amp;precision=second" title="See timeline at 11/11/13 21:43:23">2 years ago</a>
+        by bartelt
+      (<a href="14278909.html?cversion=1&amp;cnum_hist=4#comment:4">next</a>)
+  </div>
+
+              </div>
+              <div class="change" id="trac-change-5-1384295867707767">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-12T23%3A37%3A47%2B01%3A00&amp;precision=second" title="See timeline at 11/12/13 23:37:47">2 years ago</a> by bartelt
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I googled and learned to use 'pip' to uninstall packages. <br />
+</p>
+<p>
+However, when I tried 'easy_install indico', I again got version 1.1.1.<br />
+When will the repository be updated to 1.1.2?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1384296187236195">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-12T23%3A43%3A07%2B01%3A00&amp;precision=second" title="See timeline at 11/12/13 23:43:07">2 years ago</a> by bartelt
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Never mind, I forgot to uninstall indico itself.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1384296895025411">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-12T23%3A54%3A55%2B01%3A00&amp;precision=second" title="See timeline at 11/12/13 23:54:55">2 years ago</a> by bartelt
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Indico 1.1.2 fails also:<br />
+</p>
+<p>
+# easy_install -n indico<br />
+Searching for indico<br />
+Reading <a class="ext-link" href="http://pypi.python.org/simple/indico/"><span class="icon">​</span>http://pypi.python.org/simple/indico/</a><br />
+Reading <a href="http://indico-software.org/">http://indico-software.org</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico0.98-rc1">http://indico-software.org/wiki/Releases/Indico0.98-rc1</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico0.98.0">http://indico-software.org/wiki/Releases/Indico0.98.0</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico0.98.1">http://indico-software.org/wiki/Releases/Indico0.98.1</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico0.98.2">http://indico-software.org/wiki/Releases/Indico0.98.2</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico0.99">http://indico-software.org/wiki/Releases/Indico0.99</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico1.0">http://indico-software.org/wiki/Releases/Indico1.0</a><br />
+Reading <a href="http://indico-software.org/wiki/Releases/Indico1.1">http://indico-software.org/wiki/Releases/Indico1.1</a><br />
+Best match: indico 1.1.2<br />
+Downloading <a href="http://indico-software.org/download/indico/indico-1.1.2-py2.6.egg">http://indico-software.org/download/indico/indico-1.1.2-py2.6.egg</a><br />
+Processing indico-1.1.2-py2.6.egg<br />
+creating /usr/lib/python2.6/site-packages/indico-1.1.2-py2.6.egg<br />
+Extracting indico-1.1.2-py2.6.egg to /usr/lib/python2.6/site-packages<br />
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "/usr/bin/easy_install", line 9, in &lt;module&gt;<br />
+</p>
+<blockquote>
+<p>
+load_entry_point('distribute==0.6.10', 'console_scripts', 'easy_install')()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 1715, in main<br />
+</p>
+<blockquote>
+<p>
+with_ei_usage(lambda:<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 1696, in with_ei_usage<br />
+</p>
+<blockquote>
+<p>
+return f()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 1719, in &lt;lambda&gt;<br />
+</p>
+<blockquote>
+<p>
+distclass=<a class="missing wiki">DistributionWithoutHelpCommands?</a>, <strong>kw<br />
+</strong></p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/core.py", line 152, in setup<br />
+</p>
+<blockquote>
+<p>
+dist.run_commands()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 975, in run_commands<br />
+</p>
+<blockquote>
+<p>
+self.run_command(cmd)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib64/python2.6/distutils/dist.py", line 995, in run_command<br />
+</p>
+<blockquote>
+<p>
+cmd_obj.run()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 236, in run<br />
+</p>
+<blockquote>
+<p>
+self.easy_install(spec, not self.no_deps)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 472, in easy_install<br />
+</p>
+<blockquote>
+<p>
+return self.install_item(spec, dist.location, tmpdir, deps)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 502, in install_item<br />
+</p>
+<blockquote>
+<p>
+dists = self.install_eggs(spec, download, tmpdir)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 645, in install_eggs<br />
+</p>
+<blockquote>
+<p>
+return [self.install_egg(dist_filename, tmpdir)]<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 722, in install_egg<br />
+</p>
+<blockquote>
+<p>
+return self.egg_distribution(destination)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/setuptools/command/easy_install.py", line 687, in egg_distribution<br />
+</p>
+<blockquote>
+<p>
+metadata = <a class="missing wiki">EggMetadata?</a>(zipimport.zipimporter(egg_path))<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+zipimport.<a class="missing wiki">ZipImportError?</a>: not a Zip file<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1384297645620247">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-13T00%3A07%3A25%2B01%3A00&amp;precision=second" title="See timeline at 11/13/13 00:07:25">2 years ago</a> by bartelt
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+OK, weird.  "easy_install -n indico" failed but "easy_install indico" succeeded.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1397131920554923">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-04-10T14%3A12%3A00%2B02%3A00&amp;precision=second" title="See timeline at 04/10/14 14:12:00">18 months ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>assigned</em> to <em>closed</em>
+    </li>
+  </ul>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t14271fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1427a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1427a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1427?cversion=0&cnum_hist=4 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:17 GMT -->
+</html>

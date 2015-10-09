@@ -1,0 +1,41 @@
+= Indico v1.1.2 =
+
+If you need a detailed version of the installation process, please read [wiki:Admin/Installation0.98 here].
+
+== Installing ==
+
+Simply run:
+
+{{{
+easy_install indico
+}}}
+
+If you are upgrading from 0.97, please note that the package has been renamed from `cds-indico` to `indico`. **Make sure you delete the old `.egg` file before installing**.
+
+
+If you prefer to download the egg or tarball to install manually:
+
+ * [[http://indico-software.org/download/indico/indico-1.1.2-py2.7.egg|Egg]] for Python 2.7
+ * [[http://indico-software.org/download/indico/indico-1.1.2-py2.6.egg|Egg]] for Python 2.6
+ * [[http://indico-software.org/download/indico/indico-1.1.2.tar.gz|Tarball]]
+
+== Migrating ==
+
+=== from 0.97.2 - 1.1 ===
+
+{{{
+$ indico_initial_setup --existing-config=/opt/indico/etc/indico.conf
+$ python /path/to/indico/bin/migration/migrate.py --prev-version=<version>
+}}}
+
+Replacing `<version>` by the version you are upgrading from (e.g. `1.0`).
+
+If you are using the Room Booking module, you should add the `--with-rb` parameter to `indico_initial_setup`;
+
+
+=== from older versions ===
+
+In this case you must go to the [[wiki:Download|Downloads]] page and click on the version that follows yours. Install it and follow the migration instructions. Then proceed with the next version, and so forth, until you reach 0.97. 
+Once you have done it to 0.97 you can proceed as explained in the previous section ''from 0.97.x/0.98/0.99/1.0''.
+
+A detailed explanation on how to migrate from 0.94 to 0.99 can be found [[wiki:Admin/install/from0.94|here]].

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Tests/CheatSheet by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Tests/CheatSheet – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTests%252FCheatSheet56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Tests.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Tests.html" title="View Dev/Tests">Tests</a><span class="pathentry sep">/</span><a class="pathentry" href="CheatSheet.html" title="View Dev/Tests/CheatSheet">CheatSheet</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Tests.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Tests/CheatSheet?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h2 id="Flags">Flags</h2>
+<table class="wiki">
+<tr><td> --unit </td><td> Python unit tests 
+</td></tr><tr><td> --functional </td><td> Python functional tests 
+</td></tr><tr><td> --coverage </td><td> Python coverage 
+</td></tr><tr><td> --specify=PATH </td><td> Python tests, use <em>folder.file:class.function</em> to specify test to run 
+</td></tr><tr><td> --pylint </td><td> Python source analysis 
+</td></tr><tr><td> --jsunit </td><td> Javascript unit tests 
+</td></tr><tr><td> --jscoverage </td><td> Javascript coverage 
+</td></tr><tr><td> --jsspecify=PATH </td><td> Javascript tests, use <em>TestCase.testname</em> to specify test to run 
+</td></tr><tr><td> --jslint </td><td> Javascript source analysis 
+</td></tr><tr><td> --grid </td><td> Running functional tests on the environment specified in <em>tests.conf</em> 
+</td></tr></table>
+<h2 id="PythonUnittests">Python Unit tests</h2>
+<div class="code"><pre><span class="c">#Note that the 2 following functions will be called for module, very handy if we need to run a single test</span>
+<span class="c">#So we do not need to specify a setup and teardown for each class</span>
+<span class="k">def</span> <span class="nf">setup_module</span><span class="p">():</span>
+    DBMgr<span class="o">.</span>getInstance<span class="p">()</span><span class="o">.</span>startRequest<span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">teardown_module</span><span class="p">():</span>
+    DBMgr<span class="o">.</span>getInstance<span class="p">()</span><span class="o">.</span>abort<span class="p">()</span>
+    DBMgr<span class="o">.</span>getInstance<span class="p">()</span><span class="o">.</span>endRequest<span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">TestCategories</span><span class="p">(</span>unittest<span class="o">.</span>TestCase<span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">testBasicAddAndRemoveConferences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+        c1<span class="o">.</span>_addConference<span class="p">(</span>conf1<span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span>croot<span class="o">.</span>getNumConferences<span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div><p>
+Nosetests uses this regular expression <em>(?:^|[b_.-])[Tt]est</em> to fetch tests, so our naming conventions will be:
+</p>
+<ul><li>Every file name has to end with <strong>_test.py</strong> (ie <em>indicop_test.py</em>)
+</li><li>Every class has to start with Test with a capital T <strong>class TestIndicop(unittest.TestCase)</strong>
+</li><li>Every function has to start with test <strong>def testIndicop()</strong>
+</li></ul><h2 id="PythonFunctionaltests">Python Functional tests</h2>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">seleniumTestCase</span> <span class="kn">import</span> SeleniumTestCase
+
+<span class="k">class</span> <span class="nc">ExampleTest</span><span class="p">(</span>SeleniumTestCase<span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        SeleniumTestCase<span class="o">.</span>setUp<span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        SeleniumTestCase<span class="o">.</span>tearDown<span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="k">if</span> __name__ <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    unittest<span class="o">.</span>main<span class="p">()</span>
+</pre></div><hr />
+<p>
+Delete automatically conference at the end of execution (aka in teardown):
+</p>
+<div class="code"><pre>SeleniumTestCase<span class="o">.</span>setConfID<span class="p">(</span><span class="bp">self</span><span class="p">,</span> sel<span class="o">.</span>get_location<span class="p">())</span>
+</pre></div><hr />
+<ol><li>Selenium does not recognize Javascript auto-complete when a text is entered.<br /> <em>Solution:</em> Enter the whole word by hand.
+</li><li>Javascript Calendar does not work either.<br /> <em>Solution:</em> Enter the date by hand.
+</li><li>Do not make <em>clicks</em> or <em>assertions</em> on element containing <strong>IDs</strong>.<br /> <em>Solution:</em> Use XPath instead. Xpaths are easy to find with Firefox's plugin <em>XPather</em>.
+</li><li>When replaying, Selenium can get confused with buttons' names and can end up clicking on the wrong button.<br /> <em>Solution:</em> Once again, use XPath instead. Xpaths are easy to find with Firefox's plugin <em>XPather</em>. For example, instead of having <em><em>td/tr/bla</em></em><em>, we use the whole path which starts with <em></em></em><em>html/etc</em>
+</li><li>Popups and AJAX requests are very bothersome to test with Selenium. The latter would not wait for a page or a tab to load if we do not explicitly tell to do so.<br /> <em>Solution:</em> Use Selenium <em>waitForText</em> function whenever a window pops up, a tab is loading or an AJAX request is sent.<br />
+</li></ol><p>
+<em>waitForElementPresent</em> will wait until the element introduced in <em>Target</em> is present. Note that you should always put an element that doesn't appear in the referer. <br />
+<em>waitForText</em> has a similar behaviour, but waits up until the element in <em>Target</em> has the value in <em>Value</em>. <br />
+</p>
+<p>
+And since Selenium is so unreliable about AJAX, to ensure that the action is performed, we do some brute forcing. 
+</p>
+<hr />
+<div class="code"><pre>sel<span class="o">.</span>click<span class="p">(</span><span class="s">"addLink"</span><span class="p">)</span>
+<span class="k">for</span> i <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s">"Session"</span> <span class="o">==</span> sel<span class="o">.</span>get_text<span class="p">(</span><span class="s">"link=Session"</span><span class="p">):</span> <span class="k">break</span>
+    <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    time<span class="o">.</span>sleep<span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span>fail<span class="p">(</span><span class="s">"time out"</span><span class="p">)</span>
+</pre></div><p>
+Becomes:
+</p>
+<div class="code"><pre>sel<span class="o">.</span>click<span class="p">(</span><span class="s">"addLink"</span><span class="p">)</span>
+<span class="k">for</span> i <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s">"Session"</span> <span class="o">==</span> sel<span class="o">.</span>get_text<span class="p">(</span><span class="s">"link=Session"</span><span class="p">):</span> <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span> sel<span class="o">.</span>click<span class="p">(</span><span class="s">"addLink"</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    time<span class="o">.</span>sleep<span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span>fail<span class="p">(</span><span class="s">"time out"</span><span class="p">)</span>
+</pre></div><p>
+The only line to add is <strong>else: sel.click("addLink")</strong>.
+</p>
+<hr />
+<p>
+Naming conventions same as Python unit tests.
+</p>
+<h2 id="JavascriptUnittests">Javascript Unit tests</h2>
+<div class="code"><pre><span class="nx">MoveTest</span> <span class="o">=</span> <span class="nx">TestCase</span><span class="p">(</span><span class="s2">"MoveTest"</span><span class="p">);</span>
+
+<span class="nx">MoveTest</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">setUp</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//your set up stuff
+</span><span class="p">};</span>
+
+<span class="nx">MoveTest</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">testUpdateEntry</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//your tests
+</span>    <span class="nx">assertEquals</span><span class="p">(</span><span class="s2">"MSG"</span><span class="p">,</span> <span class="nx">expectedValue</span><span class="p">,</span> <span class="nx">actualValue</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Tests/CheatSheet?action=diff&amp;version=7" title="Version 7 by dcampora">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-17T13%3A46%3A28%2B02%3A00&amp;precision=second" title="See timeline at 09/17/10 13:46:28">5 years ago</a></span>
+            <span class="trac-print">Last modified on 09/17/10 13:46:28</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTests%252FCheatSheet56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Tests/CheatSheet by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:22 GMT -->
+</html>

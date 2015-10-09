@@ -1,0 +1,137 @@
+[[PageOutline]]
+
+= 1. Extra Apache Configuration =
+
+==== Enabling gzip compression
+To turn this feature on, just add the following code to the apache configuration file:
+
+
+{{{
+AddOutputFilterByType DEFLATE text/html text/plain text/xml 
+}}}
+
+In this case, it will compress html, xml and plain text. If you want to compress more types just add them.[[BR]]
+
+You may use this code in your .htaccess file as well, just choose between one of them. 
+Take in account that the DEFLATE filter is always inserted after RESOURCE filters like PHP or SSI. It never touches internal subrequests. 
+
+For further information: http://httpd.apache.org/docs/2.0/mod/mod_deflate.html
+[[BR]]
+To check whether gzip compression is working properly:
+ - [https://addons.mozilla.org/en-US/firefox/addon/60/ In your browser]: Information -> View Document Size
+ - [https://addons.mozilla.org/en-US/firefox/addon/3829/ View the headers]: If you can find a line that says “Content-encoding: gzip” that means that this feature is working correctly.
+
+= 2. Event Styles =
+
+Meeting and lecture displays, as well as conferences "Timetable view" are created by a XSL transformation produced from the Indico event XML export. 
+The stylesheets applied to this XML are .xsl files and can be found into the MaKaC/webinterface/stylesheets directory in the Indico package (and in /where/is/python/lib/site-packages/MaKaC/webinterface/stylesheets directory once installed).
+
+Here some of the basic rules if you want to add your own style (XSL) to the events:
+
+ * Each .xsl must have its own .css file named after itself (eg. there must be a standard.xsl file and a standard.css file)
+ * In order to add a new style, create an XSL file and its CSS, and add the files to the above mentioned directory. 
+ * Your style should then appear in the list of available styles: http://myindicoserver.mydomain.org/adminStyles.py
+ * From the previous link, you can choose to add it for lectures, meetings and/or conferences.
+
+
+= 3. Adding a Search Engine to Indico =
+
+Indico does not have a built-in search engine but can easily export all of its public data to any external search engine using the LiveSync plugin. There are two separate mechanisms within Indico that are used for this:
+ * The Search Engine Adapter - provides an interface that allows remote search servers to be queried through Indico;
+ * LiveSync - allows Indico to periodically send updates on its data to remote servers;
+
+== Configuring LiveSync ==
+
+LiveSync is a metadata "push" mechanism that is used to keep other services up to date with the latest changes in an Indico instance.
+
+=== with Invenio ===
+
+The Invenio LiveSync plugin relies o the relatively young "batchupload" feature. So, first of all, please make sure that you are using a recent version of Invenio.
+
+The first step should be configuring Invenio so that it accepts connections from you Indico machine(s).
+
+{{{
+#!python
+CFG_BATCHUPLOADER_WEB_ROBOT_AGENT = invenio_webupload,invenio_connector
+
+CFG_BATCHUPLOADER_WEB_ROBOT_RIGHTS = {
+    'xxx.xxx.xxx.xxx': ['INDICOSEARCH']
+    }
+}}}
+
+Just set the correct IP addess for your Indico server.
+
+You should have your Invenio collections correctly set. At CERN we use the following layout:
+
+ * **INDICOSEARCH**
+   * **INDICOSEARCH.EVENTS**: `980__a:'*' -970__a:'.*.'`
+     * **INDICOSEARCH.PUBLIC.EVENTS**: `980__a:"INDICOSEARCH.PUBLIC" -970__a:'.*.'`
+     * **INDICOSEARCH.PRIVATE.EVENTS**: `980__a:"INDICOSEARCH.PRIVATE" -970__a:'.*.'`
+   * **INDICOSEARCH.CONTRIBS**: `980__a:'*' 970__a:'.*.'`
+     * **INDICOSEARCH.PUBLIC.CONTRIBS**: `980__a:"INDICOSEARCH.PUBLIC" 970__a:'.*.'`
+     * **INDICOSEARCH.PRIVATE.CONTRIBS**: `980__a:"INDICOSEARCH.PRIVATE" 970__a:'.*.'`
+   * **INDICOSEARCH.PUBLIC**: `980__a:"INDICOSEARCH.PUBLIC"`
+     * **INDICOSEARCH.PUBLIC.EVENTS**
+     * **INDICOSEARCH.PUBLIC.CONTRIBS**
+   * **INDICOSEARCH.PRIVATE**: `980__a:"INDICOSEARCH.PRIVATE"`
+     * **INDICOSEARCH.PRIVATE.EVENTS**
+     * **INDICOSEARCH.PRIVATE.CONTRIBS**
+
+Then, you'll need to create an "agent" under `Plugins` -> `Live Sync` -> `Manage agents` (it's all under "Server Administration").
+You'll probably have to enable the LiveSync plugin and the "InvenioBatchUploaderAgent" and then reload all plugins, so that Indico takes the new parameters into account.
+
+You can use something like:
+
+{{{
+Agent ID: 'invenio1'
+Name: 'Invenio Agent'
+Server URL: <your Invenio server URL>
+}}}
+
+Once you have your new "agent", you should click on `Start activation process` and then press `OK` on the dialog that pops-up. The message should be replaced by one saying `As soon as the export process has finished, click here`.
+
+After this, you'll need to import the whole existing metadata content into Invenio. This is when a command-line script comes handy:
+
+{{{
+$ indico_livesync agent invenio1 export --fast
+}}}
+
+Once this job is finished, you can go back to the Agent Management page and activate the Invenio agent.
+
+The last step should be executing:
+
+{{{
+$ indico_livesync agent invenio1 add_task
+}}}
+
+This will add a task to your scheduler (task daemon) queue that will periodically send updates to the Invenio server (make sure your scheduler is running).
+You should be able to see all the update operations by `tail`'ing scheduler.log (/opt/indico/log).
+
+
+== Configuring the Search Engine Adapter ==
+
+{{{
+#!python
+IndicoSearchServer = "http://your.search.engine"
+indicoSearchClass = MaKaC.search.invenioSEA.InvenioSEA
+}}}
+
+= 3. Job Scheduler =
+
+Indico has a "background" job scheduler can handle several tasks, including generating statistics, sending alarms and periodically running LiveSync.
+
+It can be enabled with
+
+{{{
+$ sudo -u apache indico_scheduler start
+}}}
+
+Similarly,
+
+{{{
+$ sudo -u apache indico_scheduler stop
+}}}
+
+stops the daemon.
+
+The detailed log can be seen in `scheduler.log`, in your `log` sub-directory.

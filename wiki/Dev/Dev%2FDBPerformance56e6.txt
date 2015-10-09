@@ -1,0 +1,7 @@
+= Database Performance/Scalability =
+== Resources ==
+ * RelStorage - http://shane.willowrise.com/archives/relstorage-a-new-zodb-storage/
+ * ZODB 3.10
+   * http://pypi.python.org/pypi/ZODB3/3.10.0a1
+   * https://mail.zope.org/pipermail/zodb-dev/2010-February/013147.html
+

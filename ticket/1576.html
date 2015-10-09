@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1576 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:11:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1576 (Error "No such file or directory: '/usr/local/lib/python2.7/dist-packages/bcrypt-1.0.2-py2.7.egg/bcrypt/__pycache__/_cffi_677459_d17cc0.c'" on new installation)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1575.html" title="Ticket #1575" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t15761fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1576a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1576a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1577.html" title="Ticket #1577" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1575.html" title="Ticket #1575">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1577.html" title="Ticket #1577">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-07-28T17%3A22%3A25%2B02%3A00&amp;precision=second" title="See timeline at 07/28/14 17:22:25">15 months ago</a></p>
+    <p>Last modified <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-08-04T18%3A06%3A22%2B02%3A00&amp;precision=second" title="See timeline at 08/04/14 18:06:22">14 months ago</a></p>
+  </div>
+  <h2>
+    <a href="1576.html" class="trac-id">#1576</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=new">new</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">Error "No such file or directory: '/usr/local/lib/python2.7/dist-packages/bcrypt-1.0.2-py2.7.egg/bcrypt/__pycache__/_cffi_677459_d17cc0.c'" on new installation</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=lslawski">lslawski</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone" class="missing">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="missing milestone"></a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=Installation">Installation</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=1.2">1.2</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+As already mentioned in ticket <a class="closed ticket" href="1575.html" title="defect: Error &#34;Could not generate JSVars&#34; on new installation (closed: invalid)">#1575</a> I installed Indico 1.2 on a  Debian 7.6 system following the admin installtion instructions for this version. The e-mail I receive after trying to open the Indico start page gives me a path error: <br />
+</p>
+<p>
+2014-07-28 16:57:21,618 indico.vars_js - ERROR JSContent.py:70 -- Problem generating vars.js<br />
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/indico-1.2-py2.7.egg/MaKaC/webinterface/rh/JSContent.py", line 65, in _process<br />
+</p>
+<blockquote>
+<p>
+data = templateEngine.render(self._tplFile, self._dict).strip()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/indico-1.2-py2.7.egg/MaKaC/common/TemplateExec.py", line 136, in render<br />
+</p>
+<blockquote>
+<p>
+return template.render(<strong>params)<br />
+</strong></p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/Mako-0.9.1-py2.7.egg/mako/template.py", line 443, in render<br />
+</p>
+<blockquote>
+<p>
+return runtime._render(self, self.callable_, args, data)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/Mako-0.9.1-py2.7.egg/mako/runtime.py", line 807, in _render<br />
+</p>
+<blockquote>
+<p>
+<strong>_kwargs_for_callable(callable_, data))<br />
+</strong></p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/Mako-0.9.1-py2.7.egg/mako/runtime.py", line 839, in _render_context<br />
+</p>
+<blockquote>
+<p>
+_exec_template(inherit, lclcontext, args=args, kwargs=kwargs)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/Mako-0.9.1-py2.7.egg/mako/runtime.py", line 865, in _exec_template<br />
+</p>
+<blockquote>
+<p>
+callable_(context, *args, <strong>kwargs)<br />
+</strong></p>
+</blockquote>
+<p>
+File "/var/www/indico/tmp/mako_modules/js/vars.js.tpl.py", line 84, in render_body<br />
+</p>
+<blockquote>
+<p>
+authenticators = filter(lambda x: x.id != 'Local', <a class="missing wiki">AuthenticatorMgr?</a>().getList())<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/indico-1.2-py2.7.egg/MaKaC/authentication/AuthenticationMgr.py", line 32, in <span class="underline">init</span><br />
+</p>
+<blockquote>
+<p>
+mod = import_module("MaKaC.authentication." + auth + "Authentication")<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.7/importlib/<span class="underline">init</span>.py", line 37, in import_module<br />
+</p>
+<blockquote>
+<p>
+<span class="underline">import</span>(name)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/indico-1.2-py2.7.egg/MaKaC/authentication/LocalAuthentication.py", line 20, in &lt;module&gt;<br />
+</p>
+<blockquote>
+<p>
+import bcrypt<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/bcrypt-1.0.2-py2.7.egg/bcrypt/<span class="underline">init</span>.py", line 71, in &lt;module&gt;<br />
+</p>
+<blockquote>
+<p>
+).hexdigest()[:6],<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/cffi-0.8.6-py2.7-linux-x86_64.egg/cffi/api.py", line 340, in verify<br />
+</p>
+<blockquote>
+<p>
+lib = self.verifier.load_library()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/cffi-0.8.6-py2.7-linux-x86_64.egg/cffi/verifier.py", line 73, in load_library<br />
+</p>
+<blockquote>
+<p>
+self._write_source()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/local/lib/python2.7/dist-packages/cffi-0.8.6-py2.7-linux-x86_64.egg/cffi/verifier.py", line 125, in _write_source<br />
+</p>
+<blockquote>
+<p>
+file = open(self.sourcefilename, 'w')<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+IOError: [Errno 2] No such file or directory: '/usr/local/lib/python2.7/dist-packages/bcrypt-1.0.2-py2.7.egg/bcrypt/<span class="underline">pycache</span>/_cffi_677459_d17cc0.c'<br />
+</p>
+<p>
+Additional information:<br />
+Request: 7faaf81e4250<br />
+URL: <a class="ext-link" href="http://134.100.104.1/indico/vars.js"><span class="icon">​</span>http://134.100.104.1/indico/vars.js</a><br />
+Endpoint: misc.JSContent-getVars<br />
+Method: GET<br />
+Params: {}<br />
+User: None<br />
+IP: 134.100.106.159<br />
+User Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:30.0) Gecko/20100101 Firefox/30.0<br />
+Referer: <a class="ext-link" href="http://134.100.104.1/indico/"><span class="icon">​</span>http://134.100.104.1/indico/</a><br />
+</p>
+<p>
+I use Python 2.7.3 and installed easy_install by Python setuptools. Any help is very much appreciated. <br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(1)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1407168382396133">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-08-04T18%3A06%3A22%2B02%3A00&amp;precision=second" title="See timeline at 08/04/14 18:06:22">14 months ago</a> by lslawski
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+The error does not occur anymore after granting write permissions on /usr/local/lib/python2.7/dist-packages/bcrypt-1.0.2-py2.7.egg/bcrypt. Thanks to Sebastien Medard from the mailing list! <br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t15761fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1576a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1576a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1576 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:11:14 GMT -->
+</html>

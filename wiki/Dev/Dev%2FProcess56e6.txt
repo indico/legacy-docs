@@ -1,0 +1,22 @@
+= Development Process = 
+
+Let's suppose that there are some tickets assigned to you in trac. Then:
+	 	 
+1. Change the status of your trac ticket to '''in_work''' (basically, choose the action '''start''').
+2. Create a '''new branch''' in your local repo from ''origin/master'' (Follow the naming conventions: http://indico-software.org/wiki/Dev/Collaboration#Sometips). If the trac ticket milestone is a production version, then create the branch from that one instead of ''origin/master''.
+3. '''Think''' before coding. 
+4. '''Develop''' your module. 
+5. Write '''tests''' using [wiki:Dev/Tests Indicop]. 
+6. Update the user '''documentation''' [wiki:Dev/Doc]. 
+7. Write '''technical''' information in this wiki if needed. 
+8. Make sure that every commit you do is '''PEP8''' compliant. To ensure this you can use our pre-commit hook: http://indico-software.org/wiki/Dev/GettingStarted#a3.Addingthepre-commithook
+9. Make sure that the commit closing the trac ticket has something like '''closes #1234''' in the description.
+10. When finished, '''pull''' changes from origin, '''rebase''' and '''push'''.
+11. Change the status of your trac ticket to '''awaiting_merge''' (basically, choose the action '''request merge''').
+
+Every friday is [http://i.imgur.com/yc5RNai.jpg WIP Friday!] Therefore:
+
+* At least once a week (latest on Friday morning) you should commit your Work in Progress or Already Finished (but not integrated) tickets to your personal !GitHub. Use our git push-wip alias: https://gist.github.com/pferreir/6193091
+* Every Friday afternoon, everybody should spend at least 30 minutes reviewing other developers' WIP code and commenting in-line all the possible improvements and bugs. Do comment directly on !GitHub. Here you can find the list of Indico Team Members: https://github.com/indico?tab=members
+
+[[BR]] 

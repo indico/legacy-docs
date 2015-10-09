@@ -1,0 +1,13 @@
+= Marius Damarackas =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=mdamarac,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=mdamarac,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=mdamarac)]]

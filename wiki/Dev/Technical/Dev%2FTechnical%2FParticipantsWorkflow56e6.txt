@@ -1,0 +1,9 @@
+= Participants =
+
+== State Diagram ==
+
+[[Image(participants.png)]]
+
+=== Notes ===
+ * The highlighted area corresponds to actions that can be performed **before** the start of the event
+ * Once the event starts, there's an automatic transition to the states in blue;

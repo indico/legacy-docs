@@ -1,0 +1,1420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/CollaborationPluginsDevelopment by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/CollaborationPluginsDevelopment – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FCollaborationPluginsDevelopment56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="CollaborationPluginsDevelopment.html" title="View Dev/Technical/CollaborationPluginsDevelopment">CollaborationPluginsDevelopment</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/CollaborationPluginsDevelopment?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#A.Introduction-someconcepts"><strong> A. Introduction - some concepts </strong></a>
+    <ol>
+      <li>
+        <a href="#A.1.Whatisaplugin"><strong> A.1. What is a plugin? </strong></a>
+      </li>
+      <li>
+        <a href="#A.2.TheCollaborationpluginscore"><strong> A.2. The Collaboration plugins core </strong></a>
+      </li>
+      <li>
+        <a href="#A.3.Bookingsandrequests"><strong> A.3. Bookings and requests </strong></a>
+      </li>
+      <li>
+        <a href="#A.4.PagesgeneratedbyCollaborationplugins"><strong> A.4. Pages generated by Collaboration plugins </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#B.Creatinganewplugin"><strong> B. Creating a new plugin </strong></a>
+  </li>
+  <li>
+    <a href="#C.Pluginfilestructure"><strong> C. Plugin file structure </strong></a>
+    <ol>
+      <li>
+        <a href="#C.1.Compulsoryfiles"><strong> C.1. Compulsory files </strong></a>
+      </li>
+      <li>
+        <a href="#C.2.Optionalfiles"><strong> C.2. Optional files </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#D.Configuringaplugin"><strong> D. Configuring a plugin </strong></a>
+    <ol>
+      <li>
+        <a href="#D.1."><strong> D.1. Plugin characteristics </strong></a>
+      </li>
+      <li>
+        <a href="#D.2.Pluginoptions"><strong> D.2. Plugin options </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#E.ProgrammingtheclientsideEventManagementpages"><strong> E. Programming the client side Event Management pages</strong></a>
+    <ol>
+      <li>
+        <a href="#E.1.Dialogvspageform"><strong> E.1. Dialog vs page form </strong></a>
+      </li>
+      <li>
+        <a href="#E.2.Designingyourdialogform"><strong> E.2. Designing your dialog / form </strong></a>
+        <ol>
+          <li>
+            <a href="#E.2.1.TheNewBookingForm.tplfile"><strong> E.2.1. The NewBookingForm.tpl file </strong></a>
+          </li>
+          <li>
+            <a href="#E.2.2.TheWNewBookingFormclass"><strong> E.2.2. The WNewBookingForm class </strong></a>
+          </li>
+          <li>
+            <a href="#E.2.3.TheAdvancedTab.tplfileandtheWAdvancedTabclass"><strong> E.2.3. The AdvancedTab.tpl file and the WAdvancedTab class </strong></a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#E.3.Javascriptinterfacebetweencoreandplugins"><strong> E.3. Javascript interface between core and plugins </strong></a>
+      </li>
+      <li>
+        <a href="#E.4.CustomJavascript"><strong> E.4. Custom Javascript </strong></a>
+      </li>
+      <li>
+        <a href="#E.5"><strong> E.5. Calling services </strong></a>
+      </li>
+      <li>
+        <a href="#E.6.Contexthelp"><strong> E.6. Context help </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#F.Programmingtheserverside"><strong> F. Programming the server side </strong></a>
+    <ol>
+      <li>
+        <a href="#F.1.Bookingparameters.InformationstoredintheDB"><strong> F.1. Booking parameters. Information stored in the DB </strong></a>
+        <ol>
+          <li>
+            <a href="#F.1.1.Simpleparameters"><strong> F.1.1. <em>Simple</em> parameters </strong></a>
+          </li>
+          <li>
+            <a href="#F.1.2.Complexparameters"><strong> F.1.2. <em>Complex</em> parameters </strong></a>
+          </li>
+          <li>
+            <a href="#F.1.3.Specialparameternames"><strong> F.1.3. Special parameter names </strong></a>
+          </li>
+          <li>
+            <a href="#F.1.4.Notesaboutbookingparametershandling"><strong> F.1.4. Notes about booking parameters handling </strong></a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#F.2.Implementingmethods"><strong> F.2. Implementing methods </strong></a>
+        <ol>
+          <li>
+            <a href="#F.2.1._checkBookingParamsself"><strong> F.2.1. _checkBookingParams(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.2._createself"><strong> F.2.2. _create(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.3._modifyselfoldBookingParams"><strong> F.2.3. _modify(self, oldBookingParams) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.4._deleteself"><strong> F.2.4. _delete(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.5._checkStatusself"><strong> F.2.5. _checkStatus(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.6._notifyOnViewself"><strong> F.2.6. _notifyOnView(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.7._startself"><strong> F.2.7. _start(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.8._stopself"><strong> F.2.8. _stop(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.9._acceptself"><strong> F.2.9. _accept(self) </strong></a>
+          </li>
+          <li>
+            <a href="#F.2.10._rejectself"><strong> F.2.10. _reject(self) </strong></a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#F.3"><strong> F.3. Special CSBooking instance attributes </strong></a>
+      </li>
+      <li>
+        <a href="#F.4.Fossils"><strong> F.4. Fossils</strong></a>
+      </li>
+      <li>
+        <a href="#F.5.E-mails"><strong> F.5. E-mails </strong></a>
+      </li>
+      <li>
+        <a href="#F.6"><strong> F.6. Custom services in the server</strong></a>
+      </li>
+      <li>
+        <a href="#F.7.BewareofConflictErrorEncapsulateyourexternaloperations"><strong> F.7. Beware of ConflictError! Encapsulate your external operations …</strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#G.Otherprogramming"><strong> G. Other programming </strong></a>
+    <ol>
+      <li>
+        <a href="#G.1.Displaypages"><strong> G.1. Display pages </strong></a>
+        <ol>
+          <li>
+            <a href="#G.1.1.Foreventsoftypeconference"><strong>G.1.1. For events of type conference</strong></a>
+          </li>
+          <li>
+            <a href="#G.1.2.Foreventsoflectureandmeeting"><strong>G.1.2. For events of lecture and meeting</strong></a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#G.2.Errorhandling"><strong> G.2. Error handling </strong></a>
+        <ol>
+          <li>
+            <a href="#G.2.1.Parametercheckingintheclient"><strong> G.2.1. Parameter checking in the client </strong></a>
+          </li>
+          <li>
+            <a href="#G.2.2.RaiseExceptionsforunexpectedevents"><strong> G.2.2. Raise Exceptions for unexpected events </strong></a>
+          </li>
+          <li>
+            <a href="#G.2.3.Controllederrors"><strong> G.2.3. Controlled errors </strong></a>
+          </li>
+          <li>
+            <a href="#G.2.4.Warnings"><strong> G.2.4. Warnings </strong></a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#H.Utilityfunctionsavailable"><strong> H. Utility functions available </strong></a>
+    <ol>
+      <li>
+        <a href="#H.1.CollaborationToolsclass"><strong> H.1. CollaborationTools class </strong></a>
+      </li>
+      <li>
+        <a href="#H.2.MailToolsclass"><strong> H.2. MailTools class </strong></a>
+      </li>
+      <li>
+        <a href="#H.3.Javascripthelperfunctions"><strong> H.3. Javascript helper functions </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#I.Othertasksperformedbythecore"><strong> I. Other tasks performed by the core </strong></a>
+    <ol>
+      <li>
+        <a href="#I.1.Indexation"><strong> I.1. Indexation </strong></a>
+      </li>
+      <li>
+        <a href="#I.2.Timesynchronization"><strong> I.2. Time synchronization </strong></a>
+      </li>
+      <li>
+        <a href="#I.3.Hiddenbookings"><strong> I.3. Hidden bookings </strong></a>
+      </li>
+      <li>
+        <a href="#I.4"><strong> I.4. Parameter sanitization </strong></a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<p>
+(Note: this page is currently under construction)
+</p>
+<h1 id="A.Introduction-someconcepts"><strong> A. Introduction - some concepts </strong></h1>
+<h2 id="A.1.Whatisaplugin"><strong> A.1. What is a plugin? </strong></h2>
+<p>
+Shortly put, a plugin is a part of Indico that is optional. They usually deal with external systems that the organization using Indico may or may not have. Therefore, organizations that use Indico can easily decide to use or not use them, or even remove their code from Indico.
+</p>
+<p>
+Plugins in Indico are organized into Plugin Systems. Collaboration is one of those systems, and deals with videoconference systems (where you can book videoconferencing resources) and Service Requests such as a request to record an event. The first kind of plugins deal with external systems and use these system's APIs. The second kind of plugins usually help communicate (for example by email) a service responsible and an event manager.
+Other Plugin Systems in Indico include Epayment and Room Booking.
+</p>
+<p>
+<br />
+</p>
+<h2 id="A.2.TheCollaborationpluginscore"><strong> A.2. The Collaboration plugins core </strong></h2>
+<p>
+The Collaboration plugins core (or core for short in this guide) is the part of Indico that interacts with the plugins:
+</p>
+<ul><li>It defines the interface between Indico and the plugins.
+</li><li>It calls the plugins' functions when it is necessary.
+</li><li>It takes care of many common tasks so that the plugins do not have to implement them.
+</li><li>It provides helper / utility functions to the plugins.
+</li></ul><p>
+The core is present both in the server side (Python code) and the client side (HTML, CSS and Javascript code).
+</p>
+<p>
+<br />
+</p>
+<h2 id="A.3.Bookingsandrequests"><strong> A.3. Bookings and requests </strong></h2>
+<p>
+Among the Collaboration plugins, there are two sub-types of plugins so far:
+</p>
+<ul><li><em>Booking plugins</em>: they provide the user with a form where they can book resources in an external system. In most cases, there can be multiple bookings of the same type for the same Indico event. This means that in the database, there will be multiple "Booking" objects of the same type associated to an event.
+</li><li><em>Request plugins</em>: they provide the user with a form where they can request a service. For each Indico event, there can be only one Request of a given type.
+</li></ul><p>
+Examples of <em>Booking plugins</em> are: <strong>EVO</strong>, <strong><acronym title="European Organization for Nuclear Research">CERN</acronym>MCU</strong>, <strong>Vidyo</strong>. Examples of <em>Request plugins</em> are <strong>Recording Request</strong> and <strong>Webcast Request</strong>.
+</p>
+<p>
+<br />
+</p>
+<h2 id="A.4.PagesgeneratedbyCollaborationplugins"><strong> A.4. Pages generated by Collaboration plugins </strong></h2>
+<p>
+The Collaboration plugins will generate pages / information that will appear in several places in Indico:
+</p>
+<ul><li>In the management interface of an Indico Event, in the <em>Video Services</em> section (left menu). Each plugin will appear in a given tab. Several plugins can share a tab (such as EVO, <acronym title="European Organization for Nuclear Research">CERN</acronym>MCU and Vidyo) or be alone in their own tab (like Recording Request).
+</li></ul><ul><li>In the display page of events, for the <em>Booking plugins</em>. When a booking has been done in an external system, the Event manager can decide to show information about it on the event's display page to allow normal users to join the Videoconference.
+</li></ul><ul><li>In the Server Admin interface, in the Plugins section, under the Collaboration tab. Each plugin will be represented in a sub-tab under which the plugin's <em>options</em> and <em>actions</em> will appear.
+</li></ul><ul><li>In the Video Services Overview page, where <em>Bookings</em> and <em>Requests</em> are indexed (if the respective plugin wishes to) and queries can be made to have a global view.
+</li></ul><p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="B.Creatinganewplugin"><strong> B. Creating a new plugin </strong></h1>
+<p>
+To create a new plugin, the best way to start is to copy one of the existing plugin's folder.
+</p>
+<p>
+For example, if developing a new Videoconference booking plugin, one may make a copy of the <em>EVO</em> folder in <em>MaKaC/plugins</em>. If developing a new request plugin, one may copy the RecordingRequest folder.
+</p>
+<p>
+Choose a name for your plugin, and rename the folder to this name.
+</p>
+<p>
+Then head to the __init__.py file inside your plugin folder. Change the <strong>pluginName</strong> variable to the name of your plugin, and the <strong>pluginDescription</strong> variable to some description of your plugin that will be visible in the Server Admin &gt; Plugins web interface.
+</p>
+<p>
+<em>It is strongly advised to use the same name for the plugin folder and the <strong>pluginName</strong> variable</em>.
+</p>
+<p>
+Voilà, you have a new plugin! However if you started creating a folder from scratch you should read the next section which explains the different files inside the folder, many of them are compulsory.
+</p>
+<p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="C.Pluginfilestructure"><strong> C. Plugin file structure </strong></h1>
+<p>
+This section explains the different files of a plugin, giving a short summary for each and specifying if a given file is optional or compulsory.
+Please note that more files can be added at the programmer's discretion; all the files inside the plugin folder will be imported by the plugin system.
+</p>
+<h2 id="C.1.Compulsoryfiles"><strong> C.1. Compulsory files </strong></h2>
+<ul><li><strong>__init__.py</strong>: your plugin folder is a Python package, and as any Python package it must have a <em>__init__.py</em> file. Here you also have to define some important attributes of the plugin such as its title, etc. as described in the <a href="PluginSystem.html#C.4.2plugins__init__.py">General Plugin system guide</a>.
+</li></ul><ul><li><strong>collaboration.py</strong>: this is the most important file of your plugin, and the core of the server-side operations. Here you will have to implement your CSBooking class (CSBooking = Collaboration Systems booking), which has to inherit from CSBookingBase. This class serves 3 main purposes:
+<ul><li>Define what information is stored in the DB for a booking / request that is attached to an Indico event. The information that comes from a booking creation form / request sending form will be stored into its self._bookingParams dictionary. You can of course also store other information as attributes of your CSBooking object. More information in the <a href="CollaborationPluginsDevelopment.html#F.Programmingtheserverside">Programming the Server Side</a> section.
+</li><li>It is the interface between the Indico core and the external system. When a booking is created, modified, deleted, etc. the core will call methods implemented in this class, such as <em>self._create()</em>, <em>self._modify()</em>, <em>self._delete()</em>, etc. More information in the <a href="CollaborationPluginsDevelopment.html#F.Programmingtheserverside">Programming the Server Side</a> section.
+</li><li>Finally, this class will have class attributes that tell the Collaboration core how to handle bookings of this class, as explained in the <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a> section.
+</li></ul></li></ul><ul><li><strong>options.py</strong>: in this file you define your global configuration <em>options</em>, which are values stored in the DB common to all of your plugin operations, no matter what the Indico event is. Examples of such values would be: the URL of the remote system your plugin deals with, the login and password that you must use to access that system, etc. The syntax to declare the options is described in the <a href="PluginSystem.html#C.6">General Plugin system guide</a>.
+All Collaboration plugins must always have 3 options declared: <em>tab</em>, <em>allowedOn</em>, and <em>admins</em>, as explained in the <a href="CollaborationPluginsDevelopment.html#D.2.Pluginoptions">Plugin options</a> section.
+</li></ul><ul><li><strong>pages.py</strong>:  this is a Python file where you have to implement a set of "W" classes. Each of which will correspond to a .tpl file, following the same pattern as normal Indico pages. For example, you will have to implement a WNewBookingForm class that corresponds to the NewBookingForm.tpl file. Contrary to the rest of Indico, in the Collaboration plugins it is also possible to define "W" classes for your .js (Javascript) files. This file also hosts the <em>XMLGenerator</em> class, which is charged with rendering XML with a booking's information that will be displayed in the display page of meetings and lectures. More information in the <a href="CollaborationPluginsDevelopment.html#E.ProgrammingtheclientsideEventManagementpages">Programming the client side</a> section and the <a href="CollaborationPluginsDevelopment.html#G.1.Displaypages">Display pages</a> section.
+</li></ul><ul><li><strong>tpls/NewBookingForm.tpl</strong>: this is a Python / HTML template file where you design how your booking creation / modification form, or your request form will look like. You do not need to put &lt;form&gt; tags around your &lt;input&gt; elements; you just need to give the &lt;input&gt; elements a <em>name</em> attribute and the core will automatically store those values in the <em>self._bookingParams</em> attribute of the CSBooking class, using the <em>name</em> attribute as key of the dictionary. More information in the <a href="CollaborationPluginsDevelopment.html#E.2.Designingyourdialogform">Designing your dialog / form</a> section.
+</li></ul><ul><li><strong>tpls/Main.js</strong>: this file contains a dictionary of functions that will be called by the core on the client side when certain events happen, such as: when the dialog / form is constructed, when the user presses "Save" / "Send", etc. This file corresponds to the <em>WMain</em> class in <em>pages.py</em>. More information in the <a href="CollaborationPluginsDevelopment.html#E.3.Javascriptinterfacebetweencoreandplugins">Javascript interface between core and plugins</a> section.
+</li></ul><h2 id="C.2.Optionalfiles"><strong> C.2. Optional files </strong></h2>
+<ul><li><strong>actions.py</strong>:  in this file you define your global <em>actions</em>, pieces of code that can be executed by server admins. The syntax to declare an <em>action</em>, implement its code and when it is executed are all explained in the <a href="PluginSystem.html#C.7.">General Plugin system guide</a>.
+</li></ul><ul><li><strong>common.py</strong>: in this file you should write functions that will be used in several Python files of your plugin, for example functions that will be used both in <em>collaboration.py</em> and <em>pages.py</em>. In that regard, it does not have to be called <em>common.py</em>, with one exception: if you decide to implement a <em>GlobalData</em> class, the file <em>does</em> have to be called common.py. More information in the <a href="PluginSystem.html#C.8.PluginGlobalData">Global Data</a> section of the General Plugin system guide.
+</li></ul><ul><li><strong>fossils.py</strong>: in this file you should include the <em>fossils</em> that will be used to turn your Python objects into Javascript objects. The file does not necessarily have to be called <em>fossils.py</em>, with one exception, which is if your plugin allows the core to index its bookings and you need to overload the <em>ICSBookingConfModifFossil</em> interface that is used to <em>fossilize</em> the bookings displayed in the <em>Video Services Overview</em> page, for example to hide the password information. More information in the <a href="CollaborationPluginsDevelopment.html#I.1.Indexation">Indexing</a> section.
+</li></ul><ul><li><strong>services.py</strong>: in this file you can write your Service classes. These are server-side classes that answer AJAX requests done by your plugin. More information in the sections: <a href="CollaborationPluginsDevelopment.html#E.5">Calling Services</a> and <a href="CollaborationPluginsDevelopment.html#F.6">Custom services in the server</a>.
+</li></ul><ul><li><strong>tpls/Extra.js</strong>: this file is the place to put any Javascript code that does not fit well in Main.js, or needed to further customize your booking dialog / request form. It corresponds to the <em>WExtra</em> class in <em>pages.py</em>. The Javascript code written here will be automatically inserted in the &lt;head&gt; of the page. More information in the <a href="CollaborationPluginsDevelopment.html#E.4.CustomJavascript">Custom Javascript</a> section.
+</li></ul><ul><li><strong>tpls/Indexing.js</strong>: if your plugin allows indexing, the core will look at functions declared in this file when printing the bookings in the Video Services Overview page. Its structure is similar to the <em>Main.js</em> file and it corresponds to the <em>WIndexing</em> class in <em>pages.py</em>.
+</li></ul><ul><li><strong>tpls/InformationDisplay.tpl</strong>: if you want to display information about your bookings in the event pages, you will have to write this template file, which will be used to display information about bookings in <em>conference</em> events. For meetings and lectures, this has to be done through the <em>XMLGenerator</em> class. More information in the <a href="CollaborationPluginsDevelopment.html#G.1.Displaypages">Display pages</a> section.
+</li></ul><ul><li><strong>Style.css</strong>: in this file you can write custom CSS rules for your dialog / form. It will automatically be inserted in the page's &lt;head&gt;. It corresponds to the <em>WStyle</em> class in the <em>pages.py</em> file.
+</li></ul><p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="D.Configuringaplugin"><strong> D. Configuring a plugin </strong></h1>
+<h2 id="D.1."><strong> D.1. Plugin characteristics </strong></h2>
+<p>
+Different plugins cover different concepts or have different needs. In the <em>collaboration.py</em> file of each plugin, inside the <em>CSBooking</em> class, several class attributes can be defined that will help the Collaboration core know what to expect when dealing with the plugin.
+</p>
+<p>
+All these class attributes are defined with their default values in the <em>CSBookingBase</em> class inside <em>MaKaC/plugins/Collaboration/base.py</em>. If you like the default value of a class attribute, you do not need to write it again in your <em>CSBooking</em> class, although sometimes it is not bad to do it anyway, for clarity.
+</p>
+<p>
+List of class attributes and their functions:
+</p>
+<ul><li><strong>_allowMultiple</strong>: True by default. Should be False if the plugin does not wish to allow that more than one <em>CSBooking</em> object of its type should be created for each Indico Event. This is what distinguishes <em>Booking-type</em> plugins from <em>Request-type</em> plugins.
+</li></ul><ul><li><strong>_hasStart</strong>: False by default. Should be True if the plugin has a "start" concept, which means a "Start" button will appear next to a created <em>Booking</em>, allowing the Event Manager to start the Videoconference.
+</li></ul><ul><li><strong>_hasStop</strong>: False by default. Should be True if the plugin has a "stop" concept, which means a "Stop" button will appear next to a created <em>Booking</em>, allowing the Event Manager to stop the Videoconference.
+</li></ul><ul><li><strong>_hasStartStopAll</strong>: False by default. Should be True if the plugin has <strong>_hasStart</strong> == True and/or <strong>_hasStop</strong> == True, and they want "Start All" / "Stop All" buttons to appear for their bookings. These buttons will allow to start / stop all of the bookings at once (of all the plugins in the same tab who have <strong>_hasStartStopAll</strong> == True).
+</li></ul><ul><li><strong>_requiresServerCallForStart</strong> : False by default. Should be True if the plugin has <strong>_hasStart</strong> == True and wishes that the <em>CSBooking</em> object on the server side should be notified when the Event Manager clicks on the "Start" button, by calling <em>CSBooking</em> 's <em>_start()</em> method.
+</li></ul><ul><li><strong>_requiresServerCallForStop</strong> : False by default. Analogous to <strong>_requiresServerCallForStart</strong>, but for the "Stop" action.
+</li></ul><ul><li><strong>_requiresClientCallForStart</strong> : False by default. Should be True if the the plugin wishes a Javascript function to be called when the Event Manager presses the "Start" button. The function called will be the <em>start()</em> function in Main.js.
+</li></ul><ul><li><strong>_requiresClientCallForStop</strong> : False by default. Should be True if the the plugin wishes a Javascript function to be called when the Event Manager presses the "Stop" button. The function called will be the <em>stop()</em> function in Main.js.
+</li></ul><ul><li><strong>_hasCheckStatus</strong>: False by default. Should be True if the plugin has a "check status" concept, which means a "Check status" button will appear next to the <em>Booking</em> / <em>Request</em> status, allowing the Event Manager to reload all the information of the <em>Booking</em> / <em>Request</em> from the Indico Server into his browser.
+</li></ul><ul><li><strong>_hasAcceptReject</strong>: False by default. Should be True if the plugin has a "check status" concept. In that case, "Accept" and "Reject" buttons will appear next to the <em>Booking</em> / <em>Request</em> status, only visible to plugin admins or server admins, who can use them to change the state of the <em>Booking</em> / <em>Request</em> object to "Accepted" or "Rejected".
+</li></ul><ul><li><strong>_needsBookingParamsCheck</strong> : False by default. Should be True if the the plugin wishes to check the <em>Booking</em> / <em>Request</em> parameters in the server after the booking is created / edited. In that case, the <em>_checkBookingParams()</em> method of the plugin's <em>CSBooking</em> class will be called to verify the parameters.
+</li></ul><ul><li><strong>_needsToBeNotifiedOnView</strong>: False by default. Should be True if the plugin wishes its <em>CSBooking</em> objects to be notifies when an user "sees" the booking, for example when returning the list of booking. The <em>_notifyOnView()</em> method of the plugin's <em>CSBooking</em> class will be called.
+</li></ul><ul><li><strong>_shouldBeIndexed</strong>: True by default. Should be False if the plugin does not wish to allow its <em>CSBooking</em> objects to be indexed, i.e. to appear in the Video Services Overview page.
+</li></ul><ul><li><strong>_commonIndexes</strong>: [] by default. A list of strings. Useful when <strong>_shouldBeIndexed</strong> == True. If left empty, the plugin's <em>CSBooking</em> object will appear in the "All" index and in the plugin's own index, but not in any <em>shared</em> index. If set to [&#34;Videoconference&#34;], for example, they will also appear in the common "Videoconference" index. For example, currently EVO, <acronym title="European Organization for Nuclear Research">CERN</acronym>MCU and Vidyo bookings appear in this index.
+</li></ul><ul><li><strong>_hasStartDate</strong>: True by default. Should be True if the plugin's <em>CSBooking</em> objects have a start date attribute. This will allow the Collaboration Core to index these objects by start date.
+</li></ul><ul><li><strong>_hasEventDisplay</strong> : False by default. Should be True if the plugin's <em>CSBooking</em> objects wish to be displayed in the Event's display page.
+</li></ul><ul><li><strong>_hasTitle</strong>: False by default. Useful if <strong>_hasEventDisplay</strong> == True. Should be True if the plugin's <em>CSBooking</em> objects have a Title. This will affect how the objects appear in the Event display page.
+</li></ul><ul><li><strong>_adminOnly</strong>: False by default. If set to True, only Server Admins, Video Services Admins, and Plugin Admins (for the corresponding Plugin) will be able to interact with the plugin / see the plugin's tab in the Video Services section of the events. It will not stop normal users from seeing information about bookins in Events Display pages (if any, and if the booking is not <em>Hidden</em>).
+</li></ul><p>
+It is recommended to see the values of these class attributes defined by each existing plugin in their <em>collaboration.py</em> file.
+</p>
+<p>
+<br />
+</p>
+<h2 id="D.2.Pluginoptions"><strong> D.2. Plugin options </strong></h2>
+<p>
+As other types of plugins, Collaboration plugins can define <em>Options</em> with different attributes. The options' values will be stored in the database. Options are useful to store things such as the remote system URL, the plugin list of admins, etc. In other words, things that should be in the database not attached to any Event in particular, but of global scope in Indico.
+</p>
+<p>
+Options are defined in the <em>options.py</em> file. More information on the declaration syntax, and how to read their values in your plugin's code, can be found in the <a href="PluginSystem.html">Plugin System</a> page, in the <a href="PluginSystem.html#C.6">corresponding section</a>.
+</p>
+<p>
+It's <strong>compulsory</strong> for Collaboration Plugins to declare the following options:
+</p>
+<ul><li><strong>tab</strong>: the name of the tab, in the <em>Video Services</em> section of an Indico Event's management interface, that this plugin will appear in.
+</li></ul><ul><li><strong>allowedOn</strong>: a list of one to three strings. The strings inside the list can be: "conference", "meeting" or "simple_event" (this last one representing lecture events). The Collaboration Core will allow the plugin to appear only for these kind of events.
+</li></ul><ul><li><strong>admins</strong>: put an empty list as defaultValue. Here the plugin admins (<em>Avatar</em> objects) will be stored.
+</li></ul><p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="E.ProgrammingtheclientsideEventManagementpages"><strong> E. Programming the client side Event Management pages</strong></h1>
+<p>
+This section will describe how to design and implement the pages and dialogs that your plugin will show in the Video Services section of an event's management interface.
+</p>
+<p>
+We will cover both how to render the initial dialog / page in the browser, the Javascript that will be called on different occasions, and how to call services (AJAX requests) on the server.
+</p>
+<h2 id="E.1.Dialogvspageform"><strong> E.1. Dialog vs page form </strong></h2>
+<p>
+Depending on the the value you chose for <em>CSBooking._allowMultiple</em> (see <a class="wiki" href="CollaborationPluginsDevelopment.html#D.1.">D.1.</a>), your plugin will be shown differently in the Video Services section.
+</p>
+<p>
+If <em>CSBooking._allowMultiple == True</em>, you are allowing several <em>CSBooking</em> objects for the event. Most <em>Booking plugins</em> will fall into this category. Therefore, it makes sense that these bookings will be shown in a list. The list will look like this:
+</p>
+<p>
+<a style="padding:0; border:none" href="../../../attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Booking%20list.html"><img src="../../../raw-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Booking%20list.png" alt="Booking list screenshot" title="Booking list screenshot" /></a>
+</p>
+<p>
+Pressing the "create" button will open a creation dialog, with a form to fill in the booking details. This dialog will also be used when editing an existing booking.
+</p>
+<p>
+<a style="padding:0; border:none" href="../../../attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/EVO%20creation%20dialog.html"><img src="../../../raw-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/EVO%20creation%20dialog.png" alt="EVO creation dialog screenshot" title="EVO creation dialog screenshot" /></a>
+</p>
+<p>
+However, if <em>CSBooking._allowMultiple == False</em>, you are only allowing one <em>CSBooking</em> object of that type for the event. Most <em>Request plugins</em> will fall into this category. In this case, the form to fill in the details about the booking / request will appear directly in the webpage, without a button to open a dialog.
+</p>
+<p>
+<a style="padding:0; border:none" href="../../../attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Recording%20Request%20Form.html"><img src="../../../raw-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Recording%20Request%20Form.png" alt="Recording Request form screenshot" title="Recording Request form screenshot" /></a>
+</p>
+<p>
+The way you write your code if greatly affected by your choice in this regard.
+</p>
+<p>
+<br />
+</p>
+<h2 id="E.2.Designingyourdialogform"><strong> E.2. Designing your dialog / form </strong></h2>
+<h3 id="E.2.1.TheNewBookingForm.tplfile"><strong> E.2.1. The NewBookingForm.tpl file </strong></h3>
+<p>
+The HTML code that will appear in your dialog / form is in the <em>NewBookingForm.tpl</em> file.
+</p>
+<p>
+In this file, you can write mixed HTML and Python code, like any other .tpl file in Indico. You can do conditions and loops in Python in order to generate your HTML.
+</p>
+<p>
+If you use any Python variables in this file, they have to be declared in the <em>WNewBookingForm</em> class in the <em>pages.py</em> file. It is useful to use Python variables in order to have default initial values in the form fields, for example.
+</p>
+<p>
+If you include &lt;input&gt; elements in your form, please note that the <em>name</em> attribute that you choose for them is important: it has to correspond with the <strong>booking parameter</strong> name that you will declare in your <em>CSBooking</em> Python class. See the <a href="CollaborationPluginsDevelopment.html#F.1.Bookingparameters.InformationstoredintheDB">Booking Parameters</a> section for more details.
+</p>
+<p>
+When the user presses the "Save" button (for <em>Booking Plugins</em>) or the "Send Request" or "Modify Request" buttons (for <em>Request Plugins</em>), an AJAX request is sent by the core to the server. The values inside the fields with a "name" attribute is automatically read and sent to the server.
+</p>
+<p>
+In a similar way, when an "edit booking" dialog is openened, or we visit a request form from a <em>Request Plugin</em> after the request has been sent, the core will automatically fill the fields with the values already stored in the <em>CSBooking</em> object, without the plugin having to implement anything for this to happen.
+</p>
+<p>
+An important note: because of the way the HTML code has to be injected into the dialogs, any <em>&lt;script type="text/javascript"&gt;</em> blocks will <strong>NOT</strong> work in <em>NewBookingForm.tpl</em>. They will however work if your plugin's form is not a dialog but a page. You can however add Javascript inside things such as <em>onclick</em> attributes and so on. The rest of the Javascript, you will have to write in the <em>Main.js</em> and <em>Extra.js</em> files.
+</p>
+<h3 id="E.2.2.TheWNewBookingFormclass"><strong> E.2.2. The WNewBookingForm class </strong></h3>
+<p>
+Inside the <em>pages.py</em> file, even if you do not need any Python variables inside <em>NewBookingForm.tpl</em>, you must declare a <em>WNewBookingForm</em> class that inherits from <em>WCSPageTemplateBase</em>:
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">MaKaC.plugins.Collaboration.base</span> <span class="kn">import</span> WCSPageTemplateBase
+
+<span class="k">class</span> <span class="nc">WNewBookingForm</span><span class="p">(</span>WCSPageTemplateBase<span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getVars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">vars</span> <span class="o">=</span> WCSPageTemplateBase<span class="o">.</span>getVars<span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c">## Assign your variables into the vars dictionary here, example: vars["Title"] = self._conf.getTitle()</span>
+        <span class="k">return</span> <span class="nb">vars</span>
+</pre></div><p>
+The <em>getVars()</em> method is only necessary if you need to have Python variables in <em>NewBookingForm.tpl</em> (which is most often the case anyway).
+</p>
+<p>
+Because you are inheriting from <em>WCSPageTemplateBase</em>, the following attributes are available for you in <em>self</em>:
+</p>
+<ul><li><strong>self._conf</strong>: a Conference object. The event you are working with.
+</li><li><strong>self._user</strong>: an Avatar object. The currently logged in user (there's always one since we are in the Management interface).
+</li><li><strong>self._pluginName</strong>: a string with the name of your own plugin.
+</li><li><strong>self._ph</strong>: the PluginsHolder object, that you can use to access information about all the plugins (see the <a href="PluginSystem.html">Plugin System</a> guide)
+</li><li><strong>self._plugin</strong>: a Plugin object. Your own Plugin object, actually. See the <a href="PluginSystem.html">Plugin System</a> guide again.
+</li><li><strong>self._XXXOptions</strong>: a dictionary whose values are the plugin's PluginOption objects, which you could access through self._plugin but the <em>WCSPageTemplateBase</em> class build for you for convenience. Replace <em>XXX</em> by your plugin's name.
+</li></ul><h3 id="E.2.3.TheAdvancedTab.tplfileandtheWAdvancedTabclass"><strong> E.2.3. The AdvancedTab.tpl file and the WAdvancedTab class </strong></h3>
+<p>
+For <em>Booking plugins</em>, it is possible to also include plugin-defined content in the "Advanced" tab of the booking creation / edition dialog.
+</p>
+<p>
+For this, create a file called <strong>AdvancedTab.tpl</strong> in your <strong>tpls</strong> folder and a <em>WAdvancedTab</em> class in <strong>pages.py</strong> that inherits from <em>WCSPageTemplateBase</em>. This file &amp; class combination works the same way as the <em>NewBookingForm.tpl</em> file and the <em>WNewBookingForm</em> class. Fields / widgets in the "Advanced" tab will be detected by the Collaboration core in the same way as those of the "Basic" tab (which are those included in <em>NewBookingForm.tpl</em>).
+</p>
+<p>
+If you do not include an <em>AdvancedTab.tpl</em> file in your plugin, the <em>ConfModifCollaborationDefaultAdvancedTab.tpl</em> file will be used as default. This template includes the checkboxes for <em>Synchronize booking to event</em> and <em>Hide booking</em> that were the only ones present in previous versions of the Collaboration core. Moreover, you can include this default template in your own one, in order to have these checkboxes available in your plugin, like this:
+</p>
+<div class="code"><pre><span class="c">&lt;!-- Contents of AdvancedTab.tpl --&gt;</span>
+...
+<span class="err">&lt;</span>% includeTpl('ConfModifCollaborationDefaultAdvancedTab') %&gt;
+...
+</pre></div><p>
+<br />
+</p>
+<h2 id="E.3.Javascriptinterfacebetweencoreandplugins"><strong> E.3. Javascript interface between core and plugins </strong></h2>
+<p>
+On certain events, such as when the user clicks on the <em>Create</em> button to create a booking, or when the <em>Send Request</em> button is pressed to send a request, certain Javascript functions from your plugins will be called by the core.
+</p>
+<p>
+These functions are placed in the <em>Main.js</em> file. So that the core can call them, they have to have particular names. The functions must be organized into an object / dictionary, for example:
+</p>
+<div class="code"><pre><span class="c1">//Contents of the Main.js file:
+</span><span class="p">{</span>
+    <span class="nx">checkParams</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// function code here
+</span>    <span class="p">},</span>
+
+    <span class="nx">errorHandler</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// function code here
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div><p>
+<strong><em>Important note</em></strong>: never put a comma after the "}" of the last function! Firefox will not catch error but <acronym title="Internet Explorer">IE</acronym> will and it will not be easy to debug without appropriate tools. Same goes for any list or object declaration: never put a comma after the last element. This happens often when you copy/paste without paying attention.
+</p>
+<p>
+You will need to create a <em>WMain</em> class in your plugin's <em>pages.py</em> file that inherits from the base class <em>WJSBase</em>. The <em>WJSBase</em> constructor will set for you the attributes <em>self._conf</em> with the Conference object and <em>self._user</em> with the currently logged in user. In your <em>WMain</em> class, you can have a <em>getVars</em> method where you return a dictionary with the Python variables that you can use in the <em>Main.js</em> file (see the section about the <a href="CollaborationPluginsDevelopment.html#E.2.2.TheWNewBookingFormclass">WNewBookingForm class</a> for more details). Therefore, <em>Main.js</em> is both a Javascript file and a template file.
+</p>
+<p>
+The Javascript functions of the <em>Main.js</em> file are the following. All of them, except <em>errorHandler</em>, can be declared or not optionally. The core will check if they exist or not. Many of the functions are passed a <em>booking</em> object, which is a fossilized <em>CSBooking</em> instance.
+</p>
+<ul><li><strong>checkParams()</strong>: this function will be called by the core to perform checks on the parameters input by the user in the booking creation / edition dialog or in the request form, before an AJAX request is sent to the server. More details in the <a href="CollaborationPluginsDevelopment.html#G.2.1.Parametercheckingintheclient">Parameter checking in the client</a> section.
+</li></ul><ul><li><strong>errorHandler(event, error, booking)</strong>: this function is called when the <em>CSBooking</em> class's methods: <em>_create</em>, <em>_modify</em>, <em>_checkStatus</em>, and <em>_delete</em> return an instance of the <em>CSErrorBase</em> class. The <em>event</em> argument will have one of the following values: "create", "edit", "checkStatus" and "remove", depending on the action that triggered the error. The <em>error</em> argument will have the fossilized <em>CSErrorBase</em> object, that we can use to obtain aditional details about the nature of the error. Finally, in the latest versions of the core, a <em>booking</em> parameter is also passed, containing the fossilized <em>CSBooking</em> instance of the booking / request whose operation triggered an error. More details in the <a href="CollaborationPluginsDevelopment.html#G.2.3.Controllederrors">Controlled errors</a> section.
+</li></ul><ul><li><strong>customText(booking)</strong>: this function should return the text that will appear either in the <em>Info</em> column for <em>Booking plugins</em>, or under the request status for <em>Request plugins</em>.
+</li></ul><ul><li><strong>showInfo(booking)</strong>: if this function is present, an "expand info" button [ + / - ] will appear for bookings of <em>Booking plugins</em>. When this button is pressed, the showInfo function will be called with the corresponding booking as argument and is expected to return whatever HTML should be displayed. The returned HTML can be in two formats: either a plain string that can contain HTML tags, or a Presentation's XElement, for example an Html.table() XElement. The latest option allows for a cleaner way of building the displayed information.
+</li></ul><ul><li><strong>getDateFields()</strong>: if this function is present, it should return a list of names of fields for which the core will apply a "Calendar" widget that will help the user choose a date. For example, the EVO plugin has the following two fields:
+<div class="code"><pre><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"16"</span> <span class="na">name=</span><span class="s">"startDate"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">size=</span><span class="s">"16"</span> <span class="na">name=</span><span class="s">"endDate"</span> <span class="nt">/&gt;</span>
+</pre></div></li></ul><p>
+and its <em>getDateFields</em> function returns the array ["startDate", "endDate"].
+</p>
+<ul><li><strong>onCreate(bookingPopup)</strong>: if present, this function will be called by the core after the booking creation / edition dialog has been drawn. It has no effect for <em>Request Plugins</em>. This function is useful for:
+<ul><li>drawing complex fields implemented in Javascript, such as a <em>ShowablePasswordField</em> (see EVO and <acronym title="European Organization for Nuclear Research">CERN</acronym>MCU plugins for examples) or a participant list. The function is passed a bookingPopup object so that the plugin can call its <em>addComponent(component)</em> function, in order to add a Javascript field to the list of fields for which the values will be verified by the <em>checkParams()</em> function and whose values will be sent to the server when the "Save" button is closed, along with the values from normal &lt;input&gt; elements. If you implement your own Javascript Field type, be aware of the following conditions:
+<ul><li>It has to inherit from the <em>ErrorAware</em> mixin class,
+</li><li>It has to have a <em>getName()</em> method (so that the core can treat is as an &lt;input&gt; with a "name" attribute),
+</li><li>It has to have a <em>get()</em> method (so that the core can read its value).
+</li><li>It has to have a <em>set()</em> method (so that the core can set its value when editing a booking / modifying a request).
+</li></ul></li><li>rendering the "?" icons for <a href="CollaborationPluginsDevelopment.html#E.6.Contexthelp">Context help</a>.
+</li></ul></li></ul><blockquote>
+<p>
+Let's see an example with the contents of the EVO plugin's <em>onCreate</em> function:
+</p>
+<div class="code"><pre><span class="nx">onCreate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">bookingPopup</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">EVOPasswordField</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ShowablePasswordField</span><span class="p">(</span><span class="s1">'accessPassword'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="c1">//utility class in htdocs/js/indico/Core/Widgets/Inline.js. Will be treated as an &lt;input&gt; field with name "accessPassword".
+</span>    <span class="nx">$E</span><span class="p">(</span><span class="s1">'passwordField'</span><span class="p">).</span><span class="nx">set</span><span class="p">(</span><span class="nx">EVOPasswordField</span><span class="p">.</span><span class="nx">draw</span><span class="p">());</span> <span class="c1">//we change the contents of a div in NewBookingForm.tpl with id="passwordField"
+</span>    <span class="nx">bookingPopup</span><span class="p">.</span><span class="nx">addComponent</span><span class="p">(</span><span class="nx">EVOPasswordField</span><span class="p">);</span>
+    <span class="nx">EVODrawContextHelpIcons</span><span class="p">();</span> <span class="c1">//declared in Extra.js
+</span><span class="p">}</span>
+</pre></div></blockquote>
+<ul><li><strong>onEdit(booking, bookingPopup)</strong>: if present, this function will be called by the core after the booking creation / edition dialog has been rendered, but before the core will set the values of the fields from the existing booking object. Its purpose is similar to <em>onCreate</em>: render complex Javascript fields, tell the <a class="missing wiki">BookingPopup?</a> object to be aware of them via the <em>addComponent</em> method, and draw the "?" icons. Additionally, it receives the 'booking' argument with the fossilized booking that is being edited.
+</li></ul><ul><li><strong>onSave(values)</strong>: if present, this function will be called for <em>Booking plugins</em> when the user has pressed the "Save" button, after the <em>checkParams</em> function has been called and gave no errors. The dictionary that the core has built with the values recovered from the fields is passed as a <em>values</em> argument. The function can add extra key:value pairs to <em>values</em>. This is useful to add information that will be sent from the server from fields that could not be added to the <em><a class="missing wiki">BookingPopup?</a></em> via the <em>addComponent</em> function. This function should return <strong>true</strong> by default; if <strong>false</strong> is returned, the AJAX call to the server will not be performed, because the core will assume that <em>onSave</em> did some kind of parameter check that failed.
+</li></ul><ul><li><strong>onLoad()</strong>: if present, this function will be called for <em>Request plugins</em> after the form request page has been loaded.
+</li></ul><ul><li><strong>clearForm()</strong>: if present, this function will be called for <em>Request plugins</em> after the a request has been withdrawn via the "Withdraw Request" button. If may be interesting to call this function from the <em>onLoad</em> function when the request does not exist yet, as browsers usually cache the state of input fields.
+</li></ul><ul><li><strong>postCreate(booking)</strong>: if present, this function will be called after the AJAX request to create a booking / send a request was performed successfully, without exceptions or controlled errors. The resulting fossilized <em>CSBooking</em> instance will be passed to the function. This may be interesting to show a warning to the user by consulting the <em>warning</em> attribute of the booking. See <a href="CollaborationPluginsDevelopment.html#G.2.4.Warnings">Warnings</a> for more details.
+</li></ul><ul><li><strong>postEdit(booking)</strong>: similar to <em>postCreate</em>, will be called after a successful AJAX request to modify a booking or request.
+</li></ul><ul><li><strong>postDelete(booking)</strong>: similar to <em>postCreate</em> and <em>postEdit</em>, will be called after a successful AJAX request to delete a booking or withdraw a request.
+</li></ul><ul><li><strong>postCheckStatus(booking)</strong>: similar to <em>postCreate</em>,<em>postEdit</em> and <em>postDelete</em>, will be called after a successful AJAX request to query the status of a booking or a request.
+</li></ul><ul><li><strong>start(booking, iframeElement)</strong>: will be called by the core for <em>Booking Plugins</em> that have a "Start" button, only if the <em>_requiresClientCallForStart</em> class attribute of your <em>CSBooking</em> class is true, and the booking's <em>_permissionToStart</em> instance attribute is True. We pass the fossilized booking and an iframeElement where we can launch a download (such as EVO's Koala client).
+</li></ul><ul><li><strong>checkStart(booking)</strong>: if present, will be called by the core before calling <em>start</em>. This function has to return <strong>true</strong> to allow the start or <strong>false</strong> otherwise.
+</li></ul><ul><li><strong>stop(booking, iframeElement)</strong>: analog to the <em>start</em> function.
+</li></ul><p>
+<br />
+</p>
+<h2 id="E.4.CustomJavascript"><strong> E.4. Custom Javascript </strong></h2>
+<p>
+You will probably need to write extra Javascript code outside the standard Main.js functions: for example, you may have code that is used by several other functions, or you may want to define a class using Presentation's <em>type</em> keyword (see the <a class="ext-link" href="https://extbrain.felk.cvut.cz/trac/presentation/wiki/QuickGuide"><span class="icon">​</span>Presentation quick guide</a>).
+</p>
+<p>
+In these cases you have 2 options:
+</p>
+<ul><li>Create new functions in the function dictionary of <em>Main.js</em> and call them via the <em>callFunction(pluginName, functionName, arguments)</em> helper function.
+</li><li>Create an <em>Extra.js</em> file in your plugin's <em>tpls</em> folder. Any Javascript code written there will be included in the &lt;head&gt; of the management pages. For this, you will also need to create a <em>WExtra</em> class in your plugin's <em>pages.py</em> file that inherits from the base class <em>WJSBase</em>. The <em>WJSBase</em> constructor will set for you the attributes <em>self._conf</em> with the Conference object and <em>self._user</em> with the currently logged in user. In your <em>WExtra</em> class, you can have a <em>getVars</em> method where you return a dictionary with the Python variables that you can use in <em>Extra.js</em> (see the section about the <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Technical/CollaborationPluginsDevelopment#E.2.2.TheWNewBookingFormclass"><span class="icon">​</span>WNewBookingForm class</a> for more details). Please note that <em>self._conf</em> may be <strong>None</strong> when the <em>Extra.js</em> Javascript code is included in the Video Services overview page for Collaboration admins. Therefore, <em>Extra.js</em> is both a Javascript file and a template file.
+</li></ul><p>
+<br />
+</p>
+<h2 id="E.5"><strong> E.5. Calling services </strong></h2>
+<p>
+In many cases, you do not need to program service calls (AJAX requests) in your plugin, since the Collaboration core will take care of the most common AJAX calls (creating / editing / reading / deleting a booking, etc.) or you can use some of the already developed services (like getting the title of an event). However, if you do need to develop a service, it is also possible.
+</p>
+<p>
+In this section we will discuss how to call a service in Javascript. The implementation of the service in the server is discussed in section <a class="wiki" href="CollaborationPluginsDevelopment.html#F.6">F.6. Custom services in the server</a>.
+</p>
+<p>
+In Indico, a service call is done through the <em>indicoRequest</em> call:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">killProgress</span> <span class="o">=</span> <span class="nx">IndicoUI</span><span class="p">.</span><span class="nx">Dialogs</span><span class="p">.</span><span class="nx">Util</span><span class="p">.</span><span class="nx">progress</span><span class="p">(</span><span class="nx">$T</span><span class="p">(</span><span class="s2">"Please wait a moment..."</span><span class="p">));</span>
+        
+<span class="nx">indicoRequest</span><span class="p">(</span><span class="nx">serviceName</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">,</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">error</span><span class="p">){</span> <span class="c1">// hook function
+</span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// do stuff with the result
+</span>            <span class="nx">killProgress</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// possibly do stuff about the error, or:
+</span>            <span class="nx">killProgress</span><span class="p">();</span>
+            <span class="nx">IndicoUtil</span><span class="p">.</span><span class="nx">errorReport</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</pre></div><p>
+Plugin service calls are no different except for the following constraints:
+</p>
+<ul><li><strong>serviceName</strong> has to be always "collaboration.pluginService". "collaboration.pluginService" is a service from the Collaboration core that will dispatch request to the custom services implemented by the plugins.
+</li><li>inside the <strong>argument</strong> object, there has to be always at least these 3 items: plugin, service, and conference. Example:
+<div class="code"><pre> <span class="p">{</span>
+     <span class="nx">plugin</span><span class="o">:</span> <span class="s1">'RecordingRequest'</span><span class="p">,</span> <span class="c1">// the name of your plugin
+</span>     <span class="nx">service</span><span class="o">:</span> <span class="s1">'RRTalks'</span><span class="p">,</span>         <span class="c1">// the name of your service
+</span>     <span class="nx">conference</span><span class="o">:</span> <span class="s1">'&lt;%= ConferenceId %&gt;'</span> <span class="c1">// the conference Id of the Event you are working this. You can generate this with Python code in your .tpl, Main.js or Extra.js files if you want.
+</span> <span class="p">}</span>
+</pre></div></li></ul><p>
+The rest is the same as normal Indico service calls. When the server returns the result (or an error), the <em>function(result,error)</em> hook function will be called.
+</p>
+<p>
+<br />
+</p>
+<h2 id="E.6.Contexthelp"><strong> E.6. Context help </strong></h2>
+<p>
+We call "context help" the little "?" icons that are often put in web applications next to form fields / elements that the user may not understand at first sight. In Indico, these icons show a help tooltip when the mouse is hovered above them.
+</p>
+<p>
+The Collaboration core does not offer a mechanism to quickly say where these icons should be and what text they should have, because it is actually a not very complex process:
+</p>
+<ul><li>Include the "?" image in your NewBookingForm.tpl or AdvancedTab.tpl files, giving it an id:
+<div class="code"><pre><span class="nt">&lt;img</span> <span class="na">id=</span><span class="s">"startDateHelpImg"</span> <span class="na">src=</span><span class="s">"&lt;%= systemIcon('help')%&gt;"</span> <span class="na">style=</span><span class="s">"margin-left:5px; vertical-align:middle;"</span> <span class="nt">/&gt;</span>
+</pre></div></li><li>Create a function in your <em>Extra.js</em> file that adds the tooltips to the images, and for each image create a function that builds the tooltip, such as this:
+<div class="code"><pre><span class="cm">/**
+ * Mouseover help popup for the 'Start date' field
+ */</span>
+<span class="kd">var</span> <span class="nx">EVOStartDateHelpPopup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">IndicoUI</span><span class="p">.</span><span class="nx">Widgets</span><span class="p">.</span><span class="nx">Generic</span><span class="p">.</span><span class="nx">tooltip</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span>
+        <span class="s1">'&lt;div style="padding:3px; width: 300px;""&gt;'</span> <span class="o">+</span>
+            <span class="nx">$T</span><span class="p">(</span><span class="s1">'Please create your booking between &lt;strong&gt;&lt;%= MinStartDate %&gt;&lt;/strong&gt; and &lt;strong&gt;&lt;%= MaxEndDate %&gt;&lt;/strong&gt; '</span> <span class="o">+</span>
+            <span class="s2">"(Allowed dates \/ times based on your event's start date and end date). "</span> <span class="o">+</span>
+            <span class="s1">'Also, please remember the start date cannot be more than &lt;%= AllowedStartMinutes %&gt; minutes in the past.'</span><span class="p">)</span> <span class="o">+</span>
+        <span class="s1">'&lt;\/div&gt;'</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="p">...</span>
+
+<span class="cm">/**
+ * Draws the context help icons and assigns the appropiate popups to each one.
+ */</span>
+<span class="kd">var</span> <span class="nx">EVODrawContextHelpIcons</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">$E</span><span class="p">(</span><span class="s1">'startDateHelpImg'</span><span class="p">).</span><span class="nx">dom</span><span class="p">.</span><span class="nx">onmouseover</span> <span class="o">=</span> <span class="nx">EVOStartDateHelpPopup</span><span class="p">;</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</pre></div></li><li>Call that function from the functions <em>onCreate</em>, <em>onEdit</em> (for <em>Booking plugins</em>) or <em>onLoad</em> (for <em>Request plugins</em>) of your Main.js file (see an example in the <a href="CollaborationPluginsDevelopment.html#E.3.Javascriptinterfacebetweencoreandplugins">onCreate function explanation</a>
+</li></ul><p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="F.Programmingtheserverside"><strong> F. Programming the server side </strong></h1>
+<h2 id="F.1.Bookingparameters.InformationstoredintheDB"><strong> F.1. Booking parameters. Information stored in the DB </strong></h2>
+<p>
+The <em>CSBooking</em> class that every plugin has to implement represents the <em>bookings</em> or <em>requests</em> inside an Indico event. The instances of this class store information of two types:
+</p>
+<ul><li><strong>Booking parameters</strong>: they are the values filled in by the user in the booking creation / edition dialog or the request form. The <em>core</em> will automatically read them from the dialog / form and store them in your <em>CSBooking</em> class.
+</li><li>Other information: you may want to store other information as attributes of your CSBooking instances, for example: information derived from operating the <em>booking parameters</em>, or information retrieved from a remote system.
+</li></ul><p>
+The following two sub-sections will explain how to declare in your CSBooking class which are the <em>booking parameters</em> of your plugin.
+</p>
+<h3 id="F.1.1.Simpleparameters"><strong> F.1.1. <em>Simple</em> parameters </strong></h3>
+<p>
+<em>Simple</em> booking parameters are those who do not need any special conversion between the value written by the user in the dialog or form and the value stored in the <em>CSBooking</em> instance.
+</p>
+<p>
+The Collaboration core will parse the values input by the user and will store them in the <em>self._bookingParams</em> attribute of the <em>CSBooking</em> class. <em>self._bookingParams</em> will be a dictionary where the key is the <em>name</em> attribute of the corresponding HTML input element in <em>NewBookingForm.tpl</em> or <em>AdvancedTab.tpl</em>.
+</p>
+<p>
+So, for example, if in <em>NewBookingForm.tpl</em> we have the following text input field:
+</p>
+<div class="code"><pre><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"bookingTitle"</span> <span class="nt">/&gt;</span>
+</pre></div><p>
+we will be able to access in the methods of our <em>CSBooking</em> class like this:
+</p>
+<div class="code"><pre>title <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>_bookingParams<span class="p">[</span><span class="s">"bookingTitle"</span><span class="p">]</span>
+</pre></div><p>
+Please note, however, that the recommended way to recover a parameter is to use the <em>getBookingParamByName</em> function:
+</p>
+<div class="code"><pre>title <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>getBookingParamByName<span class="p">(</span><span class="s">"bookingTitle"</span><span class="p">)</span>
+</pre></div><p>
+which will return a default value if this <em>CSBooking</em> object does not have a parameter of that name (which can happen if for some reason that parameter did not arrive from the client).
+</p>
+<p>
+<em>Simple</em> booking parameters need to be declared as a <em>CSBooking</em> class attribute, so that the core needs if a parameter arriving from the client is legal or not, which type it has, and what is the default value. The syntax is:
+</p>
+<div class="code"><pre>_simpleParameters <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"paramName1"</span><span class="p">:</span> <span class="p">(</span>paramType1<span class="p">,</span> defaultValue1<span class="p">),</span>
+    <span class="s">"paramName2"</span><span class="p">:</span> <span class="p">(</span>paramType2<span class="p">,</span> defaultValue2<span class="p">),</span>
+    <span class="o">...</span>
+</pre></div><p>
+where the "paramType" should be a Python primitive type (str, int, bool, list). This type will be used to verify that the parameter arriving from the client is compatible with the given type, and to convert this value to the given Python primitive type.
+</p>
+<p>
+The <em>bool</em> type is special because the core assumes that a <em>bool</em> parameter will be used for a single checkbox in either <em>NewBookingForm.tpl</em> or <em><a class="missing wiki">AdvancedTab?</a>.tpl</em>. When getting the booking parameters, a value of True will be converted to <a class="missing wiki">yes?</a> so as to properly mark the checkbox as checked.
+</p>
+<p>
+The default value will be used when a parameter is not present in an already existing <em>CSBooking</em> instance. For example, between different versions of your plugin you may have added new parameters but you already had existing <em>CSBooking</em> instances in the database.
+</p>
+<p>
+The default value will also be used if a booking parameter is not present in the dictionary coming from the client. For example, if a checkbox in your dialog / form is not checked, no value will arrive from the client for that paramater name and the core will use the default value.
+</p>
+<p>
+Example for the <acronym title="European Organization for Nuclear Research">CERN</acronym>MCU plugin:
+</p>
+<div class="code"><pre>_simpleParameters <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"name"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"description"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"id"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"displayPin"</span><span class="p">:</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="bp">False</span><span class="p">)}</span>
+</pre></div><p>
+Example for the RecordingRequest plugin:
+</p>
+<div class="code"><pre>_simpleParameters <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"talks"</span> <span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"talkSelectionComments"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"talkSelection"</span><span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="s">"permission"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"lectureOptions"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"lectureStyle"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"postingUrgency"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"numRemoteViewers"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"numAttendees"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+    <span class="s">"recordingPurpose"</span><span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="s">"intendedAudience"</span> <span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="s">"subjectMatter"</span><span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="s">"otherComments"</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">''</span><span class="p">)}</span>
+</pre></div><h3 id="F.1.2.Complexparameters"><strong> F.1.2. <em>Complex</em> parameters </strong></h3>
+<p>
+Sometimes a parameter has a complex structure, or setting / reading its value should have side effects. In short, the plugin needs to handle itself how to set / get the parameter value with its own getter and setter method. In this case we speak about a <em>complex</em> parameter.
+</p>
+<p>
+A complex parameter also needs to be declared in the <em>CSBooking</em> class, via the <em>_complexParameters</em> class attribute. The syntax is:
+</p>
+<div class="code"><pre>_complexParameters <span class="o">=</span> <span class="p">[</span><span class="s">"paramName1"</span><span class="p">,</span> <span class="s">"paramName2"</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+</pre></div><p>
+When you declare a parameter name as a complex parameter, you need to implement the corresponding "getter" <em>and</em> "setter" methods. So for example, if a complex parameter is called "description", we would need to implement both a method called <em>getDescription</em> and a method called <em>setDescription</em>. The method <em>setDescription</em> will be called when the core is reading the data coming from the client in a booking creation / booking modification / request sending / request modification request, and will be passed a single value which is the new parameter value. The method <em>getDescription</em> will be called when the core needs to render an existing booking / request.
+</p>
+<h3 id="F.1.3.Specialparameternames"><strong> F.1.3. Special parameter names </strong></h3>
+<ul><li><strong>startDate</strong> and <strong>endDate</strong>: if inside <em>NewBookingForm.tpl</em> or <em>AdvancedTab.tpl</em> you have &lt;input&gt; fields whose names are "startDate" and / or "endDate", they are treated specially by the core. This is in order to help the plugin with the potentially complex task of transforming a text string to a Python timezone-aware datetime object and viceversa. Therefore, you do not need to declare them in <em>_simpleParameters</em> or <em>_complexParameters</em>; they will be automatically stored in your <em>CSBooking</em> instance and available via the <em>CSBookingBase</em> methods <em>getStartDate</em> and <em>getEndDate</em>.
+</li></ul><ul><li>hidden: the parameter name "hidden" is used by the core for <em>Booking Plugins</em> for a checkbox that appears in the "Advanced" tab of the booking creation / edition dialog. Therefore, you should not have a plugin-defined parameter with the name "hidden".
+</li></ul><ul><li>notifyOnDateChanges: the parameter name "notifyOnDateChanges" is reserved in the same way as "hidden".
+</li></ul><h3 id="F.1.4.Notesaboutbookingparametershandling"><strong> F.1.4. Notes about booking parameters handling </strong></h3>
+<p>
+The functions of the <em>core</em> that handle setting and getting the booking parameters are inside the <em>CSBookingBase</em> class. They are mainly the methods: <em>setBookingParams</em>, <em>getBookingParams</em>.
+</p>
+<p>
+The method <em>getBookingParamByName</em> of <em>CSBookingBase</em> should be use when safely retrieving a booking parameter. If the given booking parameter name is not a key of the <em>self._bookingParams</em> dictionary, the default value will be returned instead.
+</p>
+<p>
+<br />
+</p>
+<h2 id="F.2.Implementingmethods"><strong> F.2. Implementing methods </strong></h2>
+<p>
+Besides booking / request parameter handling, the other main purpose of the <em>CSBooking</em> class is to implement methods that will be called by the core on certain events, such as when the booking / request is created, updated, queried, deleted, etc. For example, if your plugin deals with a remote system, you probably want to call an operation of that system's API when a user creates a booking in Indico.
+</p>
+<p>
+This is the list of such methods:
+</p>
+<h3 id="F.2.1._checkBookingParamsself"><strong> F.2.1. _checkBookingParams(self) </strong></h3>
+<p>
+The <em>_checkBookingParams(self)</em> method this will be called by the core when the user is creating or modifying a <em>booking</em> or sending a <em>request</em>, only if the <em>CSBooking</em> class attribute <strong>_needsBookingParamsCheck</strong> is set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). When this method is called, the following has already happened:
+</p>
+<ul><li>An instance of your <em>CSBooking</em> class has been constructed via its __init__ method, and it has an internal per-Indico-event id that you can recover with the <em>self.getId()</em> method.
+</li><li>The <em>sanitizeParams</em> method of the <em>CSBookingBase</em> class has been called and the sanitization check was successful (see /wiki/Dev/Technical/CollaborationPluginsDevelopment#I.4 Parameter sanitization].
+</li><li>All the booking parameters values (simple and complex) have been set.
+</li></ul><p>
+These operations are performed by the <em>createBooking</em> or <em>changeBooking</em> methods of the core class <em>CSBookingManager</em>.
+</p>
+<p>
+In the <em>_checkBookingParams</em> method you should implement whatever checks need to be done when a booking / request is created or modified in Indico. You should assume that the Javascript verifications done in the client side of your plugin did not work and check everything again in the server. You may also want to implement extra checks that for some reason can only be performed in the server side.
+</p>
+<p>
+The <em>_checkBookingParams</em> method should return:
+</p>
+<ul><li><strong>False</strong> (not None!) if there have been no problems,
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. There will be no database commit.
+</li><li>(only in the most recent versions of the core) an instance of <em>CSErrorBase</em> if there was a problem and we want to convey information to the client of the plugin. The <em>errorHandler</em> function in Main.js will be called. (in older versions, this is equivalent to raising an exception).
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.2._createself"><strong> F.2.2. _create(self) </strong></h3>
+<p>
+The <em>_create(self)</em> method this will be called by the core when the user is creating a <em>booking</em> or sending a <em>request</em>. When this method is called, the following has already happened:
+</p>
+<ul><li>An instance of your <em>CSBooking</em> class has been constructed via its __init__ method, and it has an internal per-Indico-event id that you can recover with the <em>self.getId()</em> method.
+</li><li>The <em>sanitizeParams</em> method of the <em>CSBookingBase</em> class has been called and the sanitization check was successful (see /wiki/Dev/Technical/CollaborationPluginsDevelopment#I.4 Parameter sanitization].
+</li><li>All the booking parameters values (simple and complex) have been set.
+</li><li>The <em>self._checkBookingParams</em> method has been called and the verification was successful.
+</li></ul><p>
+These operations are performed by the <em>createBooking</em> method of the core class <em>CSBookingManager</em>.
+</p>
+<p>
+In the <em>_create</em> method you should implement whatever needs to be done when a booking / request is created in Indico, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Setting attribute values, such as information returned by the remote operation, or the <em>self._statusMessage</em> and <em>self._statusClass</em> attributes (see <a href="CollaborationPluginsDevelopment.html#F.3">Special CSBooking instance attributes</a>.
+</li><li>Sending notification emails (to the event creator, the plugin admin...).
+</li></ul><p>
+The <em>_create</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the modified booking / request and return it to the client.
+</li><li>an instance of <em>CSErrorBase</em> if there was a problem and we want to convey information to the client of the plugin. The <em>errorHandler</em> function in Main.js will be called. In this case the CSBooking instance will not be stored inside the event.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.3._modifyselfoldBookingParams"><strong> F.2.3. _modify(self, oldBookingParams) </strong></h3>
+<p>
+The <em>_modify(self, oldBookingParams)</em> method this will be called by the core when the user is editing a <em>booking</em> or modifying a <em>request</em>. When this method is called, the following has already happened:
+</p>
+<ul><li>A copy of the old booking parameters has been made by calling the method <em>getBookingParams</em> of the <em>CSBookingBase</em> class and stored in a dictionary with the same format as the one that is sent to the client.
+</li><li>The <em>sanitizeParams</em> method of the <em>CSBookingBase</em> class has been called and the sanitization check was successful (see /wiki/Dev/Technical/CollaborationPluginsDevelopment#I.4 Parameter sanitization].
+</li><li>All the new booking parameters values (simple and complex) have been set, overwriting the old values.
+</li><li>The <em>self._checkBookingParams</em> method has been called for the new values and the verification was successful.
+</li></ul><p>
+Therefore, the <em>oldBookingParams</em> parameter of the <em>_modify</em> method will contain the previously mentioned dictionary with the booking parameter values before they were modified. This is useful if we want to not call the remote API if no parameter values have changed, for example.
+These operations are performed by the <em>changeBooking</em> method of the core class <em>CSBookingManager</em>.
+</p>
+<p>
+In the <em>_modify</em> method you should implement whatever needs to be done when a booking / request is modifiedin Indico, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Setting attribute values, such as information returned by the remote operation, or the <em>self._statusMessage</em> and <em>self._statusClass</em> attributes (see <a href="CollaborationPluginsDevelopment.html#F.3">Special CSBooking instance attributes</a>.
+</li><li>Sending notification emails (to the event creator, the plugin admin...).
+</li></ul><p>
+The <em>_modify</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the new booking / request and return it to the client.
+</li><li>an instance of <em>CSErrorBase</em> if there was a problem and we want to convey information to the client of the plugin. The <em>errorHandler</em> function in Main.js will be called. In this case, the core will automatically restore the old booking parameters by calling the method <em>setBookingParams</em> of the <em>CSBookingBase</em> class with the <em>oldBookingParams</em>. However, any changes you have done to other instance attributes will remain.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will not be a commit to the database and the old booking parameters will remain in the database even if they were already set in memory, and changes done to other attributes will disappear.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling section</a>.
+</p>
+<h3 id="F.2.4._deleteself"><strong> F.2.4. _delete(self) </strong></h3>
+<p>
+The <em>_delete(self)</em> method this will be called by the core when the user is deleting a <em>booking</em> or withdrawing a <em>request</em>. The "delete" button for a booking (a small red cross) will only be clickable if the <em>self._canBeDeleted</em> instance attribute of the booking is True (which it is by default). This operation has no parameters or parameter verification. It is called by the <em>removeBooking</em> method of the core <em>CSBookingManager</em> class.
+</p>
+<p>
+In the <em>_delete</em> method you should implement whatever needs to be done when a booking is deleted or a request is withdrawn, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Sending notification emails (to the event creator, the plugin admin...).
+</li></ul><p>
+The <em>_delete</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request and return it to the client (useful for the <em>postDelete</em> function in Main.js).
+</li><li>an instance of <em>CSErrorBase</em> if there was a problem and we want to convey information to the client of the plugin. The <em>errorHandler</em> function in Main.js will be called. In this case, the <em>CSBooking</em> instance will not be removed from the list of bookings / requests of the event, but whatever attribute changes you have done (such as setting self._warning) will remain.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will be no database commit and no changes will be stored.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.5._checkStatusself"><strong> F.2.5. _checkStatus(self) </strong></h3>
+<p>
+The <em>_checkStatus(self)</em> method this will be called by the core when the user presses the "update status" button, which only exists if the <em>_hasCheckStatus</em> class attribute of the <em>CSBooking</em> class is set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). This operation has no parameters or parameter verification. It is called by the <em>checkBookingStatus</em> method of the core <em>CSBookingManager</em> class.
+</p>
+<p>
+In the <em>_checkStatus</em> method you should query the remote system to see if the booking was changed in the remote system.
+</p>
+<p>
+The <em>_checkStatus</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request (including the changed attributes) and return it to the client. The core will refresh the information in the client and the plugin can perform any extra needed operation in the "postCheckStatus" function of Main.js.
+</li><li>an instance of <em>CSErrorBase</em> if there was a problem and we want to convey information to the client of the plugin. The <em>errorHandler</em> function in Main.js will be called. In this case, what will be fossilized and returned to the client is the error instance, not the booking; therefore the booking / request will not be refreshed.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will be no database commit and no changes will be stored.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.6._notifyOnViewself"><strong> F.2.6. _notifyOnView(self) </strong></h3>
+<p>
+The <em>_notifyOnView(self)</em> method this will be called by the core for every booking / request when the event manager goes to the <em>Video Services</em> section of the event, or a normal user sees bookings in an event display page. This happens before the bookings are rendered in the page. This only happens if the <em>_needsToBeNotifiedOnView</em> class attribute of the <em>CSBooking</em> class is set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). This operation has no parameters or parameter verification.
+</p>
+<p>
+In the <em>_notifyOnView</em> method you can recalculate some of the instance attributes (for example, if the booking can be started or not, depending on its start time and the current time), and optionally also query the remote system. For example, the EVO plugin queries the remote system when the clock is close to the booking starting time, but stores that this check is done in order not to do it repeatedly if the page is refreshed. 
+</p>
+<p>
+The <em>_notifyOnView</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request (including the changed attributes) and return it to the client.
+</li><li>raise an Exception if there has been a problem. In this case, a message will be written in the Indico log but nothing will be reported to the user to avoid plugins spamming the users when they are just viewing a page.
+</li></ul><h3 id="F.2.7._startself"><strong> F.2.7. _start(self) </strong></h3>
+<p>
+The <em>_start(self)</em> method this will be called by the core when an <strong>event manager</strong> presses the "Start" button for a booking. Normally, only <em>Booking plugins</em> need this operation. This operation has no parameters or parameter verification. It is called by the <em>startBooking</em> method of the core <em>CSBookingManager</em> class.
+</p>
+<p>
+The "Start" button only appears if the <em>_hasStart</em> class attribute is set to True, and the <em>_start()</em> method of the <em>CSBooking</em> instance is only called if <em>_requiresServerCallForStart</em> class attribute is also set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>).
+</p>
+<p>
+In the <em>_start</em> method you should implement whatever needs to be done when a booking is started, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Sending notification emails (to the event creator, the plugin admin...),
+</li><li>Changing the status message of the booking.
+</li></ul><p>
+The <em>_start</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request and return it to the client; the core will refresh it in the client automatically, so that for example the new status message is displayed.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will be no database commit and no changes will be stored.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.8._stopself"><strong> F.2.8. _stop(self) </strong></h3>
+<p>
+The <em>_stop(self)</em> method this will be called by the core when an <strong>event manager</strong> presses the "Stop" button for a booking. Normally, only <em>Booking plugins</em> need this operation. This operation has no parameters or parameter verification. It is called by the <em>stopBooking</em> method of the core <em>CSBookingManager</em> class.
+</p>
+<p>
+The "Stop" button only appears if the <em>_hasStop</em> class attribute is set to True, and the <em>_stop()</em> method of the <em>CSBooking</em> instance is only called if <em>_requiresServerCallForStop</em> class attribute is also set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>).
+</p>
+<p>
+In the <em>_stop</em> method you should implement whatever needs to be done when a booking is stopped, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Sending notification emails (to the event creator, the plugin admin...),
+</li><li>Changing the status message of the booking.
+</li></ul><p>
+The <em>_stop</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request and return it to the client; the core will refresh it in the client automatically, so that for example the new status message is displayed.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will be no database commit and no changes will be stored.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.9._acceptself"><strong> F.2.9. _accept(self) </strong></h3>
+<p>
+The <em>_accept(self)</em> method this will be called by the core when an <strong>plugin admin</strong> presses the "Accept" button for a booking or request. Normally, only <em>Request plugins</em> need this operation, but we can also imagine a system where booking need to be accepted by admins. This operation has no parameters or parameter verification. It is called by the <em>accept</em> method of the core <em>CSBookingBase</em> class, in turn called by the <em>acceptBooking</em> method of the core <em>CSBookingManager</em> class.
+</p>
+<p>
+The "Accept" button only appears if the <em>_hasAcceptReject</em> class attribute is set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). It will only be clickable if the instance attribute <em>_canBeStarted</em> is True (by default, it has the value of the <em>_hasStart</em> class attribute).
+</p>
+<p>
+Before the <em>_accept</em> method of the <em>CSBooking</em> class is called, the <em>accept</em> method of the core <em>CSBookingBase</em> class already changes the instance attribute <em>_acceptRejectStatus</em> to True, so you do not need to keep track if a booking / request has been accepted or rejected.
+</p>
+<p>
+In the <em>_accept</em> method you should implement whatever needs to be done when a booking is accepted, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Sending notification emails (to the event creator, the plugin admin...),
+</li><li>Changing the status message of the booking and instance attributes such as <em>_canBeStarted</em> and <em>_canBeStopped</em>.
+</li></ul><p>
+The <em>_accept</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request and return it to the client; the core will refresh it in the client automatically, so that for example the new status message is displayed.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will be no database commit and no changes will be stored.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<h3 id="F.2.10._rejectself"><strong> F.2.10. _reject(self) </strong></h3>
+<p>
+The <em>_reject(self)</em> method this will be called by the core when an <strong>plugin admin</strong> presses the "Reject" button for a booking or request, and writes the rejection reason. Normally, only <em>Request plugins</em> need this operation, but we can also imagine a system where booking need to be accepted by admins. This operation has no parameters or parameter verification. It is called by the <em>reject</em> method of the core <em>CSBookingBase</em> class, in turn called by the <em>rejectBooking</em> method of the core <em>CSBookingManager</em> class.
+</p>
+<p>
+The "Reject" button only appears if the <em>_hasAcceptReject</em> class attribute is set to True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). It will only be clickable if the instance attribute <em>_canBeStopped</em> is True (by default, it has the value of the <em>_hasStart</em> class attribute).
+</p>
+<p>
+Before the <em>_reject</em> method of the <em>CSBooking</em> class is called, the <em>reject</em> method of the core <em>CSBookingBase</em> class already changes the instance attribute <em>_acceptRejectStatus</em> to False, and stores the rejection reason in the <em>_rejectReason</em> instance attribute.
+</p>
+<p>
+In the <em>_reject</em> method you should implement whatever needs to be done when a booking is accepted, such as:
+</p>
+<ul><li>Calling an operation of the remote system API,
+</li><li>Sending notification emails (to the event creator, the plugin admin...),
+</li><li>Changing the status message of the booking and instance attributes such as <em>_canBeStarted</em> and <em>_canBeStopped</em>.
+</li></ul><p>
+The <em>_reject</em> method should return:
+</p>
+<ul><li><strong>None</strong> if there have been no problems. In this case, the core will fossilize the booking / request and return it to the client; the core will refresh it in the client automatically, so that for example the new status message and rejection reason are displayed.
+</li><li>raise an instance of <em>CollaborationException</em> if there has been an "uncontrolled" problem. An error report dialog will be shown to the user. In this case, there will be no database commit and no changes will be stored.
+</li></ul><p>
+More information in the <a href="CollaborationPluginsDevelopment.html#G.2.Errorhandling">Error Handling</a> section.
+</p>
+<p>
+<br />
+</p>
+<h2 id="F.3"><strong> F.3. Special CSBooking instance attributes </strong></h2>
+<p>
+The following instance attributes are initialized in the <em>CSBookingBase</em> base class and are use by the core for different purposes:
+</p>
+<ul><li><strong>self._bookingParams</strong>: as mentioned in the previous sections, this is a dictionary where the <em>Simple</em> booking parameters are stored and retrieved by the core. The <em>CSBookingBase</em> base class initializes it to an empty dictionary, so your plugin does not need to do so. To retrieve a value from your plugin, the safest way is to use the <em>getBookingParamByName</em> method of the <em>CSBookingBase</em> base class.
+</li></ul><ul><li><strong>self._id</strong>: this is the internal per-event id of the booking / request. Your plugin should <strong>not</strong> change this but it may be interesting for your plugin to retrieve its value with the <em>getId()</em> method of the <em>CSBookingBase</em> base class.
+</li></ul><ul><li><strong>self._statusMessage</strong> and <strong>self._statusClass</strong>: this is the text shown in the <em>Status</em> column for <em>Booking Plugins</em> or at the top of the form for <em>Request plugins</em>. <em>_statusMessage</em> is the text that will be displayed and <em>_statusClass</em> is its CSS class, for which you should use: "statusMessageOK", "statusMessageError" and "statusMessageOther". It is interesting to set this attribute when a booking / request is created, modified, started, stopped, accepted, rejected, etc. You can retrieve their values with the <em>getStatusMessage</em> and <em>getStatusClass</em> method of the <em>CSBookingBase</em> base class.
+</li></ul><ul><li><strong>self._acceptRejectStatus</strong> and <strong>self._rejectReason</strong>: only relevant if <em>_hasAcceptReject</em> is True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). These instance attributes are set by the core when a plugin admin presses the "Accept" or "Reject" buttons, as explained in the <em>_accept</em> and <em>_reject</em> method descriptions. You can recover their values with the <em>getAcceptRejectStatus</em> and <em>getRejectReason</em> methods of the <em>CSBookingBase</em> base class. <em>_acceptRejectStatus</em> will be <strong>None</strong> if the request has not been accepted or rejected yet, <strong>True</strong> if it has been accepted, and <strong>False</strong> if it has been rejected.
+</li></ul><ul><li><strong>self._canBeStarted</strong> and <strong>self._canBeStopped</strong>: only relevant if <em>_hasStart</em> and / or <em>_hasStop</em> are True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). These attributes will tell the core if the "Start" and "Stop" buttons for a booking should be enabled. By default, <em>_canBeStarted</em> starts with the same value as the <em>_hasStart</em> class attribute, and <em>_canBeStopped</em> starts being False.
+</li></ul><ul><li><strong>self._permissionToStart</strong> and <strong>self._permissionToStop</strong>: only relevant if <em>_hasStart</em> and / or <em>_hasStop</em> are True, and <em>_requiresClientCallForStart</em> and / or <em>_requiresClientCallForStop</em> are also True (see <a href="CollaborationPluginsDevelopment.html#D.1.">Plugin characteristics</a>). They will tell the core if it should call the functions "start" and "stop" in Main.js. This is useful, for example, if we want to check in the server if a booking may still be started or stopped. For example, we may be after its ending time, but the page in the client was loaded some time ago and the "Start" button is still active.
+</li></ul><ul><li><strong>self._warning</strong>: any primitive value (string, etc.) or Fossilizable object can be put here. It will be fossilized along with the booking parameters. Then, it can be recovered in the Main.js functions which are called after a server operaton, such as <em>postCreate()</em>, <em>postDelete()</em>, etc. See the <a href="CollaborationPluginsDevelopment.html#E.3.Javascriptinterfacebetweencoreandplugins">Javascript interface between core and plugins</a> section.
+</li></ul><ul><li><strong>self._creationDate</strong> and <strong>self._modificationDate</strong>: Python timezone-aware objects, set by the core. Do not change them with your plugin, but they can be read via the <em>getCreationDate</em> and <em>getModificationDate</em> methods of the <em>CSBookingBase</em> base class. <strong>self._creationDate</strong> is set when the <em>_create</em> method of <em>CSBooking</em> is called, and <strong>self._modificationDate</strong> is set every time the <em>_create</em> or <em>_modify</em> methods of <em>CSBooking</em> are called.
+</li></ul><ul><li><strong>self._canBeDeleted</strong>: this attribute is used by the core to check if it should disable the "Delete" button for a booking, therefore turning the small red cross icon into a non-clickable grey cross. For example, EVO does not allow to delete ongoing or past meetings, so the EVO plugin disables the "Delete" button in these cases.
+</li></ul><ul><li><strong>self._needsToBeNotifiedOfDateChanges</strong>: this attribute is used by the core to enable or disable the "Keep synchronized with event" checkbox in the "Advanced" tab. For example, it may not make sense to keep synchronizing a booking and an event which are both past.
+</li></ul><ul><li><strong>self._hidden</strong>: this attribute is set by the core when the user checks or unchecks the "Keep this booking hidden" checkbox of the Advanced tab. Its value is True or False.
+</li></ul><p>
+<br />
+</p>
+<h2 id="F.4.Fossils"><strong> F.4. Fossils</strong></h2>
+<p>
+In order to turn Python objects into Javascript objects, the Collaboration core (and Indico in general) follows a two-step process:
+</p>
+<ul><li>Turn the Python object of a custom class into a simple object made only of Python dicts, lists, strings and integers;
+</li><li>Turn the previous object into a <a class="ext-link" href="http://www.json.org/"><span class="icon">​</span>JSON</a> string.
+</li></ul><p>
+The second step is accomplished thanks to the <a class="ext-link" href="http://pypi.python.org/pypi/simplejson/"><span class="icon">​</span>simplejson</a> library.
+</p>
+<p>
+The first step, however, is performed by Indico. Initially, this was done thanks the the Indico <em>DictPickler</em> module, by calling <em>DictPickler.pickle()</em> and writing <em>@Retrieves</em> decorators before methods that should be used to pickle the object.
+</p>
+<p>
+For performance and reusability reasons, however, this system has been changed to use Indico's <em>fossilize</em> module. Classes that wish to be pickled now have to inherit from the <em>Fossilizable</em> base class, and the programmer has to declare one or several <em>Fossil</em> interfaces. (documentation for the <em>fossilize</em> module should be available soon, meanwhile check the doc/api/source/fossilize.rst file).
+</p>
+<p>
+By default, the core uses the classes in <em>MaKaC/plugins/Collaboration/fossils.py</em> to fossilize <em>CSBooking</em> instances (and also for <em>CSErrorBase</em> instances). For <em>CSBooking</em> instances, two different fossils are used: <em>ICSBookingBaseConfModifFossil</em> when the booking / request is rendered in event management pages, and <em>ICSBookingBaseIndexingFossil</em> when the booking is rendered in the Video Services Overview page.
+</p>
+<p>
+<em>ICSBookingBaseConfModifFossil</em> calls the <em>getBookingParams</em> method, so the booking parameters are available in Javascript as second-level attributes under the <em>.bookingParams</em> attribute. Other <em>CSBooking</em> attributes used by the core, such as <em>id</em>, <em>statusMessage</em>, etc. are available as first-level attributes. However plugin-defined internal instances attributes are not available by default since the core cannot know about them.
+</p>
+<p>
+If you have defined some internal instance attributes that you need to use in your Javascript code, here is what you should do:
+</p>
+<ul><li>create a <strong>fossils.py</strong> file in your plugin and create there a class called <em>ICSBookingConfModifFossil</em> that inherits from <em>ICSBookingBaseConfModifFossil</em>. Add the methods that you wish the core to call in order to fossilize your booking / request object.
+</li><li>add the line <em>fossilizes(ICSBookingConfModifFossil)</em> under your "class CSBooking(CSBookingBase):" line in <strong>collaboration.py</strong> (and the necessary imports).
+</li></ul><p>
+Another thing you probably want to do is also create a subclass of <em>ICSBookingBaseIndexingFossil</em> in order to remove from the fossil sensitive information such as user passwords, since the Video Services Overview page is not HTTPs. In this case, you should do the following:
+</p>
+<ul><li>inside the <strong>fossils.py</strong> file, create a class called <em>ICSBookingIndexingFossil</em> (the file name and the class name are compulsory so that the core can find it) that extends <em>ICSBookingBaseIndexingFossil</em>.
+</li><li>add the fossil class to the <em>fossilizes</em> line mentioned previously (but leave <em>CSBookingConfModifFossil</em> as the first fossil in the list).
+</li><li>add any methods that are needed, or remove booking parameters from those sent to the client by doing something similar to:
+<div class="code"><pre><span class="k">def</span> <span class="nf">removeAccessPassword</span><span class="p">(</span>bookingParams<span class="p">):</span>
+    <span class="k">del</span> bookingParams<span class="p">[</span><span class="s">"accessPassword"</span><span class="p">]</span>
+    <span class="k">return</span> bookingParams
+
+<span class="k">class</span> <span class="nc">ICSBookingIndexingFossil</span><span class="p">(</span>ICSBookingBaseIndexingFossil<span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">getBookingParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">""" Overloading of ICSBookingBaseFossil's getBookingParams to remove the access password """</span>
+    getBookingParams<span class="o">.</span>convert <span class="o">=</span> <span class="k">lambda</span> bookingParams<span class="p">:</span> removeAccessPassword<span class="p">(</span>bookingParams<span class="p">)</span>
+</pre></div></li></ul><p>
+Note: if you only implement a <em>ICSBookingIndexingFossil</em> but no <em>ICSBookingConfModifFossil</em>, you still have to put <em>ICSBookingBaseConfModifFossil</em> as first fossil in the "fossilizes" list in the <em>CSBooking</em> class.
+</p>
+<p>
+Finally, if you have subclassed <em>CSErrorBase</em> (to make an <em>EVOError</em> class, for example) you probably also want to make a custom fossil that inherits from <em>ICSErrorBaseFossil</em>.
+</p>
+<p>
+Please note that you can write fossils for the objects used internally for your plugin too! Just remember to have their classes inherit from <em>Fossilize</em>, add the <em>fossilize(fossilName)</em> line to your class, and create a fossil interface somewhere in your plugin (fossils.py for example, but this is not compulsory).
+</p>
+<p>
+<br />
+</p>
+<h2 id="F.5.E-mails"><strong> F.5. E-mails </strong></h2>
+<p>
+<br />
+</p>
+<h2 id="F.6"><strong> F.6. Custom services in the server</strong></h2>
+<p>
+In this section we will discuss how to implement a service in the server. The call of the service from the client is discussed in the section <a class="wiki" href="CollaborationPluginsDevelopment.html#E.5">E.5. Calling services</a>.
+</p>
+<p>
+In the server, Service classes who take AJAX requests from the client are located in the plugin's <em>services.py</em> file.
+</p>
+<p>
+Each of your services has to be a class similar to this one:
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">MaKaC.services.implementation.collaboration</span> <span class="kn">import</span> CollaborationPluginServiceBase
+
+<span class="k">class</span> <span class="nc">XXXXXService</span><span class="p">(</span>CollaborationPluginServiceBase<span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">_checkParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># parameter parsing / treatment here. raise exception if invalid parameters</span>
+
+    <span class="k">def</span> <span class="nf">_getAnswer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># answer building here. a JSON serializable object, such as a primitive type, or a list of strings, or a fossil, should be returned</span>
+</pre></div><p>
+<em>XXXXX</em> is the name of the service as you wrote it in the service call made in Javascript (see section <a class="wiki" href="CollaborationPluginsDevelopment.html#E.5">E.5. Calling Services</a>), in camelcase with initial capital letter. You can see examples in the RecordingRequest and WebcastRequest plugins.
+</p>
+<p>
+Inheritance from <em>CollaborationPluginServiceBase</em> is compulsory. It gives you these benefits:
+</p>
+<ul><li>You don't need to implement <em>_checkProtection</em> like for a normal service. Your service will be called by the <em>CollaborationCustomPluginService</em> service, which will take care of making sure that only people with proper permissions can perform your operation (only admins if the plugin is an admin service, or only managers otherwise). However you can implement the method if you like to perform additional checks.
+</li></ul><ul><li>You already have the following attributes available:
+</li></ul><ul><li><strong>self._params</strong> : like any Indico service, this is a dictionary with the call parameters, i.e. the parameters you passed in your second argument of the <em>indicoRequest</em> javascript AJAX call.
+</li><li><strong>self._aw</strong>: an <em>AccessWrapper</em> object with a <em>getUser()</em> method that will return the logged in user as an <em>Avatar</em> instance.
+</li><li><strong>self._conf</strong>: the Conference object corresponding to the Indico Event we are working with (this is provided by <em>CollaborationBase</em> which <em>CollaborationPluginServiceBase</em> inherits from).
+</li><li><strong>self._CSBookingManager</strong>: the CSBookingManager object attached to the Event (this is provided by <em>CollaborationBase</em> which <em>CollaborationPluginServiceBase</em> inherits from).
+</li></ul><p>
+<em>_getAnswer()</em> will be always called after <em>_checkParams()</em>. If you do implement <em>_checkProtection</em>, it will be called between <em>_getAnswer()</em> and <em>_checkParams()</em>.
+</p>
+<p>
+Normally in <em>_checkParams()</em> you verify the parameters and build the objects you will work with in <em>_getAnswer()</em>, putting them in <em>self</em>. Then in <em>_getAnswer()</em> you build the asnwer and return a JSON serializable object, i.e. a primitive type, or a list of strings, or a fossil / pickled object. This is no different from normal Indico services.
+</p>
+<p>
+<br />
+</p>
+<h2 id="F.7.BewareofConflictErrorEncapsulateyourexternaloperations"><strong> F.7. Beware of ConflictError! Encapsulate your external operations </strong></h2>
+<p>
+As you probably know, Indico uses ZODB, an object-oriented database, for persistance. ZODB supports <a class="ext-link" href="http://en.wikipedia.org/wiki/ACID"><span class="icon">​</span>ACID</a> transactions. When two transactions modify the same object and call <em>commit()</em>, the followind happens:
+</p>
+<ul><li>The first transaction succeeds and the changes are written to the database.
+</li><li>The second transaction fails and a <em>ConflictError</em> exception is raised.
+</li></ul><p>
+When this happens, Indico captures the <em>ConflictError</em> exception, re-loads the updated objects into memory, and executes the request code again.
+</p>
+<p>
+In practice, this means that the code inside your <em>_create()</em>, <em>_modify()</em>, etc. methods and your custom services can be executed more than once. This is not a problem for the code lines that modify the database, but it is a problem for those who perform "external" operations, such as:
+</p>
+<ul><li>Calling an external system API operation,
+</li><li>Sending an email,
+</li><li>Creating a file or writing to a file in the server's filesystem.
+</li></ul><p>
+Ideally, emails should be sent <em>after</em> the transaction has been comitted (so that they are only sent once), but the mechanism so that plugins can do this easily is not yet in place. Moreover, calling external API operations is something that plugins often need to do before the database commit (because these operations return values that have to be persisted in the Indico database).
+</p>
+<p>
+The solution is to program following these advices:
+</p>
+<ul><li>Encapsulate your external operations (specially external API operations) as much as possible, in a single function call if possible.
+</li><li>Use the <em>ExternalOperationsManager</em> class (in MaKaC/common/externalOperationsManager.py) to call those functions. The <em>ExternalOperationsManager</em> will make sure that your operation is only called once, caching the result for future retries. Example:
+<div class="code"><pre><span class="k">def</span> <span class="nf">_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    result <span class="o">=</span> ExternalOperationsManager<span class="o">.</span>execute<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">"createBooking"</span><span class="p">,</span> EVOOperations<span class="o">.</span>createBooking<span class="p">,</span> arg1<span class="p">,</span> arg2<span class="p">,</span> arg3<span class="p">)</span>
+</pre></div></li></ul><p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="G.Otherprogramming"><strong> G. Other programming </strong></h1>
+<h2 id="G.1.Displaypages"><strong> G.1. Display pages </strong></h2>
+<h3 id="G.1.1.Foreventsoftypeconference"><strong>G.1.1. For events of type conference</strong></h3>
+<h3 id="G.1.2.Foreventsoflectureandmeeting"><strong>G.1.2. For events of lecture and meeting</strong></h3>
+<p>
+<br />
+</p>
+<h2 id="G.2.Errorhandling"><strong> G.2. Error handling </strong></h2>
+<h3 id="G.2.1.Parametercheckingintheclient"><strong> G.2.1. Parameter checking in the client </strong></h3>
+<p>
+As mentioned in section <a href="CollaborationPluginsDevelopment.html#E.3.Javascriptinterfacebetweencoreandplugins">E.3</a>, one of the functions that you can implement in <em>Main.js</em> is the <em>checkParams()</em> function. This function will be called by the core when the user presses the <em>Save</em> button in a booking creation / edition dialog, or the <em>Send Request</em> button in a request form.
+</p>
+<p>
+The purpose of this function is to perform checks in Javascript to the booking parameters, so that if something is wrong, the corresponding fields are highlighted, or an error is shown to the user, before the information is sent to the server.
+</p>
+<p>
+The <em>checkParams()</em> function has to return a dictionary where:
+</p>
+<ul><li>The key is the <em>name</em> attribute of the field that is being checked,
+</li><li>The value is a 3-tuple (an array of 3 items) consisting of:
+<ul><li>The type of value in the field being verified, as a string. Supported types are: "text", "int", ... (to be completed).
+</li><li>A boolean that should be <strong>true</strong> if we want to allow the field to be empty, or <strong>false</strong> otherwise.
+</li><li>(optional) a custom check function, that will be called by the core if declared. This function will receive two arguments: the value in the field being checked and a dictionary with the values of the other fields. It has to return a list of strings that will be displayed as a tooltip if the field is in an error state, or an empry list if the field is in a correct state.
+</li></ul></li></ul><p>
+Let's see an example of the checkParams() function:
+</p>
+<div class="code"><pre>   <span class="nx">checkParams</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="p">{</span>
+           <span class="s1">'pin'</span><span class="o">:</span> <span class="p">[</span><span class="s1">'non_negative_int'</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">pin</span><span class="p">,</span> <span class="nx">otherValues</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">pin</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">$T</span><span class="p">(</span><span class="s2">"The pin cannot have more than 31 characters."</span><span class="p">));</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="nx">errors</span><span class="p">;</span>
+            <span class="p">}]</span>
+       <span class="p">};</span>
+   <span class="p">}</span>
+</pre></div><p>
+With this function, we are verifying that the contents of the 'pin' field are a non negative integer, we allow it being empty, and we verify that its length is 31 characters or less.
+</p>
+<h3 id="G.2.2.RaiseExceptionsforunexpectedevents"><strong> G.2.2. Raise Exceptions for unexpected events </strong></h3>
+<p>
+In the server side, you should raise Exceptions when unexpected or anomalous events occur. Examples:
+</p>
+<ul><li>You have a 'pin' field in your dialog / form. The value that arrived to the server is not a number, even if you also verified this in the client.
+</li><li>In your <em>CSBooking</em> class's <em>_create()</em> method, connection to a remote system is not possible because Indico's credentials were not properly configured by the Indico admins.
+</li></ul><p>
+In cases such as this, Indico shows an error report dialog to the user. The user can click "Send Report" and an email will be sent to the Indico admins.
+</p>
+<p>
+For this, you should implement your own exception class that inherits from <em>CollaborationException</em> and raise it in your methods. A good place to place your own Exception class is the common.py file.
+</p>
+<h3 id="G.2.3.Controllederrors"><strong> G.2.3. Controlled errors </strong></h3>
+<p>
+In the server side, your <em>CSBooking</em> class's methods should return Errors in situations such as these:
+</p>
+<ul><li>Indico tried to create a booking in the remote system, but the remote system refuses to do it for a specific reason, for example: the booking is considered duplicated because it has the same name / title as an existing booking in the remote system. Therefore, the name / title field of the booking dialog should be highlighted and a tooltip saying "Please change the name, it is considered duplicated" should be shown.
+</li><li>Some of the booking / requests parameters are not right and the verification could only be done in the server.
+</li></ul><p>
+In these cases, you want the server to return information with the cause of the error, and you want the client part of your plugin to get this information and do something with it.
+</p>
+<p>
+For this, you should implement a class that inherits from <em>CSErrorBase</em>. Return an instance of this class in methods such as <em>_create()</em>, <em>_modify()</em>, <em>delete()</em>, etc. which normally do not have to return anything. When you do this, the booking information will not actually be stored in the Indico database (the booking will not be created / modified / deleted).
+</p>
+<p>
+Your error will be turned into a JSON object that will be passed to the function <em>errorHandler(event, error)</em> of the <em>Main.js</em> file. The <em>event</em> argument will be a string detailing which action triggered the error: "create", "edit", "checkStatus", "delete", etc. The <em>error</em> argument will be the JSON object representing your error.
+</p>
+<p>
+Example: we have declared an ExampleError class:
+</p>
+<div class="code"><pre><span class="k">class</span> <span class="nc">ExampleError</span><span class="p">(</span>CSErrorBase<span class="p">):</span>
+   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> errorType<span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span>_errorType <span class="o">=</span> errorType
+   <span class="nd">@Retrieves</span><span class="p">([</span><span class="o">...</span><span class="p">],</span> <span class="s">'errorType'</span><span class="p">)</span> <span class="c">#or make a fossil if you are working with a version of the core that uses fossilizing</span>
+   <span class="k">def</span> <span class="nf">getErrorType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span>_errorType
+</pre></div><p>
+Our <em>errorHandler(event, error)</em> function in <em>Main.js</em> would look like this:
+</p>
+<div class="code"><pre>    <span class="nx">errorHandler</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">event</span> <span class="o">===</span> <span class="s2">"create"</span> <span class="o">&amp;&amp;</span> <span class="nx">error</span><span class="p">.</span><span class="nx">errorType</span> <span class="o">===</span> <span class="s2">"duplicated"</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">$T</span><span class="p">(</span><span class="s2">"The remote system considers that name duplicated"</span><span class="p">);</span>
+            <span class="nx">IndicoUtil</span><span class="p">.</span><span class="nx">markInvalidField</span><span class="p">(</span><span class="nx">$E</span><span class="p">(</span><span class="s1">'name'</span><span class="p">),</span> <span class="nx">message</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div><p>
+To display errors, you can use these helper functions:
+</p>
+<ul><li>IndicoUtil.markInvalidField(XElement, message): will mark a field in red and place a tooltip with a message when the mouse is hovered over the field. Changing the contents of the field will remove the red color and remove the tooltip too.
+</li><li>CSErrorPopup(title, array_of_lines): will display a popup similar to an "alert()" with the given title and a list of messages.
+</li></ul><h3 id="G.2.4.Warnings"><strong> G.2.4. Warnings </strong></h3>
+<p>
+In some cases, you want an operation to succeed but you still want to show a warning to the user.
+</p>
+<p>
+If you do this via the <em>Error / errorHandler</em> mechanism, you could display such a warning by parsing the <em>error</em> JSON object but the operation would not succeed in the server.
+</p>
+<p>
+In all operations that succeed, the CSBooking object is turned into a JSON object and sent back to the client. This is how a booking can appear in the list of bookings after being created, for example.
+</p>
+<p>
+You can assign a value to the attribute <em>_warning</em> of the <em>CSBooking</em> class and it will be included in the JSON object. Then, if you implement methods such as <em>postDelete(booking)</em>, <em>postCreate(booking)</em>, etc. you can parse that information and do something with it.
+</p>
+<p>
+For example, let's say that our plugin wants to take into account this situation: the user deletes a booking but this booking was already deleted in the remote system (maybe an admin of that system already deleted it). In this case, it would make no sense to not delete the booking also in Indico, but we still want to show a message to the user. In our <em>CSBooking</em> class's <em>delete()</em> method we do:
+</p>
+<div class="code"><pre><span class="k">def</span> <span class="nf">_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">...</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span>_warning <span class="o">=</span> <span class="s">"deletedNonExistant"</span>
+</pre></div><p>
+And in our <em>Main.js</em> file we implement the <em>postDelete()</em> function:
+</p>
+<div class="code"><pre><span class="nx">postDelete</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">booking</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">booking</span><span class="p">.</span><span class="nx">warning</span> <span class="o">&amp;&amp;</span> <span class="nx">booking</span><span class="p">.</span><span class="nx">warning</span> <span class="o">===</span> <span class="s2">"deletedNonExistant"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">$T</span><span class="p">(</span><span class="s2">"Your booking was deleted successfully but please note that had already been deleted in the remote system."</span><span class="p">);</span>
+        <span class="c1">// You can also use the AlertPopup class or the IndicoUI.Dialogs.Util.alert if available
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div><p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="H.Utilityfunctionsavailable"><strong> H. Utility functions available </strong></h1>
+<h2 id="H.1.CollaborationToolsclass"><strong> H.1. CollaborationTools class </strong></h2>
+<p>
+<br />
+</p>
+<h2 id="H.2.MailToolsclass"><strong> H.2. MailTools class </strong></h2>
+<p>
+<br />
+</p>
+<h2 id="H.3.Javascripthelperfunctions"><strong> H.3. Javascript helper functions </strong></h2>
+<p>
+<br />
+</p>
+<hr />
+<p>
+<br />
+</p>
+<h1 id="I.Othertasksperformedbythecore"><strong> I. Other tasks performed by the core </strong></h1>
+<h2 id="I.1.Indexation"><strong> I.1. Indexation </strong></h2>
+<p>
+<br />
+</p>
+<h2 id="I.2.Timesynchronization"><strong> I.2. Time synchronization </strong></h2>
+<p>
+<br />
+</p>
+<h2 id="I.3.Hiddenbookings"><strong> I.3. Hidden bookings </strong></h2>
+<p>
+<br />
+</p>
+<h2 id="I.4"><strong> I.4. Parameter sanitization </strong></h2>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/CollaborationPluginsDevelopment?action=diff&amp;version=41" title="Version 41 by dmartinc: minor">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-04-26T13%3A14%3A29%2B02%3A00&amp;precision=second" title="See timeline at 04/26/10 13:14:29">5 years ago</a></span>
+            <span class="trac-print">Last modified on 04/26/10 13:14:29</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(3)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../../attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Booking%20list.html" title="View attachment">Booking list.png</a><a href="../../../raw-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Booking%20list.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="34841 bytes">34.0 KB</span>) -
+      added by <em>dmartinc</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-28T16%3A55%3A26%2B01%3A00&amp;precision=second" title="See timeline at 01/28/10 16:55:26">6 years ago</a>.
+                <q>Booking list screenshot</q>
+              </li>
+              <li>
+    <a href="../../../attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/EVO%20creation%20dialog.html" title="View attachment">EVO creation dialog.png</a><a href="../../../raw-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/EVO%20creation%20dialog.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="26406 bytes">25.8 KB</span>) -
+      added by <em>dmartinc</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-28T16%3A55%3A38%2B01%3A00&amp;precision=second" title="See timeline at 01/28/10 16:55:38">6 years ago</a>.
+                <q>EVO creation dialog screenshot</q>
+              </li>
+              <li>
+    <a href="../../../attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Recording%20Request%20Form.html" title="View attachment">Recording Request Form.png</a><a href="../../../raw-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/Recording%20Request%20Form.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="46156 bytes">45.1 KB</span>) -
+      added by <em>dmartinc</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-28T16%3A55%3A51%2B01%3A00&amp;precision=second" title="See timeline at 01/28/10 16:55:51">6 years ago</a>.
+                <q>Recording Request form screenshot</q>
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../../zip-attachment/wiki/Dev/Technical/CollaborationPluginsDevelopment/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FCollaborationPluginsDevelopment56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/CollaborationPluginsDevelopment by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:19 GMT -->
+</html>

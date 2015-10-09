@@ -1,0 +1,7 @@
+= Indico Extras (e.g. ttfonts) =
+
+ * [http://indico-software.org/download/extras/cds_indico_extras-0.2-py2.7.egg cds-indico-extras] for Python 2.7
+ * [http://indico-software.org/download/extras/cds_indico_extras-0.2-py2.6.egg cds-indico-extras] for Python 2.6
+ * [http://indico-software.org/download/extras/cds_indico_extras-0.2-py2.5.egg cds-indico-extras] for Python 2.5
+ * [http://indico-software.org/download/extras/cds_indico_extras-0.2-py2.4.egg cds-indico-extras] for Python 2.4
+ * [http://indico-software.org/download/extras/cds-indico-extras-0.2.tar.gz cds-indico-extras] (source)

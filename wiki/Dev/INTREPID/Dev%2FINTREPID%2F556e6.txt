@@ -1,0 +1,76 @@
+[[PageOutline]]
+
+== InTRePId 5 ==
+'''Title:''' New Namespace
+
+'''Author:''' Pedro Ferreira
+
+'''Date:''' 09 Feb 2010
+
+'''Target version:''' 0.98
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * To migrate from an existing `MaKaC` package to a brand-new `indico` one;
+ * To reorganize once and for all the namespace;
+ * Better isolating some modules, so that they can be unit tested;
+ * Enforcing Python good practices;
+
+=== Status quo ===
+
+ * Indico is aging, no major refactoring effort done;
+ * Performance is a priority, and some architectural changes will be required;
+ * Naming of modules and package structure is out of date and degraded (MaKaC, no isolation between modules, etc...);
+ * Some plugins (RoomBooking, epayment) are not actually plugins;
+ * Unification between the "classical" interface and the new ajax-capable services is required;
+
+
+
+=== Description ===
+
+ * `indico`
+  * `core` - core objects and functions - should be testable without db access;
+   * `schema` - database objects
+    * `base` - basic, general objects (Avatar, etc...)
+    * `event` - event-related stuff (Conference, Session, Contribution, etc...
+    * `resource` - material/resource and data storage classes (LocalFile, etc...)
+   * `index` - contains `IndexManager`, and other index classes
+  * `modules` - basic modules, included in Indico
+   * `scheduler` - old "task daemon"
+   * `news`
+   * `upcoming`
+   * `cssTpls`
+   * ...
+  * `util` - utility functions
+    * `time` - time, timezone, etc...
+    * `fossilize` - "fossilization"
+    * `struct` - data structures
+  * `db` 
+   * `access` - database '''access'''
+  * `web`
+   * `util` - web interface utils 
+    * `html` - html escaping, sanitization, etc...
+   * `interface`
+    * `common` - shared among interfaces (i.e. protection)
+    * `form` - current WP + RH (part of it) (?)
+    * `jsonrpc` - current JSONRPC services
+    * `export` - data export services - common query interface, type conversion at the end (?) - ''further study required''
+      * `ical` - iCal interface
+      * `rss` - RSS interface
+      * `atom`
+      * `json`
+      * `xml`
+   * `wsgi` - WSGI handlers, etc
+   * `tpl` - template files
+  * `ext` - base namespace for extensions (plugins)
+   * `base`- base classes for plugins
+   * `livesync`
+
+==== Further improvements ====
+ * Plugins should be isolated as individual packages (EGGs, RPMs, etc...) instead of being moved to the source tree;
+
+=== Comments ===
+[[AddComment]]

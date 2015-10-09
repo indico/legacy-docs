@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Flask/URL_Structure by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/Flask/URL_Structure – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FFlask%252FURL_Structure56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Flask.html" title="View parent page" />
+        <link rel="start" href="../../../../wiki.html" />
+        <link rel="stylesheet" href="../../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../../index.html"><img src="../../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../../wiki.html">wiki:</a><a class="pathentry" href="../../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="../Flask.html" title="View Dev/Technical/Flask">Flask</a><span class="pathentry sep">/</span><a class="pathentry" href="URL_Structure.html" title="View Dev/Technical/Flask/URL_Structure">URL_Structure</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Flask.html">Up</a></li><li><a href="../../../WikiStart.html">Start Page</a></li><li><a href="../../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/Flask/URL_Structure?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="IndicoURLStructure">Indico URL Structure</h1>
+<p>
+Note: All headings here contain the blueprint name and url prefix if applicable
+</p>
+<h2 id="Administration-admin-admin">Administration - <tt>admin</tt> - <tt>/admin</tt></h2>
+<ul><li><tt>/settings/</tt> - various settings
+</li><li><tt>/networks/</tt> - IP domains. "networks" describes it better though
+</li><li><tt>/users/</tt> - User administration (except settings)
+</li><li><tt>/users/groups/</tt> - Group administration
+</li><li><tt>/plugins/</tt> - Plugin administration. "subdirectories" for plugin types/ids
+</li></ul><p>
+Everything else is pretty obvious.
+</p>
+<h2 id="API-api">API - <tt>api</tt></h2>
+<p>
+JSON-RPC and HTTP_API. No change in the URL structure compared to the current one. One <tt>build_only</tt> rule to create the base URL for the export/api
+</p>
+<h2 id="Category-category-category">Category - <tt>category</tt> - <tt>/category</tt></h2>
+<ul><li>Short URLs (ID only) are in <tt>!/categ/</tt> and <tt>!/c/</tt>
+</li><li>First path element is always the category ID wherever possible
+</li></ul><h2 id="CategoryManagement-category_mgmt-categorycategIdmanage">Category Management - <tt>category_mgmt</tt> - <tt>/category/&lt;categId&gt;/manage</tt></h2>
+<ul><li><tt>!/category/&lt;id&gt;/create/</tt> contains creation of subcategories (and events, but in separate Blueprint)
+</li></ul><p>
+Everything else should be obvious.
+</p>
+<h2 id="Files-files">Files - <tt>files</tt></h2>
+<p>
+<a class="missing wiki">File/Material?</a> access. Has lots of different URLs for accessing files at various positions so the URLs stay pretty. If you add something that goes through the normal RHFileAccess just add another rule for the same endpoint <tt>'getFile-access'</tt>. But for new stuff that has a custom RH please use a different endpoint name!
+</p>
+<h2 id="Legacy-legacy">Legacy - <tt>legacy</tt></h2>
+<p>
+Automatically generated. <strong>Do not modify.</strong>
+</p>
+<p>
+Contains only the xmlGateway - everything else has proper rules. As soon as xmlGateway is gone the <tt>legacy</tt> Blueprint should be removed, too. However, the <tt>legacy_endpoints</tt> set needs to be kept - but it should probably moved into a new module <tt>indico.web.flask.legacy</tt>
+</p>
+<h2 id="LegacyScripts-legacy_scripts-scripts">Legacy Scripts - <tt>legacy_scripts</tt> - <tt>/scripts</tt></h2>
+<p>
+Only contains the exportReservations.py script. As soon as the only remaining user of this script has switched to the API this blueprint shall be burninated.
+</p>
+<p>
+<a style="padding:0; border:none" href="http://i.stack.imgur.com/Zm85C.png"><img width="10%" alt="http://i.stack.imgur.com/Zm85C.png" title="http://i.stack.imgur.com/Zm85C.png" src="http://i.stack.imgur.com/Zm85C.png" /></a>
+</p>
+<h2 id="Misc-misc">Misc - <tt>misc</tt></h2>
+<p>
+Various things that do not justify a separate blueprint. Please don't abuse it by putting stuff there that DOES belong into another blueprint.
+</p>
+<h2 id="OAuth-oauth">OAuth - <tt>oauth</tt></h2>
+<p>
+Everything OAuth-related. Both the endpoints accessed by the consumer and the ones accessed by the user when authorizing an app or viewing his list of authorized apps.
+</p>
+<h2 id="RoomBooking-rooms-rooms">Room Booking - <tt>rooms</tt> - <tt>/rooms</tt></h2>
+<p>
+The non-admin part of the room booking system.
+</p>
+<p>
+Because of the way the room booking system works the URLs are not always perfect - some things are simply accessible from too many different locations (e.g. the last page of the room booking form is used when cloning, too). However, it's kept as nice as possibly.
+</p>
+<p>
+For existing rooms/bookings the URL contains both the location name and the room/booking ID.
+</p>
+<h2 id="RoomBookingAdmin-rooms_admin-adminrooms">Room Booking Admin - <tt>rooms_admin</tt> - <tt>/admin/rooms</tt></h2>
+<p>
+Administration part of the room booking system. The URL schema is pretty obvious and should not require further explanation.
+</p>
+<h2 id="User-user-user">User - <tt>user</tt> - <tt>/user</tt></h2>
+<p>
+Everything user-related while not logged in such as Register, Login, Logout, Lost Password, etc. is directly within this url namespace.
+</p>
+<p>
+Anything that's used while logged in is usually also accessible for an admin viewing/editing another user. For this purpose all those paths are available both directly within the blueprint's namespace and with <tt>/&lt;userId&gt;</tt> in case it's not the own user.
+</p>
+<h2 id="Event">Event</h2>
+<p>
+Because of the enormous size of the event related blueprints (they are pretty the main part of Indico) those blueprints are split into packages within <tt>indico.web.flask.blueprints.event</tt>. The only exception is the <tt>event_creation</tt> blueprint which is very small and thus a simple module.
+</p>
+<h3 id="Eventcreation-event_creation-eventcreate">Event creation - <tt>event_creation</tt> - <tt>/event/create</tt></h3>
+<p>
+The URL always contains the event type (<tt>lecture</tt>, <tt>meeting</tt>, <tt>conference</tt>). <tt>simple_event</tt> is automatically redirected to <tt>lecture</tt> since the latter is much nicer and more meaningful.
+</p>
+<p>
+As mentioned in the category management blueprint event creation inside a category is done elsewhere: here.
+The URLs for it similar to the subcategory creation but in the same style as the event creation when no category is specified.
+</p>
+<h3 id="Eventdisplay-event-eventconfId">Event display - <tt>event</tt> - <tt>/event/&lt;confId&gt;</tt></h3>
+<p>
+Contains everything that's part of an event but not related to management.
+</p>
+<p>
+Split into submodules to improve readability and structure:
+</p>
+<ul><li><tt>main</tt> contains the ShortURL handling (<tt>_event_or_shorturl</tt>), the event home page and global event stuff such as custom CSS, logo and pictures.
+</li><li><tt>abstracts</tt> contains the Call For Abstracts system
+</li><li><tt>contributions</tt> contains contributions, subcontributions and authors/speakers. Most contribution rules support a session prefix if the contribution appears within a session.
+</li><li><tt>evaluation</tt> contains the evaluation module (you didn't expect this, did you? :p)
+</li><li><tt>misc</tt> contains things like custom pages, material packages, email form and participation invitation handling
+</li><li><tt>paperreviewing</tt> contains the parts of the paper reviewing system that are accessible to normal users
+</li><li><tt>registration</tt> contains the registration form in its various steps
+</li><li><tt>schedule</tt> contains timetable, program and sessions (contributions inside sessions are in <tt>contributions</tt> though)
+</li><li><tt>users</tt> contains indico login and registration within an event
+</li></ul><p>
+The logic behind the url structure within those modules should be pretty obvious. Explaining it for everything would be way too long and you most likely wouldn't read it anyway or, as a new developer, would have to read through a wall of text that is not really helpful to you.
+</p>
+<h3 id="Eventmanagement-event_mgmt-eventconfIdmanage">Event management - <tt>event_mgmt</tt> - <tt>/event/&lt;confId&gt;/manage</tt></h3>
+<p>
+Contains everything management-related of an event. This includes large parts of the paper reviewing system.
+</p>
+<p>
+Split into submodules to improve readability and structure:
+</p>
+<ul><li><tt>main</tt> contains the gateway redirecting users to the most appropriate management page (according to their access) and the modification key stuff
+</li><li><tt>abstracts</tt> contains the management/reviewing part of the Call For Abstract system
+</li><li><tt>contributions</tt> contain contribution management (also with the session prefix if applicable). contribution paper reviewing is in <tt>paperreviewing</tt> though
+</li><li><tt>evaluation</tt> contains evaluation setup and results
+</li><li><tt>general</tt> contains the general settings of an event. Contribution types are also here because it's on the same page...
+</li><li><tt>layout</tt> contains all the layout customization things including image upload
+</li><li><tt>lists</tt> contains the lists of speakers, conveners and pending users - and the corresponding email forums
+</li><li><tt>misc</tt> contains logs and material
+</li><li><tt>paperreviewing</tt> contains everything PR related that is not public.
+</li><li><tt>participants</tt> contains the participant lists/management for meetings
+</li><li><tt>payment</tt> contains the epayment part of the registration form
+</li><li><tt>protection</tt> contains access control of the event
+</li><li><tt>registration</tt> contains the registration form setup and registrant list/management
+</li><li><tt>rooms</tt> contains the event-specific room booking system. The URLs are very similar to the ones in the <tt>rooms</tt> blueprint
+</li><li><tt>schedule</tt> contains the timetable management. The session timetable is in the <tt>session</tt> blueprint
+</li><li><tt>sessions</tt> contains session management and also the session timetable
+</li><li><tt>tools</tt> contains all event manager tools: alarms, cloning, deletion, lock/unlock, posters, badges, material package, offline website
+</li><li><tt>tracks</tt> contains the event program and track management. all track-related abstract things (mostly reviewing-related) are here, too.
+</li></ul><p>
+The logic behind the url structure within those modules should be pretty obvious. Explaining it for everything would be way too long and you most likely wouldn't read it anyway or, as a new developer, would have to read through a wall of text that is not really helpful to you.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/Flask/URL_Structure?action=diff&amp;version=4" title="Version 4 by jmonnich">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-07-15T17%3A12%3A16%2B02%3A00&amp;precision=second" title="See timeline at 07/15/13 17:12:16">2 years ago</a></span>
+            <span class="trac-print">Last modified on 07/15/13 17:12:16</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FFlask%252FURL_Structure56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Flask/URL_Structure by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+</html>

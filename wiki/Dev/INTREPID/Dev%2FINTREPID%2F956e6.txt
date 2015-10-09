@@ -1,0 +1,35 @@
+[[PageOutline]]
+
+== InTRePId 9 ==
+'''Title:''' Proceedings
+
+'''Author:''' Indico Team
+
+'''Date:''' 07 Jun 2010
+
+'''Target version:''' 0.99?
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * Improve the actual proceeding functionality
+ * Be able to generate proceedings in PDF and in other "editable" format.
+
+=== Status quo ===
+
+Right now, the manager must choose the main resource for every single contribution (heavy work) and then he can click
+in the button "proceedings" to generate a ZIP file containing all the papers (sorted by ID? or session? or track?) and a Table
+Of Contents with the indexes for all the papers.
+
+=== Description ===
+
+* Allow the generation of one single PDF.
+* Allow the generation of another formats.
+* Allow to customize the generated proceedings.
+* Improve the "mark as main resource" process.
+
+
+=== Comments ===
+[[AddComment]]

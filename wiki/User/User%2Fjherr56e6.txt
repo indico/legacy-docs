@@ -1,0 +1,11 @@
+= Jeremy Herr =
+
+== Personal plan ==
+
+ * Design the Recording Manager plugin
+
+== Open Tickets ==
+[[TicketQuery(owner=jherr,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=jherr,status=closed)]]

@@ -1,0 +1,61 @@
+= Mobile App for Conference Attendees =
+
+Indico ([http://indico-software.org Integrated Digital Conference]) is a web-based, world-wide, multi-platform content management system and event agenda. It is also the long term archiving tool for documents and metadata related to all kinds of events that take place at CERN (conferences, meetings and lectures). The software is used in more than 90 institutes world-wide, and [http://indico.cern.ch extensively at CERN], where it hosts more than 150,000 events and it is visited by around 12,000 users per day.
+
+The adoption of tablets and other hand-held devices has been steadily growing over the last couple of years. In order to accompany this trend, we, at the Indico Team, want to provide Indico users with a simple yet powerful mobile app that will allow them to consult information contained in events through an easy and user-friendly interface. Such an application should be implemented in such a way as to support as many devices as possible in a cross-platform and standard way, namely through the use of bleeding edge web APIs (HTML5 and JavaScript/jQuery).
+
+The main features of such an application would be:
+
+  * Fetching/storing data from Indico, about events that are currently happening or about to happen;
+  * Displaying a user-friendly and interactive event timeline;
+  * Displaying the timetable of selected events, as well as the associated content (speaker/talk information, attached files, ...);
+  * "Favorite events" list;
+
+Some possible "bonus" developments would be:
+
+  * Offline storage through [http://en.wikipedia.org/wiki/Web_Storage HTML5's local storage API];
+  * Support for multi-touch devices (Apple & W3C [http://www.html5rocks.com/en/mobile/touch.html "touch events" API]);
+  * [http://en.wikipedia.org/wiki/W3C_Geolocation_API Geolocation] - displaying events happening in the vicinity of the user;
+
+== Technologies ==
+  * Python/WSGI
+  * [http://www.makotemplates.org/ Mako templating engine]
+  * [http://zodb.org/ ZODB database]
+  * [http://en.wikipedia.org/wiki/HTML5 HTML5]
+  * JavaScript/[http://jquery.com/ jQuery]
+  * [http://www.mongodb.org MongoDB] 
+  * [http://memcached.org/ memcached]
+
+== Objectives ==
+  1. To design a small independent web application that communicates with Indico through its REST HTTP API and fetches/displays information;
+  2. To implement such an application in the most user-friendly and maintainable way (as well as the corresponding tests);
+  3. To optimize such an application for different mobile devices;
+
+== Features ==
+
+=== Core functionality ===
+
+* Homepage - main menu;
+* Search dialog (by event name, ongoing events first);
+* Favorite events - a list of events selected by the user;
+* Event schedule - per day;
+* Access to contribution materials;
+
+=== Important features ===
+
+* Custom pages - auto-generated links in the mobile interface;
+* Speakers - list of talks for each one;
+* Search within event (client-side);
+* Recently visited events;
+* Personal timetable (based on favorites);
+* Event schedule - per session and track;
+* Upcoming/ongoing events;
+
+=== "Nice to have" features ===
+
+* Geolocation;
+* Related events;
+* Support for authenticated sessions;
+
+== Comments ==
+[[AddComment]]

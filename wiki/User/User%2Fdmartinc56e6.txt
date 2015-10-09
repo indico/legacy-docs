@@ -1,0 +1,17 @@
+= David Martín Clavo =
+
+== Personal plan ==
+
+ * ~~Integrate Vidyo into Indico as a Collaboration Plugin.~~
+ * ~~Write documentation into the Indico wiki for the Plugin System and the Collaboration Plugins.~~ Some minor parts missing.
+ * ~~Some small bug fixes / tweaks in the Collaboration Plugins System.~~
+ * ~~Test and give feedback on the Paper Reviewing module.~~
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=dmartinc,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=dmartinc,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=dmartinc)]]

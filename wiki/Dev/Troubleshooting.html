@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Troubleshooting by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Troubleshooting – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTroubleshooting56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="Troubleshooting.html" title="View Dev/Troubleshooting">Troubleshooting</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Troubleshooting?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#Troubleshooting">Troubleshooting</a>
+    <ol>
+      <li>
+        <a href="#InternetExplorer">Internet Explorer</a>
+        <ol>
+          <li>
+            <a href="#RuntimeError:ExpectedIdentifierStringorNumber:maybecausedbyatrailingcommainanobjectdeclaration."><em>Runtime Error: Expected Identifier, String or Number</em>: maybe caused by …</a>
+          </li>
+          <li>
+            <a href="#InternetExplorercannotopentheInternetsite-Operationaborted:maybecausedbysomethingyoudoatpageload"><em>Internet Explorer cannot open the Internet site - Operation aborted</em>: …</a>
+          </li>
+          <li>
+            <a href="#Thingsyouadddynamicallybutdontappearthewayyouwanttoi.e.checkedcheckboxes">Things you add dynamically but don't appear the way you want to (i.e. …</a>
+          </li>
+          <li>
+            <a href="#Dynamicallygeneratedcheckboxesdontseemtohavethevalueattributeyouspecified">Dynamically generated checkboxes don't seem to have the <tt>value</tt> attribute …</a>
+          </li>
+          <li>
+            <a href="#Problemsshowingelementsyouhadhidden">Problems showing elements you had hidden</a>
+          </li>
+          <li>
+            <a href="#Dynamiccolspanproblem">Dynamic <tt>colspan</tt> problem</a>
+          </li>
+          <li>
+            <a href="#Tableswithouttbody">Tables without <tt>tbody</tt></a>
+          </li>
+          <li>
+            <a href="#DispatchingeventstoelementsthatarenotintheDOMtree">Dispatching events to elements that are not in the DOM tree</a>
+          </li>
+          <li>
+            <a href="#PressingRETURNanywherecausesaformtobesubmitted">Pressing RETURN anywhere causes a form to be submitted</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#TemplateEngine">Template Engine</a>
+        <ol>
+          <li>
+            <a href="#Problemwithspecialcharacterssuchasñáetc.appearingasntildeaacuteetc">Problem with special characters, such as ñ, á, etc. appearing as &amp;ntilde; …</a>
+          </li>
+          <li>
+            <a href="#ProblemwithHTMLendtagsinsideJSstringsdisappearing">Problem with HTML end tags inside JS strings disappearing</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#PyDev">PyDev</a>
+        <ol>
+          <li>
+            <a href="#Aftermodifyingthesites-availabledefaultfiletoenablePyDevdebuggingApachedoesntwork">After modifying the sites-available/default file to enable PyDev …</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="Troubleshooting">Troubleshooting</h1>
+<p>
+You'll bump into one of these someday... that's for sure.
+</p>
+<p>
+<br />
+</p>
+<h2 id="InternetExplorer">Internet Explorer</h2>
+<h3 id="RuntimeError:ExpectedIdentifierStringorNumber:maybecausedbyatrailingcommainanobjectdeclaration."><em>Runtime Error: Expected Identifier, String or Number</em>: maybe caused by a trailing comma in an object declaration.</h3>
+<p>
+In <acronym title="Internet Explorer 7">IE7</acronym>, you cannot end a list of (key : value) pairs with a comma. Example:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="o">:</span> <span class="s2">"John"</span><span class="p">,</span>
+    <span class="mi">2</span><span class="o">:</span> <span class="s2">"Peter"</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div><p>
+Will work in <acronym title="Mozilla Firefox">FF</acronym> but not <acronym title="Internet Explorer 7">IE7</acronym> (because of the comma after "Peter").
+In <acronym title="Internet Explorer 7">IE7</acronym> you would get something like: <em>Runtime Error: Expected Identifier, String or Number.</em>
+</p>
+<p>
+Other things that can cause this error are the use of reserved words in <acronym title="Internet Explorer 7">IE7</acronym>, for example, "class":
+</p>
+<div class="code"><pre><span class="nx">Html</span><span class="p">.</span><span class="nx">div</span><span class="p">({</span><span class="kr">class</span><span class="o">:</span> <span class="s1">'myDiv'</span><span class="p">});</span> <span class="c1">// =&gt; use className instead : Html.div({className: 'myDiv'}
+</span></pre></div><p>
+or <em>for</em>:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">Html</span><span class="p">.</span><span class="nx">label</span><span class="p">({</span><span class="k">for</span><span class="o">:</span> <span class="s2">"someId"</span><span class="p">},</span><span class="s2">"some text"</span><span class="p">);</span> 
+<span class="c1">// =&gt; use htmlFor instead, like this:
+</span><span class="kd">var</span> <span class="nx">label</span> <span class="o">=</span> <span class="nx">Html</span><span class="p">.</span><span class="nx">label</span><span class="p">({},</span> <span class="s2">"some text"</span><span class="p">);</span>
+<span class="nx">label</span><span class="p">.</span><span class="nx">dom</span><span class="p">.</span><span class="nx">htmlFor</span> <span class="o">=</span> <span class="s1">'someId'</span><span class="p">;</span>
+</pre></div><h3 id="InternetExplorercannotopentheInternetsite-Operationaborted:maybecausedbysomethingyoudoatpageload"><em>Internet Explorer cannot open the Internet site - Operation aborted</em>: maybe caused by something you do at page load</h3>
+<p>
+In <acronym title="Internet Explorer 7">IE7</acronym>, during the initial page load, you cannot have a script modify / add elements to the <tt>&lt;body&gt;</tt> element if the script is not located directly inside the <tt>&lt;body&gt;</tt> element. Otherwise you will get a popup saying <em>Internet Explorer cannot open the Internet site - Operation aborted</em> and then a white page.
+</p>
+<p>
+As a result, for example you cannot directly show an <tt>IndicoUI.Dialogs.Util.progress</tt> dialog at page load without a trick (because it modifies the <tt>&lt;body&gt;</tt> to apply a shade to all of the page). The trick is to use <tt>IndicoUI.executeOnLoad(function(){ .... } )</tt> which is equivalent to <tt>window.onload = ...</tt> except that it will work for different scripts in different parts of the page that want to do something at page load (whereas if each of them wrote <tt>window.onload = ...</tt> directly, one would overwrite the other).
+</p>
+<h3 id="Thingsyouadddynamicallybutdontappearthewayyouwanttoi.e.checkedcheckboxes">Things you add dynamically but don't appear the way you want to (i.e. checked checkboxes)</h3>
+<p>
+When you create an element with certain attributes, and then add it to the DOM, sometimes in <acronym title="Internet Explorer 7">IE7</acronym> those attributes don't take effect. For example if you create a checkbox that is already checked and then you add it to the DOM, it won't appear checked in <acronym title="Internet Explorer 7">IE7</acronym>. The solution is to add it first to the DOM, then check it (yes, sometimes this just implies changing the order of a couple lines...).
+</p>
+<h3 id="Dynamicallygeneratedcheckboxesdontseemtohavethevalueattributeyouspecified">Dynamically generated checkboxes don't seem to have the <tt>value</tt> attribute you specified</h3>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">checkbox</span> <span class="o">=</span> <span class="nx">Html</span><span class="p">.</span><span class="nx">checkbox</span><span class="p">({</span><span class="nx">value</span><span class="o">:</span> <span class="s1">'somevalue'</span><span class="p">});</span>
+</pre></div><p>
+will not work in <acronym title="Internet Explorer 7">IE7</acronym>. You have to do:
+</p>
+<div class="code"><pre><span class="kd">var</span> <span class="nx">checkbox</span> <span class="o">=</span> <span class="nx">Html</span><span class="p">.</span><span class="nx">checkbox</span><span class="p">();</span>
+<span class="nx">checkbox</span><span class="p">.</span><span class="nx">dom</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">'somevalue'</span>
+</pre></div><h3 id="Problemsshowingelementsyouhadhidden">Problems showing elements you had hidden</h3>
+<p>
+When you want to restore the style <tt>display</tt> value to its default value (because previously you set it to "none"), the best way is to set it to "" (empty string).
+This is useful for a table cell (td element) for example, because in <acronym title="Mozilla Firefox">FF</acronym> its default <tt>display</tt> value is <em>table-cell</em> but in <acronym title="Internet Explorer">IE</acronym> it's <em>block</em>.
+</p>
+<h3 id="Dynamiccolspanproblem">Dynamic <tt>colspan</tt> problem</h3>
+<p>
+When you change dinamically the <tt>colspan</tt> of a <tt>td</tt> (cell) element, or dinamically create a cell with a given <tt>colspan</tt>, in <acronym title="Mozilla Firefox">FF</acronym> you have to do <tt>elem.colspan = X</tt> and in <acronym title="Internet Explorer 7">IE7</acronym> you have to do <tt>elem.colSpan = X</tt> (Notice the capital S you need for <acronym title="Internet Explorer 7">IE7</acronym>). Solution? Do both, and each browser will ignore the other's :)
+</p>
+<h3 id="Tableswithouttbody">Tables without <tt>tbody</tt></h3>
+<p>
+Creating a table from JavaScript won't work (no visible result) unless you place a <tt>tbody</tt> node inside it.
+</p>
+<p>
+It's a <a class="ext-link" href="http://top-frog.com/archives/2006/07/09/javascript_ie_and_generating_tables"><span class="icon">​</span>known issue</a>...
+</p>
+<h3 id="DispatchingeventstoelementsthatarenotintheDOMtree">Dispatching events to elements that are not in the DOM tree</h3>
+<p>
+If you try to dispatch an event to an element that is stored in some variable but no longer in the DOM tree (because for some reason you want to execute an event observer that is watching that element, such as the observers of a form field), it works fine in Firefox but not in <acronym title="Internet Explorer">IE</acronym>. You will get an "Unknown error".
+</p>
+<p>
+Solution: call the observer yourself if you can, or duplicate its work if there is no other option.
+</p>
+<h3 id="PressingRETURNanywherecausesaformtobesubmitted">Pressing RETURN anywhere causes a form to be submitted</h3>
+<p>
+This happens because apparently <acronym title="Internet Explorer">IE</acronym> puts the focus on the first <tt>&lt;button/&gt;</tt> it manages to find. If a form element loses the focus, it will be immediately acquired by this same button (that's twice as weird). The solution is to use an <tt>&lt;input type="button" /&gt;</tt> instead.
+</p>
+<p>
+<br />
+</p>
+<h2 id="TemplateEngine">Template Engine</h2>
+<h3 id="Problemwithspecialcharacterssuchasñáetc.appearingasntildeaacuteetc">Problem with special characters, such as ñ, á, etc. appearing as &amp;ntilde; &amp;aacute; etc</h3>
+<p>
+If you are using <em>.wohl-based</em> context help, you should be aware that the content of any <tt>.tpl</tt> file with an associated <tt>.wohl</tt> will be modified (in particular, by the following line in <tt>def __doMerge</tt> - <tt>ContextHelp.py</tt>):
+</p>
+<div class="code"><pre>xpathCtxt <span class="o">=</span> doc<span class="o">.</span>xpathNewContext<span class="p">()</span>
+</pre></div><p>
+ 
+This will substitute characters such as ñ, á, etc. by their HTML entities.
+This is usually not a problem (a browser renders a ñ and a &amp;ntilde; the same way) except when you have those characters inside a javascript string.
+The solutions are:
+</p>
+<ul><li>Not using .wohl files and use JavaScript directly to put the ? signs with context help.
+</li><li>If the JavaScript string was generated with a <tt>.tpl</tt> file with an associated <tt>.wohl</tt> file, you can try using the <tt>escapeHTMLForJS</tt> method.
+</li></ul><h3 id="ProblemwithHTMLendtagsinsideJSstringsdisappearing">Problem with HTML end tags inside JS strings disappearing</h3>
+<p>
+If for some weird reason you are storing HTML code inside a JS String, and you see the end tags disappearing, again it can be the fault of the <em>.wohl-based</em> context help system.
+The problem lies with the <tt>/</tt> in the end tags such as <tt>&lt;/span&gt;</tt>.
+Solutions include:
+</p>
+<ul><li>Not using .wohl files for context help.
+</li><li>Use the <tt>escapeHTMLForJS</tt> method so that <tt>/</tt> are turned into <tt>\/</tt>.
+</li></ul><p>
+<br />
+</p>
+<h2 id="PyDev">PyDev</h2>
+<h3 id="Aftermodifyingthesites-availabledefaultfiletoenablePyDevdebuggingApachedoesntwork">After modifying the sites-available/default file to enable PyDev debugging, Apache doesn't work</h3>
+<p>
+For example, you try to access any link in Indico and, instead of being redirected where you expected, a "Save As" dialog with the .py file of the page you are trying to access appears.
+In this case, you probably did something wrong while configuring the sites-available/default file. Notice that the &lt;Directory&gt; statements should be either in sites-available/default or in /etc/apache2/apache2.conf (or whichever your apache configuration file is). If you add one in sites-available after having the same in apache2.conf make sure that all looks the same!
+For instance, if in apache2.conf you have this:
+</p>
+<pre class="wiki">&lt;Directory "/home/johndoe/cds-indico/indico/htdocs"&gt;
+    AddHandler python-program .py
+    PythonHandler mod_python.publisher
+    PythonDebug On
+    PythonPath "sys.path+['/home/johndoe/cds-indico/indico']"
+&lt;/Directory&gt;
+</pre><p>
+Your sites-available/default file will have to look like this:
+</p>
+<pre class="wiki">&lt;Directory "/home/johndoe/cds-indico/indico/htdocs"&gt;
+    AddHandler python-program .py
+    PythonHandler mod_python.publisher
+    PythonDebug On
+    PythonPath "sys.path+['/home/johndoe/cds-indico/indico','/home/johndoe/Desktop/eclipseFolder/plugins/org.python.pydev.debug_1.5.0.1251989166/pysrc/']"
+&lt;/Directory&gt;
+</pre><p>
+But remember that is more recommended to simply cut the &lt;Directory&gt; statement in apache2.conf and paste it in sites-available/default, adding the pydev plugin path to the pythonpath, rather than having both &lt;Directory&gt; for the same thing.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Troubleshooting?action=diff&amp;version=17" title="Version 17 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-03-22T10%3A13%3A19%2B01%3A00&amp;precision=second" title="See timeline at 03/22/10 10:13:19">6 years ago</a></span>
+            <span class="trac-print">Last modified on 03/22/10 10:13:19</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTroubleshooting56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Troubleshooting by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:31 GMT -->
+</html>

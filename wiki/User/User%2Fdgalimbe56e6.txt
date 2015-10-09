@@ -1,0 +1,14 @@
+= Davide Galimberti =
+
+== Personal plan ==
+
+ * Object Oriented DB research (ZODB)
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=dgalimbe,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=dgalimbe,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=dgalimbe)]]

@@ -1,0 +1,30 @@
+[[PageOutline]]
+
+== InTRePId 11 ==
+'''Title:''' Read-only mode
+
+'''Author:''' Jose Benito Gonzalez Lopez
+
+'''Date:''' 16-07-2010
+
+'''Target version:''' 0.98
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * Avoid commits when Indico is just displaying information
+ * Being able to setup Indico as read-only.
+ * Avoid saving sessions for every single request.
+
+=== Status quo ===
+
+
+
+=== Description ===
+
+
+
+=== Comments ===
+[[AddComment]]

@@ -1,0 +1,38 @@
+[[TracNav(TOC|noreorder)]]
+
+'''Note:''' If you wish to install indico, please read [wiki:Admin/Installation0.98 this].
+
+= Download =
+
+== Latest releases ==
+ * [wiki:Releases/Indico1.2#Download 1.2] - '''stable''' - 8 Jul 2014
+ * [wiki:Releases/Indico1.1#Download 1.1.2] - 27 Aug 2013
+ * [wiki:Releases/Indico1.0#Download 1.0] - 27 May 2013
+ * [wiki:Releases/Indico0.99#Download 0.99]  - 30 Nov 2012
+ * [wiki:Releases/Indico0.98.2#Download 0.98.2] -  22 Jun 2012
+ * [wiki:Releases/Indico0.98.1#Download 0.98.1] - 13 Apr 2012
+ * [wiki:Releases/Indico0.98.0#Download 0.98.0] - 19 Mar 2012
+ * [wiki:Releases/Indico0.98-rc1#Download 0.98-rc1] - 2 Dec 2011
+
+== Deprecated versions ==
+
+ * [wiki:Releases/Indico0.97.1#Download 0.97.1] - 14 Jun 2011
+ * [wiki:Releases/Indico0.97.0#Download 0.97.0] - 6th Dec 2010
+ * 0.97-rc2 - 26th May 2010
+ * 0.97b - 8th January 2010
+ * [wiki:Releases/Indico0.96.2#Download 0.96.2] - 2th June 2008
+
+== Development Versions ==
+=== Git sources ===
+
+You can check out the latest Indico version using git:
+{{{
+git clone http://indico-software.org/repo/indico.git
+}}}
+
+You should switch to `master`:
+{{{
+git checkout master
+}}}
+
+There's a [http://indico-software.org/repo/ git-web interface] available.

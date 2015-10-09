@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/DashboardContents by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/DashboardContents – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FDashboardContents56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="DashboardContents.html" title="View Dev/Technical/DashboardContents">DashboardContents</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/DashboardContents?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="MyIndico:Dashboard">My Indico: Dashboard</h1>
+<p>
+My Profile's <strong>Dashboard</strong> tab shows all relevant information to the user. This information is retrieved from the <tt>linkedTo</tt> dictionary within an <tt>Avatar</tt> object. Nested inside there are other dictionaries that refer to different areas of Indico.
+</p>
+<p>
+In this wiki page are presented all keys that can be present. This information can be found in <tt>MaKaC/user.py:Avatar.linkedToBase</tt> and is expected to suffer a <a class="wiki" href="MyIndicoBackend.html">refactoring</a> in order to extend the functionality of <strong>My Indico</strong>.
+</p>
+<h2 id="Groupsofinterest">Groups of interest</h2>
+<p>
+Not all the information listed within the dictionary is displayed in the Dashboard. Furthermore, it is grouped by scope for reducing noise and improving usability.
+</p>
+<ul><li>Administration
+</li><li>Management
+</li><li>User
+</li></ul><h2 id="linkedTodictionary">linkedTo dictionary</h2>
+<h3 id="category">category</h3>
+<ul><li>creator
+</li><li>manager
+</li><li>access
+</li></ul><h3 id="conference">conference</h3>
+<ul><li>creator
+</li><li>chair
+</li><li>participant
+</li><li>manager
+</li><li>access
+</li><li>registrar
+</li><li>abstractSubmitter
+</li><li>paperReviewManager
+</li><li>abstractManager
+</li><li>referee
+</li><li>editor
+</li><li>reviewer
+</li><li>abstractReviewer
+</li></ul><h3 id="session">session</h3>
+<ul><li>manager
+</li><li>access
+</li><li>coordinator
+</li></ul><h3 id="contribution">contribution</h3>
+<ul><li>manager
+</li><li>submission
+</li><li>access
+</li><li>referee
+</li><li>editor
+</li><li>reviewer
+</li></ul><h3 id="track">track</h3>
+<ul><li>coordinator
+</li></ul><h3 id="material">material</h3>
+<ul><li>access
+</li></ul><h3 id="resource">resource</h3>
+<ul><li>access
+</li></ul><h3 id="abstract">abstract</h3>
+<ul><li>submitter
+</li></ul><h3 id="registration">registration</h3>
+<ul><li>registrant
+</li></ul><h3 id="alarm">alarm</h3>
+<ul><li>to
+</li></ul><h3 id="group">group</h3>
+<ul><li>member
+</li></ul><h3 id="evaluation">evaluation</h3>
+<ul><li>submitter
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/DashboardContents?action=diff&amp;version=5" title="Version 5 by aavilesd: Added information about grouping">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-08T13%3A59%3A09%2B02%3A00&amp;precision=second" title="See timeline at 04/08/13 13:59:09">3 years ago</a></span>
+            <span class="trac-print">Last modified on 04/08/13 13:59:09</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FDashboardContents56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/DashboardContents by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:17 GMT -->
+</html>

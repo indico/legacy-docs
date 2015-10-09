@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/540/indico0.97_threading.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      indico0.97_threading.patch on Ticket #540 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/540/indico0.97_threading.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/540.html" title="Ticket #540" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/540.html">Back to Ticket #540</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/540.html">Ticket #540</a>: indico0.97_threading.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File indico0.97_threading.patch,
+                <span title="1690 bytes">1.7 KB</span>
+                (added by pferreir, <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-10-07T17%3A10%3A05%2B02%3A00&amp;precision=second" title="See timeline at 10/07/10 17:10:05">5 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+Patch for possible database threading issues
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/common/db.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/common/db.py b/indico/MaKaC/common/db.py
+index 00dc3dd..7729bfb 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/common/db.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/common/db.py">
+                      b
+                  </th>
+                  <td><em> class DBMgr:</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>92</th><th>92</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cls._instance=DBMgr(*args, **kwargs)</span> </td>
+                  </tr><tr>
+                          <th>93</th><th>93</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return cls._instance</span> </td>
+                  </tr><tr>
+                          <th>94</th><th>94</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>95</th><td class="r"><ins>&nbsp; &nbsp; @staticmethod</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>96</th><td class="r"><ins>&nbsp; &nbsp; def _getUniqueIdentifier():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>97</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return "%s.%s" % (os.getpid(), threading._get_ident())</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>98</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>95</th><th>99</th><td class="l"><span>&nbsp; &nbsp; def _getConnObject(self):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>96</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; tid<del>=threading._get_ident</del>()</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>100</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; tid<ins>&nbsp;= DBMgr._getUniqueIdentifier</ins>()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>97</th><th>101</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if self._conn.has_key(tid):</span> </td>
+                  </tr><tr>
+                          <th>98</th><th>102</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return self._conn[tid]</span> </td>
+                  </tr><tr>
+                          <th>99</th><th>103</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return None</span> </td>
+                  </tr><tr>
+                          <th>100</th><th>104</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>101</th><th>105</th><td class="l"><span>&nbsp; &nbsp; def _delConnObject(self):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>102</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; tid<del>=threading._get_ident</del>()</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>106</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; tid<ins>&nbsp;= DBMgr._getUniqueIdentifier</ins>()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>103</th><th>107</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; del self._conn[tid]</span> </td>
+                  </tr><tr>
+                          <th>104</th><th>108</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>105</th><th>109</th><td class="l"><span>&nbsp; &nbsp; def startRequest( self ):</span> </td>
+                  </tr><tr>
+                          <th>106</th><th>110</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; """Initialise the DB and starts a new transaction.</span> </td>
+                  </tr><tr>
+                          <th>107</th><th>111</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; """</span> </td>
+                  </tr><tr>
+                          <th>108</th><th>112</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>113</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; tid = DBMgr._getUniqueIdentifier()</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>109</th><th>114</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; conn = self._getConnObject()</span> </td>
+                  </tr><tr>
+                          <th>110</th><th>115</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if conn is None:</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>111</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._conn[t<del>hreading._get_ident()]=</del>self._db.open()</span> </td>
+                      </tr><tr>
+                        <th>112</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('dbmgr').debug('Allocated connection for thread %s - table size is %s' % (t<del>hreading._get_ident()</del>, len(self._conn)))</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>116</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._conn[t<ins>id] = </ins>self._db.open()</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>117</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('dbmgr').debug('Allocated connection for thread %s - table size is %s' % (t<ins>id</ins>, len(self._conn)))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>113</th><th>118</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>114</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('dbmgr').debug('Reused connection for thread %s - table size is %s' % (t<del>hreading._get_ident()</del>, len(self._conn)))</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>119</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('dbmgr').debug('Reused connection for thread %s - table size is %s' % (t<ins>id</ins>, len(self._conn)))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>115</th><th>120</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>116</th><th>121</th><td class="l"><span>&nbsp; &nbsp; def endRequest( self, commit=True ):</span> </td>
+                  </tr><tr>
+                          <th>117</th><th>122</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; """Closes the DB and commits changes.</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/540/indico0.97_threading.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/540/indico0.97_threading.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:17 GMT -->
+</html>

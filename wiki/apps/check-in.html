@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/apps/check-in by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:10:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      apps/check-in – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="apps%252Fcheck-in56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../apps.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../apps.html" title="View apps">apps</a><span class="pathentry sep">/</span><a class="pathentry" href="check-in.html" title="View apps/check-in">check-in</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../apps.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/apps/check-in?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="Check-inApp">Check-in App</h1>
+<p>
+From version 1.2, Indico allows you to create digital conference tickets containing a <a class="ext-link" href="http://en.wikipedia.org/wiki/QR_Code" title="QR_Code in WikiPedia"><span class="icon">​</span>QR code</a>.
+</p>
+<p>
+This allows you to easily track attendants by scanning their <strong>e-ticket</strong>.
+</p>
+<p>
+To use this feature, simply enable the <strong>e-tickets module</strong> in the conference's <strong>registration form</strong> settings.
+</p>
+<p>
+Right after that, you will be shown a QR code which you need to use to <strong>link</strong> the <strong>conference</strong> with the <strong>check-in app</strong>.<br />
+To do so, press the <strong>Add event</strong> button in the app and scan the QR code that is in your screen. You will be redirected to Indico's<br />
+login page; simply enter your Indico credentials.
+</p>
+<p>
+To check a user in, press <strong>Check in</strong> and scan the QR code on the attendant's ticket. After scanning it you will be<br />
+shown information about the attendant and can mark him as checked-in (or check him back out).<br />
+You can also view a list of checked-in attendants.
+</p>
+<h2 id="Installingtheapp">Installing the app</h2>
+<h3 id="LinktoApp">Link to App</h3>
+<p>
+<a style="padding:0; border:none" href="https://play.google.com/store/apps/details?id=ch.cern.indico.checkin"><img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" alt="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" title="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" /></a> 
+<a style="padding:0; border:none" href="https://itunes.apple.com/us/app/indico-check-in/id834962232?mt=8&amp;uo=4"><img src="../../raw-attachment/wiki/apps/check-in/appstore.png" alt="appstore" title="appstore" height="45px" /></a> 
+</p>
+<h3 id="QRCode">QR Code</h3>
+<p>
+<a style="padding:0; border:none" href="../../attachment/wiki/apps/check-in/qrcode.html"><img src="../../raw-attachment/wiki/apps/check-in/qrcode.png" /></a>
+</p>
+<h2 id="Screenshotsoftheapp">Screenshots of the app</h2>
+<p>
+<a style="padding:0; border:none" href="http://indico-software.org/img/checkin-1.png"><img src="http://indico-software.org/img/checkin-1.png" alt="http://indico-software.org/img/checkin-1.png" title="http://indico-software.org/img/checkin-1.png" /></a>
+<a style="padding:0; border:none" href="http://indico-software.org/img/checkin-2.png"><img src="http://indico-software.org/img/checkin-2.png" alt="http://indico-software.org/img/checkin-2.png" title="http://indico-software.org/img/checkin-2.png" /></a>
+<a style="padding:0; border:none" href="http://indico-software.org/img/checkin-3.png"><img src="http://indico-software.org/img/checkin-3.png" alt="http://indico-software.org/img/checkin-3.png" title="http://indico-software.org/img/checkin-3.png" /></a>
+<a style="padding:0; border:none" href="http://indico-software.org/img/checkin-4.png"><img src="http://indico-software.org/img/checkin-4.png" alt="http://indico-software.org/img/checkin-4.png" title="http://indico-software.org/img/checkin-4.png" /></a>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/apps/check-in?action=diff&amp;version=11" title="Version 11 by arescope">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-04-10T15%3A50%3A36%2B02%3A00&amp;precision=second" title="See timeline at 04/10/14 15:50:36">18 months ago</a></span>
+            <span class="trac-print">Last modified on 04/10/14 15:50:36</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(2)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../attachment/wiki/apps/check-in/appstore.html" title="View attachment">appstore.png</a><a href="../../raw-attachment/wiki/apps/check-in/appstore.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="3394 bytes">3.3 KB</span>) -
+      added by <em>arescope</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-04-10T15%3A36%3A14%2B02%3A00&amp;precision=second" title="See timeline at 04/10/14 15:36:14">18 months ago</a>.
+                <q>appstore</q>
+              </li>
+              <li>
+    <a href="../../attachment/wiki/apps/check-in/qrcode.html" title="View attachment">qrcode.png</a><a href="../../raw-attachment/wiki/apps/check-in/qrcode.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="1606 bytes">1.6 KB</span>) -
+      added by <em>arescope</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-04-10T15%3A49%3A52%2B02%3A00&amp;precision=second" title="See timeline at 04/10/14 15:49:52">18 months ago</a>.
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../zip-attachment/wiki/apps/check-in/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="apps%252Fcheck-in56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/apps/check-in by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:10:56 GMT -->
+</html>

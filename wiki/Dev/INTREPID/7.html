@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/7 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/INTREPID/7 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FINTREPID%252F756e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../INTREPID.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../INTREPID.html" title="View Dev/INTREPID">INTREPID</a><span class="pathentry sep">/</span><a class="pathentry" href="7.html" title="View Dev/INTREPID/7">7</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../INTREPID.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/INTREPID/7?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <ol>
+      <li>
+        <a href="#InTRePId7">InTRePId 7</a>
+        <ol>
+          <li>
+            <a href="#Objectives">Objectives</a>
+          </li>
+          <li>
+            <a href="#Statusquo">Status quo</a>
+          </li>
+          <li>
+            <a href="#Description">Description</a>
+            <ol>
+              <li>
+                <a href="#Requirements">Requirements</a>
+              </li>
+              <li>
+                <a href="#Specificationdetails">Specification details</a>
+                <ol>
+                  <li>
+                    <a href="#Dateandtimeformats">Date and time formats</a>
+                  </li>
+                  <li>
+                    <a href="#Timezonesupport">Time zone support</a>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                <a href="#Authentication">Authentication</a>
+              </li>
+              <li>
+                <a href="#Examples">Examples</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#Comments">Comments</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h2 id="InTRePId7">InTRePId 7</h2>
+<p>
+<strong>Title:</strong> An HTTP API for Data Export
+</p>
+<p>
+<strong>Author:</strong> <em>Pedro Ferreira</em>, <em>Adrian Mönnich</em>
+</p>
+<p>
+<strong>Date:</strong> April 2011
+</p>
+<p>
+<strong>Target version:</strong> v0.98
+</p>
+<p>
+<strong>Status:</strong> implemented
+</p>
+<h3 id="Objectives">Objectives</h3>
+<ul><li>Creating a <strong>centralized data access API</strong> for Indico;
+</li><li><strong>Replacing</strong> the existing <strong>export scripts</strong> (<tt>export.py</tt>...) with something more usable and possibly more efficient;
+</li><li>Enabling the quick implementation of <strong>export capabilities</strong> for <strong>different data formats</strong>;
+</li><li>Allowing <strong>access to protected information</strong>, through the use of some <strong>authentication</strong> mechanism;
+</li><li>Introducing some kind of <strong>control/logging mechanism</strong> that allows us to know who is using what and how often;
+</li><li>Introducing <strong>defense mechanisms</strong> against abusive uses of the API;
+</li><li>Creating <strong>extension points</strong> that allow different <strong>plugins</strong> to use this mechanism and add their own data;
+</li></ul><h3 id="Statusquo">Status quo</h3>
+<p>
+Currently, a series of scripts are used in order to provide data from Indico in different formats:
+</p>
+<ul><li><tt>export.py</tt> - enables access to HTML, XML, RSS and iCal listings of events contained in specific categories and following specific date spans;
+</li><li><tt>exportReservations.py</tt> - provides XML and CSV lists of reservations between a specified date span;
+</li><li>RSS/iCal interfaces - same as <tt>export.py</tt> (for the corresponding formats), with the addition that they apply only to upcoming events, and that the iCal interface can also export the components of an event (contributions);
+</li><li>XML Gateway - provides information about webcasts;
+</li></ul><h3 id="Description">Description</h3>
+<h4 id="Requirements">Requirements</h4>
+<ul><li>A basic "as REST as possible" HTTP API for data export;
+</li><li>An easy to use, flexible and intuitive query URL syntax;
+</li><li>Support for different data formats;
+<ul><li>XML
+</li><li>JSON/JSONP
+</li><li>HTML 4 snippets (with proper CSS classes);
+</li><li>RSS
+</li><li>iCal
+</li><li>CSV ? 
+</li><li>HTML 5 with CSS and microdata ?
+</li><li>YAML ?
+</li><li>RDF ?
+</li></ul></li></ul><ul><li>A safe and easy to use authentication mechanism;
+</li><li>HTTPS support (HTTPS only?);
+</li><li>Reasonable load on Indico/DB, obtained among others through caching of results;
+</li><li>Support for an "API key" kind of mechanism, including a list of authorized users/keys and their access level as well as some access statistics;
+</li><li>Timezone support - both for querying and display of results;
+</li></ul><h4 id="Specificationdetails">Specification details</h4>
+<h5 id="Dateandtimeformats">Date and time formats</h5>
+<p>
+The user should be able to specify dates and times in both an absolute and a relative way:
+</p>
+<ul><li>Using a subset of ISO8601;
+</li><li>Using the keywords <tt>yesterday</tt>, <tt>today</tt>, <tt>now</tt>, <tt>tomorrow</tt>. <tt>now</tt> would be the current date/time while the others would change value according to their context:
+<ul><li>Date of the day in question, 00:00, if specified as <tt>from</tt>;
+</li><li>Date of the day in question, 23:59 if specified as <tt>to</tt>; 
+</li></ul></li><li>Using a relative notation like <tt>5d</tt>, <tt>-1h</tt>, <tt>2d1h30m</tt>, etc...
+</li></ul><p>
+If not specified, date and time parameters should extend to minus or plus infinity.
+</p>
+<h5 id="Timezonesupport">Time zone support</h5>
+<p>
+Some details about timezone support:
+</p>
+<ul><li>API users should be able to specify a timezone in which the results should be displayed; Otherwise, results should be displayed in their original timezones;
+</li><li>If a user specifies a timezone (previous point), the API should consider that all other parameters (start date, etc...) are <strong>in the same timezone</strong>.
+</li></ul><h4 id="Authentication">Authentication</h4>
+<p>
+Users should be able to request API keys from their profile pages. These API keys will grant whoever uses them equal rights to the user in terms of data access. There should be as well an encryption key, a shared secret that should be used to sign the request (ordered list of parameters), and that will guarantee that no-one has simply stolen the API key and used it to produce their own request.
+</p>
+<pre class="wiki">signature = sha1(ordered_query_string + enc_key)
+</pre><p>
+HTTPS support should be available, thus guaranteeing a secure communication channel.
+</p>
+<h4 id="Examples">Examples</h4>
+<div class="code"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="mi">1234</span><span class="p">,</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s2">"An event"</span><span class="p">,</span>
+    <span class="nx">datetime</span><span class="o">:</span> <span class="p">{</span> <span class="nx">date</span><span class="o">:</span> <span class="s2">"2011-03-01"</span><span class="p">,</span>
+                <span class="nx">time</span><span class="o">:</span> <span class="s2">"20:00"</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div><h3 id="Comments">Comments</h3>
+<p>
+</p><div id="commenting"><form action="http://old.indico-software.org/wiki/Dev/INTREPID/7#commenting" method="post"><fieldset><legend>Add comment</legend><div class="field"><textarea rows="5" name="addcomment" cols="80" disabled="disabled" class="wikitext" id="addcomment"></textarea></div><div><label for="authoraddcomment">Your email or username:</label><input type="text" id="authoraddcomment" value="anonymous" size="30" /></div><input type="hidden" name="__FORM_TOKEN" value="610bde29a97e49ea483b83be" /><div class="buttons"><input disabled="disabled" type="submit" name="submitaddcomment" value="Add comment" size="30" /><input disabled="disabled" type="submit" name="previewaddcomment" value="Preview comment" /><input disabled="disabled" type="submit" name="canceladdcomment" value="Cancel" /></div></fieldset></form></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/INTREPID/7?action=diff&amp;version=10" title="Version 10 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-01-12T11%3A30%3A37%2B01%3A00&amp;precision=second" title="See timeline at 01/12/12 11:30:37">4 years ago</a></span>
+            <span class="trac-print">Last modified on 01/12/12 11:30:37</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/wikitoolbar.js"></script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FINTREPID%252F756e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/7 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:27 GMT -->
+</html>

@@ -1,0 +1,110 @@
+From 395b041e5cd087a61813649b3e34ae8fd46b2cf7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= <bjoern.pedersen@frm2.tum.de>
+Date: Wed, 22 Aug 2012 13:41:09 +0200
+Subject: [PATCH] [FEAT] Hook to get etxra payment details
+
+ * add a hook to enable payment plugins to inject text into the payment
+   details used in e.g. the registration email.
+---
+ .../plugins/EPayment/bankTransfer/epayment.py      | 61 ++++++----------------
+ indico/MaKaC/registration.py                       |  9 ++++
+ 2 Dateien geändert, 24 Zeilen hinzugefügt(+), 46 Zeilen entfernt(-)
+
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py b/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
+index 80fcb42..3f8e16f 100644
+--- a/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
+@@ -75,55 +75,24 @@ class BankTransferMod(BaseEPayMod):
+         except:
+             pass
+ 
+-    def getPaymentDetails(self):
++    def getExtraPaymentDetails(self):
+ 
+-        txt="""<td align="right"><b>account bank</b></td>
+-        <td align="left">%s</td>
+-    </tr>
+-    <tr>
+-        <td align="right"><b>account BLZ</b></td>
+-        <td align="left">%s</td>
+-    </tr>
+-    <tr>
+-        <td align="right"><b>account Number</b></td>
+-        <td align="left">%s</td>
+-    </tr>
+-    <tr>
+-        <td align="right"><b>account IBAN</b></td>
+-        <td align="left">%s</td>
+-    </tr>
+-    <tr>
+-        <td align="right"><b>account SWIFT</b></td>
+-        <td align="left">%s</td>
+-    </tr>
+-        <tr>
+-            <td align="right"><b>Subject</b></td>
+-            <td align="left">PK-Nr %s ID </td>
+-        </tr>
++        txt="""\tBank: %s\n
++\tBLZ: %s\n
++\tAccount: %s\n
++\tIBAN: %s\n
++\tSWIFT: %s\n
++\tSubject: PK-Nr %s  ID \n
++"""%(
++         self.getAccountBank(),
++         self.getAccountBLZ(),
++         self.getAccountNumber(),
++         self.getAccountIBAN(),
++         self.getAccountSwift(),
++         self.getPKNumber())
+ 
+-                        </table>"""%(
+-                             self.getAccountBank(),
+-                             self.getAccountBLZ(),
+-                             self.getAccountNumber(),
+-                             self.getAccountIBAN(),
+-                             self.getAccountSwift(),
+-                             self.getPKNumber())
+-#        txt="""\tBank: %s\n
+-#\tBLZ: %s\n
+-#\tAccount: %s\n
+-#\tIBAN: %s\n
+-#\tSWIFT: %s\n
+-#\tSubject: PK-Nr %s  ID \n
+-#"""%(
+-#                             self.getAccountBank(),
+-#                             self.getAccountBLZ(),
+-#                             self.getAccountNumber(),
+-#                             self.getAccountIBAN(),
+-#                             self.getAccountSwift(),
+-#                             self.getPKNumber())
+-#
+-#        raise Exception("test")
+         return txt
++
+     def getdetailPayment(self):
+         return self._detailPayment
+     def setdetailPayment(self, detailPayment):
+diff --git a/indico/MaKaC/registration.py b/indico/MaKaC/registration.py
+index 3545980..61f02ef 100644
+--- a/indico/MaKaC/registration.py
++++ b/indico/MaKaC/registration.py
+@@ -812,6 +812,15 @@ Congratulations, your registration to %s was successful%s See your information b
+         getTitle=strip_ml_tags(registrant.getConference().getTitle())
+         idRegistrant=registrant.getIdPay()
+         detailPayment=registrant.getConference().getModPay().getPaymentDetails()
++
++        msgs = []
++        for ePayMod in registrant.getConference().getModPay().getSortedEnabledModPay():
++                try:
++                    msgs.append(ePayMod.getExtraPaymentDetails())
++                except Exception:
++                    pass
++        detailPayment = detailPayment + "\n".join(msgs)
++
+         subject=_("""Payment summary for '%s': %s""")%(strip_ml_tags(registrant.getConference().getTitle()), registrant.getFullName())
+         body= _("""
+ Please use this information for your payment (except for e-payment):\n
+-- 
+1.7.12.rc0.10.g476109f
+

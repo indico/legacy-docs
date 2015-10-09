@@ -1,0 +1,13 @@
+= Jurand Nogiec =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=jurandnogiec,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=jurandnogiec,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=jurandnogiec)]]

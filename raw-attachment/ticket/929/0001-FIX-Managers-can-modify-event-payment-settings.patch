@@ -1,0 +1,58 @@
+From 05cbd31b2be98eaa275d7826085ace908f16c924 Mon Sep 17 00:00:00 2001
+From: Jakub Trzaskoma <jakub.piotr.trzaskoma@cern.ch>
+Date: Mon, 7 Jan 2013 14:02:53 +0100
+Subject: [PATCH] [FIX] Managers can modify event payment settings
+
+* Event managers can modify CERNEPayment setting
+* Apply Fees enabled by default
+* Closes #929
+---
+ .../indico/ext/epayment/cern/epayment.py           |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py b/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py
+index 77820ec..3b09a45 100644
+--- a/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py
++++ b/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py
+@@ -41,7 +41,7 @@ class CERNYellowPayMod(BaseEPayMod):
+         self._enabled = False
+         self._title = "CERN Epayment"
+         self._paymentMethodList = {}
+-        self._applyFee = False
++        self._applyFee = True
+ 
+     def getId(self):
+         return MODULE_ID
+@@ -61,16 +61,16 @@ class CERNYellowPayMod(BaseEPayMod):
+     def getHashSeed(self):
+         return PluginsHolder().getPluginType("EPayment").getPlugin(MODULE_ID).getOption("hashSeed").getValue()
+ 
+-    def getPluginSectionHTML(self, conf, user, urlStatus, urlModif, img, text):
+-        # CERN Plugin: Just admins can see and modify it
++    def getPluginSectionHTML(self, conf, avatar, urlStatus, urlModif, img, text):
++        # CERN Plugin: Just admins and event managers can see and modify it
+ 
+         minfo = HelperMaKaCInfo.getMaKaCInfoInstance()
+         al = minfo.getAdminList()
+ 
+         html = ""
+ 
+-        if al.isAdmin(user):
+-            html = super(CERNYellowPayMod, self).getPluginSectionHTML(conf, user, urlStatus, urlModif, img, text)
++        if al.isAdmin(avatar.getUser()) or conf.canModify(avatar):
++            html = super(CERNYellowPayMod, self).getPluginSectionHTML(conf, avatar, urlStatus, urlModif, img, text)
+         else:
+             from MaKaC.plugins.base import PluginsHolder
+             endis = "enable"
+@@ -197,7 +197,7 @@ class CERNYellowPayMod(BaseEPayMod):
+ 
+     def getApplyFee(self):
+         if not hasattr(self,"_applyFee"):
+-            self._applyFee = False
++            self._applyFee = True
+         return self._applyFee
+ 
+     def setApplyFee(self, applyFee):
+-- 
+1.7.9.5
+

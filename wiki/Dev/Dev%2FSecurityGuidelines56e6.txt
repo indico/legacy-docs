@@ -1,0 +1,156 @@
+= Security Guidelines =
+
+'''NOTE: work in progress '''
+
+== Python ==
+
+=== ''eval()'' ===
+
+ * Python allows a high degree of introspection and reflection
+
+{{{
+#!python
+>>> 'foobar'.__class__.__base__
+<type 'basestring'>
+>>> eval('str(1+2)+"foo"')
+'3foo'
+>>> exec('print 1+2')
+3
+}}}
+
+
+ * This brings with it some of the most awesome features in the language
+   * but also the most unsafe!
+
+ * ''exec'' is easy to exploit:
+{{{
+#!python
+>>> exec('import sys; sys.exit(-1)')
+}}}
+
+ * ''eval'' not much harder:
+{{{
+#!python
+>>> eval("__import__('sys').exit(-1)")
+}}}
+
+=== Exception handling ===
+
+
+Exceptions should be handled in layers:
+
+{{{
+#!python
+try:
+    #...
+    a = b / c
+except:
+    print "Error!"
+}}}
+
+How many possible ways of failing?
+
+{{{
+#!python
+b, c = 'a','a'
+b, c = 1, 0
+}}}
+
+Why not:
+
+{{{
+#!python
+try:
+    #...
+    a = b / c
+except TypeError:
+    print "Incompatible types!"
+except ZeroDivisionError:
+    print "Division by zero!"
+except:
+    print "Unexpected exception!"
+    raise
+}}}
+
+==== ''except-pass'' ====
+
+{{{
+#!python
+try:
+    # my dubious quality code
+except:
+    pass
+}}}
+
+Please, '''never''' do this.
+
+=== Case 3 - System commands ===
+
+{{{
+#!python
+>>> import subprocess
+>>> p1 = subprocess.Popen(["whoami"], stdout=subprocess.PIPE)
+>>> p1.communicate()[0]
+'pferreir\n'
+}}}
+
+vs.
+
+{{{
+#!python
+>>> import getpass
+>>> getpass.getuser()
+'pferreir'
+}}}
+
+Let standard libraries take care of it.
+
+=== User Input sanitization ===
+
+ * Different levels
+   * Application (''eval'', ''exec'', OS calls...);
+   * Database (ZODB is mostly safe on this);
+   * Presentation (XSS);
+
+ * All user input should considered '''evil''' by default!
+
+==== i.e. Path Traversal ====
+
+{{{
+#!python
+>>> myfile='foo'
+>>> open('/home/pferreir/%s' % myfile, 'r').read()
+'F00\n'
+
+>>> myfile='../../etc/passwd'
+>>> open('/home/pferreir/%s' % myfile, 'r').read()
+[...]
+}}}
+
+==== Solutions ====
+
+ * Escape/Quote - i.e. HTML tag/quote escaping;
+   * ''cgi.escape()'' - '''quotes are optional''';
+ * Refuse (Whitelisting) - just detect faulty cases and throw an Exception;
+   * Regular Expressions;
+ * Sanitize - just remove unwanted content;
+   * Regular Expressions
+
+==== In Indico ====
+ * '''ParameterManager''' - does the hard work for everyone;
+ * Currently being used mostly by the "services" - let's do it for the rest too!
+ * By centralizing user input filtering, we reduce the number of possible security holes;
+
+=== Summary ===
+
+ * Sanitize user input;
+ * Least privilege principle;
+ * Check return values and exceptions;
+ * Show the user the least useless information possible;
+ * Be a little paranoid - assume people will use it the wrong way;
+
+
+
+== XSLT ==
+
+''Coming soon''

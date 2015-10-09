@@ -1,0 +1,32 @@
+[[TracNav(TOC|noreorder)]]
+
+= Indico - Documentation =
+
+This page's goal is to provide an integrated documentation source for both developers and administrators. Some links for resources targeted at users can also be found.
+
+== Table of Contents ==
+
+Currently available documentation:
+
+[[Include(Dev)]]
+ * '''For administrators'''
+    * Installation:
+      * Latest stable version:
+        * [wiki:Admin/Installation1.2 Latest versions (1.2.x)]
+      * Previous versions:
+        * [wiki:Admin/Installation0.98 >=0.98 - 1.1.x]
+          * [wiki:Admin/install/from0.94 How to migrate from 0.94 to 0.99]
+          * [wiki:Admin/Debian0.98 From 0.97b to 0.98-rc1 on Debian Squeeze (by Cristiano  Valli)]
+        * [wiki:Admin/Installation Older version 0.97]
+        * [wiki:Admin/InstallationOlder Previous versions]
+        * [wiki:Admin/MigratingFromCDSAgenda Migration from CDS Agenda]
+    * [wiki:Admin/IndicoConfiguration Indico configuration]
+    * [wiki:Admin/Tools Administration tools]
+    * [wiki:Admin/DB Database (ZODB)] 
+    * [wiki:Plugins Available Plugins]
+ * '''Users'''
+    * [wiki:User/UserGuides User Guides]
+
+== Support and Other Sources of Information ==
+
+If you are looking for a good place to ask a question about Indico, please consult the [wiki:Community] page.

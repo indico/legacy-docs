@@ -1,0 +1,684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1090/0001-FEATURE-Use-the-python-email-module.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      0001-FEATURE-Use-the-python-email-module.patch on Ticket #1090 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/1090/0001-FEATURE-Use-the-python-email-module.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/1090.html" title="Ticket #1090" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/1090.html">Back to Ticket #1090</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/1090.html">Ticket #1090</a>: 0001-FEATURE-Use-the-python-email-module.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File 0001-FEATURE-Use-the-python-email-module.patch,
+                <span title="8119 bytes">7.9 KB</span>
+                (added by pedersen, <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-19T16%3A25%3A56%2B02%3A00&amp;precision=second" title="See timeline at 04/19/13 16:25:56">2 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+based on current master
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/common/mail.py</a>
+        </h2>
+        <pre>From 441ad80ed4d0786622a44a9fcb33a2c415fb2345 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= &lt;bjoern.pedersen@frm2.tum.de&gt;
+Date: Wed, 19 Sep 2012 10:48:50 +0200
+Subject: [PATCH 1/4] [FEATURE] Use the python email module
+
+Use the python email module to generate emails not only as
+plain text, but as MIME with attachments and HTML as well.
+
+Attachment definition is still a bit rough, but currently for non-text
+types a file path has to be used.
+---
+ indico/MaKaC/common/mail.py                        | 93 ++++++++++++++++++++--
+ .../MaKaC/webinterface/common/baseNotificator.py   |  3 +
+ indico/MaKaC/webinterface/mail.py                  | 35 ++++++--
+ 3 files changed, 119 insertions(+), 12 deletions(-)
+
+diff --git a/indico/MaKaC/common/mail.py b/indico/MaKaC/common/mail.py
+index bf64cde..ffe0f13 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/common/mail.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/common/mail.py">
+                      b
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>19</th><th>19</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>20</th><th>20</th><td class="l"><span>import smtplib</span> </td>
+                  </tr><tr>
+                          <th>21</th><th>21</th><td class="l"><span>from email.utils import formatdate</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>22</th><td class="r"><ins>from email import encoders</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>23</th><td class="r"><ins>from email.message import Message</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>24</th><td class="r"><ins>from email.mime.audio import MIMEAudio</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>25</th><td class="r"><ins>from email.mime.base import MIMEBase</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>26</th><td class="r"><ins>from email.mime.image import MIMEImage</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>27</th><td class="r"><ins>from email.mime.multipart import MIMEMultipart</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>28</th><td class="r"><ins>from email.mime.text import MIMEText</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>29</th><td class="r"><ins>from email.header import Header</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>30</th><td class="r"><ins>from email.charset import add_charset</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>31</th><td class="r"><ins>from email import Charset</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>32</th><td class="r"><ins># don#t encode utf-8 as base64, use quoted-printable!</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>33</th><td class="r"><ins># as this sets a module global, needs to be done only once</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>34</th><td class="r"><ins>add_charset('utf-8', Charset.QP, Charset.QP, 'utf-8')</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>35</th><td class="r"><ins></ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>36</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>22</th><th>37</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>23</th><th>38</th><td class="l"><span>from MaKaC.common import Config</span> </td>
+                  </tr><tr>
+                          <th>24</th><th>39</th><td class="l"><span>from MaKaC.errors import MaKaCError</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L59">…</a></th>
+                  <th><a href="#L74">…</a></th>
+                  <td><em> class GenericMailer:</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>59</th><th>74</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>60</th><th>75</th><td class="l"><span>&nbsp; &nbsp; @staticmethod</span> </td>
+                  </tr><tr>
+                          <th>61</th><th>76</th><td class="l"><span>&nbsp; &nbsp; def _prepare(notification):</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>77</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; COMMASPACE = " ,"</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>62</th><th>78</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; fromAddr=notification.getFromAddr()</span> </td>
+                  </tr><tr>
+                          <th>63</th><th>79</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; # what are these two loops for??</span> </td>
+                  </tr><tr>
+                          <th>64</th><th>80</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for to in notification.getToList() :</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L68">…</a></th>
+                  <th><a href="#L84">…</a></th>
+                  <td><em> class GenericMailer:</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>68</th><th>84</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if len(cc) == 0 :</span> </td>
+                  </tr><tr>
+                          <th>69</th><th>85</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; notification.getCCList().remove(cc)</span> </td>
+                  </tr><tr>
+                          <th>70</th><th>86</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>71</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; to<del>=", "</del>.join(notification.getToList())</span> </td>
+                      </tr><tr>
+                        <th>72</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; cc<del>=</del>""</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>87</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; to<ins>&nbsp;= COMMASPACE</ins>.join(notification.getToList())</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>88</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; cc<ins>&nbsp;= </ins>""</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>73</th><th>89</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if len(notification.getCCList())&gt;0:</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>74</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cc<del>="Cc: %s\r\n"%", "</del>.join(notification.getCCList())</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>90</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cc<ins>&nbsp;= COMMASPACE</ins>.join(notification.getCCList())</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>75</th><th>91</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if not to and not cc:</span> </td>
+                  </tr><tr>
+                          <th>76</th><th>92</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return</span> </td>
+                  </tr><tr>
+                          <th>77</th><th>93</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L81">…</a></th>
+                  <th><a href="#L97">…</a></th>
+                  <td><em> class GenericMailer:</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>81</th><th>97</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ct = "text/plain"</span> </td>
+                  </tr><tr>
+                          <th>82</th><th>98</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; subject=notification.getSubject()</span> </td>
+                  </tr><tr>
+                          <th>83</th><th>99</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; body=notification.getBody()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>84</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; msg="""Content-Type: %s; charset=\"utf-8\"\r\nFrom: %s\r\nTo: %s\r\n%sSubject: %s\r\nDate: %s\r\n\r\n%s"""%(ct, fromAddr,\</span> </td>
+                      </tr><tr>
+                        <th>85</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; to,cc,subject,formatdate(localtime=True),body)</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>100</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; try:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>101</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bodyHTML=notification.getBodyHTML()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>102</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; except AttributeError:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>103</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bodyHTML = None</span> </td>
+                      </tr><tr>
+                        <th> </th><th>104</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; try:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>105</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; attachments = notification.getAttachments()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>106</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; except AttributeError:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>107</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; attachments = None</span> </td>
+                      </tr><tr>
+                        <th> </th><th>108</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>109</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>110</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; target = None</span> </td>
+                      </tr><tr>
+                        <th> </th><th>111</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; if attachments:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>112</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outer = MIMEMultipart()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>113</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; elif bodyHTML:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>114</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outer = MIMEMultipart('alternative')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>115</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; target = outer</span> </td>
+                      </tr><tr>
+                        <th> </th><th>116</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>117</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outer = MIMEText(body, 'plain','utf-8')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>118</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; target = outer</span> </td>
+                      </tr><tr>
+                        <th> </th><th>119</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>120</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; if bodyHTML:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>121</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg = target or MIMEMultipart('alternative')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>122</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; part1HTML = MIMEText(bodyHTML, 'html','utf-8')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>123</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; part1Plain = MIMEText(body, 'plain', 'utf-8')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>124</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Attach parts into message container.</span> </td>
+                      </tr><tr>
+                        <th> </th><th>125</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # According to RFC 2046, the last part of a multipart message, in this case</span> </td>
+                      </tr><tr>
+                        <th> </th><th>126</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # the HTML message, is best and preferred.</span> </td>
+                      </tr><tr>
+                        <th> </th><th>127</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg.attach(part1Plain)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>128</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg.attach(part1HTML)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>129</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>130</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg = target or MIMEText(body, 'plain','utf-8')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>131</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>132</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; outer['Subject'] = Header(subject,'utf-8')</span> </td>
+                      </tr><tr>
+                        <th> </th><th>133</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; outer['To'] = to</span> </td>
+                      </tr><tr>
+                        <th> </th><th>134</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; outer['CC'] = cc</span> </td>
+                      </tr><tr>
+                        <th> </th><th>135</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; outer['From'] = fromAddr</span> </td>
+                      </tr><tr>
+                        <th> </th><th>136</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>137</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; if outer != msg:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>138</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outer.attach(msg)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>139</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>140</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; #add iteration over attachments</span> </td>
+                      </tr><tr>
+                        <th> </th><th>141</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; #for text type, the content should be the payload string,</span> </td>
+                      </tr><tr>
+                        <th> </th><th>142</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; #for all other types the content should be the path to a (possibly temporary) file</span> </td>
+                      </tr><tr>
+                        <th> </th><th>143</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; if attachments:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>144</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for ctype, vpath, content in attachments:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>145</th><td class="r"><span></span> </td>
+                      </tr><tr>
+                        <th> </th><th>146</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; maintype, subtype = ctype.split('/', 1)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>147</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if maintype == 'text':</span> </td>
+                      </tr><tr>
+                        <th> </th><th>148</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Note: we should handle calculating the charset</span> </td>
+                      </tr><tr>
+                        <th> </th><th>149</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg = MIMEText(content , _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>150</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif maintype == 'image':</span> </td>
+                      </tr><tr>
+                        <th> </th><th>151</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>152</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg = MIMEImage(fp.read(), _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>153</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif maintype == 'audio':</span> </td>
+                      </tr><tr>
+                        <th> </th><th>154</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>155</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg = MIMEAudio(fp.read(), _subtype=subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>156</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>157</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; with open(content, 'rb') as fp:</span> </td>
+                      </tr><tr>
+                        <th> </th><th>158</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg = MIMEBase(maintype, subtype)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>159</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg.set_payload(fp.read())</span> </td>
+                      </tr><tr>
+                        <th> </th><th>160</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Encode the payload using Base64</span> </td>
+                      </tr><tr>
+                        <th> </th><th>161</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; encoders.encode_base64(msg)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>162</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Set the filename parameter</span> </td>
+                      </tr><tr>
+                        <th> </th><th>163</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; msg.add_header('Content-Disposition', 'attachment', filename=vpath)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>164</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outer.attach(msg)</span> </td>
+                      </tr><tr>
+                        <th> </th><th>165</th><td class="r"><span></span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>166</th><td class="r"><span></span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>86</th><th>167</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; toList = notification.getToList()</span> </td>
+                  </tr><tr>
+                          <th>87</th><th>168</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; ccList = notification.getCCList()</span> </td>
+                  </tr><tr>
+                          <th>88</th><th>169</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if hasattr(notification, 'getBCCList'):</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L90">…</a></th>
+                  <th><a href="#L171">…</a></th>
+                  <td><em> class GenericMailer:</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>90</th><th>171</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                  </tr><tr>
+                          <th>91</th><th>172</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bccList = []</span> </td>
+                  </tr><tr>
+                          <th>92</th><th>173</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return {</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>93</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'msg': <del>msg</del>,</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>174</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'msg': <ins>outer.as_string(True)</ins>,</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>94</th><th>175</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'toList': toList,</span> </td>
+                  </tr><tr>
+                          <th>95</th><th>176</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'ccList': ccList,</span> </td>
+                  </tr><tr>
+                          <th>96</th><th>177</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'bccList': bccList,</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/common/baseNotificator.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/common/baseNotificator.py b/indico/MaKaC/webinterface/common/baseNotificator.py
+index ba574c1..4926fff 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/common/baseNotificator.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/common/baseNotificator.py">
+                      b
+                  </th>
+                  <td><em> class Notification:</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>58</th><th>58</th><td class="l"><span>&nbsp; &nbsp; def getBody(self):</span> </td>
+                  </tr><tr>
+                          <th>59</th><th>59</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return self._body</span> </td>
+                  </tr><tr>
+                          <th>60</th><th>60</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>61</th><td class="r"><ins>&nbsp; &nbsp; def getBodyHTML(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>62</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>63</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>61</th><th>64</th><td class="l"><span>&nbsp; &nbsp; def setToList(self,newList):</span> </td>
+                  </tr><tr>
+                          <th>62</th><th>65</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._toList=[]</span> </td>
+                  </tr><tr>
+                          <th>63</th><th>66</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for to in newList:</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/mail.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/mail.py b/indico/MaKaC/webinterface/mail.py
+index 06c026c..f78fedb 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/mail.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/mail.py">
+                      b
+                  </th>
+                  <td><em> class GenericNotification :</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>60</th><th>60</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._bccList = []</span> </td>
+                  </tr><tr>
+                          <th>61</th><th>61</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._subject = ""</span> </td>
+                  </tr><tr>
+                          <th>62</th><th>62</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._body = ""</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>63</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.bodyHTML = ""</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>63</th><th>64</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._contenttype = "text/plain"</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>65</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._attachments = []</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>64</th><th>66</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; else :</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>65</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._fromAddr = data.get("fromAddr",<del>&nbsp;</del>"")</span> </td>
+                      </tr><tr>
+                        <th>66</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._toList = data.get("toList",<del>&nbsp;</del>[])</span> </td>
+                      </tr><tr>
+                        <th>67</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._ccList = data.get("ccList",<del>&nbsp;</del>[])</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>67</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._fromAddr = data.get("fromAddr",<ins></ins>"")</span> </td>
+                      </tr><tr>
+                        <th> </th><th>68</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._toList = data.get("toList",<ins></ins>[])</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>69</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._ccList = data.get("ccList",<ins></ins>[])</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>68</th><th>70</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._bccList = data.get("bccList", [])</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>69</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._subject = data.get("subject", "")</span> </td>
+                      </tr><tr>
+                        <th>70</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._body = data.get("body", "")</span> </td>
+                      </tr><tr>
+                        <th>71</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._contenttype = data.get("content-type", "text/plain")</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>71</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._subject = data.get("subject","")</span> </td>
+                      </tr><tr>
+                        <th> </th><th>72</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._body = data.get("body","")</span> </td>
+                      </tr><tr>
+                        <th> </th><th>73</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._bodyHTML = data.get("bodyHTML","")</span> </td>
+                      </tr><tr>
+                        <th> </th><th>74</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._attachments = data.get("attachments",[])</span> </td>
+                      </tr><tr>
+                        <th> </th><th>75</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; defaultContentType = "text/html" if self._bodyHTML else "text/plain"</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>76</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._contenttype = data.get("content-type",defaultContentType)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>72</th><th>77</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>73</th><th>78</th><td class="l"><span>&nbsp; &nbsp; def getContentType(self):</span> </td>
+                  </tr><tr>
+                          <th>74</th><th>79</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return self._contenttype</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L130">…</a></th>
+                  <th><a href="#L135">…</a></th>
+                  <td><em> class GenericNotification :</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>130</th><th>135</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._body = body</span> </td>
+                  </tr><tr>
+                          <th>131</th><th>136</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return True</span> </td>
+                  </tr><tr>
+                          <th>132</th><th>137</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>138</th><td class="r"><ins>&nbsp; &nbsp; def getBodyHTML(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>139</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return self._bodyHTML</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>140</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>141</th><td class="r"><ins>&nbsp; &nbsp; def setBodyHTML(self, bodyHTML):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>142</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if bodyHTML is None :</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>143</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>144</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self._bodyHTML = bodyHTML</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>145</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return True</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>146</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>147</th><td class="r"><ins>&nbsp; &nbsp; def getAttachments(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>148</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return self._bodyHTML</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>149</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>150</th><td class="r"><ins>&nbsp; &nbsp; def setAttachments(self, attachments):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>151</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if attachments is None :</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>152</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>153</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self._attachments = attachments</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>154</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return True</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>155</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>133</th><th>156</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>134</th><th>157</th><td class="l"><span>class Mailer:</span> </td>
+                  </tr><tr>
+                          <th>135</th><th>158</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/1090/0001-FEATURE-Use-the-python-email-module.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1090/0001-FEATURE-Use-the-python-email-module.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+</html>

@@ -1,0 +1,86 @@
+[[PageOutline]]
+
+= Setup =
+
+== '''0. Preparation''' ==
+
+You will need:
+  * Python 2.6+ (2.7+ encouraged);
+  * Python development packages [`python-dev` or `python-devel` depending on your linux distro] 
+  * Virtualenv;
+  * `libxml2` and `libxsl` development packages;
+  * git [git-core in some distros]
+
+== 1. Preparing your Python virtual environment ==
+
+{{{#!sh
+$ cd ~/code
+$ virtualenv indico
+New python executable in indico/bin/python
+Installing setuptools............done.
+Installing pip...............done.
+$ cd indico
+$ source bin/activate
+}}}
+
+You can leave the virtualenv anytime using the `deactivate` command.
+
+
+== 2. Preparing the Development Environment ==
+
+So, now we need to get Indico from Git. If you are using GitHub as a public repo, clone your "forked repo" instead.
+
+{{{#!sh
+$ git clone git://github.com/indico/indico.git src
+}}}
+
+Then:
+
+{{{#!sh
+$ cd src
+$ pip install -r requirements.txt
+$ python setup.py develop_config
+}}}
+
+Follow the instructions. By the end of the processt you should have Indico installed in your virtualenv. The config script should also provide you with some instructions on how to start the DB. That's what we'll do in the next section.
+
+== 3. Launching Indico ==
+
+1. To start the ZODB database, type:
+
+{{{#!sh
+$ sudo zdaemon -C etc/zdctl.conf start
+}}}
+
+2. Then, start a development web server:
+
+{{{#!sh
+$ indico_shell --web-server
+}}}
+
+3. Open your browser and go to http://localhost:8000/indico/ - Indico should be up and running! 
+
+== 3. What do I do now? ==
+
+Now you need to setup your Git repo and start working.
+
+
+= Git =
+
+== Learning Git ==
+
+Read [http://git-scm.com/documentation Git's online manual].
+Maybe you'll want to print the [https://na1.salesforce.com/help/doc/en/salesforce_git_developer_cheatsheet.pdf cheat sheet] and put it on your wall. Go ahead, print it!
+
+There is also a very nice [http://try.github.com/ GitHub page] with an interactive Git walkthrough.
+
+=== Configuring Git ===
+
+The first time you use Git you will need to set up your identity:
+
+{{{
+git config --global user.name "John Doe"
+git config --global user.email john.doe@cern.ch
+}}}
+
+That should be enough.

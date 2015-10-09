@@ -1,0 +1,16 @@
+= 3rd party tools =
+
+Here are some existing systems/technologies that are know to provide integration with Indico.
+
+== Search engines ==
+  * [http://invenio-software.org Invenio] - through LiveSync plugin;
+
+== Mobile interfaces ==
+  * [http://conference4me.psnc.pl/ Conference4me]
+
+== Videoconferencing ==
+  * [http://www.vidyo.com Vidyo] - through Video Services plugin;
+  * [http://evo.caltech.edu EVO] - through  Video Services plugin;
+
+== Instant Messaging ==
+  * [http://xmpp.org XMPP] - through Instant Messaging plugin;

@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/DevPractices/DevelopmentGuidelines by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/DevPractices/DevelopmentGuidelines – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FDevPractices%252FDevelopmentGuidelines56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../DevPractices.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../DevPractices.html" title="View Dev/DevPractices">DevPractices</a><span class="pathentry sep">/</span><a class="pathentry" href="DevelopmentGuidelines.html" title="View Dev/DevPractices/DevelopmentGuidelines">DevelopmentGuidelines</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../DevPractices.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/DevPractices/DevelopmentGuidelines?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#IndicoGuidelines">Indico Guidelines</a>
+    <ol>
+      <li>
+        <a href="#a1.Standardizetasksequences">1. Standardize task sequences</a>
+      </li>
+      <li>
+        <a href="#a2.Mandatoryfields">2. Mandatory fields</a>
+      </li>
+      <li>
+        <a href="#a3.TerminologyandJargon">3. Terminology and Jargon</a>
+      </li>
+      <li>
+        <a href="#a4.ImagesandIcons">4. Images and Icons</a>
+      </li>
+      <li>
+        <a href="#a5.Testondifferentbrowsers">5. Test on different browsers</a>
+      </li>
+      <li>
+        <a href="#a6.DocumentationandHelp">6. Documentation and Help</a>
+      </li>
+      <li>
+        <a href="#a7.Usemeaningfullabels">7. Use meaningful labels</a>
+      </li>
+      <li>
+        <a href="#a8.Respectthecolourrules">8. Respect the colour rules</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="IndicoGuidelines">Indico Guidelines</h1>
+<p>
+In this page we will show a list of guidelines to follow when developing new modules in Indico. 
+<br />
+The main idea is that before integrating a branch or a module, the developers will go through these guidelines in order to check if they respected them. This page was done after a usability analysis of our web service and aims to avoid some inconsistencies in the design of Indico.
+</p>
+<p>
+<em>(The first version will list the findings of the usability analysis but might not be complete, it is then highly encouraged to review this page from time to time in order to update or add any content)</em>
+</p>
+<h2 id="a1.Standardizetasksequences">1. Standardize task sequences</h2>
+<p>
+Check that your interface respects the Indico style.
+</p>
+<p>
+If you have implemented something that is already present in Indico for another module, like a table, a search user field, a bullet list and so on, respect the style of the existing code. Don't confuse the user with another way to represent the same information.<br />
+Same thing concerning a task sequence, if there already is one way to do something, do it the same way. Do not confuse the user with a different sequence of clicks which does exactly the same as another one. The rule is: there should be only one unique way to do something.
+</p>
+<h2 id="a2.Mandatoryfields">2. Mandatory fields</h2>
+<p>
+Show clearly a mandatory field in a form.
+</p>
+<p>
+If your code contains forms with mandatory fields, inform the user before he submits the form.
+</p>
+<p>
+Use a '*' sign to indicate the field as mandatory.
+If the user forget to input a value or input an invalid format, show the error by highlighting the field in red. <br />
+This can be done in JavaScript by using the IndicoUtil.parameterManager class.
+</p>
+<h2 id="a3.TerminologyandJargon">3. Terminology and Jargon</h2>
+<p>
+Keep in mind that Indico's users are not necessarily IT specialists.<br />
+Ensure that the terms used are understandable by everyone and don't need a specific knowledge. However, if you are forced to use a complex term, define it, either on the same page, using a tooltip help or, if applicable, by updating the Glossary that you can find in the help section.
+</p>
+<h2 id="a4.ImagesandIcons">4. Images and Icons</h2>
+<p>
+If you have any images, icons or image buttons in your code, be sure that their functions are clear enough. In any case, you should add to the HTML tag the 'alt' and 'title' attributes.<br />
+The 'alt' attribute will specify an alternate text for an image in case the image will not appear.<br />
+The 'title' attribute will specify extra information about an element. This one is essential in case an icon's function is not clear enough.
+</p>
+<h2 id="a5.Testondifferentbrowsers">5. Test on different browsers</h2>
+<p>
+It is known that some browsers show a webpage differently than another one. To avoid bad surprises, take some time to test your module in the other most used browsers. Usually it involves Firefox, Chrome, Internet Explorer and Safari. You can look at some statistics about the most commonly used ones at this page <a class="ext-link" href="http://www.w3schools.com/browsers/browsers_stats.asp"><span class="icon">​</span>Browser statistics</a> .
+</p>
+<h2 id="a6.DocumentationandHelp">6. Documentation and Help</h2>
+<p>
+If necessary, do not forget to write the documentation about your module. Try to be as clear as possible and illustrate every steps with images and screenshots. More details about the documentation can be found here <a class="wiki" href="../Doc.html">Writing Documentation</a>.
+</p>
+<h2 id="a7.Usemeaningfullabels">7. Use meaningful labels</h2>
+<p>
+Avoid links names as 'click here', 'more...' and so on. Use clear links names, the user needs to understand directly by looking at the link where he will be redirected. He should not have to read the text around to know where the 'click here' link will bring him.
+</p>
+<h2 id="a8.Respectthecolourrules">8. Respect the colour rules</h2>
+<p>
+Indico follows a strict colour rule to show a warning, success or anything else. Please, respect it, more information can be found here <a class="wiki" href="UserInterfaceGuidelines.html">User Interface Guidelines</a>.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/DevPractices/DevelopmentGuidelines?action=diff&amp;version=6" title="Version 6 by iliastrichopoulos">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-08-05T10%3A02%3A46%2B02%3A00&amp;precision=second" title="See timeline at 08/05/14 10:02:46">14 months ago</a></span>
+            <span class="trac-print">Last modified on 08/05/14 10:02:46</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FDevPractices%252FDevelopmentGuidelines56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/DevPractices/DevelopmentGuidelines by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:14 GMT -->
+</html>

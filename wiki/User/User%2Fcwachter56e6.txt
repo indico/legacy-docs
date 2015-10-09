@@ -1,0 +1,13 @@
+= Christophe Wachter =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=cwachter,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=cwachter,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=cwachter)]]

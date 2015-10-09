@@ -1,0 +1,69 @@
+= My Indico: Dashboard =
+My Profile's '''Dashboard''' tab shows all relevant information to the user. This information is retrieved from the {{{linkedTo}}} dictionary within an {{{Avatar}}} object. Nested inside there are other dictionaries that refer to different areas of Indico.
+
+In this wiki page are presented all keys that can be present. This information can be found in {{{MaKaC/user.py:Avatar.linkedToBase}}} and is expected to suffer a [wiki:Dev/Technical/MyIndicoBackend refactoring] in order to extend the functionality of '''My Indico'''.
+
+
+== Groups of interest ==
+Not all the information listed within the dictionary is displayed in the Dashboard. Furthermore, it is grouped by scope for reducing noise and improving usability.
+* Administration
+* Management
+* User
+
+== linkedTo dictionary ==
+=== category ===
+* creator
+* manager
+* access
+
+=== conference ===
+* creator
+* chair
+* participant
+* manager
+* access
+* registrar
+* abstractSubmitter
+* paperReviewManager
+* abstractManager
+* referee
+* editor
+* reviewer
+* abstractReviewer
+
+=== session ===
+* manager
+* access
+* coordinator
+
+=== contribution ===
+* manager
+* submission
+* access
+* referee
+* editor
+* reviewer
+
+=== track ===
+* coordinator
+
+=== material ===
+* access
+
+=== resource ===
+* access
+
+=== abstract ===
+* submitter
+
+=== registration ===
+* registrant
+
+=== alarm ===
+* to
+
+=== group ===
+* member
+
+=== evaluation ===
+* submitter

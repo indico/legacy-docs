@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1530 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1530 (User passwords in clear in "admin logfile")
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1529.html" title="Ticket #1529" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t15301fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1530a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1530a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1531.html" title="Ticket #1531" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1529.html" title="Ticket #1529">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1531.html" title="Ticket #1531">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-05T19%3A34%3A09%2B02%3A00&amp;precision=second" title="See timeline at 05/05/14 19:34:09">17 months ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-07-01T11%3A35%3A31%2B02%3A00&amp;precision=second" title="See timeline at 07/01/14 11:35:31">15 months ago</a></p>
+    <p>Last modified <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-07-01T11%3A52%3A00%2B02%3A00&amp;precision=second" title="See timeline at 07/01/14 11:52:00">15 months ago</a></p>
+  </div>
+  <h2>
+    <a href="1530.html" class="trac-id">#1530</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=worksforme">worksforme</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">User passwords in clear in "admin logfile"</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=hoffmann">hoffmann</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=blocker">blocker</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-2.html">v1.2</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=General">General</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=1.1">1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+I am sorry, but this looks like a showstopper before going to the long "pre-v2 break". I even thought it had been discussed (and solved) some time ago, but it still seems to be with us. <br />
+</p>
+<p>
+When a user authentication fails, the admin e-mail address defined in <tt>indico.conf</tt> gets a message like<br />
+</p>
+<pre class="wiki">2014-05-05 08:11:21,792 indico.auth.ldap - ERROR LDAPAuthentication.py:337 -- Username: abidrahmank - invalid credentials
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/indico-1.1.2-py2.7.egg/MaKaC/authentication/LDAPAuthentication.py", line 329, in check
+    ldapc.openAsUser(userName, password)
+  File "/usr/local/lib/python2.7/dist-packages/indico-1.1.2-py2.7.egg/MaKaC/authentication/LDAPAuthentication.py", line 248, in openAsUser
+    self.l.simple_bind_s(dn, password)
+  File "/usr/lib/python2.7/dist-packages/ldap/ldapobject.py", line 208, in simple_bind_s
+    resp_type, resp_data, resp_msgid, resp_ctrls = self.result3(msgid,all=1,timeout=self.timeout)
+  File "/usr/lib/python2.7/dist-packages/ldap/ldapobject.py", line 469, in result3
+    resp_ctrl_classes=resp_ctrl_classes
+  File "/usr/lib/python2.7/dist-packages/ldap/ldapobject.py", line 476, in result4
+    ldap_result = self._ldap_call(self._l.result4,msgid,all,timeout,add_ctrls,add_intermediates,add_extop)
+  File "/usr/lib/python2.7/dist-packages/ldap/ldapobject.py", line 99, in _ldap_call
+    result = func(*args,**kwargs)
+INVALID_CREDENTIALS: {'desc': 'Invalid credentials'}
+
+Additional information:
+URL: https://www.cta-observatory.org/indico/signIn.py
+Params: {'signIn': 'Login', 'login': '***', 'password': '***', 'returnURL': 'https://www.cta-observatory.org/indico/conferenceDisplay.py?confId=661'}
+IP: 193.48.172.166
+User Agent: Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; Touch; MAARJS)
+Referer: https://www.cta-observatory.org/indico/signIn.py?returnURL=https%3A%2F%2Fwww.cta-observatory.org%2Findico%2FconferenceDisplay.py%3FconfId%3D661
+</pre><p>
+The attribute values for <tt>login</tt> and <tt>password</tt> have obviously been replaced in this ticket, but they go in clear into the e-mail message.<br />
+</p>
+<p>
+It seems to be sufficient to fix this in the <tt>_getRequestInfo()</tt> method of <tt>IndicoMailFormatter</tt>: <a class="ext-link" href="https://indico-software.org/browser/indico/indico/MaKaC/common/logger.py?rev=master#L57"><span class="icon">​</span>https://indico-software.org/browser/indico/indico/MaKaC/common/logger.py?rev=master#L57</a><br />
+</p>
+<p>
+<em>(Sorry, I still do not manage to reference code correctly in this Trac.)</em><br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(8)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1399416646181336">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-07T00%3A50%3A46%2B02%3A00&amp;precision=second" title="See timeline at 05/07/14 00:50:46">17 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Here is my patch (wrt v1.1.2) - sorry, cannot deliver a cleaner contribution through git/hub right now. <br />
+</p>
+<pre class="wiki">Index: MaKaC/common/logger.py
+===================================================================
+--- MaKaC/common/logger.py	(revision 5932)
++++ MaKaC/common/logger.py	(working copy)
+@@ -44,7 +44,11 @@
+             return ''
+         info = ['Additional information:']
+         info.append('URL: %s' % rh.getRequestURL())
+-        info.append('Params: %s' % rh._getTruncatedParams())
++	# obfuscate password parameter, if used in failing request
++	params = rh._getTruncatedParams()
++	if "password" in params:
++		params['password'] = '***'
++        info.append('Params: %s' % params)
+         info.append('IP: %s' % rh._req.remote_ip)
+         info.append('User Agent: %s' % rh._req.headers_in.get('User-Agent', 'n/a'))
+         info.append('Referer: %s' % rh._req.headers_in.get('Referer', 'n/a'))
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1400672530953014">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-21T13%3A42%3A10%2B02%3A00&amp;precision=second" title="See timeline at 05/21/14 13:42:10">17 months ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+This has been fixed in 1.2:<br />
+</p>
+<p>
+<a class="ext-link" href="https://github.com/indico/indico/blob/693d31d7221e2fdda305ad1440827e0fa7ff7e5c/indico/MaKaC/authentication/LDAPAuthentication.py#L228"><span class="icon">​</span>https://github.com/indico/indico/blob/693d31d7221e2fdda305ad1440827e0fa7ff7e5c/indico/MaKaC/authentication/LDAPAuthentication.py#L228</a><br />
+</p>
+<p>
+Thanks!<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-3-1400680184711091">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-21T15%3A49%3A44%2B02%3A00&amp;precision=second" title="See timeline at 05/21/14 15:49:44">17 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Sorry, but I am not convinced. You need to fix it in the logger.py file, not only in LDAPAuthentication.py. If the "Additional information" is still printed in logger.py, it contains the request parameters, and among them "password" ... in clear!<br />
+<a class="ext-link" href="https://github.com/indico/indico/blob/693d31d7221e2fdda305ad1440827e0fa7ff7e5c/indico/MaKaC/common/logger.py#L67"><span class="icon">​</span>https://github.com/indico/indico/blob/693d31d7221e2fdda305ad1440827e0fa7ff7e5c/indico/MaKaC/common/logger.py#L67</a><br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1400680192442427">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-21T15%3A49%3A52%2B02%3A00&amp;precision=second" title="See timeline at 05/21/14 15:49:52">17 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        <em>fixed</em> deleted
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>closed</em> to <em>new</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-5-1400694773495223">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:6" class="follow-up">↓ 6</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-21T19%3A52%3A53%2B02%3A00&amp;precision=second" title="See timeline at 05/21/14 19:52:53">17 months ago</a> by jmonnich
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+<a class="ext-link" href="https://github.com/indico/indico/blob/v1.2/indico/MaKaC/webinterface/rh/base.py#L159"><span class="icon">​</span>https://github.com/indico/indico/blob/v1.2/indico/MaKaC/webinterface/rh/base.py#L159</a><br />
+</p>
+<pre class="wiki">            if key == 'password':
+                params[key] = '[password hidden, len=%d]' % len(value)
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1400696514290318">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+        in reply to:
+    <a href="#comment:5">↑ 5</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-05-21T20%3A21%3A54%2B02%3A00&amp;precision=second" title="See timeline at 05/21/14 20:21:54">17 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1530.html#comment:5" title="Comment 5 for Ticket #1530">jmonnich</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+<a class="ext-link" href="https://github.com/indico/indico/blob/v1.2/indico/MaKaC/webinterface/rh/base.py#L159"><span class="icon">​</span>https://github.com/indico/indico/blob/v1.2/indico/MaKaC/webinterface/rh/base.py#L159</a><br />
+</p>
+</blockquote>
+<p>
+OK, I buy it. Thanks for caring.<br />
+</p>
+<p>
+There is another request that just came up in this context: Fail2ban (<a class="ext-link" href="http://www.fail2ban.org/"><span class="icon">​</span>http://www.fail2ban.org/</a>) allows to block IPs temporarily in case they try brute-force attacks on login/passwords. That system is quite universal and uses logfile entries. <br />
+We would like to use it, but in order to work correctly, it must write the originating IP into the logfile, which is not the case presently. (Only the uid is printed with timestamp and error text.) Would you like to get a specific ticket on that, or do you see what I mean and it can be added quickly?<br />
+Be careful to make sure the log text (analysed with regex) cannot trigger fake alerts and lock the site admins out. It must be safe against injection by trying false logins with UID="Login failed for 'hoffmann' from IP=127.0.0.1" for example.<br />
+</p>
+<p>
+This request is relevant for Local and LDAP authentication, probably not for SSO (which has its own brute-force hacker filter) and maybe for NICE.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1404207331779009">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-07-01T11%3A35%3A31%2B02%3A00&amp;precision=second" title="See timeline at 07/01/14 11:35:31">15 months ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>worksforme</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Can you create another ticket for that? It doesn't seem to be very hard, but not that trivial either.<br />
+We would like to release 1.2 ASAP, and I would consider this issue closed for now.<br />
+</p>
+<p>
+Thanks!<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1404208320119638">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-07-01T11%3A52%3A00%2B02%3A00&amp;precision=second" title="See timeline at 07/01/14 11:52:00">15 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+<a class="new ticket" href="1550.html" title="enhancement: Allow fail2ban protection (new)">#1550</a> <br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t15301fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1530a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1530a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1530 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:31 GMT -->
+</html>

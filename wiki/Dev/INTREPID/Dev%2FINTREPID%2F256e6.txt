@@ -1,0 +1,59 @@
+[[PageOutline]]
+
+
+
+== InTRePId 2 ==
+
+'''Title:''' A maintainable database schema
+
+
+
+'''Author:''' ''Pedro Ferreira''
+
+
+
+'''Date:''' 12 Dec 2009
+
+
+
+'''Target version:''' [milestone:v0.98 v0.98] (?)
+
+
+
+'''Status:''' draft
+
+
+
+
+
+=== Objectives ===
+
+
+ * Making the job of migrating the database between versions easier;
+ * Making the job of preparing the database for newly installed plugins easier;
+ * Keeping track of the structures that belong to each version of the database;
+ * Introducing a single database setup operation instead of the current "create when needed" policy;
+ * Contributing for a better isolation of the DB layer from the business logic;
+
+
+
+=== Status quo ===
+
+ * Currently, there is no control of the data structures that should exist in the database for each version of Indico. This can be problematic, since there's no way for the migration scripts to assess whether they are doing the right thing or not;
+ * OTOH, it would be nice the integrate the migration process with 0.97's setup process (post-install script): that requires more than we have now - heterogeneous migration scripts that have to be executed in a certain order, manually, by the user;
+ * Database structures operate on a "create when needed" policy - each time they run they check if they are stored in the database - this is definitely not the way to go;
+ * Plugins complicate the situation further, by introducing their own structures. Even if we are following a strategy of isolation of plugin data in a contained space, this space needs to be "prepared" before the plugin starts operating, and modifications outside it maybe needed for some exceptional cases.
+
+=== Description ===
+
+
+This would actually be very simple, even if requiring some initial work. The idea would be to tag each database class (i.e. using a common zope.interface Interface)  with some metadata attributes that would indicate i.e. the version of the database schema the structure belongs to.
+
+On the other hand, the database objects that need to be created at install time should be tagged as so. Using zope.interface's querying capabilities, it would be easy for an install script to assess what would be needed for migration. Code for creating/migrating the structures should be included (either in the class itself, or in some separate module).
+
+For the plugins, a listener could be created that could be implemented by a specific component in the plugin that would be waiting for a "DB update" event and then proceed with the creation of all needed structures.
+
+
+=== Comments ===
+
+[[AddComment]]

@@ -1,0 +1,127 @@
+= Indico on IIS =
+In this page we will cover how to have Indico installed on a Windows distribution and running on IIS.[[BR]]
+[[BR]]
+Keep in mind that this brief guide has been written using a Virtual Machine running Microsoft Windows Server 2008 and Indico 1.2.[[BR]]
+The actual installation steps may vary using different machines/indico distrubutions.
+
+== Dependencies ==
+
+First of all we have to install all the necessary dependencies.[[BR]]
+[[BR]]
+Since Indico has been developed mainly for Linux systems, and due to compatibility problems, not all the packets specified in requirements.txt are available for Windows machines.[[BR]]
+Here follows all the original dependencies still compatible that can be installed with a simple ''pip'' command:
+
+1. Babel
+1. Mako
+1. MarkupSafe
+1. ZConfig
+1. ZODB3
+1. argparse
+1. cssmin
+1. icalendar
+1. jsmin
+1. pojson
+1. polib
+1. py
+1. pyPdf
+1. pyatom
+1. pycountry
+1. pytest
+1. python-dateutil
+1. pytz
+1. reportlab
+1. simplejson
+1. termcolor
+1. transaction
+1. wsgiref
+1. zc.lockfile
+1. zc.queue
+1. zdaemon
+1. zope.event
+1. zope.index
+1. zope.interface
+1. ujson
+1. oauth2
+1. requests
+1. pyScss
+1. Werkzeug
+1. Flask
+1. beautifulsoup4
+1. Pillow
+1. qrcode
+
+The two missing packages from the previous list are ''lxml'' and ''bcrypt''.[[BR]]
+[[BR]]
+''lxml'' can be installed with this already compiled .exe file: [https://pythonxy.googlecode.com/files/lxml-2.3.4_py27.exe].[[BR]]
+To install ''bcrypt'' we can install, via ''pip'', a fork for Windows of the original project, called ''py-bcrypt-32''.[[BR]]
+[[BR]]
+Once installed the required packages, we have to install the additional indico dependencies referenced from their repositories.[[BR]]
+Since in Windows machines is a bit tricky to do so, an easy way to have it done is to clone the indico repository in a Linux machine, launch the ''fab setup_deps'' script and then copy the whole source directory into your Windows machine.
+
+== Installation ==
+
+Now we can proceed with the actual installation of Indico.[[BR]]
+[[BR]]
+First of all open ''setup.py'' and change ''bcrypt==1.0.2'' into ''py-bcrypt-w32==0.2.2'' (inside the ''_getInstallRequires()'' function).[[BR]]
+[[BR]]
+Then open the file ''indico/MaKaC/consoleScripts/installBase.py'' and find the following line:
+
+
+{{{#!python
+fdata = open(os.path.join(eggPath,'MaKaC','common','MaKaCConfig.py'), 'r').read()
+}}}
+
+Encapsulate that command into a try-except statement (with ''IOError'' as exception to be caught) and add the following lines inside the ''except'' branch:
+
+
+{{{#!python
+print "Wrong EGG configuration!"
+continue
+}}}
+
+Doing so, we prevent the setup script from trying to configure bad indico eggs.[[BR]]
+[[BR]]
+Now we can finally launch the installation script, with ''python setup.py install'', and the initial setup script, with ''indico_initial_setup''.[[BR]]
+Just be sure to specify, during the setup script, absolute Windows paths (ie. including ''C:'' at the beginning). The use of normal slashes (/) is always recommended, since backslashes (\) have to be escaped in strings.[[BR]]
+[[BR]]
+Once the setup script has finished all the configurations, go to the installation path you chose and remove the "read only" tick from the root folder (applying the change to all the files and subfolders).[[BR]]
+Also, head to the ''etc'' directory, open all the configuration files there and check if the paths/urls there are correct.
+
+== Configuring IIS ==
+
+Once we have correctly installed and configured Indico, we have to install a module, developed by Helicon Tech, that allows the IIS server and our WSGI application to communicate.[[BR]]
+Just follow the guide from the Helizon Tech site: [http://www.helicontech.com/articles/running-wsgi-on-iis/].[[BR]]
+[[BR]]
+As you reach the project configuration step, choose '''New Web Site''' in the ''Web Site'' field.[[BR]]
+Choose whatever you want for the project and web site names and for the project path.[[BR]]
+Leave the ''IP address'' field as '''All unassigned'''.[[BR]]
+At last, insert the http port you choose and the host name of the machine running Indico (for testing purposes you can just use "localhost").[[BR]]
+[[BR]]
+Once the project installation finishes, head to the project folder and open the ''web.config'' file.[[BR]]
+There, locate the ''WSGI_APP'' field and change the value in "indico.web.indico_wsgi.application". Also, append to the ''PYTHONPATH'' field the python library path (where indico is installed, basically).[[BR]]
+You also have to locate the ''indico.wsgi'' file (usually inside indico/web/) and rename it to '''indico_wsgi.py'''.[[BR]]
+[[BR]]
+Now open the Helicon Zoo Manager, select the Indico project and the static folder under it and click on ''enable'', otherwise the module will manage all the static files inside the virtual environment.[[BR]]
+Open also the IIS Manager, select the Indico web site you just created and then ''Bindings...'' (on the right). There add a new binding, specifying '''https''' as protocol and the corresponding port. As for the SSL certificate, you can either choose a personal certificate or a base certificate (usually for testing purposes).
+
+== Starting Indico ==
+
+If nothing failed in the previous steps, we can now run the command to start the DB:
+
+
+{{{#!bash
+$ runzeo -C C:/opt/indico/etc/zodb.conf
+}}}
+
+Of course, if you installed Indico on a different path just change the command accordingly.[[BR]]
+[[BR]]
+To be sure that all changes take effect, open the IIS Manager and click on '''Restart''' under ''Manage Server'' (or '''start''' if it was stopped).[[BR]]
+[[BR]]
+Now we can finally access to Indico.[[BR]]
+Just open your browser and head to the url you chose for the project.
+
+== Bugs ==
+
+Indico running on IIS is still not fully working.[[BR]]
+To check the reported bugs, take a look to the following list:
+1. http://indico-software.org/ticket/1466#ticket

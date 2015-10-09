@@ -1,0 +1,1442 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/600/indico_ldap.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      indico_ldap.patch on Ticket #600 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/600/indico_ldap.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/600.html" title="Ticket #600" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/600.html">Back to Ticket #600</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/600.html">Ticket #600</a>: indico_ldap.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File indico_ldap.patch,
+                <span title="23541 bytes">23.0 KB</span>
+                (added by makub, <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-12-17T12%3A24%3A36%2B01%3A00&amp;precision=second" title="See timeline at 12/17/10 12:24:36">5 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+A patch made by diff against the 0.97_rc2 release of Indico
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>authentication/AuthenticationMgr.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/AuthenticationMgr.py ./authentication/AuthenticationMgr.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/AuthenticationMgr.py 2010-11-02 10:53:07.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./authentication/AuthenticationMgr.py 2010-12-01 11:37:19.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>37</th><th>37</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if auth == "Nice":</span> </td>
+                  </tr><tr>
+                          <th>38</th><th>38</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; from MaKaC.authentication.NiceAuthentication import NiceAuthenticator</span> </td>
+                  </tr><tr>
+                          <th>39</th><th>39</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.AuthenticatorList.append( NiceAuthenticator() )</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>40</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if auth == "LDAP":</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>41</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; from MaKaC.authentication.LdapAuthentication import LdapAuthenticator</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>42</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.AuthenticatorList.append( LdapAuthenticator() )</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>40</th><th>43</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self.create = True</span> </td>
+                  </tr><tr>
+                          <th>41</th><th>44</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>42</th><th>45</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>authentication/LdapAuthentication.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/LdapAuthentication.py ./authentication/LdapAuthentication.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/authentication/LdapAuthentication.py 1970-01-01 01:00:00.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./authentication/LdapAuthentication.py 2010-12-01 16:18:50.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>1</th><td class="r"><ins># -*- coding: utf-8 -*-</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>2</th><td class="r"><ins>##</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>3</th><td class="r"><ins>## LDAP authentication fo Indico</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>4</th><td class="r"><ins>##</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>5</th><td class="r"><ins>## written by Martin Kuba makub@ics.muni.cz</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>6</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>7</th><td class="r"><ins># This code expects a simple LDAP structure with users on one level like:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>8</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>9</th><td class="r"><ins># dn: uid=john,ou=people,dc=example,dc=com</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>10</th><td class="r"><ins># objectClass: inetOrgPerson</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>11</th><td class="r"><ins># uid: john</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>12</th><td class="r"><ins># cn: John Doe</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>13</th><td class="r"><ins># mail: john@example.com</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>14</th><td class="r"><ins># o: Example Inc.</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>15</th><td class="r"><ins># postalAddress: Example Inc., Some City, Some Country</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>16</th><td class="r"><ins># </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>17</th><td class="r"><ins># and groups listing their members by DNs, like:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>18</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>19</th><td class="r"><ins># dn: cn=somegroup,ou=groups,dc=example,dc=com</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>20</th><td class="r"><ins># objectClass: groupOfNames</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>21</th><td class="r"><ins># cn: somegroup</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>22</th><td class="r"><ins># member: uid=john,ou=people,dc=example,dc=com</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>23</th><td class="r"><ins># member: uid=alice,ou=people,dc=example,dc=com</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>24</th><td class="r"><ins># member: uid=bob,ou=people,dc=example,dc=com</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>25</th><td class="r"><ins># description: Just a group of people ...</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>26</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>27</th><td class="r"><ins># Adjust it to your needs if your LDAP structure is different.</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>28</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>29</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>30</th><td class="r"><ins>import ldap</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>31</th><td class="r"><ins>import os</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>32</th><td class="r"><ins>import time</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>33</th><td class="r"><ins>import sys</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>34</th><td class="r"><ins>import re</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>35</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>36</th><td class="r"><ins>from MaKaC.common.general import *</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>37</th><td class="r"><ins>from MaKaC.authentication.baseAuthentication import Authenthicator, PIdentity</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>38</th><td class="r"><ins>from MaKaC.errors import MaKaCError</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>39</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>40</th><td class="r"><ins>from MaKaC.common.logger import Logger</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>41</th><td class="r"><ins>from MaKaC.common import Configuration</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>42</th><td class="r"><ins>from MaKaC.common.Configuration import Config</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>43</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>44</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>45</th><td class="r"><ins>class LdapAuthenticator(Authenthicator):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>46</th><td class="r"><ins>&nbsp; &nbsp; idxName = "LdapIdentities"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>47</th><td class="r"><ins>&nbsp; &nbsp; id = 'LDAP'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>48</th><td class="r"><ins>&nbsp; &nbsp; name = 'LDAP'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>49</th><td class="r"><ins>&nbsp; &nbsp; description = "LDAP Login"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>50</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>51</th><td class="r"><ins>&nbsp; &nbsp; def __init__(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>52</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; Authenthicator.__init__(self)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>53</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.UserCreator = LdapUserCreator()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>54</th><td class="r"><ins>&nbsp; &nbsp; </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>55</th><td class="r"><ins>&nbsp; &nbsp; def createIdentity(self, li, avatar):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>56</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; Logger.get("LdapAuthenticator").info("createIdentity(login="+li.getLogin()+",avatar="+avatar.getName()+" "+avatar.getSurName()+")");</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>57</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if LdapChecker().check(li.getLogin(), li.getPassword()):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>58</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return LdapIdentity( li.getLogin(), avatar )</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>59</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>60</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>61</th><td class="r"><ins>&nbsp; &nbsp; </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>62</th><td class="r"><ins>class LdapIdentity(PIdentity):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>63</th><td class="r"><ins>&nbsp; &nbsp; def __str__(self): </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>64</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return '&lt;LdapIdentity{login:'+self.getLogin()+',tag:'+self.getAuthenticatorTag()+'}&gt;'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>65</th><td class="r"><ins>&nbsp; &nbsp; def authenticate( self, id ):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>66</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; "id is MaKaC.user.LoginInfo instance, self.user is Avatar"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>67</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapIdentity').info("authenticate("+id.getLogin()+")")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>68</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; data = LdapChecker().check(id.getLogin(), id.getPassword())</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>69</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>70</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if self.getLogin() == id.getLogin():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>71</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #modify Avatar with the up-to-date info from LDAP</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>72</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av = self.user</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>73</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if 'postalAddress' in data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>74</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; postalAddress=fromLDAPmultiline(data['postalAddress'])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>75</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if av.getAddress()!=postalAddress:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>76</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setAddress(postalAddress)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>77</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified address to "+postalAddress);</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>78</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if 'cn' in data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>79</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name = data.get('cn');</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>80</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; firstName = name.split(None,1)[0]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>81</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; surName = name.split(None,1)[-1]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>82</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if av.getName()!=firstName:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>83</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setName(firstName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>84</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified name to "+firstName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>85</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if av.getSurName()!=surName:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>86</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setSurName(surName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>87</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified surName to "+surName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>88</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; org = None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>89</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if 'ou' in data and data.get('ou')!='other' and data.get('ou'):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>90</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; org = data.get('ou')</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>91</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif 'o' in data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>92</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; org = data.get('o')</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>93</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if org!=av.getOrganisation():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>94</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setOrganisation(org)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>95</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified org to "+org)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>96</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if 'mail' in data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>97</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mail = data['mail']</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>98</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if mail!= av.getEmail():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>99</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setEmail(mail)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>100</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapIdentity').debug("authenticate("+id.getLogin()+") modified email to "+mail)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>101</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return self.user</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>102</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>103</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>104</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>105</th><td class="r"><ins>&nbsp; &nbsp; def getAuthenticatorTag(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>106</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return LdapAuthenticator.getId()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>107</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>108</th><td class="r"><ins>def objectAttributes(result_data,attributeNames):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>109</th><td class="r"><ins>&nbsp; &nbsp; """adds selected attributes"""</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>110</th><td class="r"><ins>&nbsp; &nbsp; object = {'dn':result_data[0][0]}</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>111</th><td class="r"><ins>&nbsp; &nbsp; mapa = result_data[0][1]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>112</th><td class="r"><ins>&nbsp; &nbsp; for name in attributeNames:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>113</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; addAttribute(object,mapa,name)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>114</th><td class="r"><ins>&nbsp; &nbsp; return object</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>115</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>116</th><td class="r"><ins>def addAttribute(object,attrMap,attrName):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>117</th><td class="r"><ins>&nbsp; &nbsp; """safely adds attribute"""</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>118</th><td class="r"><ins>&nbsp; &nbsp; if attrName in attrMap:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>119</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; attr = attrMap[attrName]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>120</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if len(attr)==1:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>121</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; object[attrName]=attr[0]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>122</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>123</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; object[attrName]=attr</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>124</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>125</th><td class="r"><ins># handles communication with the LDAP server specified in indico.conf</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>126</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>127</th><td class="r"><ins># defualt values as specified in Configuration.py are</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>128</th><td class="r"><ins># LDAPhost="ldap.example.com"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>129</th><td class="r"><ins># LDAPpeopleDN="ou=people,dc=example,dc=com"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>130</th><td class="r"><ins># LDAPgroupsDN="ou=groups,dc=example,dc=com"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>131</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>132</th><td class="r"><ins># the code expects the users to be (in the LDAP) objects of type inetOrgPerson</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>133</th><td class="r"><ins># identified by thier "uid" attribute, and the groups to be objects of type groupOfNames</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>134</th><td class="r"><ins># with the "member" multivalued attribute containing complete DNs of users</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>135</th><td class="r"><ins># which seems to be the standard LDAP setup</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>136</th><td class="r"><ins>#</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>137</th><td class="r"><ins>class LdapLDAP:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>138</th><td class="r"><ins>&nbsp; &nbsp; l = None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>139</th><td class="r"><ins>&nbsp; &nbsp; def __init__(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>140</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; conf = Configuration.Config.getInstance()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>141</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.ldapHost = conf.getLDAPhost()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>142</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.ldapPeopleDN = conf.getLDAPpeopleDN()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>143</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.ldapGroupsDN = conf.getLDAPgroupsDN()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>144</th><td class="r"><ins>&nbsp; &nbsp; # opens an anonymous LDAP connection</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>145</th><td class="r"><ins>&nbsp; &nbsp; def open(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>146</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.l = ldap.open(self.ldapHost)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>147</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.l.protocol_version = ldap.VERSION3</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>148</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return self.l</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>149</th><td class="r"><ins>&nbsp; &nbsp; # verifies username and password by binding to the LDAP server</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>150</th><td class="r"><ins>&nbsp; &nbsp; def openAsUser(self,userName,password):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>151</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.open()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>152</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.l.simple_bind_s("uid="+userName+","+self.ldapPeopleDN, password)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>153</th><td class="r"><ins>&nbsp; &nbsp; # closes LDAP connection</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>154</th><td class="r"><ins>&nbsp; &nbsp; def close(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>155</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; self.l.unbind_s()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>156</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; l = None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>157</th><td class="r"><ins>&nbsp; &nbsp; # finds a user in LDAP</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>158</th><td class="r"><ins>&nbsp; &nbsp; # returns a map containing dn,cn,uid,mail,o,ou and postalAddress as keys and strings as values</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>159</th><td class="r"><ins>&nbsp; &nbsp; # returns None if a user is not found</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>160</th><td class="r"><ins>&nbsp; &nbsp; def lookupUser(self,uid):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>161</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldap_result_id = self.l.search("uid="+uid+","+self.ldapPeopleDN, ldap.SCOPE_BASE, "objectClass=inetOrgPerson")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>162</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; while 1:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>163</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; result_type, result_data = self.l.result(ldap_result_id, 0)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>164</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (result_data == []):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>165</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>166</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>167</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if result_type == ldap.RES_SEARCH_ENTRY:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>168</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return objectAttributes(result_data,['uid','cn','mail','o','ou','postalAddress'])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>169</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>170</th><td class="r"><ins>&nbsp; &nbsp; # finds users according to a specified filter</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>171</th><td class="r"><ins>&nbsp; &nbsp; def findUsers(self,filter):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>172</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; dict = {}</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>173</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldap_result_id = self.l.search(self.ldapPeopleDN, ldap.SCOPE_SUBTREE, filter)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>174</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; while 1:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>175</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; result_type, result_data = self.l.result(ldap_result_id, 0)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>176</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (result_data == []):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>177</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>178</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>179</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if result_type == ldap.RES_SEARCH_ENTRY:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>180</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = objectAttributes(result_data,['uid','cn','mail','o','ou','postalAddress'])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>181</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av= dictToAv(ret)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>182</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dict[ret['mail']] = av</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>183</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return dict</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>184</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>185</th><td class="r"><ins>&nbsp; &nbsp; # finds a group in LDAP</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>186</th><td class="r"><ins>&nbsp; &nbsp; # returns an array of groups matching the group name, each group is represented</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>187</th><td class="r"><ins>&nbsp; &nbsp; # by a map with keys cn and description</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>188</th><td class="r"><ins>&nbsp; &nbsp; def findGroups(self,name,exact):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>189</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if exact==0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>190</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; star='*'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>191</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>192</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; star=''</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>193</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; name = name.strip()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>194</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if len(name)&gt;0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>195</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; filter='(&amp;(objectClass=groupOfNames)(cn='+star+name+star+'))'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>196</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>197</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>198</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldap_result_id = self.l.search(self.ldapGroupsDN, ldap.SCOPE_SUBTREE, filter)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>199</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; groupDicts = []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>200</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; while 1:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>201</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; result_type, result_data = self.l.result(ldap_result_id, 0)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>202</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (result_data == []):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>203</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>204</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>205</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if result_type == ldap.RES_SEARCH_ENTRY:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>206</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; groupDicts.append( objectAttributes(result_data,['cn','description']))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>207</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return groupDicts</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>208</th><td class="r"><ins>&nbsp; &nbsp; # finds uids of users referenced by the member attribute of the group LDAP object</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>209</th><td class="r"><ins>&nbsp; &nbsp; def findGroupMemberUids(self,name):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>210</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldap_result_id = self.l.search("cn="+name+","+self.ldapGroupsDN, ldap.SCOPE_BASE, "objectClass=groupOfNames")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>211</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; members = None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>212</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; while 1:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>213</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; result_type, result_data = self.l.result(ldap_result_id, 0)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>214</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (result_data == []):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>215</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>216</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>217</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if result_type == ldap.RES_SEARCH_ENTRY:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>218</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; members = result_data[0][1]['member']</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>219</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if not members:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>220</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>221</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; memberUids = []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>222</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; for memberDN in members:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>223</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; m = re.search('uid=([^,]*),',memberDN)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>224</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if m:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>225</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; uid = m.group(1)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>226</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; memberUids.append( uid ) </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>227</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return memberUids</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>228</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>229</th><td class="r"><ins>class LdapChecker:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>230</th><td class="r"><ins>&nbsp; &nbsp; def check(self, userName, password):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>231</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; try:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>232</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = {}</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>233</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ldapLdap = LdapLDAP()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>234</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ldapLdap.openAsUser(userName,password)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>235</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = ldapLdap.lookupUser(userName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>236</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ldapLdap.close()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>237</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapChecker').debug("Username: %s checked: %s"%(userName,ret))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>238</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ret</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>239</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; except ldap.INVALID_CREDENTIALS, e:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>240</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapChecker').warn("Username: %s - invalid credentials"%userName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>241</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>242</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>243</th><td class="r"><ins>#conversion for inetOrgPerson.postalAddress attribute that can contain newlines encoded following the RFC 2252</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>244</th><td class="r"><ins>def fromLDAPmultiline(s):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>245</th><td class="r"><ins>&nbsp; &nbsp; if s:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>246</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return s.replace('$',"\r\n").replace('\\24','$').replace('\\5c','\\')</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>247</th><td class="r"><ins>&nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>248</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return s</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>249</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>250</th><td class="r"><ins>class LdapUserCreator:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>251</th><td class="r"><ins>&nbsp; &nbsp; def create(self, li):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>252</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapUserCreator').info("create("+li.getLogin()+",password=****)")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>253</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; # first, check if authentication is OK</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>254</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; data = LdapChecker().check(li.getLogin(), li.getPassword())</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>255</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if not data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>256</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>257</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>258</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; # Search if user already exist, using email address</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>259</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; import MaKaC.user as user</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>260</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ah = user.AvatarHolder()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>261</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; userList = ah.match({"email":data["mail"]}, forceWithoutExtAuth=True)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>262</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if len(userList) == 0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>263</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # User doesn't exist, create it</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>264</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; try:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>265</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av = user.Avatar()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>266</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name = data.get('cn');</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>267</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setName(name.split()[0])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>268</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setSurName(name.split()[-1])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>269</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setOrganisation(data.get('o', ""))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>270</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setEmail(data['mail'])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>271</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if 'postalAddress' in data:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>272</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.setAddress(fromLDAPmultiline(data.get('postalAddress')))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>273</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #av.setTelephone(data.get('telephonenumber',""))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>274</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ah.add(av)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>275</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av.activateAccount()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>276</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; except KeyError, e:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>277</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; raise MaKaCError("LDAP account does not contain the mandatory data to create \</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>278</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; an Indico account. You can create an Indico \</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>279</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; account manually in order to use your LDAP login"%(urlHandlers.UHUserRegistration.getURL()))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>280</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>281</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # user founded</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>282</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; av = userList[0]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>283</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; #now create the nice identity for the user</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>284</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; na = LdapAuthenticator()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>285</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; id = na.createIdentity( li, av)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>286</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; na.add(id)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>287</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return av</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>288</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>289</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>290</th><td class="r"><ins># for MaKaC.externUsers</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>291</th><td class="r"><ins>def dictToAv(ret):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>292</th><td class="r"><ins>&nbsp; &nbsp; av= {}</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>293</th><td class="r"><ins>&nbsp; &nbsp; av["email"] = [ret['mail']]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>294</th><td class="r"><ins>&nbsp; &nbsp; av["name"]= ret['cn'].split()[0]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>295</th><td class="r"><ins>&nbsp; &nbsp; av["surName"]= ret['cn'].split()[-1]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>296</th><td class="r"><ins>&nbsp; &nbsp; if 'o' in ret:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>297</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av["organisation"] = [ret['o']]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>298</th><td class="r"><ins>&nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>299</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av["organisation"] = ['']</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>300</th><td class="r"><ins>&nbsp; &nbsp; if 'postalAddress' in ret:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>301</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av['address'] = [ fromLDAPmultiline(ret['postalAddress']) ]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>302</th><td class="r"><ins>&nbsp; &nbsp; av["id"] = 'LDAP:'+ret['uid']</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>303</th><td class="r"><ins>&nbsp; &nbsp; av["status"] = "NotCreated"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>304</th><td class="r"><ins>&nbsp; &nbsp; av["login"] = ret['uid']</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>305</th><td class="r"><ins>&nbsp; &nbsp; return av</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>306</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>307</th><td class="r"><ins>def is_empty(dict,key):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>308</th><td class="r"><ins>&nbsp; &nbsp; if key not in dict:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>309</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>310</th><td class="r"><ins>&nbsp; &nbsp; if dict[key]:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>311</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return True</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>312</th><td class="r"><ins>&nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>313</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>314</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>315</th><td class="r"><ins>class LdapUser:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>316</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>317</th><td class="r"><ins>&nbsp; &nbsp; def match(self, criteria, exact=0):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>318</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapUser').debug("match(criteria"+str(criteria)+",exact="+str(exact)+")")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>319</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; allEmpty=True</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>320</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; filter='objectClass=inetOrgPerson'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>321</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if exact==0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>322</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; star='*'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>323</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; else:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>324</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; star=''</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>325</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; for k, v in criteria.items():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>326</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if k=='email' and len(v.strip())&gt;0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>327</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; filter='&amp;('+filter+')(mail='+star+v+star+')'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>328</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; allEmpty=False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>329</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif k=='name' and len(v.strip())&gt;0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>330</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; filter='&amp;('+filter+')(cn='+star+v+star+')'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>331</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; allEmpty=False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>332</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif k=='surName' and len(v.strip())&gt;0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>333</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; filter='&amp;('+filter+')(sn='+star+v+star+')'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>334</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; allEmpty=False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>335</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif k=='organisation' and len(v.strip())&gt;0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>336</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; filter='&amp;('+filter+')(|(o='+star+v+star+')(ou='+star+v+star+'))'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>337</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; allEmpty=False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>338</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif k=='login' and len(v.strip())&gt;0:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>339</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; filter='&amp;('+filter+')(uid='+star+v+star+')'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>340</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; allEmpty=False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>341</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if allEmpty:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>342</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return {}</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>343</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; filter='('+filter+')'</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>344</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldapLdap = LdapLDAP()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>345</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldapLdap.open()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>346</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; dict = ldapLdap.findUsers(filter) </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>347</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldapLdap.close()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>348</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return dict</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>349</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>350</th><td class="r"><ins>&nbsp; &nbsp; def getById(self, id):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>351</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; Logger.get('LdapUser').debug("getById('"+str(id)+"')")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>352</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldapLdap = LdapLDAP()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>353</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; l = ldapLdap.open()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>354</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ret = ldapLdap.lookupUser(id)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>355</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ldapLdap.close()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>356</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if(ret==None):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>357</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>358</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av = dictToAv(ret)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>359</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av["id"] = id</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>360</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av["identity"] = LdapIdentity</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>361</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; av["authenticator"] = LdapAuthenticator()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>362</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return av</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>363</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>364</th><td class="r"><ins>def ldapFindGroups(name,exact):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>365</th><td class="r"><ins>&nbsp; &nbsp; ldapLdap = LdapLDAP()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>366</th><td class="r"><ins>&nbsp; &nbsp; ldapLdap.open()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>367</th><td class="r"><ins>&nbsp; &nbsp; ret = ldapLdap.findGroups(name,exact)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>368</th><td class="r"><ins>&nbsp; &nbsp; ldapLdap.close()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>369</th><td class="r"><ins>&nbsp; &nbsp; return ret</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>370</th><td class="r"><ins>&nbsp; &nbsp; </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>371</th><td class="r"><ins>def ldapFindGroupMemberUids(name):&nbsp; &nbsp; </ins> </td>
+                  </tr><tr>
+                          <th> </th><th>372</th><td class="r"><ins>&nbsp; &nbsp; ldapLdap = LdapLDAP()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>373</th><td class="r"><ins>&nbsp; &nbsp; ldapLdap.open()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>374</th><td class="r"><ins>&nbsp; &nbsp; ret = ldapLdap.findGroupMemberUids(name)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>375</th><td class="r"><ins>&nbsp; &nbsp; ldapLdap.close()</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>376</th><td class="r"><ins>&nbsp; &nbsp; return ret</ins> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>common/Configuration.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/Configuration.py ./common/Configuration.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/Configuration.py 2010-11-02 10:53:07.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./common/Configuration.py 2010-12-01 16:19:25.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>418</th><th>418</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'ApacheUser'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 'nobody',</span> </td>
+                  </tr><tr>
+                          <th>419</th><th>419</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'ApacheGroup'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: 'nogroup',</span> </td>
+                  </tr><tr>
+                          <th>420</th><th>420</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Profile'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: 'no',</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>421</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #LDAP auth</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>422</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'LDAPhost'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 'ldap.example.com',</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>423</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'LDAPpeopleDN'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 'ou=people,dc=example,dc=com',</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>424</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'LDAPgroupsDN'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : 'ou=groups,dc=example,dc=com',</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>421</th><th>425</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>422</th><th>426</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Room Booking Related</span> </td>
+                  </tr><tr>
+                          <th>423</th><th>427</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'LightboxCssStylesheetName' : "lightbox/lightbox.css",</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>common/ObjectHolders.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/ObjectHolders.py ./common/ObjectHolders.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/common/ObjectHolders.py 2010-11-02 10:53:07.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./common/ObjectHolders.py 2010-12-01 11:35:13.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>53</th><th>53</th><td class="l"><span>&nbsp; &nbsp; """</span> </td>
+                  </tr><tr>
+                          <th>54</th><th>54</th><td class="l"><span>&nbsp; &nbsp; __allowedIdxs = ["conferences", "avatars", "groups", "counters", </span> </td>
+                  </tr><tr>
+                          <th>55</th><th>55</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "identities", "principals", "categories", </span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>56</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "localidentities", "niceidentities", "<del></del>groupsregistration", </span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>56</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "localidentities", "niceidentities", "<ins>ldapidentities", "</ins>groupsregistration", </span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>57</th><th>57</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "fieldsregistration", "registrationform", "domains", "indexes",</span> </td>
+                  </tr><tr>
+                          <th>58</th><th>58</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "trashcan", "roomsmapping", "deletedobject", "shorturl", "modules", "plugins"]</span> </td>
+                  </tr><tr>
+                          <th>59</th><th>59</th><td class="l"><span>&nbsp; &nbsp; idxName = None</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>externUsers.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/externUsers.py ./externUsers.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/externUsers.py 2010-11-02 10:53:07.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./externUsers.py 2010-12-01 11:38:25.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>27</th><th>27</th><td class="l"><span>from MaKaC.common.Configuration import Config</span> </td>
+                  </tr><tr>
+                          <th>28</th><th>28</th><td class="l"><span>from MaKaC.i18n import _</span> </td>
+                  </tr><tr>
+                          <th>29</th><th>29</th><td class="l"><span>from MaKaC.errors import MaKaCError</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>30</th><td class="r"><ins>from MaKaC.authentication.LdapAuthentication import LdapAuthenticator, LdapUser</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>30</th><th>31</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>31</th><th>32</th><td class="l"><span>class ExtUserHolder:</span> </td>
+                  </tr><tr>
+                          <th>32</th><th>33</th><td class="l"><span>&nbsp; &nbsp; def __init__(self):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>33</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self.extUserList = {"Nice":NiceUser<del></del>}</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>34</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; self.extUserList = {"Nice":NiceUser<ins>, LdapAuthenticator.getId():LdapUser</ins>}</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>34</th><th>35</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>35</th><th>36</th><td class="l"><span>&nbsp; &nbsp; def getById(self, id):</span> </td>
+                  </tr><tr>
+                          <th>36</th><th>37</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if id in self.extUserList.keys():</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L230">…</a></th>
+                  <th><a href="#L231">…</a></th>
+                  <td><em></em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>230</th><th>231</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if doc.getElementsByTagName("login")[0].childNodes:</span> </td>
+                  </tr><tr>
+                          <th>231</th><th>232</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; login = doc.getElementsByTagName("login")[0].childNodes[0].nodeValue.encode("utf-8")</span> </td>
+                  </tr><tr>
+                          <th>232</th><th>233</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; av["login"] = login</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>233</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return av</span> </td>
+                      </tr><tr>
+                        <th>234</th><th> </th><td class="l"><span><em>&nbsp;No newline at end of file</em></span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>234</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; return av</span> </td>
+                      </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>user.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/user.py ./user.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/user.py 2010-11-02 10:53:07.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./user.py 2010-12-01 16:26:26.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>324</th><th>324</th><td class="l"><span>&nbsp; &nbsp; def __init__(self,criteria={}):</span> </td>
+                  </tr><tr>
+                          <th>325</th><th>325</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; filters.FilterCriteria.__init__(self,None,criteria)</span> </td>
+                  </tr><tr>
+                          <th>326</th><th>326</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>327</th><td class="r"><ins>#makub</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>328</th><td class="r"><ins>from MaKaC.authentication.LdapAuthentication import LdapAuthenticator, ldapFindGroups, ldapFindGroupMemberUids</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>329</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>330</th><td class="r"><ins>class LdapGroup(Group):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>331</th><td class="r"><ins>&nbsp; &nbsp; groupType = "LDAP"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>332</th><td class="r"><ins>&nbsp; &nbsp; def __str__(self):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>333</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return "LdapGroup{id:"+self.getId()+',name:'+self.getName()+',desc:'+self.getDescription()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>334</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>335</th><td class="r"><ins>&nbsp; &nbsp; def addMember( self, newMember ):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>336</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; egiLog('LdapGroup','addMember('+str(newMember)+')')</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>337</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; pass</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>338</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>339</th><td class="r"><ins>&nbsp; &nbsp; def removeMember( self, member ):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>340</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; egiLog('LdapGroup','removeMember('+str(newMember)+')')</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>341</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; pass</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>342</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>343</th><td class="r"><ins>&nbsp; &nbsp; def getMemberList( self ):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>344</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; uidList = ldapFindGroupMemberUids(self.getName())</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>345</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; avatarLists = []</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>346</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; for uid in uidList:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>347</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # First, try localy (fast)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>348</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lst = AvatarHolder().match( { 'login': uid }, exact = 1, forceWithoutExtAuth = True )</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>349</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if not lst:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>350</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # If not found, try external</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>351</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lst = AvatarHolder().match( { 'login': uid }, exact =1 )</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>352</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; avatarLists.append( lst )</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>353</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return [ avList[0] for avList in avatarLists if avList ]</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>354</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>355</th><td class="r"><ins>&nbsp; &nbsp; # used when checking acces to private events restricted for certain groups</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>356</th><td class="r"><ins>&nbsp; &nbsp; def containsUser( self, avatar ):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>357</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if not avatar:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>358</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>359</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; login = None</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>360</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; for id in avatar.getIdentityList():</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>361</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if id.getAuthenticatorTag()=='LDAP':</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>362</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; login = id.getLogin()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>363</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if not login:</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>364</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return False</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>365</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; uidList = ldapFindGroupMemberUids(self.getName())</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>366</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; ret = login in uidList</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>367</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return ret</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>368</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>369</th><td class="r"><ins>&nbsp; &nbsp; # not implemented in CERNGroup, is it used for anything ?</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>370</th><td class="r"><ins>&nbsp; &nbsp; def containsMember( self, avatar ):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>371</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; return 0</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>372</th><td class="r"><ins></ins> </td>
+                  </tr><tr>
+                          <th> </th><th>373</th><td class="r"><ins>class EGIGroup(LdapGroup):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>374</th><td class="r"><ins>&nbsp; &nbsp; "Legacy group"</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>375</th><td class="r"><ins>#makub end</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>376</th><td class="r"><ins></ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>377</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>327</th><th>378</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>328</th><th>379</th><td class="l"><span>class GroupHolder(ObjectHolder):</span> </td>
+                  </tr><tr>
+                          <th>329</th><th>380</th><td class="l"><span>&nbsp; &nbsp; """</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L384">…</a></th>
+                  <th><a href="#L435">…</a></th>
+                  <td><em></em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>384</th><th>435</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; crit["name"] = crit["groupname"]</span> </td>
+                  </tr><tr>
+                          <th>385</th><th>436</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if "Nice" in Config.getInstance().getAuthenticatorList() and not forceWithoutExtAuth:</span> </td>
+                  </tr><tr>
+                          <th>386</th><th>437</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.updateCERNGroupMatch(crit["name"][0],exact)</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>438</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; if "LDAP" in Config.getInstance().getAuthenticatorList() and not forceWithoutExtAuth:</ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>439</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.updateLdapGroupMatch(crit["name"][0],exact)</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>387</th><th>440</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; match = self.getIndex().matchGroup(crit["name"][0], exact=exact)</span> </td>
+                  </tr><tr>
+                          <th>388</th><th>441</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>389</th><th>442</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if match != None:</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L393">…</a></th>
+                  <th><a href="#L446">…</a></th>
+                  <td><em></em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>393</th><th>446</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; result.append(gr)</span> </td>
+                  </tr><tr>
+                          <th>394</th><th>447</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return result</span> </td>
+                  </tr><tr>
+                          <th>395</th><th>448</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="first">
+                          <th> </th><th>449</th><td class="r"><ins>&nbsp; &nbsp; def updateLdapGroupMatch(self, name, exact=False):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>450</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;logger.Logger.get('GroupHolder').debug("updateLdapGroupMatch(name="+name+")")</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>451</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for grDict in ldapFindGroups(name, exact):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>452</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;grName = grDict['cn']</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>453</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if not self.hasKey(grName):</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>454</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;gr = LdapGroup()</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>455</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;gr.setId(grName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>456</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;gr.setName(grName)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>457</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;gr.setDescription('LDAP group: '+grDict['description'])</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>458</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.add(gr)</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>459</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;logger.Logger.get('GroupHolder').debug("updateLdapGroupMatch() added"+str(gr))</ins> </td>
+                  </tr><tr>
+                          <th> </th><th>460</th><td class="r"><ins></ins> </td>
+                  </tr><tr class="last">
+                          <th> </th><th>461</th><td class="r"><ins></ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>396</th><th>462</th><td class="l"><span>&nbsp; &nbsp; def updateCERNGroupMatch(self, name, exact=False):</span> </td>
+                  </tr><tr>
+                          <th>397</th><th>463</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if not exact:</span> </td>
+                  </tr><tr>
+                          <th>398</th><th>464</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name = "*%s*" % name</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L1395">…</a></th>
+                  <th><a href="#L1461">…</a></th>
+                  <td><em></em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>1395</th><th>1461</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if not forceWithoutExtAuth:</span> </td>
+                  </tr><tr>
+                          <th>1396</th><th>1462</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; euh = ExtUserHolder()</span> </td>
+                  </tr><tr>
+                          <th>1397</th><th>1463</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; from MaKaC.authentication import NiceAuthentication</span> </td>
+                  </tr>
+            </tbody><tbody class="add">
+                  <tr class="last first">
+                          <th> </th><th>1464</th><td class="r"><ins>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; from MaKaC.authentication import LdapAuthentication</ins> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>1398</th><th>1465</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for authId in Config.getInstance().getAuthenticatorList():</span> </td>
+                  </tr><tr>
+                          <th>1399</th><th>1466</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if not authId == "Local":</span> </td>
+                  </tr><tr>
+                          <th>1400</th><th>1467</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dict = euh.getById(authId).match(criteria, exact=exact)</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>1401</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auth = NiceAuthentication.NiceAuthenticator()</span> </td>
+                      </tr><tr>
+                        <th>1402</th><th> </th><td class="l"><span></span> </td>
+                      </tr><tr>
+                        <th>1403</th><th> </th><td class="l"><span></span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>1468</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if authId == "Nice":</span> </td>
+                      </tr><tr>
+                        <th> </th><th>1469</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auth = NiceAuthentication.NiceAuthenticator()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>1470</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elif authId == "LDAP":</span> </td>
+                      </tr><tr>
+                        <th> </th><th>1471</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; auth = LdapAuthentication.LdapAuthenticator()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>1472</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>1473</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;raise MaKaCError( _("Authentication type "+authId+" is not known.")) </span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>1404</th><th>1474</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for email in dict.keys():</span> </td>
+                  </tr><tr>
+                          <th>1405</th><th>1475</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # TODO and TOSTUDY: result.keys should be replace it with</span> </td>
+                  </tr><tr>
+                          <th>1406</th><th>1476</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # l=[]; for av in result.values(): l.append(av.getAllEmails())</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>webinterface/pages/admins.py</a>
+        </h2>
+        <pre>diff -urNB --exclude-from=files.txt /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/pages/admins.py ./webinterface/pages/admins.py</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /root/orig_cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/pages/admins.py 2010-11-02 10:53:07.000000000 +0100">
+                      old
+                  </th>
+                  <th title="File ./webinterface/pages/admins.py 2010-12-01 11:39:49.000000000 +0100">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>1861</th><th>1861</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                  </tr><tr>
+                          <th>1862</th><th>1862</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.__setGroupVars( self._group, vars )</span> </td>
+                  </tr><tr>
+                          <th>1863</th><th>1863</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; vars["locator"] = self._group.getLocator().getWebForm()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>1864</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if isinstance(self._group, CERNGroup)<del></del>:</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>1864</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if isinstance(self._group, CERNGroup)<ins>&nbsp;or isinstance(self._group, user.LdapGroup)</ins>:</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>1865</th><th>1865</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; vars["allowModif"] = False</span> </td>
+                  </tr><tr>
+                          <th>1866</th><th>1866</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return vars</span> </td>
+                  </tr><tr>
+                          <th>1867</th><th>1867</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/600/indico_ldap.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/600/indico_ldap.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:41 GMT -->
+</html>

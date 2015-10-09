@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/MobileInterface by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/MobileInterface – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FMobileInterface56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="MobileInterface.html" title="View Dev/MobileInterface">MobileInterface</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/MobileInterface?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="MobileAppforConferenceAttendees">Mobile App for Conference Attendees</h1>
+<p>
+Indico (<a href="http://indico-software.org/">Integrated Digital Conference</a>) is a web-based, world-wide, multi-platform content management system and event agenda. It is also the long term archiving tool for documents and metadata related to all kinds of events that take place at <acronym title="European Organization for Nuclear Research">CERN</acronym> (conferences, meetings and lectures). The software is used in more than 90 institutes world-wide, and <a class="ext-link" href="http://indico.cern.ch/"><span class="icon">​</span>extensively at CERN</a>, where it hosts more than 150,000 events and it is visited by around 12,000 users per day.
+</p>
+<p>
+The adoption of tablets and other hand-held devices has been steadily growing over the last couple of years. In order to accompany this trend, we, at the Indico Team, want to provide Indico users with a simple yet powerful mobile app that will allow them to consult information contained in events through an easy and user-friendly interface. Such an application should be implemented in such a way as to support as many devices as possible in a cross-platform and standard way, namely through the use of bleeding edge web APIs (HTML5 and <a class="missing wiki">JavaScript?</a>/jQuery).
+</p>
+<p>
+The main features of such an application would be:
+</p>
+<ul><li>Fetching/storing data from Indico, about events that are currently happening or about to happen;
+</li><li>Displaying a user-friendly and interactive event timeline;
+</li><li>Displaying the timetable of selected events, as well as the associated content (speaker/talk information, attached files, ...);
+</li><li>"Favorite events" list;
+</li></ul><p>
+Some possible "bonus" developments would be:
+</p>
+<ul><li>Offline storage through <a class="ext-link" href="http://en.wikipedia.org/wiki/Web_Storage"><span class="icon">​</span>HTML5's local storage API</a>;
+</li><li>Support for multi-touch devices (Apple &amp; W3C <a class="ext-link" href="http://www.html5rocks.com/en/mobile/touch.html"><span class="icon">​</span>"touch events" API</a>);
+</li><li><a class="ext-link" href="http://en.wikipedia.org/wiki/W3C_Geolocation_API"><span class="icon">​</span>Geolocation</a> - displaying events happening in the vicinity of the user;
+</li></ul><h2 id="Technologies">Technologies</h2>
+<ul><li>Python/WSGI
+</li><li><a class="ext-link" href="http://www.makotemplates.org/"><span class="icon">​</span>Mako templating engine</a>
+</li><li><a class="ext-link" href="http://zodb.org/"><span class="icon">​</span>ZODB database</a>
+</li><li><a class="ext-link" href="http://en.wikipedia.org/wiki/HTML5"><span class="icon">​</span>HTML5</a>
+</li><li><a class="missing wiki">JavaScript/?</a><a class="ext-link" href="http://jquery.com/"><span class="icon">​</span>jQuery</a>
+</li><li><a class="ext-link" href="http://www.mongodb.org/"><span class="icon">​</span>MongoDB</a> 
+</li><li><a class="ext-link" href="http://memcached.org/"><span class="icon">​</span>memcached</a>
+</li></ul><h2 id="Objectives">Objectives</h2>
+<ol><li>To design a small independent web application that communicates with Indico through its REST HTTP API and fetches/displays information;
+</li><li>To implement such an application in the most user-friendly and maintainable way (as well as the corresponding tests);
+</li><li>To optimize such an application for different mobile devices;
+</li></ol><h2 id="Features">Features</h2>
+<h3 id="Corefunctionality">Core functionality</h3>
+<ul><li>Homepage - main menu;
+</li><li>Search dialog (by event name, ongoing events first);
+</li><li>Favorite events - a list of events selected by the user;
+</li><li>Event schedule - per day;
+</li><li>Access to contribution materials;
+</li></ul><h3 id="Importantfeatures">Important features</h3>
+<ul><li>Custom pages - auto-generated links in the mobile interface;
+</li><li>Speakers - list of talks for each one;
+</li><li>Search within event (client-side);
+</li><li>Recently visited events;
+</li><li>Personal timetable (based on favorites);
+</li><li>Event schedule - per session and track;
+</li><li>Upcoming/ongoing events;
+</li></ul><h3 id="Nicetohavefeatures">"Nice to have" features</h3>
+<ul><li>Geolocation;
+</li><li>Related events;
+</li><li>Support for authenticated sessions;
+</li></ul><h2 id="Comments">Comments</h2>
+<p>
+</p><div id="commenting"><form action="http://old.indico-software.org/wiki/Dev/MobileInterface#commenting" method="post"><fieldset><legend>Add comment</legend><div class="field"><textarea rows="5" name="addcomment" cols="80" disabled="disabled" class="wikitext" id="addcomment"></textarea></div><div><label for="authoraddcomment">Your email or username:</label><input type="text" id="authoraddcomment" value="anonymous" size="30" /></div><input type="hidden" name="__FORM_TOKEN" value="610bde29a97e49ea483b83be" /><div class="buttons"><input disabled="disabled" type="submit" name="submitaddcomment" value="Add comment" size="30" /><input disabled="disabled" type="submit" name="previewaddcomment" value="Preview comment" /><input disabled="disabled" type="submit" name="canceladdcomment" value="Cancel" /></div></fieldset></form></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/MobileInterface?action=diff&amp;version=10" title="Version 10 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-03-23T14%3A03%3A17%2B01%3A00&amp;precision=second" title="See timeline at 03/23/12 14:03:17">4 years ago</a></span>
+            <span class="trac-print">Last modified on 03/23/12 14:03:17</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/wikitoolbar.js"></script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FMobileInterface56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/MobileInterface by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:30 GMT -->
+</html>

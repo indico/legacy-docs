@@ -1,0 +1,14 @@
+= Cvetelina Angelova =
+
+== Personal plan ==
+
+ Improving the usability of the Paper Reviewing Module.
+
+    
+ 
+== Open Tickets ==
+
+[[TicketQuery(owner=cangelov,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=cangelov,status=closed)]]

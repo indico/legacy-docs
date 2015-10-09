@@ -1,0 +1,39 @@
+diff --git a/indico/MaKaC/common/output.py b/indico/MaKaC/common/output.py
+index 78656e7..d1a6ea8 100644
+--- a/indico/MaKaC/common/output.py
++++ b/indico/MaKaC/common/output.py
+@@ -735,7 +735,8 @@ class outputGenerator:
+         if len(mat.getResourceList()) > 0:
+             out.openTag("files")
+             for res in mat.getResourceList():
+-                try:
++                # if the material is a local file, check the file type
++                if isinstance(res, conference.LocalFile):
+                     type = res.getFileType().lower()
+                     if type=="pdf":
+                         pdfs.append(res)
+@@ -757,10 +758,11 @@ class outputGenerator:
+                         out.writeTag("type",res.getFileType().lower())
+                         out.writeTag("url",vars["resourceURLGen"](res))
+                         out.closeTag("file")
+-                except:
++                else:
++                    # else, just add as a link
+                     links.append(res)
+             out.closeTag("files")
+-            if not len(pdfs) > 1 and not len(docs) > 1 and not len(ppts) > 1 and not len(odps) > 1 and not len(odts) > 1 and not len(odss) > 1 and len(others) == 0 and not len(links) > 1:
++            if not len(pdfs) > 1 and not len(docs) > 1 and not len(ppts) > 1 and not len(odps) > 1 and not len(odts) > 1 and not len(odss) > 1:
+                 if vars:
+                     if len(pdfs)==1:
+                         out.writeTag("pdf",vars["resourceURLGen"](pdfs[0]))
+@@ -774,8 +776,8 @@ class outputGenerator:
+                         out.writeTag("odt",vars["resourceURLGen"](odts[0]))
+                     if len(odss)==1:
+                         out.writeTag("ods",vars["resourceURLGen"](odss[0]))
+-                if len(links)==1:
+-                    out.writeTag("link",str(links[0].getURL()))
++            if len(links)==1:
++                out.writeTag("link",str(links[0].getURL()))
+         if mat.isItselfProtected():
+             out.writeTag("locked","yes")
+         out.closeTag("material")

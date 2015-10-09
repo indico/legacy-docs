@@ -1,0 +1,14 @@
+:link, :visited {
+border-bottom:1px dotted #BBBBBB;
+color:#0B63A5;
+text-decoration:none;
+}
+
+#logo img {
+   width: 150px;
+   padding-left: 1em;
+}
+
+.wiki-toc {
+background: #ccdeea;
+}

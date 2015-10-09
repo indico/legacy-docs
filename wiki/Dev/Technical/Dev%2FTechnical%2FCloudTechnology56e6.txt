@@ -1,0 +1,482 @@
+= Cloud Technology =
+This page contains information about all the tools used for the Indico Cloud Deployment, as well as a brief guide on how to easily set up an Indico Cloud Image.
+
+== CERN Cloud Infrastructure ==
+The CERN Cloud Infrastructure is a service based on OpenStack that gives CERN employees access to computing resources, allowing them to easily setting up Virtual Machines for various purposes, like testing or development.[[BR]]
+[[BR]]
+The CERN Cloud Infrastructure dashboard can be reached from [https://openstack.cern.ch].[[BR]]
+The access to this service is available only to those who are in possess of a full CERN account. Also, in order to have access to the CERN Cloud Infrastructure, any CERN employee interested have to explicitly request for this service and wait for its approval. The request can be made from [https://resources.web.cern.ch/resources/Manage/ListServices.aspx] under ''Cloud Infrastructure'' (an email will be received when the request has been approved).[[BR]]
+[[BR]]
+The CERN Cloud Infrastructure provides the user with several images to start setting up the VMs that (s)he needs.[[BR]]
+[[BR]]
+[[Image(images.png)]][[BR]]
+[[BR]]
+Along with two Windows images the user can choose one of the SLC distribution as a base for the VM. Scientific Linux 6 (CERN distribution) is the actual OS installed in the CERN Servers, so for the creation of the Indico Cloud Image has been used the distro "SLC6 Server - x86_64" as a base for the VM.[[BR]]
+[[BR]]
+In this page will be covered only the tools and commands used to create an Indico Cloud Image. For a comprehensive guide to the CERN Cloud Infrastructure see [http://information-technology.web.cern.ch/book/cern-private-cloud-user-guide].
+
+== Image Creation ==
+The general steps needed to create the image of a VM with Indico installed on top of SLC6 are:
+1. Download the SLC6 image from the CERN Cloud Infrastructure (CERN people only)
+1. Configure cloud-init
+1. Boot the image with Qemu
+1. (Optional) Add an RSA keypair
+1. SSH into the VM host from the local machine
+1. Install Indico into the VM
+
+=== Download the image ===
+The first step is to download the base image on top of which Indico will be installed.[[BR]]
+[[BR]]
+As mentioned above, the CERN Cloud Infrastructure provides the user with several images of VMs with the OS already installed.[[BR]]
+The image needed for this step is the one called "SLC6 Server x86_64". If the list shows more than one image with this name, the one with the highest number between brackets (ie the newest release) should be preferred.[[BR]]
+[[BR]]
+Since we need OpenStack tools (''nova'' & ''glance'') to download the image in our machine we have to configure them first.[[BR]]
+First of all we have to download the packages containing the commands ''nova'' and ''glance'', in case they are not already present in the machine.[[BR]]
+Once these two commands are available in the local system, we need to follow these steps to configure them:
+
+1. Enter the CERN Cloud Infrastructure dashboard [https://openstack.cern.ch]
+1. Select "Access & Security" in the menu on the left
+1. Open the "API Access" tab
+1. Select "Download OpenStack RC file"
+1. Execute the bash script downloaded in the previous step
+1. Enter the CERN password when asked
+
+After these steps we finally have ''nova'' and ''glance'' properly connected to the personal CERN Cloud account.[[BR]]
+Be wary that the script mentioned in the steps above will look for a permission file, called CERN-bundle.pem. If not in possess of this file in the local machine, it can be acquired from the aiadm.cern.ch nodes.[[BR]]
+[[BR]]
+Now that ''nova'' and ''glance'' are configured, we can obtain the image list available in the CERN Cloud with this command:
+{{{#!bash
+$ nova image-list
++--------------------------------------+---------------------------------------+--------+--------------------------------------+
+| ID                                   | Name                                  | Status | Server                               |
++--------------------------------------+---------------------------------------+--------+--------------------------------------+
+| 2171bb6e-6404-44e9-8cbd-8c6f6bacce1c | SLC6 CERN Server - x86_64 [130920]    | ACTIVE |                                      |
++--------------------------------------+---------------------------------------+--------+--------------------------------------+
+}}}
+Then, to finally download the image on the local machine, we can run the next command:
+{{{#!bash
+$ glance image-download --file SLC6.qcow2 2171bb6e-6404-44e9-8cbd-8c6f6bacce1c
+}}}
+The last parameter of the glance command has to be the ID field retrieved with ''nova image-list''.[[BR]]
+The image name can be chosen at will, but the extension should be consistent with the actual image format (can be checked in the dashboard).
+
+=== Cloud-init configuration ===
+The image just downloaded in the previous step needs now to be configured to allow the access of the user from SSH.[[BR]]
+[[BR]]
+The advantage of using an image from the CERN Cloud Infrastructure is that these images are already set up to work in a cloud environment and in particular they already have the ''cloud-init'' package installed.[[BR]]
+The main downside here is that, each time the VM boots, cloud-init tries to load its configuration files (''meta-data'' and ''user-data'') from the cloud environment. So, since for these steps we want to run the VM in local, these configuration files just won't be there and the VM won't boot properly.[[BR]]
+[[BR]]
+To bypass this problem, a solution is to "redirect" the path in which cloud-init looks for these files to a virtual drive, filled with the files.[[BR]]
+The method used in this step is explained here [http://www.technovelty.org/linux/running-cloud-images-locally.html].[[BR]]
+[[BR]]
+First of all we have to create the two files needed, ''meta-data'' and ''user-data'', as follows:
+
+1. meta-data
+{{{#!text
+instance-id: iid-local01
+local-hostname: myhost
+}}}
+1. user-data
+{{{#!text
+#cloud-config
+password: passw0rd
+ssh_pwauth: True
+chpasswd: { expire: False }
+}}}
+
+Once we have these two files ready in the current working directory, we can create a virtual drive containing these files just running this command:
+{{{#!bash
+$ mkisofs -output init.iso -volid cidata -joliet -rock user-data meta-data
+}}}
+
+That done, the image init.iso contains everything we need to boot the VM bypassing the cloud-init configuration.
+
+=== Booting ===
+To finally boot the image downloaded with the cloud-init fix described in the previous step we just need to run the next command:
+
+{{{#!bash
+$ qemu-system-x86_64 -m 256 -redir tcp:2222::22 -redir tcp:8000::80 -redir tcp:8443::443 -net nic -net user, -drive file=SLC6.qcow2,if=virtio -drive file=init.iso,if=virtio -serial file:qemu-output.log &
+}}}
+
+This should open up the Qemu console with the VM booting up.[[BR]]
+The port 2222 redirects to the VM host itself while the ports 8000 and 8443 redirect to the Apache server with Indico running (http and https, respectively).[[BR]]
+[[BR]]
+After the booting we'll be asked for a login name and a password. To login in the VM, just use ''root'' and ''passw0rd'' as login and password.[[BR]]
+To change the password, the user-data file have to changed accordingly.[[BR]]
+[[BR]]
+In case we are using a machine with a CPU that supports virtualization, we can use instead the next command:
+
+{{{#!bash
+$ kvm -m 256 -redir tcp:2222::22 -redir tcp:8000::80 -redir tcp:8443::443 -net nic -net user, -drive file=SLC6.qcow2,if=virtio -drive file=init.iso,if=virtio -serial file:qemu-output.log &
+}}}
+
+This will prompt a warning on the console (just ignore it) but will also boot the VM in a slightly faster way.
+
+=== (Optional) RSA keypair ===
+To ease the remote login into the VM we can choose to add an RSA authentication.[[BR]]
+[[BR]]
+First create the RSA keypair on the local machine:
+
+{{{#!bash
+$ ssh-keygen -t rsa
+}}}
+Let's assume we created the RSA keypair with the default path/name (ie: ~/.ssh/id_rsa).[[BR]]
+[[BR]]
+Now we have to copy the public key into the VM home directory:
+
+{{{#!bash
+$ scp -P 2222 ~/.ssh/id_rsa.pub root@localhost:~/.ssh/
+}}}
+
+As last thing, we have now to add the RSA identity just generated, via the next command or starting a new working session in the local machine:
+
+{{{#!bash
+$ ssh-add ~/.ssh/id_rsa
+}}}
+
+=== SSH into the VM ===
+We can now run a simple ''ssh'' command to remote access into the running VM from the local machine console.[[BR]]
+[[BR]]
+Just run the next command and insert the chosen password ("passw0rd", according to the example in the previous steps).
+
+{{{#!bash
+$ ssh -p 2222 root@localhost
+}}}
+
+If the RSA authentication were added, we'll need to ssh and enter the passfrase for the first login in the current session and then just ssh for all the next logins.
+
+=== Installing Indico ===
+Now that the VM is running and we have access to it via ssh, we can start installing Indico on it.[[BR]]
+[[BR]]
+First of all we want to add a new repository to yum:
+
+{{{#!bash
+$ wget http://springdale.princeton.edu/data/puias/6.4/x86_64/os/RPM-GPG-KEY-puias
+$ mv RPM-GPG-KEY-puias /etc/pki/rpm-gpg/RPM-GPG-KEY-puias
+}}}
+
+And create the file /etc/yum.repos.d/puias.repo as follows:
+
+{{{#!text
+[puias-unsupported]
+name=PUIAS Unsupported $releasever
+baseurl=http://puias.princeton.edu/data/puias/unsupported/$releasever/$basearch/
+priority=24
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puias
+}}}
+
+Now you can install the packages needed for a correct installation of Indico.[[BR]]
+Running the following commands (in that specific order) should be enough:
+
+{{{#!bash
+$ yum -y install python-devel gcc httpd mod_wsgi python-reportlab python-imaging python-lxml mod_ssl redis openldap-devel
+$ easy_install hiredis python-ldap redis
+}}}
+
+Now we can run the Indico installation command and the setup script and follow the instructions:
+
+{{{#!bash
+$ easy_install indico
+$ indico_initial_setup
+}}}
+
+For the next steps, let's assume that we chose the default paths during the installation.[[BR]]
+[[BR]]
+Now let's create the file /etc/httpd/conf.d/indico.conf with the following content:
+
+{{{#!text
+AddDefaultCharset UTF-8
+
+WSGISocketPrefix /var/run/wsgi
+
+<VirtualHost *:80>
+        # mod_wsgi indico
+
+        LogLevel warn
+
+        Alias /indico/images "/opt/indico/htdocs/images"
+        Alias /indico/css "/opt/indico/htdocs/css"
+        Alias /indico/js "/opt/indico/htdocs/js"
+        Alias /indico/ihelp "/opt/indico/htdocs/ihelp"
+
+        WSGIDaemonProcess WSGIDAEMON processes=32 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/opt/indico/tmp/egg-cache
+
+        WSGIScriptAlias /indico "/opt/indico/htdocs/index.wsgi"
+
+        <Directory "/opt/indico">
+            WSGIProcessGroup WSGIDAEMON
+            WSGIApplicationGroup %{GLOBAL}
+            AllowOverride None
+            Options None
+            Order deny,allow
+            Allow from all
+        </Directory>
+</VirtualHost>
+
+<VirtualHost *:443>
+
+        Alias /indico/images "/opt/indico/htdocs/images"
+        Alias /indico/css "/opt/indico/htdocs/css"
+        Alias /indico/js "/opt/indico/htdocs/js"
+        Alias /indico/ihelp "/opt/indico/htdocs/ihelp"
+
+        WSGIScriptAlias /indico "/opt/indico/htdocs/index.wsgi"
+
+        SSLEngine on
+        SSLCertificateFile    /etc/ssl/certs/self-gen.pem
+        SSLCertificateKeyFile /etc/ssl/private/self-gen.key
+</VirtualHost>
+}}}
+
+Then we have to create a self-generated ssl certificate.[[BR]]
+First of all make sure that the directories /etc/ssl/certs and /etc/ssl/private exist. Then generate the key.
+
+{{{#!bash
+mkdir -p /etc/ssl/certs
+mkdir -p /etc/ssl/private
+openssl req -new -x509 -nodes -out /etc/ssl/certs/self-gen.pem -keyout /etc/ssl/private/self-gen.key -days 3650 -subj '/CN=localhost'
+}}}
+
+With that done, we now have to specify a server name for the Apache server.[[BR]]
+Open the file /etc/httpd/conf/httpd.conf, find the line where the field ServerName is defined (should be commented by default) and modify it in something like this:
+
+{{{#!text
+ServerName localhost
+}}}
+
+Now open the file /etc/sysconfig/iptables and add the ports 80 and 443 to the port list just adding these two lines to the file:
+
+{{{#!text
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+}}}
+
+Make sure to restart the iptables service with the following command:
+
+{{{#!bash
+$ service iptables restart
+}}}
+
+Open now the file /opt/indico/etc/indico.conf and change these three values as follows:
+
+1. BaseURL: add the ":8000" port after "localhost"
+1. BaseSecureURL: add the ":8443" port after "localhost"
+1. LoginURL: "https://localhost:8443/indico/signIn.py"
+
+Then, we have to modify the file /etc/httpd/conf.d/ssl.conf and remove the VirtualHost definition, to prevent conflicts on the port 443.[[BR]]
+[[BR]]
+We now have to change the SELinux policies to allow Apache access to the Indico files and DB.[[BR]]
+SEL (Security-Enhanced Linux) is a Linux kernel module to allow access control monitoring. It comes already installed and running in all the RHEL distribution (such as SLC6) and if not modified correctly it will prevent Apache from accessing some resources needed to run Indico.[[BR]]
+To let SELinux allow the access to Apache just run the following commands from the VM console:
+
+{{{#!bash
+$ semanage fcontext -a -t httpd_sys_content_t '/opt/indico/archive(/.*)?'
+$ semanage fcontext -a -t httpd_sys_content_t '/opt/indico/cache(/.*)?'
+$ semanage fcontext -a -t httpd_sys_content_t '/opt/indico/db(/.*)?'
+$ semanage fcontext -a -t httpd_sys_content_t '/opt/indico/htdocs(/.*)?'
+$ semanage fcontext -a -t httpd_sys_content_t '/opt/indico/log(/.*)?'
+$ semanage fcontext -a -t httpd_sys_content_t '/opt/indico/tmp(/.*)?'
+$ restorecon -Rv /opt/indico
+$ setsebool -P httpd_can_network_connect 1
+}}}
+
+At last, we have to configure Redis.[[BR]]
+[[BR]]
+Just open /etc/redis.conf and set daemonized to '''yes''' and uncomment the password line. Then, open the /opt/indico/etc/indico.conf and modify '''RedisConnectionURL''' and '''RedisCacheURL''' accordingly using the password you chose (you can find an example of the redis url in the comments).[[BR]]
+If for example we have ''localhost'' as Redis hostname, ''6379'' as port used by Redis and ''redispswd'' as password chosen, the two fields have to be something like this:
+{{{#!python
+RedisConnectionURL = 'redis://unused:redispswd@localhost:6379/0'
+RedisCacheURL = 'redis://unused:redispswd@localhost:6379/1'
+}}}
+
+=== Start Indico ===
+
+If now you need to start Indico, just run the following commands:
+
+{{{#!bash
+$ zdaemon -C /opt/indico/etc/zdctl.conf start
+$ service redis start
+$ service httpd start
+}}}
+
+Then, open the browser and go to this address: [https://localhost:8443/indico/index.py].[[BR]]
+If everything went ok, this should lead you to the Indico main page.
+
+=== Image creation script ===
+In order to ease the image creation and automatize it, an image creation script is available at this address [https://github.com/tommy39/IndicoVM].[[BR]]
+[[BR]]
+Since it's written using Fabric Python (a Python module that allows to deploy an application remotely), to run it you just have to download the code from the repository, change the current working directory into the one with the fabfile.py (''dev/'') and invoke the various functions that you need using the following command:
+
+{{{#!bash
+$ fab function_name:arg1=val1,...,argn=valn
+}}}
+
+Also, with the following command, you can view the list of all the available functions with a short description:
+
+{{{#!bash
+$ fab -l
+}}}
+
+Let's take a look now to the various functions available.
+
+==== Options ====
+Most of the functions defined in the Fabric script have several arguments available and some of them are shared amongst two or more different function. Along with these options, there are other options not passable as arguments to functions, but still modifiable through the configuration file.[[BR]]
+[[BR]]
+Let's see in detail what each option means (those in bold are usable as arguments):
+
+1. '''user''': the login name used to access the VM host ("root" by default).
+1. '''password''': the password associated to the login name ("passw0rd" by default).
+1. '''host_machine''': the local VM used for debugging purposes (subfields: name, ssh_port, http_port, https_port).
+1. '''guest_machine''': the remote VM deployed on the cloud (subfields: name, ssh_port, http_port, https_port).
+1. '''redis_host''': the hostname associated to Redis ("localhost" by default).
+1. '''redis_port''': the port used to connect to the Redis server ("6379" by default).
+1. '''debug_vm''': enables the debug mode and the port forwarding ("False" by default).
+1. '''config_dir''': the directory containing the Indico and cloud-init configuration files ("config" by default).
+1. '''img_dir''': the directory that contains the VM image and the Virtual Drive ("../img" by default).
+1. '''img_name''': the filename of the VM image ("slc6_cern_x86_64.qcow2" by default).
+1. '''vd_name''': the filename of the cloud-init configuration Virtual Drive ("init.iso" by default).
+1. '''indico_inst_dir''': the path of the Indico installation in the VM ("/opt/indico" by default).
+1. '''db_inst_dir''': the path to the Indico DB installation in the VM ("/opt/indico/db" by default).
+1. '''indico_conf_dirname''': the directory name containing the Indico configuration files ("etc" by default).
+1. '''httpd_conf_dir''': the directory containing the httpd configuration file ("/etc/httpd/conf" by default).
+1. '''httpd_confd_dir''': the directory containing the Apache modules configuration files ("/etc/httpd/conf.d" by default).
+1. '''iptables_dir''': the directory containing the iptables file ("/etc/sysconfig" by default).
+1. '''ssl_certs_dir''': the SSL directory containing the .pem files ("/etc/ssl/certs" by default).
+1. '''ssl_private_dir''': the SSL directory containing the .key files ("/etc/ssl/private" by default).
+1. '''virtualization_cmd''': the command used to run the VM ("kvm" by default).
+1. '''yum_repos_dir''': the YUM repositories directory ("/etc/yum.repos.d" by default).
+1. '''puias_priority''': the puias-unsupported repository priority ("19" by default).
+
+All these options are defined in the Fabric script configuration file (by default, "fabfile.conf", in the same directory of the script).[[BR]]
+If you want to try some changes on the fly, calling a function with an argument is the best way. But if you need several times the same configuration, than you should consider changing the option value in the configuration file directly, or even creating several configuration files with different settings and switching between them changing the ''env.conf'' value in the fabfile.
+
+==== Commands ====
+
+Here, a list of the available Fabric commands that can be called specifying one or more of the available options:
+
+1. '''config_no_cloud''': configures the Virtual Drive to simulate the cloud-init configuration files.
+1. '''dependencies_inst''': installs all the dependencies needed to install and run Indico.
+1. '''indico_inst''': installs Indico and launches the first setup script.
+1. '''indico_config''': configures Indico.
+1. '''vm_config''': configures various aspects of the VM (SELinux, Redis, SSL, ...).
+1. '''config''': configures Indico (''indico_config'') and the VM (''vm_config'').
+1. '''deploy''': deploys Indico on the VM (''dependencies_inst'', ''indico_inst'' and ''config'').
+1. '''start''': starts Indico.
+1. '''launch_vm''': launches the VM.
+1. '''run_vm_debug''': launches the VM (''launch_vm'') and starts Indico (''start'') for debugging purposes.
+1. '''create_vm_img''': creates the final VM image, ready to be deployed on the cloud (''config_no_cloud'', ''launch_vm'' and ''deploy'').
+
+== Deployment ==
+Once we have our VM image with Indico correctly installed and configured on it, we can proceed with the deployment on the cloud.[[BR]]
+[[BR]]
+This part actually vary from provider to provider, since each one of them provides the user with different tools to upload an image and manage it.[[BR]]
+For example for all the OpenStack based platforms we have to use the '''nova boot''' command.[[BR]]
+[[BR]]
+A particular case is when we want to use a cloud service provider that doesn't allow the user to upload it's custom image.[[BR]]
+This scenario will be covered in the next section.
+
+=== Deployment script ===
+Since not every cloud service provider (such as Amazon EC2, Openstack, etc...) allows the user to upload and use a custom VM image, in order to deploy Indico on these platforms we have to follow a different procedure.[[BR]]
+[[BR]]
+In the previous section we described how to '''locally''' configure a base image to have Indico running and ready to be uploaded on the cloud.[[BR]]
+In this scenario, however, we want to tell our cloud service provider which base image we want for our VM and which are the instruction needed to install and configure Indico on it. In other words we now want to configure the image '''remotely''', providing only a set of instructions.[[BR]]
+[[BR]]
+This can be done through the module ''cloud-init'', a module present in almost every cloud service provider used to setup a VM image in a cloud environment.[[BR]]
+[[BR]]
+If the cloud service provider chosen supports cloud-init, than it will be possible to boot a new instance of a base image specifying a cloud-init configuration file.[[BR]]
+This file will be read and interpreted by cloud-init during the first boot up.[[BR]]
+[[BR]]
+All the documentation about cloud-init and it's configuration file can be found here: [http://cloudinit.readthedocs.org/en/latest/].[[BR]]
+[[BR]]
+Without entering into details, the user-data file we will need for the remote deployment will be a MIME multipart file.[[BR]]
+In particular, this MIME file will be composed by two different files:
+
+1. '''user-data-script.sh''': a bash script executed on the first boot to install and configure Indico on the VM.
+1. '''cloud-config''': a cloud-init configuration file, used to copy several files to the VM on the cloud.
+
+On the same Github repository ([https://github.com/tommy39/IndicoVM]) you can find an useful deployment script (usr/gen-user-data.py) to automatically generate this user-data file.[[BR]]
+[[BR]]
+The script can be configured with several option and it's also possible to generate a configuration file to speed up future deployment with similar configurations.[[BR]]
+Once in the script directory, it can be run with the following command:
+
+{{{#!bash
+$ python gen-user-data.py
+}}}
+
+When the script is terminated, a user-data file will be created in the same directory.[[BR]]
+[[BR]]
+Then all you have to do is to boot a new instance of the base image you choose specifying the user-data file just created.[[BR]]
+Be wary that the corresponding command will be different depending on the cloud service provider chosen.[[BR]]
+For example, if we want to deploy a new Indico image into the CERN Cloud Infrastructure we'll need to use the ''nova'' command (since it's based on OpenStack). The actual command should be something like that:
+
+{{{#!bash
+$ nova boot --image SLC6\ Server\ -\ x86_64\ [130920] --flavor m1.small --key_name nova_key --user-data user-data indico-cloud-test
+}}}
+
+With ''indico-cloud-test'' indicating the chosen hostname for the Indico server.
+
+=== Management script ===
+Just like the image creation part, another Fabric script has been written to facilitate the management of the VM once it's deployed on the cloud. You can find the script on the same GitHub repo: [https://github.com/tommy39/IndicoVM][[BR]]
+[[BR]]
+Again, move to the fabfile.py directory (''usr/'') and invoke a function with the next command:
+
+{{{#!bash
+$ fab function_name:arg1=val1,...,argn=valn
+}}}
+
+or obtain a list of the available functions with this command:
+
+{{{#!bash
+$ fab -l
+}}}
+
+==== Options ====
+Let's see now the options available:
+
+1. '''user''': the login name used to access the VM host ("root" by default).
+1. '''machine''': the remote VM on the cloud (subfields: name, ssh_port, http_port, https_port).
+1. '''redis_host''': the hostname associated to Redis ("localhost" by default).
+1. '''redis_pswd''': the password used to connect to the Redis server ("redispassw0rd" by default).
+1. '''redis_port''': the port used to connect to the Redis server ("6379" by default).
+1. '''indico_inst_dir''': the path of the Indico installation in the VM ("/opt/indico" by default).
+1. '''indico_conf_dirname''': the directory name containing the Indico configuration files ("etc" by default).
+1. '''httpd_conf_dir''': the directory containing the httpd configuration file ("/etc/httpd/conf" by default).
+1. '''httpd_confd_dir''': the directory containing the Apache modules configuration files ("/etc/httpd/conf.d" by default).
+1. '''iptables_dir''': the directory containing the iptables file ("/etc/sysconfig" by default).
+1. '''ssl_certs_dir''': the SSL directory containing the .pem files ("/etc/ssl/certs/" by default).
+1. '''ssl_private_dir''': the SSL directory containing the .key files ("/etc/ssl/private/" by default).
+1. '''ssl_pem_path''': the path to the SSL .pem file we want to load in the VM ("ssl/certs/ssl-cert-snakeoil.pem" by default).
+1. '''ssl_key_path''': the path to the SSL .key file we want to load in the VM ("ssl/private/ssl-cert-snakeoil.key" by default).
+
+Again, the options used by the fabfile are defined in the Fabric script configuration file (by default, "fabfile.conf", in the same directory of the script).
+
+==== Commands ====
+Here follows a list of the available commands for the Fabric Management script:
+
+1. '''load_ssl''': loads a personal SSL certificate and private key into the VM for the https pages of Indico.
+1. '''update_server''': updates the server configuration (hostname and relative ports).
+1. '''update_redis''': updates the Redis configuration (hostname, port and password).
+1. '''config''': configures the entire VM (''load_ssl'', ''update_server'' and ''update_redis'').
+1. '''start''': starts one or more components of Indico. The component(s) to start are specified with the parameter ''what'' (accepted values: ''redis'', ''db'', ''httpd'' or a combination of these). If ''what'' is left empty or not specified all the three components are started.
+1. '''restart''': restarts one or more components of Indico. Works like the command ''start''.
+
+=== Image format conversion ===
+The image we provide to deploy Indico on the cloud is in the .qcow2 format.[[BR]]
+Since not every cloud service provider supports the .qcow2 format, we may need to convert the image from the .qcow2 format into a different one.[[BR]]
+[[BR]]
+Using the '''qemu-img convert''' command we can convert an image in .qcow2 into one of the most used image formats.[[BR]]
+The command syntax will be the following:
+
+{{{#!bash
+$ qemu-img convert -f qcow2 -O {out_format} {image_name}.qcow2 {image_name}.{out_format}
+}}}
+
+Accepted values for {out_format} are ''qcow2'', ''raw'', ''vdi'', ''vmdk'' and ''vpc'' (be wary that the value ''vpc'', VirtualPC, actually refers to the .vhd format).[[BR]]
+[[BR]]
+So if, for example, we want to convert the image SLC6.qcow2 to use it with VirtualBox (.vdi format) we have to run the next command:
+
+{{{#!bash
+$ qemu-img convert -f qcow2 -O vdi SLC6.qcow2 SLC6.vdi
+}}}

@@ -1,0 +1,905 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1483 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1483 (UTF8 issue while migrating from 0.98 to 1.1)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1482.html" title="Ticket #1482" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t14831fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1483a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1483a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1484.html" title="Ticket #1484" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1482.html" title="Ticket #1482">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1484.html" title="Ticket #1484">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-19T08%3A37%3A57%2B01%3A00&amp;precision=second" title="See timeline at 02/19/14 08:37:57">20 months ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-28T15%3A07%3A59%2B01%3A00&amp;precision=second" title="See timeline at 02/28/14 15:07:59">20 months ago</a></p>
+  </div>
+  <h2>
+    <a href="1483.html" class="trac-id">#1483</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=fixed">fixed</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">UTF8 issue while migrating from 0.98 to 1.1</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=jdefaver">jdefaver</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-2.html">v1.2</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=General">General</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=1.1">1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+i followed the instructions here:<br />
+</p>
+<p>
+<a class="ext-link" href="https://indico-software.org/wiki/Releases/Indico1.1"><span class="icon">​</span>https://indico-software.org/wiki/Releases/Indico1.1</a><br />
+</p>
+<p>
+in order to upgrade. in the migrate.py step, i got the following:<br />
+</p>
+<pre class="wiki">[1289/1620 79.567901%] a058 PIC meeting                                          
+Migration failed! DB may be in  an inconsistent state:
+Traceback (most recent call last):
+  File "/opt/indico/bin/migration/migrate.py", line 897, in main
+    dry_run=args.dry_run)
+  File "/opt/indico/bin/migration/migrate.py", line 843, in runMigration
+    task(dbi, withRBDB, prevVersion)
+  File "/opt/indico/bin/migration/migrate.py", line 734, in indexConferenceTitle
+    nameIdx.index(conf.getId(), conf.getTitle().decode('utf-8'))
+  File "/usr/lib64/python2.6/encodings/utf_8.py", line 16, in decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xb5 in position 44: invalid start byte
+</pre><p>
+Indico seems to work though, but only part of the meetings have been migated, and i have no idea of the consequences.<br />
+</p>
+<p>
+Could you please help me :<br />
+</p>
+<ul><li>solve this issue
+</li><li>get my indico installation in a nicer state
+</li></ul><p>
+I have a backup of the whole server from the morning before the upgrade.<br />
+</p>
+<p>
+Thanks,<br />
+</p>
+<p>
+Jerome<br />
+</p>
+<p>
+P.S : in the instructions for upgrade, it would be nice to add that one should use <br />
+</p>
+<blockquote>
+<p>
+easy_install -U indico<br />
+</p>
+</blockquote>
+<p>
+instead of<br />
+</p>
+<blockquote>
+<p>
+easy_install indico<br />
+</p>
+</blockquote>
+<p>
+and that the --with-rb option comes with migrate.py and not indico_initial_setup<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(21)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1393344004660610">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-25T17%3A00%3A04%2B01%3A00&amp;precision=second" title="See timeline at 02/25/14 17:00:04">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi Jerome,<br />
+</p>
+<p>
+Do you have a backup of the db? If so, I would recommend you to start the migration from scratch. It is safer.<br />
+But, before running the migrate.py on the backup copy, you need to fix your DB. It looks that your indexes have data that is not in UTF-8. In order to do so, connect through indico_shell and:<br />
+</p>
+<pre class="wiki">from indico.util.string import fix_broken_string
+conf_list = ConferenceHolder().getValuesToList()
+for conf in conf_list:
+     conf.setTitle(fix_broken_string(conf.getTitle()))
+dbi.commit()
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1393344014911734">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-25T17%3A00%3A14%2B01%3A00&amp;precision=second" title="See timeline at 02/25/14 17:00:14">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>infoneeded_new</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-3-1393344023947387">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-25T17%3A00%3A23%2B01%3A00&amp;precision=second" title="See timeline at 02/25/14 17:00:23">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v1.1</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>infoneeded_new</em> to <em>new</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-4-1393344612023680">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-25T17%3A10%3A12%2B01%3A00&amp;precision=second" title="See timeline at 02/25/14 17:10:12">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v1.1</em> to <em>v1.2</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-5-1393404943800366">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-26T09%3A55%3A43%2B01%3A00&amp;precision=second" title="See timeline at 02/26/14 09:55:43">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi, <br />
+</p>
+<p>
+thanks for your replies. I used my backup to revert to 0.98 completely. I tried suggested lines but i got:<br />
+</p>
+<pre class="wiki">&gt;&gt;&gt; from indico.util.string import fix_broken_string
+Traceback (most recent call last):
+  File "&lt;console&gt;", line 1, in &lt;module&gt;
+ImportError: cannot import name fix_broken_string
+</pre><p>
+I can import indico.util.string but then:<br />
+</p>
+<pre class="wiki">&gt;&gt;&gt; import indico.util.string as indicostring
+&gt;&gt;&gt; dir(indicostring)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', 'html_line_breaks', 'remove_accents', 'remove_non_alpha', 'unicodeOrNone', 'unicodedata']
+</pre><p>
+is <em>fix_broken_string</em> supposed to be defined in 0.98 ?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1393430715196469">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-26T17%3A05%3A15%2B01%3A00&amp;precision=second" title="See timeline at 02/26/14 17:05:15">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Did you revert only your DB to 0.98 or also Indico's version?<br />
+You should have a DB from your 0.98 Indico version, but you should have Indico v1.1 installed.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1393430792188278">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-26T17%3A06%3A32%2B01%3A00&amp;precision=second" title="See timeline at 02/26/14 17:06:32">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I also reverted the whole indico installation, sorry for the lack of details. <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1393434228616192">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-26T18%3A03%3A48%2B01%3A00&amp;precision=second" title="See timeline at 02/26/14 18:03:48">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+So, please, install v1.1.2, and then apply the script I sent to you. Finally, re-run migrate.py<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1393493144673427">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T10%3A25%3A44%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 10:25:44">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+I did as you suggested but still no success : <br />
+</p>
+<pre class="wiki"># indico_shell 
++ 'MaKaC' : MaKaC base package
++ 'Conference'
++ 'Category'
++ 'ConferenceHolder'
++ 'CategoryManager'
++ 'AvatarHolder'
++ 'GroupHolder'
++ 'HelperMaKaCInfo'
++ 'PluginsHolder'
++ 'Catalog'
++ 'IndexesHolder'
++ 'minfo' : MaKaCInfo instance
+
+indico 1.1.2
+
+&gt;&gt;&gt; from indico.util.string import fix_broken_string
+Traceback (most recent call last):
+  File "&lt;console&gt;", line 1, in &lt;module&gt;
+ImportError: cannot import name fix_broken_string
+</pre><pre class="wiki">&gt;&gt;&gt; import indico.util.string as istring
+&gt;&gt;&gt; dir(istring)
+['__builtins__', '__doc__', '__file__', '__name__', '__package__', 'html_line_breaks', 'permissive_format', 're', 'remove_accents', 'remove_extra_spaces', 'remove_non_alpha', 'remove_tags', 'truncate', 'unicodeOrNone', 'unicodedata'] 
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-10-1393512908926901">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T15%3A55%3A08%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 15:55:08">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Um...sorry, it looks that we only added that method in 1.2. Anyway, you can do add the method directly in indico_shell, just before the migration code I have pasted in my first comment. Copy and paste this:<br />
+</p>
+<pre class="wiki">def fix_broken_string(text):
+    try:
+        text = text.decode('utf-8')
+    except UnicodeDecodeError:
+        try:
+            text = text.decode('latin1')
+        except UnicodeDecodeError:
+            text = unicode(text, 'utf-8', errors='replace')
+    return text.encode('utf-8')
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-11-1393516199868842">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T16%3A49%3A59%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 16:49:59">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+It seems to work but the migration has been running for ~1 hours now (i started as soon as i got your answer). Is it expected ?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-12-1393516581060156">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:12" class="cnum">
+    <a href="#comment:12">comment:12</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T16%3A56%3A21%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 16:56:21">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+No feedback from the migration script? I fear it is failing to connect to the DB. Are you sure the connection to the DB took place?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-13-1393516772872186">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:13" class="cnum">
+    <a href="#comment:13">comment:13</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T16%3A59%3A32%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 16:59:32">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Is there a way to find out ?<br />
+</p>
+<pre class="wiki"># python /opt/indico/bin/migration/migrate.py --prev-version=0.98.2 --with-rb
+
+This script will migrate your Indico DB to a new version. We recommend that
+this operation be executed while the web server is down, in order to avoid
+concurrency problems and DB conflicts.
+
+
+Are you sure you want to execute the migration now? [y/N] y
+
+Executing migration...
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-14-1393517174363679">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:14" class="cnum">
+    <a href="#comment:14">comment:14</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T17%3A06%3A14%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 17:06:14">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I stopped it and indeed it looks like no connection took place:<br />
+</p>
+<pre class="wiki">^C
+Migration failed! DB may be in  an inconsistent state:
+Traceback (most recent call last):
+  File "/opt/indico/bin/migration/migrate.py", line 897, in main
+    dry_run=args.dry_run)
+  File "/opt/indico/bin/migration/migrate.py", line 809, in runMigration
+    dbi = DBMgr.getInstance()
+  File "/usr/lib/python2.6/site-packages/indico-1.1.2-py2.6.egg/MaKaC/common/db.py", line 96, in getInstance
+    cls._instance=DBMgr(*args, **kwargs)
+  File "/usr/lib/python2.6/site-packages/indico-1.1.2-py2.6.egg/MaKaC/common/db.py", line 87, in __init__
+    max_disconnect_poll=max_disconnect_poll)
+  File "/usr/lib/python2.6/site-packages/ZODB3-3.10.5-py2.6-linux-x86_64.egg/ZEO/ClientStorage.py", line 420, in __init__
+    self._wait(wait_timeout)
+  File "/usr/lib/python2.6/site-packages/ZODB3-3.10.5-py2.6-linux-x86_64.egg/ZEO/ClientStorage.py", line 437, in _wait
+    self._rpc_mgr.connect(sync=1)
+  File "/usr/lib/python2.6/site-packages/ZODB3-3.10.5-py2.6-linux-x86_64.egg/ZEO/zrpc/client.py", line 280, in connect
+    self.cond.wait(self.sync_wait)
+  File "/usr/lib64/python2.6/threading.py", line 258, in wait
+    _sleep(delay)
+KeyboardInterrupt
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-15-1393517284131994">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:15" class="cnum">
+    <a href="#comment:15">comment:15</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T17%3A08%3A04%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 17:08:04">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Yes, it never took place. On the other hand, you can connect using indico_shell, right?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-16-1393517307333072">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:16" class="cnum">
+    <a href="#comment:16">comment:16</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T17%3A08%3A27%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 17:08:27">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I mean, if you run indico_shell and you see the python prompt, it means that the connection to the DB is done.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-17-1393517499912401">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:17" class="cnum">
+    <a href="#comment:17">comment:17</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-27T17%3A11%3A39%2B01%3A00&amp;precision=second" title="See timeline at 02/27/14 17:11:39">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+ah ok, my mistake, i had stopped the httpd server but also the whole indico in the process, which obviously prevented access to the db.<br />
+</p>
+<p>
+Now the migration runs but fails with:<br />
+</p>
+<pre class="wiki"># Indexing Conference Title (1.1)
+
+Migration failed! DB may be in  an inconsistent state:
+Traceback (most recent call last):
+  File "/opt/indico/bin/migration/migrate.py", line 897, in main
+    dry_run=args.dry_run)
+  File "/opt/indico/bin/migration/migrate.py", line 843, in runMigration
+    task(dbi, withRBDB, prevVersion)
+  File "/opt/indico/bin/migration/migrate.py", line 734, in indexConferenceTitle
+    nameIdx.index(conf.getId(), conf.getTitle().decode('utf-8'))
+  File "/usr/lib/python2.6/site-packages/indico-1.1.2-py2.6.egg/MaKaC/common/indexes.py", line 1232, in index
+    intId = self.addString(entryId)
+  File "/usr/lib/python2.6/site-packages/indico-1.1.2-py2.6.egg/MaKaC/common/indexes.py", line 1171, in addString
+    raise KeyError("Key '%s' already exists in index!" % stringId)
+KeyError: "Key '0' already exists in index!"
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-18-1393585914380515">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:18" class="cnum">
+    <a href="#comment:18">comment:18</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-28T12%3A11%3A54%2B01%3A00&amp;precision=second" title="See timeline at 02/28/14 12:11:54">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Um...that's really weird. It looks like if you have a conference 2 times in the index.<br />
+Would you have some time today to connect to our chatroom? I think we could try to solve all your troubles asap and faster through our chatroom. Would that be possible?<br />
+</p>
+<p>
+Details on how to connect to jabber/xmpp: <a href="http://indico-software.org/wiki/Community#Jabber">http://indico-software.org/wiki/Community#Jabber</a><br />
+</p>
+<p>
+Cheers,<br />
+Jose<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-19-1393589940988600">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:19" class="cnum">
+    <a href="#comment:19">comment:19</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-28T13%3A19%3A00%2B01%3A00&amp;precision=second" title="See timeline at 02/28/14 13:19:00">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I am available to chat for the next 3 hours, i'll try to connect to the chatroom<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-20-1393590914451221">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:20" class="cnum">
+    <a href="#comment:20">comment:20</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-28T13%3A35%3A14%2B01%3A00&amp;precision=second" title="See timeline at 02/28/14 13:35:14">20 months ago</a> by jdefaver
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I'm in the indico room, ready when you are<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-21-1393596479509890">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:21" class="cnum">
+    <a href="#comment:21">comment:21</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-02-28T15%3A07%3A59%2B01%3A00&amp;precision=second" title="See timeline at 02/28/14 15:07:59">20 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+I am closing this ticket since the migration is done.<br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t14831fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1483a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1483a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1483 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:21 GMT -->
+</html>

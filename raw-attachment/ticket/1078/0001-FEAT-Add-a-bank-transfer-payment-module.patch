@@ -1,0 +1,1133 @@
+From bab1a22f345374c767b493754e282f00e9eda461 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= <bjoern.pedersen@frm2.tum.de>
+Date: Tue, 21 Aug 2012 17:47:30 +0200
+Subject: [PATCH] [FEAT] Add a bank transfer payment module
+
+ * field for account data
+ * field for pknumber/additional payment info
+---
+ .../plugins/EPayment/bankTransfer/__init__.py      |  28 ++
+ .../plugins/EPayment/bankTransfer/epayment.py      | 327 +++++++++++++++++++++
+ .../tpls/CancelEPaymentBankTransfer.tpl            |   8 +
+ .../tpls/ConfModifEPaymentBankTransfer.tpl         |  36 +++
+ .../ConfModifEPaymentBankTransferDataModif.tpl     |  39 +++
+ .../tpls/confirmEPaymentBankTransfer.tpl           |  33 +++
+ .../EPayment/bankTransfer/webinterface/__init__.py |  21 ++
+ .../bankTransfer/webinterface/pages/__init__.py    |  21 ++
+ .../bankTransfer/webinterface/pages/ePayments.py   | 175 +++++++++++
+ .../bankTransfer/webinterface/rh/__init__.py       |  37 +++
+ .../bankTransfer/webinterface/rh/ePaymentModif.py  | 131 +++++++++
+ .../bankTransfer/webinterface/urlHandlers.py       |  66 +++++
+ .../bankTransfer/webinterface/wcomponents.py       |  47 +++
+ indico/htdocs/bankTransfer.py                      |  26 ++
+ setup.py                                           |   1 +
+ 15 Dateien geändert, 996 Zeilen hinzugefügt(+)
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/tpls/CancelEPaymentBankTransfer.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransfer.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransferDataModif.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransfer.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/ePayments.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/ePaymentModif.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/urlHandlers.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/wcomponents.py
+ create mode 100644 indico/htdocs/bankTransfer.py
+
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/__init__.py b/indico/MaKaC/plugins/EPayment/bankTransfer/__init__.py
+new file mode 100644
+index 0000000..fda09ff
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/__init__.py
+@@ -0,0 +1,28 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++__metadata__ = {
++    'type': "EPayment",
++    'name': "BankTransfer"
++    }
++
++MODULE_ID = 'banktransfer'
++
++modules = {}
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py b/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
+new file mode 100644
+index 0000000..80fcb42
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/epayment.py
+@@ -0,0 +1,327 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.epayment import BaseEPayMod, BaseTransaction
++import MaKaC.webinterface.urlHandlers as urlHandlers
++from MaKaC.webinterface.common.tools import strip_ml_tags
++
++
++from MaKaC.plugins.EPayment.bankTransfer.webinterface import urlHandlers as localUrlHandlers
++from MaKaC.plugins.EPayment.bankTransfer import MODULE_ID
++
++class BankTransferMod(BaseEPayMod):
++    _accountBank = ""
++    _accountBLZ = ""
++    _accountNumber = ""
++    _accountIBAN = ""
++    _accountSwift = ""
++
++    def __init__(self, data=None):
++        BaseEPayMod.__init__(self)
++        self._title = "bank transfer"
++        self._detailPayment= ""
++        self._accountBank = ""
++        self._accountBLZ = ""
++        self._accountNumber = ""
++        self._accountIBAN = ""
++        self._accountSwift = ""
++        self._pknumber = ""
++        if data is not None:
++            self.setValues(data)
++        self._id="banktransfer"
++
++    def getId(self):
++        try:
++            if self._id:
++                pass
++        except AttributeError, e:
++            self._id="banktransfer"
++        return self._id
++
++    def clone(self, newSessions):
++        sesf = BankTransferMod()
++        sesf.setTitle(self.getTitle())
++
++
++        return sesf
++
++    def setValues(self, data):
++        try:
++            self.setTitle(data.get("title", "epayment"))
++            self.setdetailPayment(data.get("detailPayment", ""))
++            self.setAccountBank(data.get("accountBank",""))
++            self.setAccountBLZ(data.get("accountBLZ",""))
++            self.setAccountNumber(data.get("accountNumber",""))
++            self.setAccountIBAN(data.get("accountIBAN",""))
++            self.setAccountSwift(data.get("accountSwift",""))
++            self.setPKNumber(data.get("pknumber",""))
++        except:
++            pass
++
++    def getPaymentDetails(self):
++
++        txt="""<td align="right"><b>account bank</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account BLZ</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account Number</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account IBAN</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account SWIFT</b></td>
++        <td align="left">%s</td>
++    </tr>
++        <tr>
++            <td align="right"><b>Subject</b></td>
++            <td align="left">PK-Nr %s ID </td>
++        </tr>
++
++                        </table>"""%(
++                             self.getAccountBank(),
++                             self.getAccountBLZ(),
++                             self.getAccountNumber(),
++                             self.getAccountIBAN(),
++                             self.getAccountSwift(),
++                             self.getPKNumber())
++#        txt="""\tBank: %s\n
++#\tBLZ: %s\n
++#\tAccount: %s\n
++#\tIBAN: %s\n
++#\tSWIFT: %s\n
++#\tSubject: PK-Nr %s  ID \n
++#"""%(
++#                             self.getAccountBank(),
++#                             self.getAccountBLZ(),
++#                             self.getAccountNumber(),
++#                             self.getAccountIBAN(),
++#                             self.getAccountSwift(),
++#                             self.getPKNumber())
++#
++#        raise Exception("test")
++        return txt
++    def getdetailPayment(self):
++        return self._detailPayment
++    def setdetailPayment(self, detailPayment):
++        self._detailPayment= detailPayment
++
++    def getAccountBank(self):
++        return self._accountBank
++    def setAccountBank(self, accountBank):
++        self._accountBank = accountBank
++    def getAccountBLZ(self):
++        return self._accountBLZ
++    def setAccountBLZ(self, accountBLZ):
++        self._accountBLZ = accountBLZ
++    def getAccountNumber(self):
++        return self._accountNumber
++    def setAccountNumber(self, accountNumber):
++        self._accountNumber = accountNumber
++    def getAccountIBAN(self):
++        return self._accountIBAN
++    def setAccountIBAN(self, accountIBAN):
++        self._accountIBAN = accountIBAN
++    def getAccountSwift(self):
++        return self._accountSwift
++    def setAccountSwift(self, accountSwift):
++        self._accountSwift = accountSwift
++
++    def getPKNumber(self):
++        return self._pknumber
++    def setPKNumber(self, pknumber):
++        self._pknumber = pknumber
++
++
++    def getTitle(self):
++        return self._title
++    def setTitle(self, title):
++        self._title = title
++
++    def getUrl(self, registrant):
++        return localUrlHandlers.UHPayConfirmBankTransfer.getURL(registrant)
++
++    def getFormHTML(self,prix,Currency,conf,registrant,lang = "en_GB", secure=False):
++        url_return=localUrlHandlers.UHPayConfirmBankTransfer.getURL(registrant)
++        url_cancel_return=localUrlHandlers.UHPayCancelBankTransfer.getURL(registrant)
++        url_notify=localUrlHandlers.UHPayParamsBankTransfer.getURL(registrant)
++        s=""" <form action="%s" method="POST" id="%s">
++                        <input type="hidden" name="cmd" value="_xclick">
++                        <input type="hidden" name="item_name" value="%s">
++                        <input type="hidden" name="amount" value="%s">
++                        <INPUT TYPE="hidden" NAME="currency_code" value="%s">
++                        <input type="hidden" name="charset" value="utf-8">
++                        <input type="hidden" name="return" value="%s">
++                        <input type="hidden" name="cancel_return" value="%s">
++                        <input type="hidden" name="notify_url" value="%s">
++                   </form>
++                       """%(self.getUrl(registrant), self.getId(), "%s: registration for %s"%(registrant.getFullName(),strip_ml_tags(conf.getTitle())),prix,Currency,\
++                            url_return,url_cancel_return,url_notify)
++        #s=cgi.escape(s)
++        return s
++
++    def getConfModifEPaymentURL(self, conf):
++        return localUrlHandlers.UHConfModifEPaymentBankTransfer.getURL(conf)
++
++
++
++class TransactionBankTransferMod(BaseTransaction):
++
++    def __init__(self,parms):
++        BaseTransaction.__init__(self)
++        self._Data=parms
++
++    def isChangeable(self): return True
++
++    def getId(self):
++        try:
++            if self._id:
++                pass
++        except AttributeError, e:
++            self._id="banktransfer"
++        return self._id
++
++    def getTransactionHTML(self):
++        payMod = getPayMod()
++        return"""<table>
++                          <tr>
++                            <td align="right"><b>Payment with:</b></td>
++                            <td align="left">Bank transfer</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>OrderTotal:</b></td>
++                            <td align="left">%s %s</td>
++                          </tr>
++                          <tr><td>%s</td></tr>
++                        </table>%s"""%(self._Data["OrderTotal"], \
++                             self._Data["Currency"], self._Data["payer_id"],payMod.getdetailPayment())
++
++
++class TransactionBankTransfer(BaseTransaction):
++
++    def __init__(self,parms):
++        BaseTransaction.__init__(self)
++        self._Data=parms
++
++
++    def getId(self):
++        try:
++            if self._id:
++                pass
++        except AttributeError, e:
++            self._id="banktransfer"
++        return self._id
++
++    def getTransactionHTML(self):
++        payMod = getPayMod()
++        return"""<table>
++                          <tr>
++                            <td align="right"><b>Payment with:</b></td>
++                            <td align="left">Bank transfer</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>Payment Date:</b></td>
++                            <td align="left">%s</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>Payment ID:</b></td>
++                            <td align="left">%s</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>Order Total:</b></td>
++                            <td align="left">%s %s</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>verify sign:</b></td>
++                            <td align="left">%s</td>
++                          </tr>
++                              <tr>
++        <td align="right"><b>account bank</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account BLZ</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account Number</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account IBAN</b></td>
++        <td align="left">%s</td>
++    </tr>
++    <tr>
++        <td align="right"><b>account SWIFT</b></td>
++        <td align="left">%s</td>
++    </tr>
++        <tr>
++            <td align="right"><b>Subject</b></td>
++            <td align="left">PK-Nr %s ID %s</td>
++        </tr>
++
++                        </table>"""%("",self._Data["payer_id"], self._Data["mc_gross"], \
++                             self._Data["mc_currency"], self._Data["verify_sign"],
++                             payMod.getAccountBank(),
++                             payMod.getAccountBLZ(),
++                             payMod.getAccountNumber(),
++                             payMod.getAccountIBAN(),
++                             payMod.getAccountSwift(),
++                             payMod.getPKNumber(), self._Data["payer_id"])
++
++    def getTransactionTxt(self):
++        payMod=getPayMod()
++
++
++        return"""
++\tPayment with:BankTransfer\n
++\tPayment Date:%s\n
++\tPayment ID:%s\n
++\tOrder Total:%s %s\n
++\tverify sign:%s\n
++\n
++\tBank: %s\n
++\tBLZ: %s\n
++\tAccount: %s\n
++\tIBAN: %s\n
++\tSWIFT: %s\n
++\tSubject: PK-Nr %s  ID %s\n
++"""%("",self._Data["payer_id"], self._Data["mc_gross"], \
++                             self._Data["mc_currency"], self._Data["verify_sign"],
++                             payMod.getAccountBank(),
++                             payMod.getAccountBLZ(),
++                             payMod.getAccountNumber(),
++                             payMod.getAccountIBAN(),
++                             payMod.getAccountSwift(),
++                             payMod.getPKNumber(), self._Data["payer_id"])
++
++
++
++def getPayMod():
++    return BankTransferMod()
++
++def getPayModClass():
++    return BankTransferMod
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/CancelEPaymentBankTransfer.tpl b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/CancelEPaymentBankTransfer.tpl
+new file mode 100644
+index 0000000..69f1221
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/CancelEPaymentBankTransfer.tpl
+@@ -0,0 +1,8 @@
++    <table width="60%" align="center" border="0" style="border: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2" style="text-align:center; background:#E5E5E5; color:gray">${ message }</td>
++        </tr>
++        <tr>
++            <td align="center" colspan="2" bgcolor="white" style="padding-bottom:10px">${ messagedetailPayment }</td>
++        </tr>
++    </table>
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransfer.tpl b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransfer.tpl
+new file mode 100644
+index 0000000..e57a60a
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransfer.tpl
+@@ -0,0 +1,36 @@
++<table width="90%" align="left" border="0">
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Title</span></td>
++        <td bgcolor="white" width="100%" class="blacktext">${ title }</td>
++        <form action=${ dataModificationURL } method="POST">
++        <td rowspan="3" valign="bottom" align="right">
++            <input type="submit" value="modify">
++        </td>
++        </form>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">account bank</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountBank }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">account BLZ</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountBLZ }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">account Number</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountNumber }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">account IBAN</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountIBAN }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">account SWIFT</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountSwift }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">PK-Number</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ pknumber }</pre></td>
++    </tr>
++    <tr><td>&nbsp;</td></tr>
++</table>
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransferDataModif.tpl b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransferDataModif.tpl
+new file mode 100644
+index 0000000..7836244
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/ConfModifEPaymentBankTransferDataModif.tpl
+@@ -0,0 +1,39 @@
++<form action=${ postURL } method="POST">
++    <table width="80%" align="center" border="0" style="border-left: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2">Configuration of Bank transfer</td>
++        </tr>
++        <tr>
++            <td nowrap class="dataCaptionTD"><span class="titleCellFormat">Title</span></td>
++            <td align="left"><input type="text" name="title" size="60" value="${ title }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat"> Bank</span></td>
++            <td align="left"><input type="text" name="accountBank" size="90" value="${ accountBank }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat"> BLZ</span></td>
++            <td align="left"><input type="text" name="accountBLZ" size="90" value="${ accountBLZ }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat">Account Number</span></td>
++            <td align="left"><input type="text" name="accountNumber" size="90" value="${ accountNumber }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat"> IBAN</span></td>
++            <td align="left"><input type="text" name="accountIBAN" size="90" value="${ accountIBAN }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat"> Swift</span></td>
++            <td align="left"><input type="text" name="accountSwift" size="90" value="${ accountSwift }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat">PK-Number</span></td>
++            <td align="left"><input type="text" name="pknumber" size="60" value="${ pknumber }"></td>
++        </tr>
++        <tr><td>&nbsp;</td></tr>
++        <tr>
++            <td colspan="2" align="left"><input type="submit" value="OK">&nbsp;<input type="submit" value="cancel" name="cancel"></td>
++        </tr>
++    </table>
++</form>
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransfer.tpl b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransfer.tpl
+new file mode 100644
+index 0000000..695c200
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransfer.tpl
+@@ -0,0 +1,33 @@
++
++    <table width="60%" align="center" border="0" style="border: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2" style="text-align:center; background:#E5E5E5; color:gray">${ message }</td>
++        </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Bank</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountBank }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">BLZ</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountBLZ }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Number</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountNumber }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">IBAN</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountIBAN }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">SWIFT</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountSwift }</pre></td>
++    </tr>
++        <tr>
++            <td class="dataCaptionTD"> <span class="dataCaptionFormat">Subject</span></td>
++            <td bgcolor="white" width="100%" class="blacktext"><pre>PK-Nr ${ pknumber} ID ${ id }</pre></td>
++        </tr>
++        <tr>
++            <td align="center" colspan="2" bgcolor="white" style="padding-bottom:10px">${ trinfo }</td>
++        </tr>
++    </table>
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/__init__.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/__init__.py
+new file mode 100644
+index 0000000..46ad351
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/__init__.py
+@@ -0,0 +1,21 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++modules = {}
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/__init__.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/__init__.py
+new file mode 100644
+index 0000000..46ad351
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/__init__.py
+@@ -0,0 +1,21 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++modules = {}
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/ePayments.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/ePayments.py
+new file mode 100644
+index 0000000..1f6559d
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/pages/ePayments.py
+@@ -0,0 +1,175 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++import MaKaC.webinterface.pages.conferences as conferences
++import MaKaC.webinterface.pages.registrationForm as registrationForm
++from MaKaC.webinterface import wcomponents
++from xml.sax.saxutils import quoteattr
++from MaKaC.common import Configuration
++from MaKaC.webinterface import urlHandlers
++import MaKaC
++from MaKaC.i18n import _
++
++
++from MaKaC.plugins.EPayment.bankTransfer import MODULE_ID
++from MaKaC.plugins.EPayment.bankTransfer.webinterface.wcomponents import WTemplated
++from MaKaC.plugins.EPayment.bankTransfer.webinterface import urlHandlers as localUrlHandlers
++
++
++
++class WPConfModifEPaymentBankTransferBase(registrationForm.WPConfModifRegFormBase):
++
++    def _createTabCtrl( self ):
++        self._tabCtrl = wcomponents.TabControl()
++        self._tabMain = self._tabCtrl.newTab( "main", _("Main"), \
++                localUrlHandlers.UHConfModifEPaymentBankTransfer.getURL( self._conf ) )
++        wf = self._rh.getWebFactory()
++        if wf:
++            wf.customiseTabCtrl( self._tabCtrl )
++        self._setActiveTab()
++
++    def _setActiveTab( self ):
++        pass
++
++    def _setActiveSideMenuItem(self):
++        self._regFormMenuItem.setActive(True)
++
++    def _getPageContent( self, params ):
++        self._createTabCtrl()
++        banner = wcomponents.WEpaymentBannerModif(self._conf.getModPay().getPayModByTag(MODULE_ID), self._conf).getHTML()
++        html = wcomponents.WTabControl( self._tabCtrl, self._getAW() ).getHTML( self._getTabContent( params ) )
++        return banner+html
++
++    def _getTabContent( self, params ):
++        return "nothing"
++
++class WPConfModifEPaymentBankTransfer( WPConfModifEPaymentBankTransferBase ):
++
++    def _getTabContent( self, params ):
++        wc = WConfModifEPaymentBankTransfer(self._conf)
++        p = {
++             'dataModificationURL': quoteattr(str(localUrlHandlers.UHConfModifEPaymentBankTransferDataModif.getURL( self._conf )))
++            }
++        return wc.getHTML(p)
++
++class WConfModifEPaymentBankTransfer( WTemplated ):
++
++    def __init__( self, conference ):
++        self._conf = conference
++
++    def getVars( self ):
++        vars = WTemplated.getVars(self)
++        modBankTransfer = self._conf.getModPay().getPayModByTag(MODULE_ID)
++        vars["title"] = modBankTransfer.getTitle()
++        vars["accountBank"] = modBankTransfer.getAccountBank()
++        vars["accountBLZ"] = modBankTransfer.getAccountBLZ()
++        vars["accountNumber"] = modBankTransfer.getAccountNumber()
++        vars["accountIBAN"] = modBankTransfer.getAccountIBAN()
++        vars["accountSwift"] = modBankTransfer.getAccountSwift()
++        vars["pknumber"] =  modBankTransfer.getPKNumber()
++        return vars
++
++class WPConfModifEPaymentBankTransferDataModif( WPConfModifEPaymentBankTransferBase ):
++
++    def _getTabContent( self, params ):
++        wc = WConfModifEPaymentBankTransferDataModif(self._conf)
++        p = {'postURL': quoteattr(str(localUrlHandlers.UHConfModifEPaymentBankTransferPerformDataModif.getURL( self._conf )))
++            }
++        return wc.getHTML(p)
++
++class WConfModifEPaymentBankTransferDataModif( WTemplated ):
++
++    def __init__( self, conference ):
++        self._conf = conference
++
++    def getVars( self ):
++        vars = WTemplated.getVars(self)
++        modBankTransfer = self._conf.getModPay().getPayModByTag(MODULE_ID)
++        vars["title"] = modBankTransfer.getTitle()
++        vars["accountBank"] = modBankTransfer.getAccountBank()
++        vars["accountBLZ"] = modBankTransfer.getAccountBLZ()
++        vars["accountNumber"] = modBankTransfer.getAccountNumber()
++        vars["accountIBAN"] = modBankTransfer.getAccountIBAN()
++        vars["accountSwift"] = modBankTransfer.getAccountSwift()
++        vars["pknumber"] =  modBankTransfer.getPKNumber()
++        return vars
++
++class WPconfirmEPaymentBankTransfer( conferences.WPConferenceDefaultDisplayBase ):
++    #navigationEntry = navigation.NERegistrationFormDisplay
++
++    def __init__(self, rh, conf, reg):
++        conferences.WPConferenceDefaultDisplayBase.__init__(self, rh, conf)
++        self._registrant=reg
++
++
++    def _getBody( self, params ):
++        wc = WconfirmEPaymentBankTransfer(self._conf, self._registrant)
++        return wc.getHTML()
++
++    def _defineSectionMenu( self ):
++        conferences.WPConferenceDefaultDisplayBase._defineSectionMenu(self)
++        self._sectionMenu.setCurrentItem(self._regFormOpt)
++
++
++class WconfirmEPaymentBankTransfer( WTemplated ):
++    def __init__( self,configuration, registrant):
++        self._registrant = registrant
++        self._conf = configuration
++
++    def getVars( self ):
++        vars = WTemplated.getVars(self)
++        modBankTransfer = self._conf.getModPay().getPayModByTag(MODULE_ID)
++        vars["message"] = "Thank you for the payment!<br/> You have choosen payment by BankTransfer<br>"\
++                          "Please see the information below for details."
++        vars["accountBank"] = modBankTransfer.getAccountBank()
++        vars["accountBLZ"] = modBankTransfer.getAccountBLZ()
++        vars["accountNumber"] = modBankTransfer.getAccountNumber()
++        vars["accountIBAN"] = modBankTransfer.getAccountIBAN()
++        vars["accountSwift"] = modBankTransfer.getAccountSwift()
++        vars["pknumber"] = modBankTransfer.getPKNumber()
++        vars["id"] = self._registrant.getIdPay()
++        vars["trinfo"]="%s:%s"%(self._registrant.getFirstName(),self._registrant.getSurName())
++        return vars
++
++class WPCancelEPaymentBankTransfer( conferences.WPConferenceDefaultDisplayBase ):
++    #navigationEntry = navigation.NERegistrationFormDisplay
++
++    def __init__(self, rh, conf, reg):
++        conferences.WPConferenceDefaultDisplayBase.__init__(self, rh, conf)
++        self._registrant=reg
++
++    def _getBody( self, params ):
++        wc = WCancelEPaymentBankTransfer( self._conf,self._registrant )
++        return wc.getHTML()
++
++    def _defineSectionMenu( self ):
++        conferences.WPConferenceDefaultDisplayBase._defineSectionMenu(self)
++        self._sectionMenu.setCurrentItem(self._regFormOpt)
++
++class WCancelEPaymentBankTransfer( WTemplated ):
++    def __init__( self, conference,reg ):
++        self._conf = conference
++        self._registrant=reg
++
++    def getVars( self ):
++        vars = WTemplated.getVars(self)
++        vars["message"] = "You have cancelled your transaction.\nPlease check your email in order to complete your BankTransfer transaction."
++        vars["messagedetailPayment"]="%s:%s"%(self._registrant.getFirstName(),self._registrant.getSurName())
++        return vars
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/__init__.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/__init__.py
+new file mode 100644
+index 0000000..1fe3d4d
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/__init__.py
+@@ -0,0 +1,37 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++modules = {}
++
++
++
++def getRHByTag(self, tag):
++    """Do the link between url handlers and request handlers"""
++    for mod in self.modules.values():
++        for RH in mod.__dict__.keys():
++            try:
++                if mod.__dict__[RH]._requestTag == tag:
++                    return mod.__dict__[RH]
++            except:
++                pass
++
++
++def preprocessParams(params):
++    return True
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/ePaymentModif.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/ePaymentModif.py
+new file mode 100644
+index 0000000..ba8ee9e
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/rh/ePaymentModif.py
+@@ -0,0 +1,131 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.webinterface.rh.ePaymentModif import RHEPaymentModifBase, RHConferenceBaseDisplay, RHRegistrationFormDisplayBase
++import MaKaC.webinterface.urlHandlers as urlHandlers
++from datetime import datetime
++from MaKaC.common.timezoneUtils import nowutc
++
++
++from MaKaC.plugins.EPayment.bankTransfer.webinterface.pages import ePayments
++from MaKaC.plugins.EPayment.bankTransfer.webinterface import urlHandlers as localUrlHandlers
++from MaKaC.plugins.EPayment.bankTransfer import epayment as ePayment
++from MaKaC.plugins.EPayment.bankTransfer import MODULE_ID
++
++
++class RHEPaymentmodifBankTransfer( RHEPaymentModifBase ):
++    _requestTag = "modifBankTransfer"
++
++    def _process( self ):
++        p = ePayments.WPConfModifEPaymentBankTransfer( self, self._conf )
++        return p.display()
++
++class RHEPaymentmodifBankTransferDataModif( RHEPaymentModifBase ):
++    _requestTag = "modifBankTransferData"
++
++    def _process( self ):
++        p = ePayments.WPConfModifEPaymentBankTransferDataModif( self, self._conf )
++        return p.display()
++
++class RHEPaymentmodifBankTransferPerformDataModif( RHEPaymentModifBase ):
++    _requestTag = "modifBankTransferPerformDataModif"
++
++    def _checkParams( self, params ):
++        RHEPaymentModifBase._checkParams( self, params )
++        self._params=params
++        self._cancel = params.has_key("cancel")
++
++    def _process( self ):
++        if not self._cancel:
++            ses = self._conf.getModPay().getPayModByTag(MODULE_ID)
++            ses.setValues(self._params)
++        self._redirect(localUrlHandlers.UHConfModifEPaymentBankTransfer.getURL(self._conf))
++
++
++
++
++class RHEPaymentconfirmBankTransfer( RHRegistrationFormDisplayBase ):
++    _requestTag = "confirm"
++
++    def _checkParams( self, params ):
++        RHRegistrationFormDisplayBase._checkParams( self, params )
++        self._registrant=None
++        regId= params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _processIfActive( self ):
++        if self._registrant is not None:
++            p = ePayments.WPconfirmEPaymentBankTransfer( self,self._conf,self._registrant)
++            return p.display()
++
++class RHEPaymentCancelBankTransfer( RHRegistrationFormDisplayBase ):
++    _requestTag = "cancel"
++
++    def _checkParams( self, params ):
++        RHRegistrationFormDisplayBase._checkParams( self, params )
++        self._registrant=None
++        regId=params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _processIfActive( self ):
++        if self._registrant is not None:
++            p = ePayments.WPCancelEPaymentBankTransfer( self,self._conf ,self._registrant)
++            return p.display()
++
++
++class RHEPaymentValideParamBankTransfer( RHConferenceBaseDisplay ):
++    _requestTag = "params"
++
++    def _checkParams( self, params ):
++        RHConferenceBaseDisplay._checkParams(self, params)
++        self._regForm = self._conf.getRegistrationForm()
++        self._params=params
++        self._registrant=None
++        regId=params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _checkProtection(self):
++        # Just bypass everything else, as we want the payment service
++        # to acknowledge the payment
++        pass
++
++    def _process( self ):
++        regForm = self._conf.getRegistrationForm()
++        if not regForm.isActivated() or not self._conf.hasEnabledSection("regForm"):
++            p = registrationForm.WPRegFormInactive( self, self._conf )
++            return p.display()
++        else:
++            if self._registrant is not None:
++                #self._registrant.setPayed(True)
++                d={}
++                #d["payment_date"]=nowutc()
++                d["payer_id"]=self._params.get("payer_id")
++                d["mc_currency"]=self._params.get("mc_currency")
++                d["mc_gross"]=self._params.get("mc_gross")
++                d["verify_sign"]=self._params.get("verify_sign")
++                tr=ePayment.TransactionBankTransfer(d)
++                self._registrant.setTransactionInfo(tr)
++                self._regForm.getNotification().sendEmailNewRegistrantConfirmPay(self._regForm,self._registrant )
++
++
++
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/urlHandlers.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/urlHandlers.py
+new file mode 100644
+index 0000000..1587769
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/urlHandlers.py
+@@ -0,0 +1,66 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.webinterface.urlHandlers import URLHandler as MainURLHandler
++from MaKaC.plugins.EPayment import bankTransfer
++
++class EPURLHandler(MainURLHandler):
++
++    _requestTag = ""
++
++    def getURL(cls, target=None):
++        """Gives the full URL for the corresponding request handler. In case
++            the target parameter is specified it will append to the URL the
++            the necessary parameters to make the target be specified in the url.
++
++            Parameters:
++                target - (Locable) Target object which must be uniquely
++                    specified in the URL so the destination request handler
++                    is able to retrieve it.
++        """
++        #url = MainURLHandler.getURL(target)
++        url = cls._getURL()
++        if target is not None:
++            url.setParams(target.getLocator())
++        url.addParam("EPaymentName", bankTransfer.MODULE_ID)
++        url.addParam("requestTag", cls._requestTag)
++        return url
++    getURL = classmethod(getURL)
++
++class UHConfModifEPayment(EPURLHandler):
++    _relativeURL = "confModifEpayment.py/modifModule"
++
++class UHConfModifEPaymentBankTransfer(UHConfModifEPayment):
++    _requestTag = "modifBankTransfer"
++class UHConfModifEPaymentBankTransferDataModif(UHConfModifEPayment):
++    _requestTag = "modifBankTransferData"
++class UHConfModifEPaymentBankTransferPerformDataModif(UHConfModifEPayment):
++    _requestTag = "modifBankTransferPerformDataModif"
++
++
++class UHPay(EPURLHandler):
++    _relativeURL = "payment.py"
++
++class UHPayConfirmBankTransfer(UHPay):
++    _requestTag = "confirm"
++class UHPayCancelBankTransfer(UHPay):
++    _requestTag = "cancel"
++class UHPayParamsBankTransfer(UHPay):
++    _requestTag = "params"
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/wcomponents.py b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/wcomponents.py
+new file mode 100644
+index 0000000..d28122c
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/webinterface/wcomponents.py
+@@ -0,0 +1,47 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.webinterface import wcomponents
++import os
++import MaKaC.common.Configuration as Configuration
++
++from MaKaC.plugins.EPayment import bankTransfer
++
++class WTemplated(wcomponents.WTemplated):
++
++    def _setTPLFile(self):
++        """Sets the TPL (template) file for the object. It will try to get
++            from the configuration if there's a special TPL file for it and
++            if not it will look for a file called as the class name+".tpl"
++            in the configured TPL directory.
++        """
++        cfg = Configuration.Config.getInstance()
++
++        dir = os.path.join(bankTransfer.__path__[0], "tpls")
++        file = cfg.getTPLFile( self.tplId )
++        if file == "":
++            file = "%s.tpl"%self.tplId
++        self.tplFile = os.path.join(dir, file)
++
++        hfile = self._getSpecificTPL(os.path.join(dir,'chelp'),
++                                     self.tplId,
++                                     extension='wohl')
++
++        self.helpFile = os.path.join(dir,'chelp',hfile)
+diff --git a/indico/htdocs/bankTransfer.py b/indico/htdocs/bankTransfer.py
+new file mode 100644
+index 0000000..1714862
+--- /dev/null
++++ b/indico/htdocs/bankTransfer.py
+@@ -0,0 +1,26 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++import MaKaC.webinterface.rh.ePaymentModif as ePaymentModif
++def confirm(req, **params):
++    return ePaymentModif.RHEPaymentConfirmBankTransfer( req ).process( params )
++
++def cancel(req, **params):
++    return ePaymentModif.RHEPaymentCancelBankTransfer ( req ).process( params )
+diff --git a/setup.py b/setup.py
+index 6f738b1..1a3b282 100644
+--- a/setup.py
++++ b/setup.py
+@@ -545,6 +545,7 @@ if __name__ == '__main__':
+             EPayment.worldPay = MaKaC.plugins.EPayment.worldPay
+             EPayment.yellowPay = MaKaC.plugins.EPayment.yellowPay
+             EPayment.skipjack = MaKaC.plugins.EPayment.skipjack
++            EPayment.bankTransfer = MaKaC.plugins.EPayment.bankTransfer
+ 
+             importer.invenio = indico.ext.importer.invenio
+             importer.dummy = indico.ext.importer.dummy
+-- 
+1.7.12.rc0.10.g476109f
+

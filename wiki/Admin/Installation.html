@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Admin/Installation by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:08 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Admin/Installation – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Admin%252FInstallation56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Admin.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Admin.html" title="View Admin">Admin</a><span class="pathentry sep">/</span><a class="pathentry" href="Installation.html" title="View Admin/Installation">Installation</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Admin.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Admin/Installation?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#InstallingIndico">Installing Indico</a>
+    <ol>
+      <li>
+        <a href="#a0.Beforestarting">0. Before starting</a>
+      </li>
+      <li>
+        <a href="#a1.Installingit">1. Installing it</a>
+        <ol>
+          <li>
+            <a href="#a1.1.fetchingareleaserecommended">1.1. fetching a release (<strong>recommended</strong>)</a>
+          </li>
+          <li>
+            <a href="#a1.2.fromourGitrepository">1.2. from our Git repository</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a2.Post-Installscript">2. Post-Install script</a>
+      </li>
+      <li>
+        <a href="#a3.ConfiguringApache">3. Configuring Apache</a>
+      </li>
+      <li>
+        <a href="#a4.Indicoconfigfile">4. Indico config file</a>
+      </li>
+      <li>
+        <a href="#a5.Migration">5. Migration</a>
+      </li>
+      <li>
+        <a href="#a6.Futureinstallations">6. Future installations</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="InstallingIndico">Installing Indico</h1>
+<p>
+<strong>DEPRECATED. This installation is for 0.97, but now there is a newer version. Please follow <a class="wiki" href="Installation0.html">these instructions</a> instead!
+</strong></p>
+<h2 id="a0.Beforestarting">0. Before starting</h2>
+<p>
+Currently, Indico can only run on <a class="ext-link" href="http://www.modpython.org/"><span class="icon">​</span>mod_python</a>, using the <a class="ext-link" href="http://httpd.apache.org/"><span class="icon">​</span>Apache httpd</a> server. Make sure you install them for your operating system (as well as Python, of course), if you don't have them yet. These are the recommended versions:
+</p>
+<ul><li>Python 2.4+
+</li><li>Apache httpd 2.2+
+</li><li>mod_python 3.3+
+</li><li><a class="ext-link" href="http://pypi.python.org/pypi/setuptools"><span class="icon">​</span>setuptools</a> 0.6 - older versions of Python (&lt;=2.4)
+</li></ul><p>
+Some older versions will probably work, but we cannot guarantee that everything goes fine. Regarding Python, don't hesitate to use 2.5 or 2.6 - we plan to move from 2.4 soon, anyway.
+</p>
+<p>
+If you're building indico <strong>from the development source</strong>, please <tt>easy_install jstools</tt> first.
+</p>
+<p>
+Since the setup process fetches all the other dependencies automatically, just install <a class="ext-link" href="http://xmlsoft.org/"><span class="icon">​</span>libxml2</a>, <a class="ext-link" href="http://xmlsoft.org/"><span class="icon">​</span>libxslt</a> (both with Python bindings), <a class="ext-link" href="http://www.pythonware.com/products/pil/"><span class="icon">​</span>PIL</a> and <a class="ext-link" href="http://www.reportlab.org/oss/rl-toolkit/download/"><span class="icon">​</span>ReportLab</a> manually, and jump to the next section.
+</p>
+<p>
+This is the complete list of dependencies (if for some reason you need to install them manually):
+</p>
+<ul><li><a class="ext-link" href="http://www.pythonware.com/products/pil/"><span class="icon">​</span>PIL</a> (version 1.1.7 already includes support for interlaced PNGs)
+</li><li><a class="ext-link" href="http://www.reportlab.org/oss/rl-toolkit/download/"><span class="icon">​</span>ReportLab</a>
+</li><li><a class="ext-link" href="http://pypi.python.org/pypi/ZODB3/3.9.3"><span class="icon">​</span>ZODB 3</a> (3.7 at least, but 3.8+ recommended)
+</li><li><a class="ext-link" href="http://projects.opengeo.org/jstools"><span class="icon">​</span>jstools</a> (build-only, read above)
+</li><li><a class="ext-link" href="http://pypi.python.org/pypi/pytz/2009r"><span class="icon">​</span>pytz</a>
+</li><li><a class="ext-link" href="http://pypi.python.org/pypi/zope.index/3.6.0"><span class="icon">​</span>zope.index</a>
+</li><li><a class="ext-link" href="http://pypi.python.org/pypi/simplejson/2.0.9"><span class="icon">​</span>simplejson</a>
+</li><li><a class="ext-link" href="http://xmlsoft.org/"><span class="icon">​</span>libxml2 and libxslt</a>
+</li><li><a class="wiki" href="Installation/IndicoExtras.html">Indico extras (e.g. ttfonts)</a>
+</li></ul><h2 id="a1.Installingit">1. Installing it</h2>
+<p>
+There are two options:
+</p>
+<h3 id="a1.1.fetchingareleaserecommended">1.1. fetching a release (<strong>recommended</strong>)</h3>
+<p>
+You can do it from command line (<strong>recommended</strong>) executing:
+</p>
+<pre class="wiki"># easy_install cds-indico
+</pre><p>
+Or, you can also do it fetching a tarball or egg file from <a class="wiki" href="../Download.html">here</a>.
+</p>
+<h3 id="a1.2.fromourGitrepository">1.2. from our Git repository</h3>
+<p>
+You can find our git repository <a class="wiki" href="../Download.html#Gitsources">here</a> (<strong>development sources</strong>);
+</p>
+<p>
+You should have checked out a <tt>cds-indico</tt> directory. <tt>cd</tt> into it and simply do (as root):
+</p>
+<pre class="wiki"># python setup.py install
+</pre><p>
+The setup script will fetch all the dependencies for you and install Indico as a Python EGG in your Python library path.
+</p>
+<h2 id="a2.Post-Installscript">2. Post-Install script</h2>
+<p>
+The next step is to run <tt>indico_initial_setup</tt>:
+</p>
+<pre class="wiki"># indico_initial_setup 
+No previous installation of Indico was found.
+Please specify a directory prefix:
+[/opt/indico]: 
+</pre><p>
+and follow the instructions that the script will provide. By default, Indico will be installed under <tt></tt>/opt/indico<tt></tt>, but the setup script allows you to specify other paths.
+</p>
+<p>
+By the end of the process, you should have obtained some information on how to start the database:
+</p>
+<pre class="wiki">If you are running ZODB on this host:
+ - Review etc/zodb.conf and etc/zdctl.conf to make sure everything is ok.
+ - To start the database run: zdaemon -C etc/zdctl.conf start
+</pre><p>
+As well as some information on the paths:
+</p>
+<pre class="wiki">    indico.conf:      /opt/indico/etc/indico.conf
+
+    BinDir:           /opt/indico/bin
+    DocumentationDir: /opt/indico/doc
+    ConfigurationDir: /opt/indico/etc
+    HtdocsDir:        /opt/indico/htdocs
+</pre><h2 id="a3.ConfiguringApache">3. Configuring Apache</h2>
+<p>
+Then you should configure Apache HTTPD, by adding the following lines to your httpd configuration file:
+</p>
+<pre class="wiki">PythonInterpreter main_interpreter
+PythonImport MaKaC::setEnvironment main_interpreter
+
+&lt;Directory "/your/htdocs"&gt;
+    AddHandler python-program .py
+    PythonHandler mod_python.publisher
+    Allow from All
+&lt;/Directory&gt;
+
+&lt;Directory "/your/htdocs/services"&gt;
+    SetHandler python-program
+    PythonHandler MaKaC.services.handler
+    PythonInterpreter main_interpreter
+    Allow from All
+&lt;/Directory&gt;
+
+Alias /indico/images "/your/htdocs/images"
+Alias /indico "/your/htdocs"
+
+</pre><p>
+(<tt>/your/htdocs</tt> should be the same as <tt>HtdocsDir</tt>, mentioned above)
+</p>
+<p>
+Accessing <tt>http://localhost/indico/index.py</tt> should give you the main Indico page.
+</p>
+<h2 id="a4.Indicoconfigfile">4. Indico config file</h2>
+<p>
+The next step should be inspecting <tt>indico.conf</tt> and configuring it to fit your server configuration. <tt>indico.conf</tt>
+replaces the old <tt>config.xml</tt>, so you will have to update it with the paramaters that you already have in your <tt>config.xml</tt>.
+</p>
+<h2 id="a5.Migration">5. Migration</h2>
+<p>
+If you are using an existing DB, please <a class="wiki" href="../Releases/Indico0.97.html#Upgrading">read this</a>.
+</p>
+<h2 id="a6.Futureinstallations">6. Future installations</h2>
+<p>
+Once you have succeeded to install Indico for the first time, you can automatize the upgrading process
+with a single script. This script should basically include the following actions:
+</p>
+<pre class="wiki">
+$ easy_install -U cds-indico
+
+$ indico_initial_setup --existing-config=/opt/indico/etc/indico.conf #replace with your path to your indico.conf
+
+# restart apache
+/path/to/httpd restart
+
+</pre></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Admin/Installation?action=diff&amp;version=63" title="Version 63 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-12-20T16%3A12%3A41%2B01%3A00&amp;precision=second" title="See timeline at 12/20/12 16:12:41">3 years ago</a></span>
+            <span class="trac-print">Last modified on 12/20/12 16:12:41</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Admin%252FInstallation56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Admin/Installation by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:09 GMT -->
+</html>

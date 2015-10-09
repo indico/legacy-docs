@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Profile by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Profile – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FProfile56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="Profile.html" title="View Dev/Profile">Profile</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Profile?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="ProfilinginIndico">Profiling in Indico</h1>
+<p>
+Basic python profiling is available to retrieve statistics about a request. The following explains
+how to set up and activate profiling under Indico.
+</p>
+<h2 id="a1.Activateprofiling">1. Activate profiling</h2>
+<p>
+In the file <em>MaKaC/common/Configuration.py</em>, change the entry "Profile" of the "default_values" dictionary to "True". This way, every time a request is sent to Indico, timing statistics about the methods called for the processing of this request will be outputted into the following files located in the tmp directory :
+</p>
+<ul><li><em>IndicoRequest.log</em>, which contains information about the request itself, what are its parameters and how much time it took to process it. Note that since the profiling adds overhead to your code, the timing results won't be fully accurate. Nevertheless, using them as an indication for the performance can still be handy. 
+</li><li><em>IndicoRequestProfile.log</em>, which is not directly readable. The next part explains how to view the results reported in it.
+</li></ul><p>
+Hence, by loading a page from Indico, the statistics will be loaded into those files transparently.
+</p>
+<h2 id="a2.Viewtheprofilingresults">2. View the profiling results</h2>
+<p>
+Two options are available for reading the results outputted in <em>IndicoRequestProfile.log</em> :
+</p>
+<ul><li>Using the profile statistics browser<br />
+To display the content of the <em>IndicoRequestProfile.log</em> file into a text-based browser, you can launch the pstats browser with the following command line:
+<pre class="wiki">python -m pstats IndicoRequestProfile.log
+</pre>You should be welcomed by a "Welcome to the profile statistics browser" message. By typing "help" you can retrieve the list of commands available.
+</li><li>Drawing an interactive diagram<br />
+A few steps are needed for being able to view a graphical representation of the results:
+<ul><li>The following has to be installed on your system:
+<ul><li>Java (<a class="ext-link" href="http://java.com/en/"><span class="icon">​</span>http://java.com/en/</a>)
+</li><li>Graphviz (Linux: install it as a package. Windows: download <a class="ext-link" href="http://www.graphviz.org/Download_windows.php"><span class="icon">​</span>here</a>)
+</li><li>gprof2dot.py (<a class="ext-link" href="http://code.google.com/p/jrfonseca/wiki/Gprof2Dot"><span class="icon">​</span>http://code.google.com/p/jrfonseca/wiki/Gprof2Dot</a>)
+</li><li>zgrviewer (<a class="ext-link" href="http://zvtm.sourceforge.net/zgrviewer.html#install"><span class="icon">​</span>http://zvtm.sourceforge.net/zgrviewer.html#install</a>)
+</li></ul></li><li>Transform the <em>IndicoRequestProfile.log</em> file into a .dot file. We will use the gprof2dot.py script to achieve this:
+<pre class="wiki">python gprof2dot.py -f pstats IndicoRequestProfile.log -o xxx.dot
+</pre>This will generate a xxx.dot file. If you open it you will see that it's a text file describing a diagram.<br />
+</li><li>Visualize the .dot file. For doing this, lauch zgrviewer by running either run.sh or run.bat (they're located into the installation directory of zgrviewer) and open the .dot file.
+</li></ul></li></ul><h2 id="a3.Resources">3. Resources</h2>
+<p>
+Here are some helpful resources on Python code profiling/optimization:
+</p>
+<ul><li><a class="ext-link" href="http://wiki.python.org/moin/PythonSpeed/PerformanceTips"><span class="icon">​</span>http://wiki.python.org/moin/PythonSpeed/PerformanceTips</a>
+</li><li><a class="ext-link" href="http://docs.python.org/library/profile.html"><span class="icon">​</span>http://docs.python.org/library/profile.html</a>
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Profile?action=diff&amp;version=3" title="Version 3 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-03-29T12%3A00%3A39%2B02%3A00&amp;precision=second" title="See timeline at 03/29/10 12:00:39">6 years ago</a></span>
+            <span class="trac-print">Last modified on 03/29/10 12:00:39</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FProfile56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Profile by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:23 GMT -->
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/4 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/INTREPID/4 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FINTREPID%252F456e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../INTREPID.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../INTREPID.html" title="View Dev/INTREPID">INTREPID</a><span class="pathentry sep">/</span><a class="pathentry" href="4.html" title="View Dev/INTREPID/4">4</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../INTREPID.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/INTREPID/4?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <ol>
+      <li>
+        <a href="#InTRePId4">InTRePId 4</a>
+        <ol>
+          <li>
+            <a href="#Objectives">Objectives</a>
+          </li>
+          <li>
+            <a href="#Statusquo">Status quo</a>
+          </li>
+          <li>
+            <a href="#Description">Description</a>
+            <ol>
+              <li>
+                <a href="#Shortexample">Short example</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#Comments">Comments</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h2 id="InTRePId4">InTRePId 4</h2>
+<p>
+<strong>Title:</strong> Create a unified notification mechanism
+</p>
+<p>
+<strong>Author:</strong> <em>Pedro Ferreira</em>
+</p>
+<p>
+<strong>Date:</strong> 5 Feb 2010
+</p>
+<p>
+<strong>Target version:</strong> v0.98 (?)
+</p>
+<p>
+<strong>Status:</strong> draft
+</p>
+<h3 id="Objectives">Objectives</h3>
+<ul><li>To unify all the code concerning e-mails and other possible kinds of notifications;
+</li><li>To conveniently log every notification sent to Indico users;
+</li><li>To reduce the scattering of notification code (that becomes very hard to manage);
+</li></ul><h3 id="Statusquo">Status quo</h3>
+<p>
+Currently, we send notification e-mails using different mechanisms and origin addresses. These notifications may have different "from" and "to" addresses and various contents (sometimes hardcoded, sometimes templates).
+</p>
+<h3 id="Description">Description</h3>
+<p>
+The plan would be to provide a single API, capable of processing templates, that would receive basic information, such as i.e. the template to use and recipients, and the kind of "From" address to be shown (no reply, server support, conference support... or even custom). This API should be made in the way that would eventually allow it to be extended to other communication media: instant messaging, SMS, Google Wave (if it ever goes somewhere), telepathic waves, telegraph, etc...
+</p>
+<h4 id="Shortexample">Short example</h4>
+<div class="code"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">futureindico.templateFramework</span> <span class="kn">import</span> Template
+<span class="o">&gt;&gt;&gt;</span> msgTemplate <span class="o">=</span> Template<span class="p">(</span><span class="s">'InvitationLetter.tpl'</span><span class="p">)</span><span class="o">.</span>generate<span class="p">({</span>firstName<span class="p">:</span> <span class="s">'John'</span><span class="p">,</span> lastName<span class="p">:</span> <span class="s">'Doe'</span><span class="p">,</span> <span class="s">'eventName'</span><span class="p">:</span> <span class="s">'Paranormal Physics 2012'</span><span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">futureindico.notification</span> <span class="kn">import</span> NotificationManager<span class="p">,</span> Sender<span class="p">,</span> Protocol
+<span class="o">&gt;&gt;&gt;</span> task <span class="o">=</span> NotificationManager<span class="o">.</span>makeTask<span class="p">(</span>Sender<span class="o">.</span>NOREPLY<span class="p">,</span> <span class="p">[</span><span class="s">'John Doe &lt;jdoe@example.com&gt;'</span><span class="p">],[],</span> msgTemplate<span class="p">,</span> <span class="p">[</span>Protocol<span class="o">.</span>get<span class="p">(</span><span class="s">'email'</span><span class="p">),</span> Protocol<span class="o">.</span>get<span class="p">(</span><span class="s">'sms'</span><span class="p">)])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">futureindico.taskdaemon</span> <span class="kn">import</span> Client
+<span class="o">&gt;&gt;&gt;</span> client <span class="o">=</span> Client<span class="o">.</span>getInstance<span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> client<span class="o">.</span>queue<span class="p">(</span>task<span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="s">'312312311231'</span><span class="p">,</span> datetime<span class="o">.</span>datetime<span class="p">(</span><span class="mi">2012</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div><h3 id="Comments">Comments</h3>
+<p>
+</p><div id="commenting"><form action="http://old.indico-software.org/wiki/Dev/INTREPID/4#commenting" method="post"><fieldset><legend>Add comment</legend><div class="field"><textarea rows="5" name="addcomment" cols="80" disabled="disabled" class="wikitext" id="addcomment"></textarea></div><div><label for="authoraddcomment">Your email or username:</label><input type="text" id="authoraddcomment" value="anonymous" size="30" /></div><input type="hidden" name="__FORM_TOKEN" value="610bde29a97e49ea483b83be" /><div class="buttons"><input disabled="disabled" type="submit" name="submitaddcomment" value="Add comment" size="30" /><input disabled="disabled" type="submit" name="previewaddcomment" value="Preview comment" /><input disabled="disabled" type="submit" name="canceladdcomment" value="Cancel" /></div></fieldset></form></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/INTREPID/4?action=diff&amp;version=5" title="Version 5 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-02-09T10%3A44%3A08%2B01%3A00&amp;precision=second" title="See timeline at 02/09/10 10:44:08">6 years ago</a></span>
+            <span class="trac-print">Last modified on 02/09/10 10:44:08</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/wikitoolbar.js"></script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FINTREPID%252F456e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/4 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:26 GMT -->
+</html>

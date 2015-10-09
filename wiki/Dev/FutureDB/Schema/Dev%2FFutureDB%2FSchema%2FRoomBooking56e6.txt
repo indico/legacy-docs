@@ -1,0 +1,258 @@
+= Schema for Room Booking Module =
+
+== Current Schema ==
+
+[[Image(db.png)]]
+
+== Current UML ==
+
+[[Image(uml.png)]]
+
+== Aspect ==
+
+||= '''Before'''           =||= '''After'''                =||
+|| id(str)                  || id(int)                      ||
+|| name                     || name(str)                    ||  
+|| defaultOnStartup(bool)   ||                              ||
+|| centerLatitude(str)      || center_latitude(str)         ||
+|| centerLongitude(str)     || center_longitude(str)        ||
+|| zoomLevel(str)           || zoom_level(short)            ||
+|| topLeftLatitude(str)     || top_left_latitude(str)       ||
+|| topLeftLongitude(str)    || top_left_longitude(str)      ||
+|| bottomRightLatitude(str) || bottom_right_latitude(str)   ||
+|| bottomRightLongitude(str)|| bottom_right_longitude(str)  ||
+||                          || location_id(int)             ||
+
+== Location ==
+
+||= '''Before'''           =||= '''After'''                     =||
+||                          || id(int)                           ||
+|| aspects(lists)           ||                                   ||
+|| avcSupportEmails(list)   || support_emails(str)               ||
+|| friendlyName(str)        || name(str)                         ||
+||                          || default_aspect_id(int)            ||
+
+== Room ==
+
+||= '''Before'''                      =||= '''After'''                                             =||
+|| id(int)                             || id(int)                                                   ||
+|| dailyBookablePeriod(list)           ||                                                           ||
+|| equipment(str)                      ||                                                           ||
+|| locationName(str)                   || location_id(int)                                          ||
+|| name(str)                           || name(str)                                                 ||
+|| nonBookableDates(list)              ||                                                           ||
+|| photoId(str)                        ||                                                           ||
+|| avaibleVC(list)                     ||                                                           ||
+|| building(int)                       || building(str)                                             ||
+|| capacity(int)                       || capacity(str)                                             ||
+|| comments(str)                       || comments(str)                                             ||
+|| customAtts(dict)                    ||                                                           ||
+|| division(str)                       || division(str)                                             ||
+|| floor(str)                          || floor(str)                                                ||
+|| isActive(bool)                      || is_active(bool)                                           ||
+|| isReservable(bool)                  || is_reservable(bool)                                       ||
+|| latitude(str)                       || latitude(str)                                             ||
+|| longitude(str)                      || longitude(str)                                            ||
+|| maxAdvanceDays(int)                 || max_advance_days(int)                                     ||
+|| responsibleId(str)                  || owner_id(str)                                             ||
+|| resvEndNotification(bool)           || notification_for_end(bool)                                ||
+|| resvStartNotification(bool)         || notification_for_start(int)                               ||
+|| resvNotificationAssistance(bool)    || notification_for_assistance(bool)                         ||
+|| resvNotificationToResponsible(bool) || notification_for_responsible(bool)                        ||
+|| resvStartNotificationBefore(int)    ||                                                           ||
+|| resvsNeedConfirmation(bool)         || reservations_need_confirmation(bool)                      ||
+|| roomNr(str)                         || number(str)                                               ||
+|| site(str)                           || site(str)                                                 ||
+|| surfaceArea(int)                    || surface_area(int)                                         ||
+|| telephone(str)                      || telephone(str)                                            ||
+|| whereIsKey(str)                     || key_location(str)                                         ||
+
+== Reservation ==
+
+||= '''Before'''                      =||= '''After'''                                             =||
+|| id(int)                             || id(int)                                                   ||
+|| excludedDays(list)                  ||                                                           ||
+|| createdDate(datetime)               || created_at(datetime)                                      ||
+|| startDate(datetime)                 || start_date(datetime)                                      ||
+|| endDate(datetime)                   || end_date(datetime)                                        ||
+|| bookedForId(str)                    || booked_for_id(str)                                        ||
+|| bookedForName(str)                  || booked_for_name(str)                                      ||
+|| createdBy(str)                      || created_by(str)                                           ||
+|| contactEmail(str)                   || contact_email(str)                                        ||
+|| contactPhone(str)                   || contact_phone(str)                                        ||
+|| isCancelled(bool)                   || is_cancelled(bool)                                        ||
+|| isConfirmed(bool)                   || is_confirmed(bool)                                        ||
+|| isRejected(bool)                    || is_rejected(bool)                                         ||
+|| needsAVCSupport(bool)               ||                                                           ||
+|| needsAssistance(bool)               ||                                                           ||
+|| reason(str)                         || reason(str)                                               ||
+|| repeatibility(str)                  || repeat_unit(short)                                        ||
+||                                     || repeat_period(short)                                      ||
+|| history(list)                       || edit_id(int)                                              ||
+|| room(str)                           || room_id(int)                                              ||
+|| startEndNotification(set)           ||                                                           ||
+|| useVC(list)                         ||                                                           ||
+|| usesAVC(bool)                       ||                                                           ||
+
+== History (Edit) ==
+
+||= '''Before'''                      =||= '''After'''                                             =||
+|| info(list)                          || info(str)                                                 ||
+|| responsibleUser(str)                || avatar_id(str)                                       ||
+||                                     || reservation_id(int)                                       ||
+|| timestamp(datetime)                 || timestamp(datetime)                                       ||                
+
+== Blocking ==
+
+||= '''Before'''                      =||= '''After'''                                             =||
+|| createdBy(str)                      || created_by(str)                                           ||
+|| createdDate(datetime)               || created_at(datetime)                                      ||
+|| startDate(date)                     || start_date(date)                                          ||
+|| endDate(date)                       || end_date(date)                                            ||
+|| id(int)                             || id(int)                                                   ||
+|| message(str)                        || reason(str)                                               ||
+|| allowed(list)                       ||                                                           ||
+|| blockedRooms(list)                  ||                                                           ||
+
+== Blocked Room == 
+
+||= '''Before'''                      =||= '''After'''                                             =|| 
+|| active(bool)                        || is_active(bool)                                           ||
+|| notificationSent(bool)              || notification_sent(bool)                                   ||
+|| rejectedBy(str)                     || rejected_by(str)                                          ||
+|| rejectionReason(str)                || rejection_reason(str)                                     ||
+|| roomGUID(str)                       || room_id(int)                                              ||
+||                                     || blocking_id(int)                                          ||
+
+== Blocking Principal ==
+
+||= '''Before'''                      =||= '''After'''                                             =||
+|| id(str)                             || entity_id(str)                                            ||
+|| type(str)                           || entity_type(str)                                          ||
+||                                     || blocking_id(int)                                          ||
+
+== New Tables ==
+
+=== RoomAttribute/ReservationAttribute === 
+
+ - key(str)
+ - value(str)
+ - room_id/reservation_id(int)
+
+=== Reservation Excluded Day ===
+
+ - start_date(datetime)
+ - end_time(datetime)
+ - reservation_id(int)
+
+=== Reservation Notifications ===
+  
+ - reservation_id(int)
+ - occurrence(datetime)
+
+=== Reservation Edit ===
+ 
+ - reservation_id(int)
+ - avatar_id(int)
+ - timestamp(datetime)
+ - info(str)
+
+=== Photo ===
+
+ - id(int)
+ - room_id(int)
+ - content(blob)
+
+=== NonBookable Date ===
+
+ - start_date(datetime)
+ - end_date(datetime)
+ - room_id(int)
+
+=== Bookable Time ===
+
+ - start_time(time)
+ - end_time(time)
+ - room_id(int)
+
+== Replaced Classes ==
+
+=== Equipment ===
+ 
+ - id(int)
+ - name(str)
+ - location(str)
+
+=== CustomAtts ===
+ 
+ - info(dict)
+
+=== Holiday ===
+                       
+ - day(datetime)
+
+== Discuss ==
+
+=== 5.11.2013 ===
+ 
+ - Notification manager(notification related data will be put into separate tables)
+   - Relationship would be 1-to-1 so there is no real benefit.
+   - Access pattern makes cumbersome of the usage of this modification.
+ - How to store photos? Blob, filesystem or 3rd party system? What about auto thumbnail generation? related to #1176 and #1389
+   - Store as blob to make simpler
+ - Blocking principal? Edit? - What does it mean to you? Do you like the name?
+   - Edit -> ReservationEditLog
+   - ReservationNotification -> ReservationNotificationLog
+   - BlockingPrincipal -> BlockingEvader
+ - Repeatibility: '''repeat_unit''' and '''repeat_period'''
+   - Customizable for any repeatibility
+   - '''repeat_step''' instead of '''repeat_period'''
+ - Where to put `indico.core.db.rb.main` for db and graph generator? `bin/utils`
+   - Split into two as db init and graph generator
+   - Database initializer is kept in `indico.core.db`
+   - Schema and UML class diagram generator -> `bin/utils/createDatabaseGraph.py`
+ - Where to put schema? `indico.ext.roombooking`
+   - Room booking isn't a plugin so kept in core: `indico.core.db.rb`
+ - Custom attributes 
+   - key_id | value | entity_id (chosen)
+   - pickled_object | entity_id
+   - json_as_string | entity_id
+
+=== 29.11.2013 ===
+ 
+ - Reservation Notifications
+   - prepopulate occurrances of reservations with one more column that specifies if notification is already sent
+   - date of a reservation is fixed of modifiable? (current fixed but future?)
+   - datetime processing is backend specific, utc time stamp as int instead? (i.e. sqlite)
+   - #266 (changable dates), #1437 (humanized repetition)
+ - Naming of attributes
+   - Booking Simba List
+   - I don't know
+   - Internal vs user facing attributes such that user can see `I don't really know` but we can denote it differently such as `unknown`, etc. Key tables requires one more column.
+ - Attribute Key and Values
+   - Current: (Reservation|Room|Location)Attribute(Key)?
+   - What about keeping attribute tables (which hold values as string automatically encoded/decoded to/from JSON) but putting keys into one table (shared by all)? It may require one more column for type to see all keys are available for one entity, let's say room.
+ - Many-to-many room-reversation relationship
+   - One reservation can book multiple rooms. Currently, each reservation has only one room but what about reserving all rooms of a big conference into one reservation? 
+ - Modular migration
+   - first time migration
+     - a lot of boilerplate but necessary code
+     - code/package structure: 
+       - might create `utils` which can be reused in the migration of other parts
+   - further migrations: alembic? (written by sqlalchemy creator)
+
+== Pitfalls ==
+
+ - Graph generator requires `pydot` which has a dependency of `pyparsing` but version matters:
+{{{#!bash
+$ pip uninstall pyparsing
+$ pip install pyparsing==1.5.7
+$ pip install pydot
+}}}
+
+ - Graph generator isn't compatible with SQLAlchemy 0.8.x upwards.
+{{{#!bash
+$ pip uninstall sqlalchemy-schemadisplay
+# compatibility fix for renamed `local_side` to `local_columns`
+$ pip install https://github.com/Surgo/sqlalchemy_schemadisplay/zipball/master 
+}}}

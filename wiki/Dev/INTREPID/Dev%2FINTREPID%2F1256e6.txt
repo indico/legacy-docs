@@ -1,0 +1,28 @@
+[[PageOutline]]
+
+== InTRePId 12 ==
+'''Title:''' Meta-Indico
+
+'''Author:''' Jose Benito Gonzalez Lopez
+
+'''Date:''' 03-05-2011
+
+'''Target version:''' 2.x
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * Common portal for all the indico's around the world
+
+=== Status quo ===
+
+
+
+=== Description ===
+
+
+
+=== Comments ===
+[[AddComment]]

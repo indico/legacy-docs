@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/MARCXML by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/MARCXML – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FMARCXML56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="MARCXML.html" title="View Dev/Technical/MARCXML">MARCXML</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/MARCXML?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="MARCXMLMetadata">MARCXML Metadata</h1>
+<h2 id="SummaryofMARCfieldscurrentlyexported">Summary of MARC fields currently exported</h2>
+<h3 id="Events">Events</h3>
+<table class="wiki">
+<tr><th> Tag </th><th> Indexes </th><th> Subfield </th><th> Content 
+</th></tr><tr><td> 111 </td><td> <tt>__</tt> </td><td> a </td><td>  title 
+</td></tr><tr><td> </td><td> </td><td> 9 </td><td>  start date/time 
+</td></tr><tr><td> </td><td> </td><td> z </td><td>  end date/time 
+</td></tr><tr><td> </td><td> </td><td> c </td><td>  location 
+</td></tr><tr><td> </td><td> </td><td> g </td><td>  full id 
+</td></tr><tr><td> 518 </td><td> <tt>__</tt> </td><td> d </td><td>  start date/time 
+</td></tr><tr><td> 520 </td><td> <tt>__</tt> </td><td> a </td><td>  description 
+</td></tr><tr><td> 653 </td><td> 1_ </td><td> a </td><td>  keywords 
+</td></tr><tr><td> 650 </td><td> _7 </td><td> a </td><td>  full category path 
+</td></tr><tr><td> </td><td> 27 </td><td> a </td><td>  event type (conference, meeting or lecture) 
+</td></tr><tr><td> 856 </td><td> 4_ </td><td> u </td><td>  link url (can be several) 
+</td></tr><tr><td> </td><td> </td><td> y </td><td>  link title (can be several, goes together with 4_u) 
+</td></tr><tr><td> 961 </td><td> <tt>__</tt> </td><td> c </td><td>  creation date 
+</td></tr><tr><td> </td><td> </td><td> x </td><td>  modification date 
+</td></tr><tr><td> 970 </td><td> <tt>__</tt> </td><td> a </td><td>  full id 
+</td></tr><tr><td> 980 </td><td> <tt>__</tt> </td><td> a </td><td>  collection (private/public) 
+</td></tr></table>
+<h3 id="Contributions">Contributions</h3>
+<table class="wiki">
+<tr><th> Tag </th><th> Indexes </th><th> Subfield </th><th> Content 
+</th></tr><tr><td> 300 </td><td> <tt>__</tt> </td><td> a </td><td> duration 
+</td></tr><tr><td> 111 </td><td> <tt>__</tt> </td><td> g </td><td> event id (parent) 
+</td></tr><tr><td> 035 </td><td> <tt>__</tt> </td><td> a </td><td>  full id (INDICO.123.s1t2 _&gt; event 123, session 1, contribution 2 - the session number is irrelevant, as contrib ids inside events do not repeat) 
+</td></tr><tr><td> </td><td> </td><td> 9 </td><td>  'Indico' 
+</td></tr><tr><td> 518 </td><td> <tt>__</tt> </td><td> r </td><td> location 
+</td></tr><tr><td> </td><td> </td><td> d </td><td> start date/time 
+</td></tr><tr><td> </td><td> </td><td> h </td><td> end date/time 
+</td></tr><tr><td> 520 </td><td> <tt>__</tt> </td><td> a </td><td> description 
+</td></tr><tr><td> 611 </td><td> 24 </td><td> a </td><td> event (parent) title 
+</td></tr><tr><td> 088 </td><td> <tt>__</tt> </td><td> a </td><td> associated report number (can be several) 
+</td></tr><tr><td> 653 </td><td> 1_ </td><td> a </td><td> keywords 
+</td></tr><tr><td> 650 </td><td> _7 </td><td> a </td><td> full category path 
+</td></tr><tr><td> </td><td> 17 </td><td> 2 </td><td> 'SzGeCERN' 
+</td></tr><tr><td> </td><td> </td><td> a </td><td> title of containing track (if present) 
+</td></tr><tr><td> 100 </td><td> <tt>__</tt> </td><td> a </td><td> full name of the primary author 
+</td></tr><tr><td> </td><td> </td><td> e </td><td> role(s) of primary author ("Primary author", "Author", "Speaker") - can be several 
+</td></tr><tr><td> </td><td> </td><td> u </td><td> affiliation of primary author 
+</td></tr><tr><td> 700 </td><td> <tt>__</tt> </td><td> a </td><td> full name of author (can be several) 
+</td></tr><tr><td> </td><td> </td><td> e </td><td> roles of author ("Primary author", "Author", "Speaker") - can be several, goes together with <tt>__</tt>a) 
+</td></tr><tr><td> </td><td> </td><td> u </td><td> affiliation of author (goes together with <tt>__</tt>a and <tt>__</tt>e) 
+</td></tr><tr><td> 962 </td><td> <tt>__</tt> </td><td> b </td><td> parent event's full id 
+</td></tr><tr><td> 970 </td><td> <tt>__</tt> </td><td> a </td><td> full id 
+</td></tr><tr><td> 980 </td><td> <tt>__</tt> </td><td> a </td><td> collection (private/public) 
+</td></tr><tr><td> 856 </td><td> 4_ </td><td> u </td><td>  link url (can be several) 
+</td></tr><tr><td> </td><td> </td><td> y </td><td>  link title (can be several, goes together with 4_u) 
+</td></tr></table>
+<p>
+<strong>together with is info, goes a list of files/links (resources) contained in the contribution - see below</strong>
+</p>
+<h3 id="Subcontributions">Subcontributions</h3>
+<table class="wiki">
+<tr><th> Tag </th><th> Indexes </th><th> Subfield </th><th> Content 
+</th></tr><tr><td> 300 </td><td> <tt>__</tt> </td><td> a </td><td> duration 
+</td></tr><tr><td> 111 </td><td> <tt>__</tt> </td><td> g </td><td> event id (grandparent) 
+</td></tr><tr><td> 035 </td><td> <tt>__</tt> </td><td> a </td><td>  full id (INDICO.123.s1t2.7 _&gt; event 123, session 1, contribution 2, subcontribution 5 - the session number is irrelevant, as contrib ids inside events do not repeat) 
+</td></tr><tr><td> </td><td> </td><td> 9 </td><td>  'Indico' 
+</td></tr><tr><td> 518 </td><td> <tt>__</tt> </td><td> r </td><td> location 
+</td></tr><tr><td> </td><td> </td><td> d </td><td> start date/time 
+</td></tr><tr><td> 520 </td><td> <tt>__</tt> </td><td> a </td><td> description 
+</td></tr><tr><td> 611 </td><td> 24 </td><td> a </td><td> event (grandparent) title 
+</td></tr><tr><td> 088 </td><td> <tt>__</tt> </td><td> a </td><td> associated report number (can be several) 
+</td></tr><tr><td> 653 </td><td> 1_ </td><td> a </td><td> keywords 
+</td></tr><tr><td> 650 </td><td> _7 </td><td> a </td><td> full category path 
+</td></tr><tr><td> </td><td> 17 </td><td> 2 </td><td> 'SzGeCERN' 
+</td></tr><tr><td> </td><td> </td><td> a </td><td> title of containing track (if present) 
+</td></tr><tr><td> 100 </td><td> <tt>__</tt> </td><td> a </td><td> full name of the primary author 
+</td></tr><tr><td> </td><td>  </td><td> e </td><td> role(s) of primary author ("Primary author", "Author", "Speaker") - can be several 
+</td></tr><tr><td> </td><td>  </td><td> u </td><td> affiliation of primary author 
+</td></tr><tr><td> 700 </td><td> <tt>__</tt> </td><td> a </td><td> full name of author (can be several) 
+</td></tr><tr><td> </td><td>  </td><td> e </td><td> roles of author ("Primary author", "Author", "Speaker") - can be several, goes together with <tt>__</tt>a) 
+</td></tr><tr><td> </td><td>  </td><td> u </td><td> affiliation of author (goes together with <tt>__</tt>a and <tt>__</tt>e) 
+</td></tr><tr><td> 962 </td><td> <tt>__</tt> </td><td> b </td><td> parent event's full id 
+</td></tr><tr><td> 970 </td><td> <tt>__</tt> </td><td> a </td><td> full id 
+</td></tr><tr><td> 980 </td><td> <tt>__</tt> </td><td> a </td><td> collection (private/public) 
+</td></tr><tr><td> 856 </td><td> 4_ </td><td> u </td><td>  link url (can be several) 
+</td></tr><tr><td> </td><td>  </td><td> y </td><td>  link title (can be several, goes together with 4_u) 
+</td></tr></table>
+<p>
+<strong>together with is info, goes a list of files/links (resources) contained in the contribution as well as ACL info - see below</strong>
+</p>
+<h3 id="Resources">Resources</h3>
+<table class="wiki">
+<tr><th> Tag </th><th> Indexes </th><th> Subfield </th><th> Content 
+</th></tr><tr><td> 856 </td><td> 4_ </td><td> u </td><td> URL 
+</td></tr><tr><td> </td><td> </td><td> y </td><td> title 
+</td></tr><tr><td> </td><td> </td><td> x </td><td> 'resource' 
+</td></tr><tr><td> </td><td> </td><td> s </td><td> file size (only for files) 
+</td></tr></table>
+<h3 id="ResourceAccessACL">Resource Access (ACL)</h3>
+<table class="wiki">
+<tr><th> Tag </th><th> Indexes </th><th> Subfield </th><th> Content 
+</th></tr><tr><td> 506 </td><td> <tt>1_</tt> for protected and <tt>0_</tt> for public  </td><td> d </td><td> group/user name (several) 
+</td></tr><tr><td>  </td><td>   </td><td> f </td><td> <tt>username</tt> or <tt>group</tt> depending on whether the above <tt>d</tt>'s are one or another 
+</td></tr><tr><td>  </td><td>   </td><td> 3 </td><td> the resource id the ACL applies to (empty for the record object) 
+</td></tr></table>
+<h3 id="DeletedRecords">Deleted Records</h3>
+<p>
+Independently of the record type, 980<tt>__</tt>c should hold the value "DELETED". No more information is sent in the metadata.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/MARCXML?action=diff&amp;version=6" title="Version 6 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-11-02T14%3A58%3A09%2B01%3A00&amp;precision=second" title="See timeline at 11/02/11 14:58:09">4 years ago</a></span>
+            <span class="trac-print">Last modified on 11/02/11 14:58:09</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FMARCXML56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/MARCXML by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:16 GMT -->
+</html>

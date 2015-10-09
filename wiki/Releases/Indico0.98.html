@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Releases/Indico0.98.2 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Releases/Indico0.98.2 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Releases%252FIndico0.98.256e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Releases.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Releases.html" title="View Releases">Releases</a><span class="pathentry sep">/</span><a class="pathentry" href="Indico0.98.html" title="View Releases/Indico0.98.2">Indico0.98.2</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Releases.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Releases/Indico0.98.2?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="Indicov0.98.2">Indico v0.98.2</h1>
+<p>
+If you need a detailed installation process, please read <a class="wiki" href="../Admin/Installation0.html">here</a>.
+</p>
+<h2 id="easy_install"><tt>easy_install</tt></h2>
+<pre class="wiki">easy_install indico
+</pre><p>
+Please note that the package has been renamed from <tt>cds-indico</tt> to <tt>indico</tt>. <strong>Make sure you delete the old <tt>.egg</tt> file before installing</strong>.
+</p>
+<h2 id="Download">Download</h2>
+<p>
+If you prefer to download the egg or tarball to install manually:
+</p>
+<ul><li><a href="http://indico-software.org/download/indico/indico-0.98.2-py2.7.egg">Egg</a> for Python 2.7
+</li><li><a href="http://indico-software.org/download/indico/indico-0.98.2-py2.6.egg">Egg</a> for Python 2.6
+</li><li><a href="http://indico-software.org/download/indico/indico-0.98.2.tar.gz">Tarball</a>
+</li></ul><h2 id="Upgrading">Upgrading</h2>
+<h3 id="from0.97.x0.98">from 0.97.x/0.98</h3>
+<pre class="wiki">$ indico_initial_setup --existing-config=/opt/indico/etc/indico.conf
+$ python /path/to/indico/bin/migration/migrate_0.97_0.98.py --prev-version=&lt;version&gt;
+</pre><p>
+Replacing <tt>&lt;version&gt;</tt> by the version you are upgrading from (e.g. <tt>0.97</tt>).
+</p>
+<p>
+If you are using the Room Booking module, you should add the <tt>--with-rb</tt> parameter to <tt>indico_initial_setup</tt>;
+</p>
+<p>
+If you are upgrading from 0.97b, you should also follow the section "<a href="http://indico-software.org/wiki/Releases/Indico0.97.1#fromv0.97borGitRepo">from v0.97b or Git Repo</a>".
+</p>
+<h3 id="from0.96.2">from 0.96.2</h3>
+<p>
+Since the new version comes with more indexes, <strong>before running the migration script for 0.98</strong> you should execute the following scripts:
+</p>
+<pre class="wiki">/indico_home_directory/bin/maintenance/indexes/reindexcategorynameindex.py
+/indico_home_directory/bin/maintenance/indexes/reindexcategorydateindex.py
+</pre><p>
+(then proceed as if you were coming from 0.97.x)
+</p>
+<h3 id="fromolderversions">from older versions</h3>
+<p>
+Check the instructions <a class="wiki" href="../Admin/Installation0.html">here</a>.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Releases/Indico0.98.2?action=diff&amp;version=6" title="Version 6 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-11-20T11%3A29%3A43%2B01%3A00&amp;precision=second" title="See timeline at 11/20/12 11:29:43">3 years ago</a></span>
+            <span class="trac-print">Last modified on 11/20/12 11:29:43</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Releases%252FIndico0.98.256e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Releases/Indico0.98.2 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:07 GMT -->
+</html>

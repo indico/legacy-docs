@@ -1,0 +1,317 @@
+[[PageOutline]]
+
+= ''' Introduction ''' =
+
+This document explains the new features of Indico's new Plugin System.
+
+It is intended both for:
+
+ * developers of new ''plugin systems'' (such as epayment, Collaboration), or developers who wish to adapt the epayment or the room booking ''plugin systems'' to use the new features, such as activating / deactivating plugins from the Server Admin web interface, storing options (URLs, logins, etc.) in the database instead of writing them in the code, etc.
+ * developers of plugins.
+
+The first group should read sections A, B, C.1, C.2, C.3, C.5, C.6 and C.7 in particular, and the others too if developing or adapting plugins.
+The second group should read sections A, C.4, C.6, C.7 and C.8 with more attention.
+
+= ''' A. Improvements Summary ''' =
+
+Indico's plugin system was improved as part of the Collaboration Tools project.
+
+
+== ''' A.1. What the old system provided ''' ==
+
+The old "system" was only a set of low-level functions that loaded the plugin's Python modules on demand, by walking through the plugins directory.
+
+It also imposed a small set of conventions to the way plugin folders had to be organized.
+
+
+== ''' A.2. What the new system provides ''' == #A.2.
+
+The most important improvement is the added capability to manage and configure the different ''plugins'' and ''plugin systems'' (epayment, room booking, collaboration).
+
+Information about the ''plugin systems'' and the plugins is stored in the database. Therefore, without the need to edit the code:
+
+ * Plugins and ''plugin systems'' can be activated / deactivated.
+
+ * It is possible and easy to define configuration values for the plugins, and even the ''plugin systems''. Example of configuration values are an epayment URL, Indico's ID / password for a remote system, a list of users with special rights...
+
+ * These configuration values are called ''options'' and the property of each option is very easily specified in each plugin's code. However the values themselves are stored in the DB and can be changed thanks to a new ''Plugins'' section in the Server Admin interface.
+
+ * It is also possible to define ''actions'' for plugins and ''plugin systems''. ''Actions'' are pieces of code (such as maintenance code) that can also be executed from the Server Admin interface. It is also possible to execute them as a trigger from an option value change.
+
+ * Finally, each plugin can maintain a ''!GlobalData'' object in the DB, where it can store whatever other data that does not fit in the ''option'' concept, but is not related to any Indico event in particular (i.e. Global in the server).
+
+Finally, as part of the development of the new plugin system, the code of the low-level functions to load modules on demand was refactored; although not perfect, now the code is clearer.
+
+
+[[BR]]
+
+
+= ''' B. Python modules which implement the system''' =
+
+
+== ''' B.1. !__init!__.py ''' ==
+
+The file ''MaKaC.plugins.!__init!__.py'' contains the low-level code that deals with the plugin folders and files, and loads their Python modules into memory.
+
+Most of the methods are class methods of the ''MaKaC.plugins.Plugins'' class (inside ''MaKaC.plugins.!__init!__.py'' ). There also some module-level functions that have been left there because they were already used in the epayment and room booking plugin systems.
+
+
+== ''' B.2. base.py ''' ==
+
+The file ''MaKaC.plugins.base'' contains most of the new implemented code. Its classes deal with storing and managing information about the plugins in the DB. They also provide wrappers around the methods and functions in ''MaKaC.plugins.!__init!__.py''. Methods of classes in this file should always be used instead of the low-level ''MaKaC.plugins.!__init!__.py'' ones if possible.
+
+The ''!PluginsHolder'' class is a singleton which must be used to access all the information in the DB.
+
+The ''!PluginType'' and ''Plugin'' classes represent ''plugin types'' and ''plugins'' respectively. A ''plugin type'' is a set of plugins / plugins subsystem that share a common interface with Indico, and usually have a common purpose. At this time Indico has three ''plugin types'': Epayment, Room Booking and Collaboration.
+
+The ''!PluginsHolder'' singleton, and the ''!PluginType'' and ''Plugin'' objects form a hierarchy: the ''!PluginsHolder'' has several ''!PluginType'' objects, and each of them has several ''Plugin'' objects. Each ''Plugin'' object only belongs to a ''!PluginType''.
+
+Both the ''!PluginType'' and ''Plugin'' classes, besides attributes with primitive values, have a list of ''!PluginOption'' and ''!PluginAction'' objects, which represent the options and actions we spoke of previously in section [#A.2. A.2.] Also, since ''!PluginType and ''Plugin'' have a lot of common attributes, they both inherit from the ''!PluginBase'' "abstract" class.
+
+Finally, the ''!ActionBase'' class should be used by Action classes defines in the plugins' ''actions.py'' file (more on that later in section [#C.7. C.7.]).
+
+[[Image(Plugin System class diagram.png)]]
+
+Class diagram for the new Plugin System. These classes' instances are stored in Indico's DB.
+
+
+[[BR]]
+
+
+= ''' C. How to use the new features when programming a plugins subsystem or a plugin''' =
+
+In the following sub-sections, we are going to explain many usual tasks / problems related to the new plugin system.ç
+
+In the ''MaKaC.plugins.Collaboration.collaborationTools.!CollaborationTools'' class, good examples of usage can be found in its classmethods.
+
+
+== ''' C.1. Getting a Plugin object ''' ==
+
+In order to retrieve a ''Plugin'' object from the database, we must access it through the ''!PluginsHolder'' singleton. For example:
+{{{
+#!python
+p = PluginsHolder().getPluginType("Collaboration").getPlugin("EVO")
+}}}
+The p object will be an instance of the ''Plugin'' (''MaKaC.plugins.base.Plugin'') class. It has information about the plugin; it is ''not'' the root module of the plugin.
+
+
+== ''' C.2. Load and retrieve a plugin module ''' ==
+
+To get the root module of a plugin, one can simply use the ''.getModule()'' method of the ''Plugin'' class. For example, to get the root module of the EVO plugin:
+
+{{{
+#!python
+EVORootModule = PluginsHolder().getPluginType("Collaboration").getPlugin("EVO").getModule()
+}}}
+
+Once we have the root module, we can access the plugin modules, and also the variables defined in the plugin's !__init!__.py (if need be).
+
+Example: inside the CERNMCU folder, there is a ''common.py'' file. This file has a !ParticipantPerson class inside it. We can construct an instance of this class by doing:
+{{{
+#!python
+CERNMCUModule = PluginsHolder().getPluginType("Collaboration").getPlugin("CERNMCU").getModule()
+participantPersonClass = CERNMCUModule.common.Participant
+participantPersonInstance = participantClass(arg1, arg2, arg3)
+}}}
+
+
+== ''' C.3. Loading / reloading the plugins into the DB ''' ==
+
+Since information about the plugins is stored in the DB, when we add or remove a plugin from the Indico code, or define a new option or action for a plugin, we need to update the DB. Ideally this should be done in the Indico install / update script, but this has not been programmed yet. Therefore, after a new installation where something has changed in the plugin system, we need to reload the information in the DB.
+
+This can be done from the ''Server Admin'' interface by going to the ''Plugins'' section and pressing the ''Reload All'' button, or the ''Reload'' button in each of the plugin type's tabs. It can also be done programatically via the ''!PluginsHolder'' class's ''reloadAllPlugins'' and ''reloadPluginType'' methods.
+
+
+== ''' C.4. Declarations in the !__init!__.py of a module ''' ==
+
+The !__init!__.py file inside a ''plugin type'' folder, e.g. ''MaKaC/plugins/Collaboration/!__init!__.py'', and the !__init!__.py file inside a plugin folder, e.g. ''MaKaC/plugins/Collaboration/CERNMCU/!__init!__.py'' have a set of variables that need to be defined and others that are optional.
+
+=== ''' C.4.1 ''plugin type'' !__init!__.py ''' ===
+{{{
+#!python
+__metadata__ = {
+    'name': "Live Sync",
+    'description': "Synchronizes information between Indico and external repositories",
+    'ignore': False,
+    'requires': []
+    }
+}}}
+
+ * '''name''': a string. It is a more "readable" name for the plugin (can have spaces etc...);
+
+ * '''description''': a descriptive string.
+
+ * '''ignore''': a boolean. Optional, with False as default value. If set to True, for all purposes it will be like this ''plugin type'' would not exist.
+
+ * '''visible''': a boolean. Optional, with True as default value. If set to True, information about this ''plugin type'' and all its plugins will not appear in the ''Server Admin'' interface, but it will still be possible to load the code via the ''!PluginsHolder'' singleton.
+
+ * '''requires''': a list of strings. Optional, with `[]` as default value. It makes sure that all the specified packages are installed before activating a plugin. If some package is missing, a message will be displayed in the admin area, and the plugin will be set as "non usable".
+
+=== ''' C.4.2 ''plugin's'' !__init!__.py ''' ===
+
+{{{
+#!python
+__metadata__ = {
+    'type': "Collaboration",
+    'name': "DummyPlugin",
+    'ignore': False,
+    'testPlugin': True,
+    'description': "Dummy collaboration plugin used for tests",
+    'requires': ["ZODB3"]
+    }
+}}}
+
+ * '''type''': a string. The ''plugin type'' it belongs to; the string has to be the same value as the id (module name) of the ''plugin type''.
+
+ * '''name''': ''same as for `PluginType`'';
+
+ * '''description''': ''same as for `PluginType`'';
+
+ * '''ignore''': ''same as for `PluginType`'';
+
+ * '''testPlugin''': a boolean. Optional, with False as default value. Indicates if the plugin will be used for tests of the plugin system. This has been deprecated and should not be used.
+
+ * '''requires''': ''same as for `PluginType`'';
+
+Also, in the plugin's !__init!__.py file the following lines have to be included, due to the low-level code that loads the plugin's code:
+
+{{{
+#!python
+from MaKaC.plugins import getModules, initModule
+...
+modules = {}
+topModule = None
+}}}
+
+All of the previously mentioned variables, except '''ignore''', have getter methods in the ''!PluginType'' and ''Plugin'' classes of ''MaKaC/plugins/base.py''.
+
+
+== ''' C.5. Plugin attributes ''' ==
+
+Besides the !__init!__.py variables mentioned in the previous point, there are other attributes for the ''!PluginType'' and ''Plugin'' instances:
+
+ * '''active''': can be read with the ''!PluginType'' and ''Plugin's'' ''isActive()'' method and changed with their ''toggleActive()'' method. This is just a boolean stored in the DB, representing if the Server Admins have activated or deactivated the plugin.
+
+ For example, in the Collaboration plugin system, if the EVO plugin is deactivated, the event managers will no longer be able to create EVO meetings for their events, in all of Indico.
+
+ Therefore if one wishes to write a new plugin system or refactor the Epayment / Room Booking systems, it is very important to take into account if a given plugin is active or not:
+ {{{
+#!python
+ PluginsHolder().getPluginType("xxxx").getPlugin("yyyy").isActive()
+ }}}
+
+ * '''present''': another boolean stored in the DB. Can be read with the ''isPresent()'' method. Normally its value will be True; it will only be False if there is a plugin or ''plugin type'' folder missing and we reload those plugins. In that case, for most purposes they do not exist. However, in order not to delete configuration information, the ''!PluginType'' and ''Plugin'' objects are kept, with present = False.
+
+
+== ''' C.6. Plugin / !PluginType options. Declaration, reading and writing values ''' == #C.6
+
+One of the most powerful features of the new plugin system is to easily declare ''options'' for ''plugins'' and ''plugin types''. The plugin system will keep the option values and attributes in the DB and therefore it is discouraged to write those values directly in the code (such as an epayment URL). Also, the plugin system will automatically create an interface for each plugin in the ''Server Admin'' pages in Indico.
+
+''Options'' have to be declared into a file called ''options.py'' in the root folder of the plugin or of the ''plugin type''.
+
+Examples can be seen inside in the ''MaKaC/plugins/Collaboration/options.py'' file and all of the ''options.py'' files inside each the Collaboration plugins.
+
+The declaration of a plugin's options is done as follows:
+
+{{{
+#!python
+globalOptions = [tuple1, tuple2, ...]
+}}}
+
+Each tuple represents an option. The order that the options are declared will also be the order that the options appear in the Server Admin interface.
+
+Each tuple has 2 members: the option id and the option attributes, which is a dictionary. Example:
+{{{
+#!python
+("MCUAddress", {"description": _("MCU URL"),
+                "type": str,
+                "defaultValue": "https://cern-mcu1.cern.ch",
+                "editable": True,
+                "visible": True})
+}}}
+
+As can be seen the first member of the tuple is the option id (a string), the second member being a dictionary with the attributes of the option.
+
+Explanation of the different attributes:
+
+ * '''description''' (compulsory): an internationalized string with the description of the option that will appear in the ''Server Admin'' web interface next to each option value field.
+
+ * '''type''' (compulsory): the type of the value stored inside the option. Possible types include Python's primitive types ''str'', ''bool'', ''int'', ''list'' (will represent a list of strings), ''dict'' (represents any dictionary; in the iterface it will appear as a list of keys and values), ''"users"'' (represents a list of users and will have its own widget to search, add and remove users to it), ''"rooms"'' (represents a list of location:room pairs taken from Indico's RB database, it will have its own widget).
+
+ * '''defaultValue''' (compulsory): the initial value of this option when it is first loaded. It can be an empty value of the corresponding type (such as an empty string) or anything that is needed.
+
+ * '''editable''' (optional): a boolean, True by default. If False, the value of the option will be displayed in the ''Server Admin'' interface, but it will not be changeable through the interface. It is always possible to change it programatically or through a console.
+
+ * '''visible''' (optional): a boolean, True by default. If False, the option will not appear at all in the ''Server Admin'' interface.
+
+ * '''mustReload''' (optional): a boolean, False by default. If True, the option's '''defaultValue''' defined in the code will be loaded inside the option everytime the plugins are reloaded.
+
+''Plugin'' options are represented in the DB by the ''!PluginOption'' class. Each ''Plugin'' or ''!PluginType'' object has a list of options attached.
+
+A ''!PluginOption'' object can be retrieved from ''Plugin'' objects or ''!PluginType'' objects via the ''getOption'' method of the ''!PluginBase'' class (both ''Plugin'' and ''!PluginType'' inherit from ''!PluginBase''). Then, its value can be retrieved with the ''getValue'' method:
+
+{{{
+#!python
+PluginsHolder().getPluginType("Collaboration").getPlugin("CERNMCU").getOption("MCUAddress").getValue()
+}}}
+
+
+== ''' C.7. Plugin / !PluginType actions ''' == #C.7.
+
+''Actions'' are pieces of code related to a given plugin or ''plugin system'' that can be executed at 3 moments:
+
+ * When a server admin presses the button that launches the action;
+ * When an option's value is changed and this change triggers an action;
+ * When plugins are reloaded.
+
+''Actions'' are declared and programmed in the ''actions.py'' file at the root of each plugin / ''plugin type'' folder.
+
+The declaration is similar to that of ''options'': a list of tuples. Example of an EVO action tuple:
+
+{{{
+#!python
+("reloadCommunityList", {"buttonText": _("Reload Community List"),
+                         "associatedOption": "communityList"}
+}}}
+
+The first member of the tuple is the action id.
+
+The second member of the tuple is a dictionary with the action attributes. Explanation of the different attributes:
+
+ * '''buttonText''' (compulsory): a string. The text that will appear in the button in the ''Server Admin'' interface that launches the action.
+
+ * '''visible''' (optional): a boolean, True by default. Says if the action button will be visible in the ''Server Admin'' interface or not.
+
+ * '''associatedOption''' (optional): the id of an option of the same plugin / ''plugin type''. If set, the button will appear after the corresponding option in the ''Server Admin'' interface.
+
+ * '''triggeredBy''' (optional): a list of strings. The strings have to be the ids of options in the same plugin. If it is a ''plugin type'' option, options from the child plugins can also be included. If set, the action will be called when the value of one of these options changes.
+
+ * '''executeOnLoad''' (optiona): a boolean, False by default. If set to True, the action will be executed when the plugins are reloaded.
+
+Finally, the action code has to be implemented in the ''actions.py'' file too. For this, we need to write an ''Action'' class that inherits from ''!ActionBase'', and with a ''call()'' method. The name of the class has to be the same as the corresponding action id, with first capital letter, and the word "Action" afterwards. Example:
+
+{{{
+#!python
+from MaKaC.plugins.base import ActionBase
+
+pluginTypeActions = [
+    ("indexPluginsPerEventType", {"visible": False,
+                                 "executeOnLoad": True,
+                                 "triggeredBy": ["allowedOn"]} ), ...]
+
+class IndexPluginsPerEventTypeAction(ActionBase):
+    def call(self):
+          ...
+}}}
+
+
+== ''' C.8. Plugin ''Global Data'' ''' ==
+
+Each plugin can also store a ''Global Data'' object where global information for the plugin can be stored. This could be done inside an invisible option's value; however this is not very elegant.
+
+If a plugin wants to have a ''!GlobalData'' object, it has to define a ''!GlobalData'' class inside a file called ''common.py'' at the root of the plugin folder.
+
+Then, the ''Plugin'' class's methods ''initializeGlobalData()'', ''getGlobalData()'' and ''setGlobalData()'' can be used.
+
+A good example of this is inside the Collaboration system's CERNMCU plugin's ''common.py'' file.
+

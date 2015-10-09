@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Collaboration by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Collaboration – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FCollaboration56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="Collaboration.html" title="View Dev/Collaboration">Collaboration</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Collaboration?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#IndicoCollaboration">Indico Collaboration</a>
+    <ol>
+      <li>
+        <a href="#Awordaboutthedevelopmentprocess">A word about the development process</a>
+      </li>
+      <li>
+        <a href="#Theprocedure">The procedure</a>
+      </li>
+      <li>
+        <a href="#Creatingapublicrepo">Creating a public repo</a>
+        <ol>
+          <li>
+            <a href="#Usingpatches">Using patches</a>
+          </li>
+          <li>
+            <a href="#UsingplainGitandapublicrepository">Using plain Git and a public repository</a>
+          </li>
+          <li>
+            <a href="#UsingGitHub">Using GitHub?</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#Inapicture">In a picture</a>
+      </li>
+      <li>
+        <a href="#SomeBasicrules">Some Basic rules</a>
+      </li>
+      <li>
+        <a href="#Sometips">Some tips</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="IndicoCollaboration">Indico Collaboration</h1>
+<p>
+Indico is an open source web application that can be downloaded <a class="wiki" href="../Download.html">here</a>.
+The main development is done at <a class="ext-link" href="http://www.cern.ch/"><span class="icon">​</span>CERN</a> but many other organizations world-wide
+are contributing with new developments, improvements and bug fixes.
+</p>
+<p>
+We welcome anyone to participate in the project and to help make it better.
+</p>
+<h2 id="Awordaboutthedevelopmentprocess">A word about the development process</h2>
+<p>
+Indico uses Git as its version control system. Git is a distributed VCS, meaning that that each user has his/her own copy of the "central repository".
+As a matter of fact, the "central repository" (if it exists) is no more than the one everybody agrees on.
+</p>
+<p>
+Indico's development process relies on a "master repository" (located at <acronym title="European Organization for Nuclear Research">CERN</acronym> and replicated across the web) and "gatekeepers" or "integrators". Integrators are the only people with write access to the master repository - they decide what gets accepted, rejected and suggest changes. 
+</p>
+<h2 id="Theprocedure">The procedure</h2>
+<ol><li>Sort out which kind of public repo you are going to use (<a class="missing wiki">GitHub?</a>, your own git repo, patches?) and configure it properly
+</li><li>Fetch the latest version of the master branch: <tt>git checkout master</tt> and <tt>git pull</tt>
+</li><li>Branch out from upstream <tt>master</tt>: <tt>git checkout -b 1234-my-own-branch --track upstream/master</tt>
+</li><li>Develop whatever you have to do and <tt>git commit -a</tt> (can be done several times);
+</li><li>Rebase with the remote master (<tt>git pull --rebase</tt>)
+</li><li>Push your changes to your public repo: <tt>git push my-public-repo 1234-my-own-branch</tt>
+</li></ol><h2 id="Creatingapublicrepo">Creating a public repo</h2>
+<p>
+First of all, take some time to read our <a class="wiki" href="GettingStarted.html">"Getting Started" guide</a> and follow the instructions. After following this guide, you should have your development environment set up. Please note that the repository that you use as <tt>origin</tt> will depend on how you want to contribute. There are three options:
+</p>
+<ul><li>Submitting patches;
+</li><li>Using plain Git and a public repository;
+</li><li>Using <a class="missing wiki">GitHub?</a>;
+</li></ul><h3 id="Usingpatches">Using patches</h3>
+<p>
+This is the least user-friendly option. Unless you can't really use any of the other options, this is highly discouraged.
+</p>
+<p>
+If you wish to contribute a patch to Indico, you can do so by using the <a class="ext-link" href="http://git-scm.com/docs/git-format-patch"><span class="icon">​</span>git format-patch</a> command. For instance:
+</p>
+<pre class="wiki">$ git format-patch master
+0001-IMP-Add-disconnect-button-vidyo.patch
+</pre><p>
+Creates a series of patch files that you can then attach to a Trac ticket. For obvious reasons, it would be good that you minimize the number of commits (squash them?).
+</p>
+<h3 id="UsingplainGitandapublicrepository">Using plain Git and a public repository</h3>
+<p>
+This second option is better than the first, but has the downside that the public repo should be accessible somewhere. Fortunately, nowadays services like <a class="ext-link" href="http://github.com/"><span class="icon">​</span>GitHub</a> and <a class="ext-link" href="http://www.bitbucket.com/"><span class="icon">​</span>BitBucket</a> provide public GIt repos for free. If you are sticking with <a class="missing wiki">GitHub?</a>, then jump on to the next section - things will be much easier, no need to complicate. Otherwise, read on.
+</p>
+<p>
+So, you have finished your work and you have a new branch that you wish to publish for reviewing and merging into the master repo. The first thing you should do is telling Git you have a public repo where to publish things:
+</p>
+<pre class="wiki">$ git remote add origin ssh://jdoe@myserver.com/home/jdoe/repos/indico.git
+</pre><p>
+And that indico's upstream repo is somewhere else:
+</p>
+<pre class="wiki">git remote add upstream git://github.com/indico/indico.git
+</pre><p>
+You are ready to push things to your public repo:
+</p>
+<pre class="wiki">$ git push public 1234-fix-my-new-branch
+</pre><p>
+Don't forget to rebase on <tt>upstream/master</tt> before pushing!
+Now, you can open an issue at this same Trac site (<a href="http://indico-software.org/newticket">New Ticket</a>), specifying the repository/branch you want us to fetch your changes from.
+</p>
+<h3 id="UsingGitHub">Using <a class="missing wiki">GitHub?</a></h3>
+<p>
+Using <a class="missing wiki">GitHub?</a> makes things slightly simpler. <a class="missing wiki">GitHub?</a> allows you to have your own Indico repo, based on the master one, just by clicking a button. You can then do all the changes you want on your public repo and then create a "pull request" so that we know you are asking for your changes to be integrated.
+</p>
+<p>
+Here's how to create your own Indico "fork":
+</p>
+<ol><li>Create a <a class="missing wiki">GitHub?</a> account
+</li><li>Go to our <a class="ext-link" href="http://github.com/indico/indico"><span class="icon">​</span>repo page</a>
+</li><li>Click "fork"
+</li></ol><p>
+And in a few seconds your repo should be ready. Then, just follow the instructions <a class="missing wiki">GitHub?</a> provides you on how to clone your new repository locally.
+Your public repo will now be the <tt>origin</tt> in your local repo. You may want to add a remote reference to the master repo:
+</p>
+<pre class="wiki">$ git remote add upstream git://github.com/indico/indico.git
+</pre><p>
+In order to push your changes into your public repo, just do:
+</p>
+<pre class="wiki">$ git push origin 1234-fix-for-something
+</pre><h2 id="Inapicture">In a picture</h2>
+<p>
+<a style="padding:0; border:none" href="http://indico-software.org/raw-attachment/wiki/Dev/Collaboration/diagram.png"><img src="http://indico-software.org/raw-attachment/wiki/Dev/Collaboration/diagram.png" alt="http://indico-software.org/raw-attachment/wiki/Dev/Collaboration/diagram.png" title="http://indico-software.org/raw-attachment/wiki/Dev/Collaboration/diagram.png" /></a>
+</p>
+<h2 id="SomeBasicrules">Some Basic rules</h2>
+<ul><li>Your code must be compliant with the GNU/GPL license
+</li><li>Think in general terms: your contributions should be usable by any other institution. So avoid specific solutions and think in a more abstract way. 
+</li><li>There are a few rules for software development that you must follow. Please, read from <a class="wiki" href="DevPractices.html">here</a>.
+</li></ul><h2 id="Sometips">Some tips</h2>
+<ul><li>Tips for developers using Git:
+<ul><li>Things you should do:
+<ul><li>before creating a branch, pull all the modifications from the origin (here at <acronym title="European Organization for Nuclear Research">CERN</acronym>: <a href="http://indico-software.org/repo/">http://indico-software.org/repo/</a>).
+</li><li>create topic branches for your contributions and please name them sensibly (see naming conventions below).
+</li><li><strong>rebase</strong> before pushing the branch in your public repo, but never again rebase that branch.
+</li><li><strong>push</strong> to your public repo, only after you have finished and tested the feature you have developed.
+</li></ul></li><li>Things you should never do:
+<ul><li>do not work on the master branch; create always a new branch for your developments
+</li><li>do not rebase or squash on your remote public repo
+</li><li>do not rebase a branch in your private repo when that branch has already been pushed into your public repo
+</li></ul></li><li>Naming conventions (branches):
+<ul><li>Use dashes instead of underscores: i.e. <a class="closed ticket" href="../../ticket/1234.html" title="enhancement: My Indico backend refactory (closed: fixed)">#1234</a>-foo-feature
+</li><li>The branch name must start with the trac ticket number: #ticket-* 
+</li></ul></li></ul></li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Collaboration?action=diff&amp;version=21" title="Version 21 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-11T13%3A51%3A41%2B02%3A00&amp;precision=second" title="See timeline at 04/11/13 13:51:41">2 years ago</a></span>
+            <span class="trac-print">Last modified on 04/11/13 13:51:41</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(1)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../attachment/wiki/Dev/Collaboration/diagram.html" title="View attachment">diagram.png</a><a href="../../raw-attachment/wiki/Dev/Collaboration/diagram.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="82924 bytes">81.0 KB</span>) -
+      added by <em>pferreir</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-06-19T17%3A39%3A41%2B02%3A00&amp;precision=second" title="See timeline at 06/19/12 17:39:41">3 years ago</a>.
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../zip-attachment/wiki/Dev/Collaboration/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FCollaboration56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Collaboration by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:12 GMT -->
+</html>

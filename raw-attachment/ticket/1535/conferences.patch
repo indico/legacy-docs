@@ -1,0 +1,11 @@
+--- conferences_git.py	2014-05-05 18:12:59.930555540 +0200
++++ conferences.py	2014-05-05 18:14:59.489007248 +0200
+@@ -465,7 +465,7 @@
+         adjusted_eDate = self._conf.getAdjustedScreenEndDate(tz)
+ 
+         vars["timezone"] = tz
+-        vars["confDateInterval"] = i18nformat("""_("from") %s _("to") %s (%s)""")%(format_date(adjusted_sDate, format='long'), format_date(adjusted_eDate, format='long'), tz)
++        vars["confDateInterval"] = i18nformat("""_("from") %s _("to") %s""")%(format_date(adjusted_sDate, format='long'), format_date(adjusted_eDate, format='long'))
+         if adjusted_sDate.strftime("%d%B%Y") == \
+                 adjusted_eDate.strftime("%d%B%Y"):
+             vars["confDateInterval"] = format_date(adjusted_sDate, format='long')

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Admin/InstallationOlder by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Admin/InstallationOlder – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Admin%252FInstallationOlder56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Admin.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Admin.html" title="View Admin">Admin</a><span class="pathentry sep">/</span><a class="pathentry" href="InstallationOlder.html" title="View Admin/InstallationOlder">InstallationOlder</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Admin.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Admin/InstallationOlder?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="Release0.96.2:">Release 0.96.2:</h1>
+<p>
+<a href="http://indico-software.org/wiki/Releases/Indico0.96.2#Download">http://indico-software.org/wiki/Releases/Indico0.96.2#Download</a>
+</p>
+<p>
+Once checked out, go to the indico/code/ directory then copy the indico/code/dist/config.xml file in there. Then proceed as usual ("setup.py upgrade" then "setup.py install")
+</p>
+<h2 id="UPGRADEINSTRUCTIONS">UPGRADE INSTRUCTIONS</h2>
+<p>
+To upgrade from version 0.8.14 and previous, you must run the script "Tools/Migration0.8.14To0.90.0.py" after the upgrade
+</p>
+<p>
+Indico now require python 2.4
+</p>
+<h3 id="Toupgradefrom0.90.3andpreviousversions:">To upgrade from 0.90.3 and previous versions:</h3>
+<ul><li>if you want to use the new html cache feature make sure the XMLCacheDir in config.xml is set to a path which is writable by the http server. Else, disable the cache by going to the "Admin" "Main" page.
+</li><li>PIL is now mandatory
+</li><li>reportlab version must be 2.0
+</li><li>run the following script:
+<ul><li>tools/indexes/reindexcalendars.py
+</li><li>tools/indexes/reindexcategories.py
+</li><li>tools/indexes/reindexOAIModificationDates.py (only needed if you use the OAI gateway)
+</li></ul></li></ul><h3 id="Toupgradefrom0.92.2andpreviousversions:">To upgrade from 0.92.2 and previous versions:</h3>
+<ul><li>run the following scripts:
+<ul><li>tools/updateAC.py
+</li><li>tools/pendingsMigration.py
+</li></ul></li></ul><h3 id="Toupdatefrom0.94andpreviousversionsyoumustrunthefollowingscriptbeforeinstallation:">To update from 0.94 and previous versions, you must run the following script before installation:</h3>
+<ul><li>tools/check_conflict_description_content.py
+</li></ul><h3 id="Toupgradefrom0.96.2andpreviousversionsorCVSrelease_0_96-patches:">To upgrade from 0.96.2 and previous versions, or CVS release_0_96-patches:</h3>
+<ul><li>install pytz:
+<ul><li>package: <a class="ext-link" href="http://sourceforge.net/projects/pytz"><span class="icon">​</span>http://sourceforge.net/projects/pytz</a>
+</li><li>howto install: <a class="ext-link" href="http://pytz.sourceforge.net/"><span class="icon">​</span>http://pytz.sourceforge.net</a>
+</li></ul></li><li>install simplejson:
+<ul><li>package: <a class="ext-link" href="http://pypi.python.org/pypi/simplejson/"><span class="icon">​</span>http://pypi.python.org/pypi/simplejson/</a>
+</li><li>installation tips:
+<ul><li>ungzip and untar the package
+</li><li>sudo python setup.py bdist_egg
+</li><li>if you have easy_install: sudo easy_install -UZ simplejsonXXXXX.egg
+</li><li>if you DO NOT have easy_install: unzip the egg file (actually it is a zip file) and copy the folder simplejson in your python/lib/site-packages folder
+</li></ul></li></ul></li><li>run script tools/TZMigration.py (NOTE: firstly you have to install Indico package and then run this script)
+<ul><li>You must stop the Apache server while running the script because user interaction with Indico could cause inconsistencies. Indico migration at <acronym title="European Organization for Nuclear Research">CERN</acronym> took ~4 hours
+</li><li>You will be asked to provide the category timezones file. You, as Indico admin, have to create this file in order to choose which timezone will be set to each of your categories. The file must have 2 columns (separated by 1 tab), the first one will contain the ID for each Indico category and the second one is the TZ for the corresponding category. Please, see an example <a href="http://indico-software.org/download/categories-timezones.txt">here</a>.
+</li><li>A complete list of timezone codes is <a href="http://indico-software.org/download/timezone-codes.txt">here</a>
+</li><li>On the other hand, if you do not want to create the categories timezones file, you can provide an empty file as parameter. The script will add the categories to your server timezone (default timezone). And afterwards, you will be able to change the TZ for each category by hand.
+</li></ul></li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Admin/InstallationOlder?action=diff&amp;version=5" title="Version 5 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-04-18T15%3A31%3A59%2B02%3A00&amp;precision=second" title="See timeline at 04/18/11 15:31:59">4 years ago</a></span>
+            <span class="trac-print">Last modified on 04/18/11 15:31:59</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Admin%252FInstallationOlder56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Admin/InstallationOlder by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:41 GMT -->
+</html>

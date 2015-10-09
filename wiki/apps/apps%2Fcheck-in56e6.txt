@@ -1,0 +1,34 @@
+= Check-in App =
+
+From version 1.2, Indico allows you to create digital conference tickets containing a [[wikipedia:QR_Code|QR code]].
+
+This allows you to easily track attendants by scanning their **e-ticket**.
+
+To use this feature, simply enable the **e-tickets module** in the conference's **registration form** settings.
+
+Right after that, you will be shown a QR code which you need to use to **link** the **conference** with the **check-in app**.[[BR]]
+To do so, press the **Add event** button in the app and scan the QR code that is in your screen. You will be redirected to Indico's[[BR]]
+login page; simply enter your Indico credentials.
+
+To check a user in, press **Check in** and scan the QR code on the attendant's ticket. After scanning it you will be[[BR]]
+shown information about the attendant and can mark him as checked-in (or check him back out).[[BR]]
+You can also view a list of checked-in attendants.
+
+
+== Installing the app ==
+
+=== Link to App ===
+
+[[Image(https://developer.android.com/images/brand/en_generic_rgb_wo_45.png, link=https://play.google.com/store/apps/details?id=ch.cern.indico.checkin )]] 
+[[Image(appstore.png, height=45px, link=https://itunes.apple.com/us/app/indico-check-in/id834962232?mt=8&uo=4 )]] 
+
+=== QR Code ===
+
+[[Image(qrcode.png)]]
+
+== Screenshots of the app ==
+
+[[Image(http://indico-software.org/img/checkin-1.png)]]
+[[Image(http://indico-software.org/img/checkin-2.png)]]
+[[Image(http://indico-software.org/img/checkin-3.png)]]
+[[Image(http://indico-software.org/img/checkin-4.png)]]

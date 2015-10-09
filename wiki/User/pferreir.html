@@ -1,0 +1,663 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/User/pferreir by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      User/pferreir – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="User%252Fpferreir56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../User.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../User.html" title="View User">User</a><span class="pathentry sep">/</span><a class="pathentry" href="pferreir.html" title="View User/pferreir">pferreir</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../User.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/User/pferreir?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="PedroFerreira">Pedro Ferreira</h1>
+<h2 id="PersonalPlan">Personal Plan</h2>
+<h3 id="Longterm">Long term</h3>
+<ul><li>Performing feature integration and code review;
+</li><li>Documenting Indico:
+<ul><li>Keeping the wiki tidy and organized (<a class="missing wiki">WikiCop?</a>);
+</li><li>Trying out and suggesting new documentation mechanisms - Wiki (done), API docs, JS docs;
+</li></ul></li></ul><h3 id="ShortMediumterm"><a class="missing wiki">Short/Medium?</a> term</h3>
+<ul><li>Making the setup process work:
+<ul><li>easy_install compatible; <strong>[DONE]</strong>
+</li><li>easy deployment; <strong>[DONE]</strong>
+</li><li><a class="missing wiki">PyPi?</a> entry; <strong>[DONE]</strong>
+</li></ul></li><li>Improving the timetable management interface - drag&amp;drop and reschedule features;
+</li><li>Taking part in the performance optimization process;
+</li><li>Working hard to release <tt>v0.97</tt> final;
+</li><li>Working hard to release <tt>v0.98</tt> alpha;
+<ul><li><tt>livesync</tt>
+</li><li>new <tt>scheduler</tt> ("task daemon")
+</li></ul></li></ul><h3 id="PersonalQuests">Personal Quests</h3>
+<ul><li><tt>PickleJar</tt>, now <tt>fossilize</tt>;
+</li><li>Search Engine integration;
+</li><li>The <a class="missing wiki">JavaScript?</a> widget toolkit;
+</li></ul><h2 id="OpenTickets">Open Tickets</h2>
+<p>
+</p><div xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+  
+  
+  
+    <h2 class="report-result">Milestone: v2.0 <span class="numrows">(1 match)</span></h2>
+  
+  <table class="listing tickets">
+    <thead>
+      
+    <tr class="trac-columns">
+      <th class="id">
+        
+        <a title="Sort by Ticket (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=id">Ticket</a>
+      </th><th class="summary">
+        
+        <a title="Sort by Summary (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=summary">Summary</a>
+      </th><th class="status">
+        
+        <a title="Sort by Status (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=status">Status</a>
+      </th><th class="type">
+        
+        <a title="Sort by Type (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=type">Type</a>
+      </th><th class="priority asc">
+        
+        <a title="Sort by Priority (descending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;desc=1&amp;order=priority">Priority</a>
+      </th><th class="component">
+        
+        <a title="Sort by Component (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=component">Component</a>
+      </th><th class="version">
+        
+        <a title="Sort by Version (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=version">Version</a>
+      </th>
+    </tr>
+  
+    </thead>
+    
+      
+      <tbody>
+        
+        
+          
+            
+
+              <tr class="even prio2">
+                
+                  
+                    <td class="id"><a href="../../ticket/515.html" title="View ticket">#515</a></td>
+                    
+                  
+                
+                  
+                    
+                    <td class="summary">
+                      <a href="../../ticket/515.html" title="View ticket">Force UTF-8 as default locale?</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="status">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      assigned
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="type">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      enhancement
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="priority">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      critical
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="component">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      General
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="version">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      0.96.x
+                    </td>
+                  
+                
+              </tr>
+
+              
+                
+                  
+                  
+                
+              
+            
+          
+        
+        
+      </tbody>
+    
+      <tbody>
+        <tr class="trac-group">
+          <th colspan="7">
+            
+    <h2 class="report-result">Milestone: v2.7 <span class="numrows">(3 matches)</span></h2>
+  
+          </th>
+        </tr>
+        
+    <tr class="trac-columns">
+      <th class="id">
+        
+        <a title="Sort by Ticket (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=id">Ticket</a>
+      </th><th class="summary">
+        
+        <a title="Sort by Summary (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=summary">Summary</a>
+      </th><th class="status">
+        
+        <a title="Sort by Status (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=status">Status</a>
+      </th><th class="type">
+        
+        <a title="Sort by Type (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=type">Type</a>
+      </th><th class="priority asc">
+        
+        <a title="Sort by Priority (descending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;desc=1&amp;order=priority">Priority</a>
+      </th><th class="component">
+        
+        <a title="Sort by Component (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=component">Component</a>
+      </th><th class="version">
+        
+        <a title="Sort by Version (ascending)" href="http://old.indico-software.org/query?owner=pferreir&amp;status=!closed&amp;group=milestone&amp;max=0&amp;order=version">Version</a>
+      </th>
+    </tr>
+  
+      </tbody>
+      <tbody>
+        
+        
+          
+            
+
+              <tr class="even prio2">
+                
+                  
+                    <td class="id"><a href="../../ticket/895.html" title="View ticket">#895</a></td>
+                    
+                  
+                
+                  
+                    
+                    <td class="summary">
+                      <a href="../../ticket/895.html" title="View ticket">Clean classes/modules/... from previous task daemon</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="status">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      new
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="type">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      defect
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="priority">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      critical
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="component">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      General
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="version">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      0.98-dev
+                    </td>
+                  
+                
+              </tr>
+
+              
+                
+                  
+                  
+                
+              
+            
+          
+        
+          
+            
+
+              <tr class="odd prio3">
+                
+                  
+                    <td class="id"><a href="../../ticket/684.html" title="View ticket">#684</a></td>
+                    
+                  
+                
+                  
+                    
+                    <td class="summary">
+                      <a href="../../ticket/684.html" title="View ticket">Add progress indicators to parts of migration script that don't have it</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="status">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      assigned
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="type">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      enhancement
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="priority">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      high
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="component">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      Installation
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="version">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      0.98-dev
+                    </td>
+                  
+                
+              </tr>
+
+              
+                
+                  
+                  
+                
+              
+            
+          
+        
+          
+            
+
+              <tr class="even prio4">
+                
+                  
+                    <td class="id"><a href="../../ticket/1227.html" title="View ticket">#1227</a></td>
+                    
+                  
+                
+                  
+                    
+                    <td class="summary">
+                      <a href="../../ticket/1227.html" title="View ticket">Conditional fields</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="status">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      assigned
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="type">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      task
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="priority">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="component">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      Registration form
+                    </td>
+                  
+                
+                  
+                    
+                    <td class="version">
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      0.99
+                    </td>
+                  
+                
+              </tr>
+
+              
+                
+                  
+                  
+                
+              
+            
+          
+        
+        
+      </tbody>
+    
+  </table>
+  
+</div><p>
+</p>
+<h2 id="ClosedTickets">Closed Tickets</h2>
+<p>
+</p><div><dl class="wiki compact"><dt><a class="closed" href="../../ticket/2.html" title="Delete Event should be easier to find">#2</a></dt><dd>Delete Event should be easier to find</dd><dt><a class="closed" href="../../ticket/5.html" title="Replace &#34;pt&#34; font sizes with &#34;px&#34;">#5</a></dt><dd>Replace "pt" font sizes with "px"</dd><dt><a class="closed" href="../../ticket/9.html" title="Egg generator script">#9</a></dt><dd>Egg generator script</dd><dt><a class="closed" href="../../ticket/12.html" title="Detect apache user automatically">#12</a></dt><dd>Detect apache user automatically</dd><dt><a class="closed" href="../../ticket/14.html" title="'Move' widget doesn't work correctly with IE">#14</a></dt><dd>'Move' widget doesn't work correctly with IE</dd><dt><a class="closed" href="../../ticket/15.html" title="Initial setup .py / .sh / .bat script">#15</a></dt><dd>Initial setup .py / .sh / .bat script</dd><dt><a class="closed" href="../../ticket/19.html" title="Automatically update etc/zodb.conf and etc/zdctl.conf after install">#19</a></dt><dd>Automatically update etc/zodb.conf and etc/zdctl.conf after install</dd><dt><a class="closed" href="../../ticket/20.html" title="Simplejson dependency problem">#20</a></dt><dd>Simplejson dependency problem</dd><dt><a class="closed" href="../../ticket/22.html" title="Retrieving &#34;Favorite users&#34; causes traceback when accessing using a  ...">#22</a></dt><dd>Retrieving "Favorite users" causes traceback when accessing using a  modification key</dd><dt><a class="closed" href="../../ticket/23.html" title="Conference pages - fckeditor: add image and HTML edit buttons">#23</a></dt><dd>Conference pages - fckeditor: add image and HTML edit buttons</dd><dt><a class="closed" href="../../ticket/24.html" title="Change start/end date inline widgets">#24</a></dt><dd>Change start/end date inline widgets</dd><dt><a class="closed" href="../../ticket/33.html" title="Language selections: do not write the country">#33</a></dt><dd>Language selections: do not write the country</dd><dt><a class="closed" href="../../ticket/37.html" title="Change footer">#37</a></dt><dd>Change footer</dd><dt><a class="closed" href="../../ticket/48.html" title="View event page">#48</a></dt><dd>View event page</dd><dt><a class="closed" href="../../ticket/50.html" title="Timetable: Create contribution has a layout problem on IE">#50</a></dt><dd>Timetable: Create contribution has a layout problem on IE</dd><dt><a class="closed" href="../../ticket/51.html" title="Create event: doesnt work from IE">#51</a></dt><dd>Create event: doesnt work from IE</dd><dt><a class="closed" href="../../ticket/54.html" title="Reschedule">#54</a></dt><dd>Reschedule</dd><dt><a class="closed" href="../../ticket/55.html" title="Clone fails because of timetable problems with dates">#55</a></dt><dd>Clone fails because of timetable problems with dates</dd><dt><a class="closed" href="../../ticket/59.html" title="Intelligent Search Box: fails with unicode chars">#59</a></dt><dd>Intelligent Search Box: fails with unicode chars</dd><dt><a class="closed" href="../../ticket/65.html" title="OAI refactoring to fix a performance leak">#65</a></dt><dd>OAI refactoring to fix a performance leak</dd><dt><a class="closed" href="../../ticket/77.html" title="Traceback editing resources inside a material type">#77</a></dt><dd>Traceback editing resources inside a material type</dd><dt><a class="closed" href="../../ticket/90.html" title="Cannot read interlaced PNG files">#90</a></dt><dd>Cannot read interlaced PNG files</dd><dt><a class="closed" href="../../ticket/97.html" title="setup.py doesn't fail if gettext is not installed">#97</a></dt><dd>setup.py doesn't fail if gettext is not installed</dd><dt><a class="closed" href="../../ticket/99.html" title="Fonts are not installed">#99</a></dt><dd>Fonts are not installed</dd><dt><a class="closed" href="../../ticket/106.html" title="Task daemon">#106</a></dt><dd>Task daemon</dd><dt><a class="closed" href="../../ticket/112.html" title="Conference creation control doesn't work for groups">#112</a></dt><dd>Conference creation control doesn't work for groups</dd><dt><a class="closed" href="../../ticket/116.html" title="Timetables  on ''Canada/Eastern&#34; fail to generate">#116</a></dt><dd>Timetables  on ''Canada/Eastern" fail to generate</dd><dt><a class="closed" href="../../ticket/123.html" title="Wrong assumption that sudo is available on all Linux distribution by ...">#123</a></dt><dd>Wrong assumption that sudo is available on all Linux distribution by default</dd><dt><a class="closed" href="../../ticket/126.html" title="taskDaemon.py start: ImportError:cannot import name ConferenceSchedule">#126</a></dt><dd>taskDaemon.py start: ImportError:cannot import name ConferenceSchedule</dd><dt><a class="closed" href="../../ticket/127.html" title="When taskDaemon.py failed to start, /var/run/IndicoTaskDaemon.pid is not ...">#127</a></dt><dd>When taskDaemon.py failed to start, /var/run/IndicoTaskDaemon.pid is not removed</dd><dt><a class="closed" href="../../ticket/133.html" title="WorkerName - Use fully qualified domain name instead">#133</a></dt><dd>WorkerName - Use fully qualified domain name instead</dd><dt><a class="closed" href="../../ticket/138.html" title="Style modification for events">#138</a></dt><dd>Style modification for events</dd><dt><a class="closed" href="../../ticket/142.html" title="Typo: Group instead of Grup">#142</a></dt><dd>Typo: Group instead of Grup</dd><dt><a class="closed" href="../../ticket/147.html" title="Materials with the same name collide">#147</a></dt><dd>Materials with the same name collide</dd><dt><a class="closed" href="../../ticket/151.html" title="Detailed timetable in event home page: contributions title in bold">#151</a></dt><dd>Detailed timetable in event home page: contributions title in bold</dd><dt><a class="closed" href="../../ticket/152.html" title="Material in Timetable Display: which material is being displayed?">#152</a></dt><dd>Material in Timetable Display: which material is being displayed?</dd><dt><a class="closed" href="../../ticket/158.html" title="Cannot delete entry from timetable">#158</a></dt><dd>Cannot delete entry from timetable</dd><dt><a class="closed" href="../../ticket/161.html" title="Material conferences: access control doesnt work">#161</a></dt><dd>Material conferences: access control doesnt work</dd><dt><a class="closed" href="../../ticket/174.html" title="Minute editor - on IE8, menus stop working">#174</a></dt><dd>Minute editor - on IE8, menus stop working</dd><dt><a class="closed" href="../../ticket/179.html" title="FCK: add alignment right, left, center, justified to all richtext editors.">#179</a></dt><dd>FCK: add alignment right, left, center, justified to all richtext editors.</dd><dt><a class="closed" href="../../ticket/182.html" title="Remove favourite does not work from principal table">#182</a></dt><dd>Remove favourite does not work from principal table</dd><dt><a class="closed" href="../../ticket/188.html" title="Booking &#34;accept&#34; operation exception when logged out">#188</a></dt><dd>Booking "accept" operation exception when logged out</dd><dt><a class="closed" href="../../ticket/192.html" title="Traceback adding conveners (add session)">#192</a></dt><dd>Traceback adding conveners (add session)</dd><dt><a class="closed" href="../../ticket/202.html" title="Merging of &#34;report number systems&#34; failing">#202</a></dt><dd>Merging of "report number systems" failing</dd><dt><a class="closed" href="../../ticket/204.html" title="Replace common_timezones with all_timezones">#204</a></dt><dd>Replace common_timezones with all_timezones</dd><dt><a class="closed" href="../../ticket/206.html" title="Exception thrown when trying to add subcontribution">#206</a></dt><dd>Exception thrown when trying to add subcontribution</dd><dt><a class="closed" href="../../ticket/225.html" title="Replace json-rpc calls for material item types with static dictionary">#225</a></dt><dd>Replace json-rpc calls for material item types with static dictionary</dd><dt><a class="closed" href="../../ticket/231.html" title="Enable 0-min breaks">#231</a></dt><dd>Enable 0-min breaks</dd><dt><a class="closed" href="../../ticket/235.html" title="&#34;Enter&#34; key problem with 2 dialogs and IE8">#235</a></dt><dd>"Enter" key problem with 2 dialogs and IE8</dd><dt><a class="closed" href="../../ticket/247.html" title="Material widget - several fixes">#247</a></dt><dd>Material widget - several fixes</dd><dt><a class="closed" href="../../ticket/249.html" title="Changing language without HTTP_REFERER">#249</a></dt><dd>Changing language without HTTP_REFERER</dd><dt><a class="closed" href="../../ticket/258.html" title="Intelligent Search box: fails with only spaces">#258</a></dt><dd>Intelligent Search box: fails with only spaces</dd><dt><a class="closed" href="../../ticket/272.html" title="File downloads fail at the first try with IE8">#272</a></dt><dd>File downloads fail at the first try with IE8</dd><dt><a class="closed" href="../../ticket/275.html" title="Links with no title are not displayed properly in the timetable">#275</a></dt><dd>Links with no title are not displayed properly in the timetable</dd><dt><a class="closed" href="../../ticket/278.html" title="&#34;Create lecture&#34; button doesn't show up">#278</a></dt><dd>"Create lecture" button doesn't show up</dd><dt><a class="closed" href="../../ticket/281.html" title="Adding new contributions from the contribution list is not working">#281</a></dt><dd>Adding new contributions from the contribution list is not working</dd><dt><a class="closed" href="../../ticket/318.html" title="Session Coordinators shouldn't be able to expand sessions">#318</a></dt><dd>Session Coordinators shouldn't be able to expand sessions</dd><dt><a class="closed" href="../../ticket/325.html" title="Several IntelligentSearchBox fixes">#325</a></dt><dd>Several IntelligentSearchBox fixes</dd><dt><a class="closed" href="../../ticket/333.html" title="Adding a contribution makes slot expand, even if not needed">#333</a></dt><dd>Adding a contribution makes slot expand, even if not needed</dd><dt><a class="closed" href="../../ticket/334.html" title="Abstracts filtering criteria: wrong track filtering">#334</a></dt><dd>Abstracts filtering criteria: wrong track filtering</dd><dt><a class="closed" href="../../ticket/337.html" title="Several Material Editor Bugs">#337</a></dt><dd>Several Material Editor Bugs</dd><dt><a class="closed" href="../../ticket/341.html" title="Submitters - Deleting materials from subcontributions doesn't work">#341</a></dt><dd>Submitters - Deleting materials from subcontributions doesn't work</dd><dt><a class="closed" href="../../ticket/342.html" title="&#34;Move&#34; dialog - &#34;More than 1 value to unpack&#34;">#342</a></dt><dd>"Move" dialog - "More than 1 value to unpack"</dd><dt><a class="closed" href="../../ticket/473.html" title="Upgrade from 0.97b is failing">#473</a></dt><dd>Upgrade from 0.97b is failing</dd><dt><a class="closed" href="../../ticket/540.html" title="Cannot close a connection joined to a transaction">#540</a></dt><dd>Cannot close a connection joined to a transaction</dd><dt><a class="closed" href="../../ticket/569.html" title="MSIE cannot download files">#569</a></dt><dd>MSIE cannot download files</dd><dt><a class="closed" href="../../ticket/604.html" title="UTF-8 problem while searching users">#604</a></dt><dd>UTF-8 problem while searching users</dd><dt><a class="closed" href="../../ticket/622.html" title="XML export of abstracts is not well-formed XML">#622</a></dt><dd>XML export of abstracts is not well-formed XML</dd><dt><a class="closed" href="../../ticket/803.html" title="Use Babel for 18n">#803</a></dt><dd>Use Babel for 18n</dd><dt><a class="closed" href="../../ticket/875.html" title="Compute &#34;previous&#34;/&#34;next&#34; on demand">#875</a></dt><dd>Compute "previous"/"next" on demand</dd><dt><a class="closed" href="../../ticket/1062.html" title="UI Updates for Conferences">#1062</a></dt><dd>UI Updates for Conferences</dd><dt><a class="closed" href="../../ticket/1073.html" title="internationalisation - missing strings form i18nformat() function">#1073</a></dt><dd>internationalisation - missing strings form i18nformat() function</dd><dt><a class="closed" href="../../ticket/1154.html" title="IPv6: Are Indico friends ok with it?">#1154</a></dt><dd>IPv6: Are Indico friends ok with it?</dd><dt><a class="closed" href="../../ticket/1427.html" title="error installing indico 1.1.1 on RHEL6 &#34;No module named persistent&#34;">#1427</a></dt><dd>error installing indico 1.1.1 on RHEL6 "No module named persistent"</dd></dl></div><p>
+</p>
+<h2 id="TicketsReported">Tickets Reported</h2>
+<p>
+</p><div><dl class="wiki compact"><dt><a class="new" href="../../ticket/3.html" title="Define the HTML tag policy for titles, descriptions, minutes...">#3</a></dt><dd>Define the HTML tag policy for titles, descriptions, minutes...</dd><dt><a class="closed" href="../../ticket/4.html" title="Search results page doesn't render very well on IE7">#4</a></dt><dd>Search results page doesn't render very well on IE7</dd><dt><a class="closed" href="../../ticket/5.html" title="Replace &#34;pt&#34; font sizes with &#34;px&#34;">#5</a></dt><dd>Replace "pt" font sizes with "px"</dd><dt><a class="closed" href="../../ticket/6.html" title="Fix broken meeting styles">#6</a></dt><dd>Fix broken meeting styles</dd><dt><a class="closed" href="../../ticket/7.html" title="Support for mobile devices">#7</a></dt><dd>Support for mobile devices</dd><dt><a class="closed" href="../../ticket/14.html" title="'Move' widget doesn't work correctly with IE">#14</a></dt><dd>'Move' widget doesn't work correctly with IE</dd><dt><a class="new" href="../../ticket/16.html" title="Create a timetable layout with weekdays as columns">#16</a></dt><dd>Create a timetable layout with weekdays as columns</dd><dt><a class="closed" href="../../ticket/22.html" title="Retrieving &#34;Favorite users&#34; causes traceback when accessing using a  ...">#22</a></dt><dd>Retrieving "Favorite users" causes traceback when accessing using a  modification key</dd><dt><a class="closed" href="../../ticket/23.html" title="Conference pages - fckeditor: add image and HTML edit buttons">#23</a></dt><dd>Conference pages - fckeditor: add image and HTML edit buttons</dd><dt><a class="closed" href="../../ticket/24.html" title="Change start/end date inline widgets">#24</a></dt><dd>Change start/end date inline widgets</dd><dt><a class="assigned" href="../../ticket/26.html" title="Optimize web page rendering process">#26</a></dt><dd>Optimize web page rendering process</dd><dt><a class="closed" href="../../ticket/27.html" title="Recording request: Add an &#34;accepted by&#34; line to the acceptance e-mail">#27</a></dt><dd>Recording request: Add an "accepted by" line to the acceptance e-mail</dd><dt><a class="closed" href="../../ticket/31.html" title="Traceback when accessing TT in management mode (RB related)">#31</a></dt><dd>Traceback when accessing TT in management mode (RB related)</dd><dt><a class="closed" href="../../ticket/32.html" title="Participants in meeting layout - roles mixed up with name">#32</a></dt><dd>Participants in meeting layout - roles mixed up with name</dd><dt><a class="closed" href="../../ticket/35.html" title="Implement noreply@... addresses">#35</a></dt><dd>Implement noreply@... addresses</dd><dt><a class="closed" href="../../ticket/36.html" title="Fix RB widget code so that it works when RB is not active">#36</a></dt><dd>Fix RB widget code so that it works when RB is not active</dd><dt><a class="closed" href="../../ticket/37.html" title="Change footer">#37</a></dt><dd>Change footer</dd><dt><a class="closed" href="../../ticket/39.html" title="Do not add &#34;pending&#34; clones in modification control">#39</a></dt><dd>Do not add "pending" clones in modification control</dd><dt><a class="closed" href="../../ticket/40.html" title="Add &#34;needs AVC support&#34; text to Room Booking notifications">#40</a></dt><dd>Add "needs AVC support" text to Room Booking notifications</dd><dt><a class="closed" href="../../ticket/59.html" title="Intelligent Search Box: fails with unicode chars">#59</a></dt><dd>Intelligent Search Box: fails with unicode chars</dd><dt><a class="closed" href="../../ticket/76.html" title="Rework material widget - Access control tab">#76</a></dt><dd>Rework material widget - Access control tab</dd><dt><a class="closed" href="../../ticket/77.html" title="Traceback editing resources inside a material type">#77</a></dt><dd>Traceback editing resources inside a material type</dd><dt><a class="closed" href="../../ticket/97.html" title="setup.py doesn't fail if gettext is not installed">#97</a></dt><dd>setup.py doesn't fail if gettext is not installed</dd><dt><a class="closed" href="../../ticket/98.html" title="Bug in the taskdaemon">#98</a></dt><dd>Bug in the taskdaemon</dd><dt><a class="closed" href="../../ticket/99.html" title="Fonts are not installed">#99</a></dt><dd>Fonts are not installed</dd><dt><a class="closed" href="../../ticket/112.html" title="Conference creation control doesn't work for groups">#112</a></dt><dd>Conference creation control doesn't work for groups</dd><dt><a class="closed" href="../../ticket/116.html" title="Timetables  on ''Canada/Eastern&#34; fail to generate">#116</a></dt><dd>Timetables  on ''Canada/Eastern" fail to generate</dd><dt><a class="closed" href="../../ticket/128.html" title="indico/__init__.py file doesn't seem to make it to sdist">#128</a></dt><dd>indico/__init__.py file doesn't seem to make it to sdist</dd><dt><a class="closed" href="../../ticket/132.html" title="Add an option to disable email alerts (exceptions)">#132</a></dt><dd>Add an option to disable email alerts (exceptions)</dd><dt><a class="closed" href="../../ticket/133.html" title="WorkerName - Use fully qualified domain name instead">#133</a></dt><dd>WorkerName - Use fully qualified domain name instead</dd><dt><a class="closed" href="../../ticket/136.html" title="Configuration file vs. database - redundant parameters">#136</a></dt><dd>Configuration file vs. database - redundant parameters</dd><dt><a class="new" href="../../ticket/145.html" title="Reschedule: add option for contribution/break/slot creation">#145</a></dt><dd>Reschedule: add option for contribution/break/slot creation</dd><dt><a class="closed" href="../../ticket/147.html" title="Materials with the same name collide">#147</a></dt><dd>Materials with the same name collide</dd><dt><a class="closed" href="../../ticket/174.html" title="Minute editor - on IE8, menus stop working">#174</a></dt><dd>Minute editor - on IE8, menus stop working</dd><dt><a class="closed" href="../../ticket/175.html" title="Add back the iCal export button to the conference pages">#175</a></dt><dd>Add back the iCal export button to the conference pages</dd><dt><a class="new" href="../../ticket/181.html" title="Show protection hierarchy in the protection area">#181</a></dt><dd>Show protection hierarchy in the protection area</dd><dt><a class="new" href="../../ticket/183.html" title="Invitation workflow for conferences">#183</a></dt><dd>Invitation workflow for conferences</dd><dt><a class="closed" href="../../ticket/188.html" title="Booking &#34;accept&#34; operation exception when logged out">#188</a></dt><dd>Booking "accept" operation exception when logged out</dd><dt><a class="closed" href="../../ticket/191.html" title="Invalidate JS cache (vars.js.tpl.tmp) when important changes are done">#191</a></dt><dd>Invalidate JS cache (vars.js.tpl.tmp) when important changes are done</dd><dt><a class="closed" href="../../ticket/192.html" title="Traceback adding conveners (add session)">#192</a></dt><dd>Traceback adding conveners (add session)</dd><dt><a class="closed" href="../../ticket/202.html" title="Merging of &#34;report number systems&#34; failing">#202</a></dt><dd>Merging of "report number systems" failing</dd><dt><a class="closed" href="../../ticket/204.html" title="Replace common_timezones with all_timezones">#204</a></dt><dd>Replace common_timezones with all_timezones</dd><dt><a class="closed" href="../../ticket/205.html" title="Local authorization - clear text passwords">#205</a></dt><dd>Local authorization - clear text passwords</dd><dt><a class="closed" href="../../ticket/206.html" title="Exception thrown when trying to add subcontribution">#206</a></dt><dd>Exception thrown when trying to add subcontribution</dd><dt><a class="closed" href="../../ticket/217.html" title="Problems with material widget">#217</a></dt><dd>Problems with material widget</dd><dt><a class="closed" href="../../ticket/225.html" title="Replace json-rpc calls for material item types with static dictionary">#225</a></dt><dd>Replace json-rpc calls for material item types with static dictionary</dd><dt><a class="closed" href="../../ticket/247.html" title="Material widget - several fixes">#247</a></dt><dd>Material widget - several fixes</dd><dt><a class="closed" href="../../ticket/258.html" title="Intelligent Search box: fails with only spaces">#258</a></dt><dd>Intelligent Search box: fails with only spaces</dd><dt><a class="closed" href="../../ticket/272.html" title="File downloads fail at the first try with IE8">#272</a></dt><dd>File downloads fail at the first try with IE8</dd><dt><a class="closed" href="../../ticket/275.html" title="Links with no title are not displayed properly in the timetable">#275</a></dt><dd>Links with no title are not displayed properly in the timetable</dd><dt><a class="closed" href="../../ticket/281.html" title="Adding new contributions from the contribution list is not working">#281</a></dt><dd>Adding new contributions from the contribution list is not working</dd><dt><a class="closed" href="../../ticket/282.html" title="Date fields misbehavior">#282</a></dt><dd>Date fields misbehavior</dd><dt><a class="closed" href="../../ticket/289.html" title="Material display - sometimes small shortcut icons don't show up">#289</a></dt><dd>Material display - sometimes small shortcut icons don't show up</dd><dt><a class="closed" href="../../ticket/292.html" title="Remove &#34;Event overview&#34; element from breadcrumbs for the Event Overview ...">#292</a></dt><dd>Remove "Event overview" element from breadcrumbs for the Event Overview mode</dd><dt><a class="new" href="../../ticket/294.html" title="PDF files - regenerate them if source file is update">#294</a></dt><dd>PDF files - regenerate them if source file is update</dd><dt><a class="closed" href="../../ticket/318.html" title="Session Coordinators shouldn't be able to expand sessions">#318</a></dt><dd>Session Coordinators shouldn't be able to expand sessions</dd><dt><a class="closed" href="../../ticket/325.html" title="Several IntelligentSearchBox fixes">#325</a></dt><dd>Several IntelligentSearchBox fixes</dd><dt><a class="closed" href="../../ticket/326.html" title="Material editing - Redo the material/resource editing dialogs">#326</a></dt><dd>Material editing - Redo the material/resource editing dialogs</dd><dt><a class="closed" href="../../ticket/333.html" title="Adding a contribution makes slot expand, even if not needed">#333</a></dt><dd>Adding a contribution makes slot expand, even if not needed</dd><dt><a class="closed" href="../../ticket/334.html" title="Abstracts filtering criteria: wrong track filtering">#334</a></dt><dd>Abstracts filtering criteria: wrong track filtering</dd><dt><a class="closed" href="../../ticket/337.html" title="Several Material Editor Bugs">#337</a></dt><dd>Several Material Editor Bugs</dd><dt><a class="new" href="../../ticket/340.html" title="Meeting timetable rendering bug - slots">#340</a></dt><dd>Meeting timetable rendering bug - slots</dd><dt><a class="closed" href="../../ticket/341.html" title="Submitters - Deleting materials from subcontributions doesn't work">#341</a></dt><dd>Submitters - Deleting materials from subcontributions doesn't work</dd><dt><a class="closed" href="../../ticket/342.html" title="&#34;Move&#34; dialog - &#34;More than 1 value to unpack&#34;">#342</a></dt><dd>"Move" dialog - "More than 1 value to unpack"</dd><dt><a class="closed" href="../../ticket/349.html" title="Inconsistency between domain protection and access key">#349</a></dt><dd>Inconsistency between domain protection and access key</dd><dt><a class="closed" href="../../ticket/354.html" title="[CRBS] Don't allow booking to be performed while not logged in">#354</a></dt><dd>[CRBS] Don't allow booking to be performed while not logged in</dd><dt><a class="closed" href="../../ticket/355.html" title="Refactoring - Extract participant/abstract/contribution lists/filters and ...">#355</a></dt><dd>Refactoring - Extract participant/abstract/contribution lists/filters and make it a single component</dd><dt><a class="closed" href="../../ticket/359.html" title="Add/Edit  Interval dialog - when in edit mode, the button should say ...">#359</a></dt><dd>Add/Edit  Interval dialog - when in edit mode, the button should say "Save"</dd><dt><a class="new" href="../../ticket/367.html" title="Adding videos - player only shown for linked videos">#367</a></dt><dd>Adding videos - player only shown for linked videos</dd><dt><a class="closed" href="../../ticket/386.html" title="Add support for &#34;selection boxes&#34; as an alternative to radiobuttons">#386</a></dt><dd>Add support for "selection boxes" as an alternative to radiobuttons</dd><dt><a class="closed" href="../../ticket/387.html" title="Section order - allow user to define it">#387</a></dt><dd>Section order - allow user to define it</dd><dt><a class="closed" href="../../ticket/394.html" title="Timetable is too slow in some situations (makes browser hang)">#394</a></dt><dd>Timetable is too slow in some situations (makes browser hang)</dd><dt><a class="closed" href="../../ticket/396.html" title="Possible bug in NICE authentication?">#396</a></dt><dd>Possible bug in NICE authentication?</dd><dt><a class="closed" href="../../ticket/397.html" title="Affiliation in PDF timetable">#397</a></dt><dd>Affiliation in PDF timetable</dd><dt><a class="closed" href="../../ticket/398.html" title="Add a &#34;fit inner&#34; option to sessions/contributions">#398</a></dt><dd>Add a "fit inner" option to sessions/contributions</dd><dt><a class="new" href="../../ticket/399.html" title="PDF abstract book - extra options">#399</a></dt><dd>PDF abstract book - extra options</dd><dt><a class="closed" href="../../ticket/400.html" title="Export sub-event information in the iCal/RSS(?) feed">#400</a></dt><dd>Export sub-event information in the iCal/RSS(?) feed</dd><dt><a class="closed" href="../../ticket/402.html" title="Error creating booking - possible input validation issue">#402</a></dt><dd>Error creating booking - possible input validation issue</dd><dt><a class="closed" href="../../ticket/403.html" title="PDF Timetable - Affiliation for Speakers">#403</a></dt><dd>PDF Timetable - Affiliation for Speakers</dd><dt><a class="closed" href="../../ticket/404.html" title="Material description - make it appear somewhere">#404</a></dt><dd>Material description - make it appear somewhere</dd><dt><a class="new" href="../../ticket/405.html" title="Event description sanitization">#405</a></dt><dd>Event description sanitization</dd><dt><a class="closed" href="../../ticket/406.html" title="Make &#34;Overview link to the &#34;Overview&#34; page">#406</a></dt><dd>Make "Overview link to the "Overview" page</dd><dt><a class="new" href="../../ticket/407.html" title="Something's going wrong when the RB modules is loaded/unloaded">#407</a></dt><dd>Something's going wrong when the RB modules is loaded/unloaded</dd><dt><a class="closed" href="../../ticket/409.html" title="Translation files should be compiled before generating the Egg">#409</a></dt><dd>Translation files should be compiled before generating the Egg</dd><dt><a class="closed" href="../../ticket/410.html" title="Require a different ZODB version depending on the Python version">#410</a></dt><dd>Require a different ZODB version depending on the Python version</dd><dt><a class="closed" href="../../ticket/411.html" title="Fossilize - PersistentList is not fossilizable">#411</a></dt><dd>Fossilize - PersistentList is not fossilizable</dd><dt><a class="new" href="../../ticket/412.html" title="Add several administration levels">#412</a></dt><dd>Add several administration levels</dd><dt><a class="closed" href="../../ticket/413.html" title="Ordering by track">#413</a></dt><dd>Ordering by track</dd><dt><a class="closed" href="../../ticket/421.html" title="Booking should link back to conference">#421</a></dt><dd>Booking should link back to conference</dd><dt><a class="closed" href="../../ticket/422.html" title="Allow several contributions to be deleted in one go">#422</a></dt><dd>Allow several contributions to be deleted in one go</dd><dt><a class="closed" href="../../ticket/423.html" title="Don't let submitters add material to withdrawn contributions">#423</a></dt><dd>Don't let submitters add material to withdrawn contributions</dd><dt><a class="new" href="../../ticket/427.html" title="Link favorites back to Avatars">#427</a></dt><dd>Link favorites back to Avatars</dd><dt><a class="closed" href="../../ticket/446.html" title="HTTPS mode">#446</a></dt><dd>HTTPS mode</dd><dt><a class="closed" href="../../ticket/485.html" title="Vidyo - Add URL under &#34;More Info&#34;">#485</a></dt><dd>Vidyo - Add URL under "More Info"</dd><dt><a class="new" href="../../ticket/495.html" title="Make &#34;From&#34; configurable for conference-related e-mails">#495</a></dt><dd>Make "From" configurable for conference-related e-mails</dd><dt><a class="assigned" href="../../ticket/515.html" title="Force UTF-8 as default locale?">#515</a></dt><dd>Force UTF-8 as default locale?</dd><dt><a class="closed" href="../../ticket/542.html" title="Room Booking fails for empty database">#542</a></dt><dd>Room Booking fails for empty database</dd><dt><a class="closed" href="../../ticket/552.html" title="CDSConv - add timeout">#552</a></dt><dd>CDSConv - add timeout</dd><dt><a class="new" href="../../ticket/553.html" title="Isolate CDSConv in a plugin">#553</a></dt><dd>Isolate CDSConv in a plugin</dd><dt><a class="closed" href="../../ticket/578.html" title="i18n affecting protection settings">#578</a></dt><dd>i18n affecting protection settings</dd><dt><a class="closed" href="../../ticket/583.html" title="&#34;Clean automatically&#34; hangs forever (Safari)">#583</a></dt><dd>"Clean automatically" hangs forever (Safari)</dd><dt><a class="closed" href="../../ticket/584.html" title="CKeditor not working in news editor">#584</a></dt><dd>CKeditor not working in news editor</dd><dt><a class="closed" href="../../ticket/585.html" title="Room Booking - booking over existing pre-booking">#585</a></dt><dd>Room Booking - booking over existing pre-booking</dd><dt><a class="new" href="../../ticket/586.html" title="Allow content to be cloned inside timetable">#586</a></dt><dd>Allow content to be cloned inside timetable</dd><dt><a class="closed" href="../../ticket/588.html" title="Category materials are not displayed if the category is empty">#588</a></dt><dd>Category materials are not displayed if the category is empty</dd><dt><a class="closed" href="../../ticket/589.html" title="Don't export iCal for contributions that are not scheduled">#589</a></dt><dd>Don't export iCal for contributions that are not scheduled</dd><dt><a class="new" href="../../ticket/590.html" title="Badges, Posters: Resetting PDF options">#590</a></dt><dd>Badges, Posters: Resetting PDF options</dd><dt><a class="new" href="../../ticket/591.html" title="Specify daily &#34;reservable&#34; time intervals for Rooms">#591</a></dt><dd>Specify daily "reservable" time intervals for Rooms</dd><dt><a class="closed" href="../../ticket/592.html" title="CERN Templates - Uniformization">#592</a></dt><dd>CERN Templates - Uniformization</dd><dt><a class="closed" href="../../ticket/593.html" title="Allow webcast &#34;audience&#34; to be selected">#593</a></dt><dd>Allow webcast "audience" to be selected</dd><dt><a class="closed" href="../../ticket/609.html" title="Throw 404 when file does not exist">#609</a></dt><dd>Throw 404 when file does not exist</dd><dt><a class="new" href="../../ticket/624.html" title="Instant Messaging client list - choose chat system">#624</a></dt><dd>Instant Messaging client list - choose chat system</dd><dt><a class="closed" href="../../ticket/640.html" title="Contribution Editing - Adding user to ACL fails">#640</a></dt><dd>Contribution Editing - Adding user to ACL fails</dd><dt><a class="closed" href="../../ticket/656.html" title="Isolating the test environment">#656</a></dt><dd>Isolating the test environment</dd><dt><a class="new" href="../../ticket/658.html" title="Handle MIME types correctly">#658</a></dt><dd>Handle MIME types correctly</dd><dt><a class="closed" href="../../ticket/670.html" title="Room Booking widget not being saved using &#34;Modify&#34; button">#670</a></dt><dd>Room Booking widget not being saved using "Modify" button</dd><dt><a class="closed" href="../../ticket/671.html" title="Adding event fails from modification view">#671</a></dt><dd>Adding event fails from modification view</dd><dt><a class="new" href="../../ticket/675.html" title="Accommodation - do not require dates for certain selections">#675</a></dt><dd>Accommodation - do not require dates for certain selections</dd><dt><a class="assigned" href="../../ticket/684.html" title="Add progress indicators to parts of migration script that don't have it">#684</a></dt><dd>Add progress indicators to parts of migration script that don't have it</dd><dt><a class="closed" href="../../ticket/688.html" title="Autogenerate files for included plugins">#688</a></dt><dd>Autogenerate files for included plugins</dd><dt><a class="closed" href="../../ticket/700.html" title="Add category indicator to search box">#700</a></dt><dd>Add category indicator to search box</dd><dt><a class="new" href="../../ticket/706.html" title="Timestamps should be relative to UTC">#706</a></dt><dd>Timestamps should be relative to UTC</dd><dt><a class="closed" href="../../ticket/707.html" title="Study the option of using suds 0.4">#707</a></dt><dd>Study the option of using suds 0.4</dd><dt><a class="closed" href="../../ticket/708.html" title="Create an &#34;Indico Janitor Task&#34;">#708</a></dt><dd>Create an "Indico Janitor Task"</dd><dt><a class="new" href="../../ticket/720.html" title="Customize alarm e-mail bodies">#720</a></dt><dd>Customize alarm e-mail bodies</dd><dt><a class="closed" href="../../ticket/732.html" title="Video service overview - Going back breaks page">#732</a></dt><dd>Video service overview - Going back breaks page</dd><dt><a class="closed" href="../../ticket/734.html" title="Option to clone VS booking or use the same (or none)">#734</a></dt><dd>Option to clone VS booking or use the same (or none)</dd><dt><a class="closed" href="../../ticket/735.html" title="Open Vidyo, Chat, etc... links in a new window">#735</a></dt><dd>Open Vidyo, Chat, etc... links in a new window</dd><dt><a class="closed" href="../../ticket/738.html" title="Calendar page should not be publicly accessible for protected categories">#738</a></dt><dd>Calendar page should not be publicly accessible for protected categories</dd><dt><a class="closed" href="../../ticket/744.html" title="`requestInfo` error">#744</a></dt><dd>`requestInfo` error</dd><dt><a class="closed" href="../../ticket/745.html" title="Add file download access to Video Service managers">#745</a></dt><dd>Add file download access to Video Service managers</dd><dt><a class="new" href="../../ticket/754.html" title="Use plugin system to compute access to resources">#754</a></dt><dd>Use plugin system to compute access to resources</dd><dt><a class="closed" href="../../ticket/791.html" title="Allow volume directory to be set from the admin interface">#791</a></dt><dd>Allow volume directory to be set from the admin interface</dd><dt><a class="closed" href="../../ticket/802.html" title="Line breaks in HTTP headers">#802</a></dt><dd>Line breaks in HTTP headers</dd><dt><a class="closed" href="../../ticket/803.html" title="Use Babel for 18n">#803</a></dt><dd>Use Babel for 18n</dd><dt><a class="closed" href="../../ticket/804.html" title="Switch &#34;Video Services&#34; and &#34;Chat rooms&#34; banners' positioning">#804</a></dt><dd>Switch "Video Services" and "Chat rooms" banners' positioning</dd><dt><a class="closed" href="../../ticket/805.html" title="Add option to book of abstracts to show/hide ids">#805</a></dt><dd>Add option to book of abstracts to show/hide ids</dd><dt><a class="closed" href="../../ticket/806.html" title="Allow order of registration for fields to be customized">#806</a></dt><dd>Allow order of registration for fields to be customized</dd><dt><a class="closed" href="../../ticket/809.html" title="Make general fields (radio, multiple) countable">#809</a></dt><dd>Make general fields (radio, multiple) countable</dd><dt><a class="new" href="../../ticket/842.html" title="Map of rooms: search by equipment">#842</a></dt><dd>Map of rooms: search by equipment</dd><dt><a class="new" href="../../ticket/844.html" title="Make caching usable for livesync">#844</a></dt><dd>Make caching usable for livesync</dd><dt><a class="closed" href="../../ticket/845.html" title="Fix behavior of date selection widget">#845</a></dt><dd>Fix behavior of date selection widget</dd><dt><a class="new" href="../../ticket/849.html" title="Add privacy indicator to every protected document">#849</a></dt><dd>Add privacy indicator to every protected document</dd><dt><a class="closed" href="../../ticket/851.html" title="Add tooltip to &#34;Nice&#34; search">#851</a></dt><dd>Add tooltip to "Nice" search</dd><dt><a class="closed" href="../../ticket/852.html" title="Allow some profile fields to be &#34;locked&#34;">#852</a></dt><dd>Allow some profile fields to be "locked"</dd><dt><a class="closed" href="../../ticket/853.html" title="&#34;change period&#34; - if start date changed, update end date">#853</a></dt><dd>"change period" - if start date changed, update end date</dd><dt><a class="closed" href="../../ticket/854.html" title="Reduce amount of PSession conflicts">#854</a></dt><dd>Reduce amount of PSession conflicts</dd><dt><a class="closed" href="../../ticket/855.html" title="Allow abstract authors to be added from user DB">#855</a></dt><dd>Allow abstract authors to be added from user DB</dd><dt><a class="closed" href="../../ticket/857.html" title="Remove remaining dependencies on Webcast/VS from core">#857</a></dt><dd>Remove remaining dependencies on Webcast/VS from core</dd><dt><a class="closed" href="../../ticket/864.html" title="Clone results in one less event than required">#864</a></dt><dd>Clone results in one less event than required</dd><dt><a class="closed" href="../../ticket/874.html" title="Don't let alarm tasks send mails to '&lt;&gt;'">#874</a></dt><dd>Don't let alarm tasks send mails to '&lt;&gt;'</dd><dt><a class="closed" href="../../ticket/875.html" title="Compute &#34;previous&#34;/&#34;next&#34; on demand">#875</a></dt><dd>Compute "previous"/"next" on demand</dd><dt><a class="closed" href="../../ticket/891.html" title="If modification/access key is being used, force HTTPS">#891</a></dt><dd>If modification/access key is being used, force HTTPS</dd><dt><a class="closed" href="../../ticket/903.html" title="New HTTP API">#903</a></dt><dd>New HTTP API</dd><dt><a class="closed" href="../../ticket/917.html" title="Upload fails if user session expires">#917</a></dt><dd>Upload fails if user session expires</dd><dt><a class="closed" href="../../ticket/919.html" title="Get rid of simplejson">#919</a></dt><dd>Get rid of simplejson</dd><dt><a class="closed" href="../../ticket/920.html" title="Improve logging - add referer, parameters etc... on exception">#920</a></dt><dd>Improve logging - add referer, parameters etc... on exception</dd><dt><a class="closed" href="../../ticket/925.html" title="When a subcategory is created, all contents are automatically moved inside ...">#925</a></dt><dd>When a subcategory is created, all contents are automatically moved inside it</dd><dt><a class="closed" href="../../ticket/927.html" title="Add layout change menu to conference display">#927</a></dt><dd>Add layout change menu to conference display</dd><dt><a class="new" href="../../ticket/938.html" title="Send mails for event creation and scheduler logging to different e-mail ...">#938</a></dt><dd>Send mails for event creation and scheduler logging to different e-mail addresses</dd><dt><a class="closed" href="../../ticket/939.html" title="Re-do authentication system">#939</a></dt><dd>Re-do authentication system</dd><dt><a class="closed" href="../../ticket/942.html" title="Bookings after midnight or before 6AM don't display well">#942</a></dt><dd>Bookings after midnight or before 6AM don't display well</dd><dt><a class="closed" href="../../ticket/943.html" title="PDF of timetable shows `&amp;amp;` if there is ampersand in event title">#943</a></dt><dd>PDF of timetable shows `&amp;amp;` if there is ampersand in event title</dd><dt><a class="closed" href="../../ticket/944.html" title="Show &#34;official name&#34; in additon to &#34;friendly name&#34; when displaying room ...">#944</a></dt><dd>Show "official name" in additon to "friendly name" when displaying room names</dd><dt><a class="closed" href="../../ticket/957.html" title="Get rid of visibility in HTTP API">#957</a></dt><dd>Get rid of visibility in HTTP API</dd><dt><a class="closed" href="../../ticket/991.html" title="Allow bulk evaluation of abstracts (and papers?)">#991</a></dt><dd>Allow bulk evaluation of abstracts (and papers?)</dd><dt><a class="new" href="../../ticket/1007.html" title="Provide dialect-independent translations">#1007</a></dt><dd>Provide dialect-independent translations</dd><dt><a class="closed" href="../../ticket/1011.html" title="Create RB index by room building/floor/number">#1011</a></dt><dd>Create RB index by room building/floor/number</dd><dt><a class="assigned" href="../../ticket/1014.html" title="Several improvements in the CERNSearch plugin">#1014</a></dt><dd>Several improvements in the CERNSearch plugin</dd><dt><a class="closed" href="../../ticket/1016.html" title="Re-evaluate &#34;show past events&#34;'s behaviour">#1016</a></dt><dd>Re-evaluate "show past events"'s behaviour</dd><dt><a class="closed" href="../../ticket/1021.html" title="Rework domain control">#1021</a></dt><dd>Rework domain control</dd><dt><a class="closed" href="../../ticket/1035.html" title="RB - Context help pop-ups only work once">#1035</a></dt><dd>RB - Context help pop-ups only work once</dd><dt><a class="closed" href="../../ticket/1069.html" title="Recording/Webcast request: Issue with unscheduled events">#1069</a></dt><dd>Recording/Webcast request: Issue with unscheduled events</dd><dt><a class="closed" href="../../ticket/1079.html" title="My Bookings - Improve display">#1079</a></dt><dd>My Bookings - Improve display</dd><dt><a class="closed" href="../../ticket/1084.html" title="Session display page - make it fit the current layout">#1084</a></dt><dd>Session display page - make it fit the current layout</dd><dt><a class="closed" href="../../ticket/1091.html" title="Clone Video Service managers when cloning event">#1091</a></dt><dd>Clone Video Service managers when cloning event</dd><dt><a class="closed" href="../../ticket/1095.html" title="Don't allow name of materials/resources to be set to empty string">#1095</a></dt><dd>Don't allow name of materials/resources to be set to empty string</dd><dt><a class="closed" href="../../ticket/1096.html" title="Add e-mail next(?) to &#34;created by&#34;">#1096</a></dt><dd>Add e-mail next(?) to "created by"</dd><dt><a class="new" href="../../ticket/1098.html" title="Timetable vs. Session Display protected content visibility">#1098</a></dt><dd>Timetable vs. Session Display protected content visibility</dd><dt><a class="new" href="../../ticket/1100.html" title="When event description is a HTML comment, iCal export fails">#1100</a></dt><dd>When event description is a HTML comment, iCal export fails</dd><dt><a class="new" href="../../ticket/1101.html" title="Webcast/Recording Requests are indexed for 00:00 UTC">#1101</a></dt><dd>Webcast/Recording Requests are indexed for 00:00 UTC</dd><dt><a class="closed" href="../../ticket/1103.html" title="Timetable balloons (management) not working when RB disabled">#1103</a></dt><dd>Timetable balloons (management) not working when RB disabled</dd><dt><a class="new" href="../../ticket/1105.html" title="Add dictionary editor for plugin options">#1105</a></dt><dd>Add dictionary editor for plugin options</dd><dt><a class="in_work" href="../../ticket/1115.html" title="Room configuration - Several dates and unavailability reason">#1115</a></dt><dd>Room configuration - Several dates and unavailability reason</dd><dt><a class="new" href="../../ticket/1118.html" title="Add links to &#34;outsider&#34; events from a category">#1118</a></dt><dd>Add links to "outsider" events from a category</dd><dt><a class="new" href="../../ticket/1120.html" title="List of Abstracts - allow managers to select fields that get shown">#1120</a></dt><dd>List of Abstracts - allow managers to select fields that get shown</dd><dt><a class="new" href="../../ticket/1125.html" title="Improve avatar merging process">#1125</a></dt><dd>Improve avatar merging process</dd><dt><a class="closed" href="../../ticket/1132.html" title="Statistics - Vertical scale of graphs">#1132</a></dt><dd>Statistics - Vertical scale of graphs</dd><dt><a class="closed" href="../../ticket/1135.html" title="CSV - export UTF-8">#1135</a></dt><dd>CSV - export UTF-8</dd><dt><a class="closed" href="../../ticket/1137.html" title="Session timetable - &#34;Reschedule&#34; goes back to global timetable">#1137</a></dt><dd>Session timetable - "Reschedule" goes back to global timetable</dd><dt><a class="new" href="../../ticket/1141.html" title="Material name ellipsis hides extension">#1141</a></dt><dd>Material name ellipsis hides extension</dd><dt><a class="new" href="../../ticket/1161.html" title="Add &#34;font setup&#34; pane">#1161</a></dt><dd>Add "font setup" pane</dd><dt><a class="closed" href="../../ticket/1162.html" title="&#34;Shift is pressed&#34; tip should not show up for display TT">#1162</a></dt><dd>"Shift is pressed" tip should not show up for display TT</dd><dt><a class="new" href="../../ticket/1165.html" title="Consider moving &#34;hands-on&#34; guides to Project Site">#1165</a></dt><dd>Consider moving "hands-on" guides to Project Site</dd><dt><a class="new" href="../../ticket/1180.html" title="Allow alphanumeric building names">#1180</a></dt><dd>Allow alphanumeric building names</dd><dt><a class="closed" href="../../ticket/1214.html" title="Use pycountry instead of hardcoded list of countries">#1214</a></dt><dd>Use pycountry instead of hardcoded list of countries</dd><dt><a class="closed" href="../../ticket/1228.html" title="Get rid of &#34;page cache&#34;">#1228</a></dt><dd>Get rid of "page cache"</dd><dt><a class="closed" href="../../ticket/1247.html" title="Do not let people select rooms they can't book">#1247</a></dt><dd>Do not let people select rooms they can't book</dd><dt><a class="new" href="../../ticket/1248.html" title="Let track coordinators change contribution type">#1248</a></dt><dd>Let track coordinators change contribution type</dd><dt><a class="new" href="../../ticket/1249.html" title="Re-think access to calendar and overview">#1249</a></dt><dd>Re-think access to calendar and overview</dd><dt><a class="new" href="../../ticket/1250.html" title="Add field &#34;address&#34; to registrant e-mails">#1250</a></dt><dd>Add field "address" to registrant e-mails</dd><dt><a class="closed" href="../../ticket/1264.html" title="Problem registering with same e-mail twice">#1264</a></dt><dd>Problem registering with same e-mail twice</dd><dt><a class="closed" href="../../ticket/1287.html" title="BoA: fix behaviour of &#34;content&#34; field">#1287</a></dt><dd>BoA: fix behaviour of "content" field</dd><dt><a class="closed" href="../../ticket/1288.html" title="Calendar throws 403 when not logged in, no redirect">#1288</a></dt><dd>Calendar throws 403 when not logged in, no redirect</dd><dt><a class="closed" href="../../ticket/1289.html" title="&#34;Skip conflicting dates&#34; should skip over blocking periods too">#1289</a></dt><dd>"Skip conflicting dates" should skip over blocking periods too</dd><dt><a class="new" href="../../ticket/1297.html" title="Scheduler should come back up when DB gets online">#1297</a></dt><dd>Scheduler should come back up when DB gets online</dd><dt><a class="closed" href="../../ticket/1319.html" title="Replace top bar protection icon with icomoon">#1319</a></dt><dd>Replace top bar protection icon with icomoon</dd><dt><a class="new" href="../../ticket/1322.html" title="Improve evaluation form">#1322</a></dt><dd>Improve evaluation form</dd><dt><a class="closed" href="../../ticket/1323.html" title="Change booking owner on avatar merge">#1323</a></dt><dd>Change booking owner on avatar merge</dd><dt><a class="new" href="../../ticket/1361.html" title="Allow radio buttons to be &#34;de-selected&#34;">#1361</a></dt><dd>Allow radio buttons to be "de-selected"</dd><dt><a class="closed" href="../../ticket/1362.html" title="Contributions can be created with zero length">#1362</a></dt><dd>Contributions can be created with zero length</dd><dt><a class="new" href="../../ticket/1372.html" title="Allow admins to pre-book rooms">#1372</a></dt><dd>Allow admins to pre-book rooms</dd><dt><a class="new" href="../../ticket/1377.html" title="Allow people to upload participants (and registrants) in CSV">#1377</a></dt><dd>Allow people to upload participants (and registrants) in CSV</dd><dt><a class="new" href="../../ticket/1391.html" title="Let users see paper drafts - Add config option to Paper Reviewing">#1391</a></dt><dd>Let users see paper drafts - Add config option to Paper Reviewing</dd><dt><a class="closed" href="../../ticket/1399.html" title="Room shows twice in Room Map">#1399</a></dt><dd>Room shows twice in Room Map</dd><dt><a class="closed" href="../../ticket/1400.html" title="HTTP API doesn't return sessions (ICS=">#1400</a></dt><dd>HTTP API doesn't return sessions (ICS=</dd><dt><a class="new" href="../../ticket/1415.html" title="Make Indico compatible with CERN's new DPP">#1415</a></dt><dd>Make Indico compatible with CERN's new DPP</dd><dt><a class="closed" href="../../ticket/1417.html" title="&#34;My bookings&#34; - show rooms &#34;booked for&#34; me">#1417</a></dt><dd>"My bookings" - show rooms "booked for" me</dd><dt><a class="new" href="../../ticket/1420.html" title="Usability issue with Room selector - free text">#1420</a></dt><dd>Usability issue with Room selector - free text</dd><dt><a class="new" href="../../ticket/1421.html" title="Use Shibboleth info instead of MAKACSESSION in SSO auth">#1421</a></dt><dd>Use Shibboleth info instead of MAKACSESSION in SSO auth</dd><dt><a class="new" href="../../ticket/1437.html" title="Provide &#34;human&#34; booking periods">#1437</a></dt><dd>Provide "human" booking periods</dd><dt><a class="new" href="../../ticket/1450.html" title="Export file modification date in HTTP API">#1450</a></dt><dd>Export file modification date in HTTP API</dd><dt><a class="new" href="../../ticket/1459.html" title="Allow participants to decide on a date for a meeting (&#34;Doodle style&#34;)">#1459</a></dt><dd>Allow participants to decide on a date for a meeting ("Doodle style")</dd><dt><a class="new" href="../../ticket/1460.html" title="Guide user in finding a different room for conflicting dates">#1460</a></dt><dd>Guide user in finding a different room for conflicting dates</dd><dt><a class="new" href="../../ticket/1480.html" title="Scheduler task to periodically delete Vidyo rooms">#1480</a></dt><dd>Scheduler task to periodically delete Vidyo rooms</dd><dt><a class="closed" href="../../ticket/1487.html" title="Validation - error when &#34;Accompanying&#34; is set to empty">#1487</a></dt><dd>Validation - error when "Accompanying" is set to empty</dd><dt><a class="closed" href="../../ticket/1488.html" title="Drag and drop issue in &#34;TItle&#34;">#1488</a></dt><dd>Drag and drop issue in "TItle"</dd><dt><a class="closed" href="../../ticket/1494.html" title="Auto-login from http:// URLs fails when modification key set">#1494</a></dt><dd>Auto-login from http:// URLs fails when modification key set</dd><dt><a class="new" href="../../ticket/1499.html" title="Registrant list: filter by custom fields">#1499</a></dt><dd>Registrant list: filter by custom fields</dd><dt><a class="closed" href="../../ticket/1516.html" title="Adapt icalendar API to new version">#1516</a></dt><dd>Adapt icalendar API to new version</dd><dt><a class="closed" href="../../ticket/1519.html" title="Return MS Office mime types as &#34;attachment&#34;">#1519</a></dt><dd>Return MS Office mime types as "attachment"</dd><dt><a class="closed" href="../../ticket/1520.html" title="Correct english mistakes in RB">#1520</a></dt><dd>Correct english mistakes in RB</dd><dt><a class="closed" href="../../ticket/1522.html" title="Changing text in webcast requests">#1522</a></dt><dd>Changing text in webcast requests</dd><dt><a class="new" href="../../ticket/1524.html" title="File stats are (most likely) not working">#1524</a></dt><dd>File stats are (most likely) not working</dd><dt><a class="new" href="../../ticket/1528.html" title="Bulk-import into timetable">#1528</a></dt><dd>Bulk-import into timetable</dd><dt><a class="new" href="../../ticket/1533.html" title="Get rid of CERNMCU code">#1533</a></dt><dd>Get rid of CERNMCU code</dd><dt><a class="new" href="../../ticket/1534.html" title="Change video booking creation interface">#1534</a></dt><dd>Change video booking creation interface</dd><dt><a class="new" href="../../ticket/1536.html" title="Ellipsis dots show outside box (IE)">#1536</a></dt><dd>Ellipsis dots show outside box (IE)</dd><dt><a class="new" href="../../ticket/1543.html" title="Material deletion is not logged">#1543</a></dt><dd>Material deletion is not logged</dd><dt><a class="closed" href="../../ticket/1546.html" title="Whoosh content is indexed regardless of transaction outcome">#1546</a></dt><dd>Whoosh content is indexed regardless of transaction outcome</dd><dt><a class="new" href="../../ticket/1553.html" title="API - Return extra attributes with room info">#1553</a></dt><dd>API - Return extra attributes with room info</dd><dt><a class="new" href="../../ticket/1554.html" title="Electronic Agreement - E-mail - more intuitive CC feature">#1554</a></dt><dd>Electronic Agreement - E-mail - more intuitive CC feature</dd><dt><a class="new" href="../../ticket/1555.html" title="Room Booking - improvements in booking workflow">#1555</a></dt><dd>Room Booking - improvements in booking workflow</dd><dt><a class="closed" href="../../ticket/1577.html" title="Impossible to get rid of room/location">#1577</a></dt><dd>Impossible to get rid of room/location</dd><dt><a class="closed" href="../../ticket/1578.html" title="Accommodation - Arrival/departure dates choice not right in some events">#1578</a></dt><dd>Accommodation - Arrival/departure dates choice not right in some events</dd><dt><a class="closed" href="../../ticket/1579.html" title="Weird behavior of select box in contribution filters">#1579</a></dt><dd>Weird behavior of select box in contribution filters</dd><dt><a class="new" href="../../ticket/1584.html" title="Validate &#34;from&#34; field before sending">#1584</a></dt><dd>Validate "from" field before sending</dd><dt><a class="new" href="../../ticket/1585.html" title="Weird behavior booking room from an event">#1585</a></dt><dd>Weird behavior booking room from an event</dd><dt><a class="awaiting_merge" href="../../ticket/1586.html" title="In 3-step booking, choice of days is not limited">#1586</a></dt><dd>In 3-step booking, choice of days is not limited</dd><dt><a class="assigned" href="../../ticket/1588.html" title="Add validation to fields in registration form">#1588</a></dt><dd>Add validation to fields in registration form</dd><dt><a class="awaiting_merge" href="../../ticket/1589.html" title="Limit frequency of reminder mails">#1589</a></dt><dd>Limit frequency of reminder mails</dd><dt><a class="awaiting_merge" href="../../ticket/1591.html" title="Adapt Indico to the new RAVEM API">#1591</a></dt><dd>Adapt Indico to the new RAVEM API</dd><dt><a class="closed" href="../../ticket/1593.html" title="LDAP UID field should be configurable">#1593</a></dt><dd>LDAP UID field should be configurable</dd></dl></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/User/pferreir?action=diff&amp;version=13" title="Version 13 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-11-28T13%3A58%3A05%2B01%3A00&amp;precision=second" title="See timeline at 11/28/12 13:58:05">3 years ago</a></span>
+            <span class="trac-print">Last modified on 11/28/12 13:58:05</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../chrome/common/css/report.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="User%252Fpferreir56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/User/pferreir by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:59:28 GMT -->
+</html>

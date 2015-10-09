@@ -1,0 +1,464 @@
+[[PageOutline]]
+
+== 0. Before starting ==
+Tests are in folder ''tests'' and they are organized according to their type. Tests will only succeed if you have a working installation of Indico.
+
+To run [http://cdswaredev.cern.ch/indico/wiki/Dev/Tests/Summary all] the tests in the test suite:
+{{{
+#!sh
+python setup.py test
+}}}
+or with [http://cdswaredev.cern.ch/indico/wiki/Dev/Tests/Summary#a2.cCodecoverage coverage]:
+{{{
+#!sh
+python setup.py test --coverage --jscoverage
+}}}
+
+Then reports will be generated in folder ''tests/report''.
+
+----
+
+In short, here are all the python packages you have to install with ''easy_install'':
+{{{
+#!sh
+sudo easy_install nose
+sudo easy_install figleaf
+sudo easy_install twill
+sudo easy_install selenium
+}}}
+and all the linux packages needed to install with ''apt-get'':
+{{{
+#!sh
+sudo apt-get install lcov
+sudo apt-get install pylint
+sudo apt-get install rhino
+}}}
+If you don't use linux, go through all the sections below to install the required packages.
+----
+
+A configuration file ''tests/tests.conf'' is needed. Take a look at the example configuration file to make yours.
+
+You should configure the Start/Stop Production DB commands, and write something similar to (note the '''sudo'''):
+{{{
+StartDBCmd = "sudo zdaemon -C /home/jdoe/indico/cds-indico/etc/zdctl.conf start"
+StopDBCmd  = "sudo zdaemon -C /home/jdoe/indico/cds-indico/etc/zdctl.conf stop"
+}}}
+
+----
+You need to configure your Apache server as followed:
+{{{
+<IfModule mpm_prefork_module>
+    StartServers          5
+    MinSpareServers       5
+    MaxSpareServers       10
+    MaxClients            150
+    MaxRequestsPerChild   1
+</IfModule>
+}}}
+In Linux, the configuration file is located in ''/etc/apache2/'' and its name is either ''httpd.conf'' or ''apache2.conf''.
+
+----
+To ease the use of the framework, print this [http://cdswaredev.cern.ch/indico/wiki/Dev/Tests/CheatSheet cheatsheet] and keep it around!
+
+== 1. Unit tests ==
+
+=== 1.a. Software to install ===
+We are using the framework [http://code.google.com/p/python-nose/ Nosetests]. You can just install with:
+{{{
+#!sh
+sudo easy_install nose
+}}}
+In case of problems, follow this [http://somethingaboutorange.com/mrl/projects/nose/0.11.1/ Installation Guide for Nosetests]
+
+For code coverage, install [http://darcs.idyll.org/~t/projects/figleaf/doc/ Figleaf], which is based on ''coverage.py''. You can install with:
+{{{
+#!sh
+sudo easy_install figleaf
+}}}
+
+
+=== 1.b. Writing unit tests ===
+You can either use the standard [http://docs.python.org/library/unittest.html UnitTest] package provided in python, or you can code in Nosetests style, this is how I organize a test file:
+{{{
+#!python
+#Note that the 2 following functions will be called for module, very handy if we need to run a single test
+#So we do not need to specify a setup and teardown for each class
+def setup_module():
+    DBMgr.getInstance().startRequest()
+
+def teardown_module():
+    DBMgr.getInstance().abort()
+    DBMgr.getInstance().endRequest()
+
+class TestCategories(unittest.TestCase):
+    
+    def testBasicAddAndRemoveConferences(self):
+        [...]
+        c1._addConference(conf1)
+        assert (croot.getNumConferences()==0)
+        [...]
+}}}
+The complete documentation of nosetests can be found [http://somethingaboutorange.com/mrl/projects/nose/0.11.1/testing.html here].
+Note that '''class !TestCategories(unittest.!TestCase)''' is inheriting from Python's ''unittest'' module, I recommend to do so. Since nosetests is based on this default module, it is fully compatible with its synthax. So when you write your tests, you can either use ''unittest'' synthax or nosetests' one.
+
+=== 1.c. Naming and Files convention ===
+A test file should correspond to a source file.
+For example: ''MaKaC_tests/conference_test.py'' must only have tests for ''MaKaC/conference.py''. Classes and functions names should also match.
+
+Of course, at some point testing many different things in a single file is also required. In this case, use explicit file names, like ''moveWidget_test.py''.
+
+
+Nosetests uses this regular expression ''(?:!^|[b_.-])[Tt]est'' to fetch tests, so our naming conventions will be:
+    * Every file name has to end with '''_test.py''' (ie ''indicop_test.py'')
+    * Every class has to start with Test with a capital T '''class !TestIndicop(unittest.!TestCase)'''
+    * Every function has to start with test '''def testIndicop()'''
+
+=== 1.d. Running tests ===
+To run all the unit tests:
+{{{
+#!sh
+python setup.py test --unit
+}}}
+This will generate a report in ''tests/report/pyunit.txt''.
+
+If you need to run only a specific test, use the flag ''--specify'' and use the nosetests convention:
+    * ''folder.file:class.function''
+
+For you to know where to place files, in the previous case since we are making unit test, the internal ''import'' would be:
+ import indico.tests.python.unit.'''folder.file'''
+
+For example:
+{{{
+#!sh
+python setup.py test --unit --specify=indico.tests.python.unit.MaKaC_tests.conference_test:TestCategories.testBasicAddAndRemoveConferences
+}}}
+
+Or you can also specify a set of tests like this:
+{{{
+#!sh
+python setup.py test --unit --specify=indico.tests.python.unit.MaKaC_tests.conference_test:TestCategories
+}}}
+
+and also only a file or a folder like this:
+{{{
+#!sh
+python setup.py test --unit --specify=indico.tests.python.unit.MaKaC_tests
+}}}
+
+If you use this ''specify'' flag the output will be displayed directly in the console and NOT be written in the report.
+
+=== 1.e. Ignoring tests ===
+If you need to ignore a test for some reason, to be ignored, a test has to raise a !SkipTest exception. Here is what to do to ignore a whole module:
+{{{
+#!python
+def setup_module():
+    #this test is a performance test and takes too much time to execute
+    import nose
+    raise nose.SkipTest
+}}}
+
+And to run the ignore tests anyway, you can either remove the raised exception or add the flag ''--no-skip'' directly in the code which is calling nosetests.
+
+=== 1.f. Enable code coverage ===
+To enable the code coverage, add the option ''--coverage'':
+{{{
+#!sh
+python setup.py test --unit --coverage
+}}}
+This will show you which parts of the code were executed during the unit tests you ran. An HTML report will be output in several files, you can find them in ''tests/report/pycoverage''. Open the file ''index.html'' to see the summary of the coverage. These files will be overwritten each time a coverage test is run.
+
+Note that class and function definitions are executed on import, which is why ''def blabla(self):'' is green in the HTML report files. The contents of the functions themselves are not executed.
+
+== 2. Functional tests ==
+
+=== 2.a. Software to install ===
+* Note: Selenium is going to be merged with Google's webdriver (http://selenium.googlecode.com/). So in the future, we might migrate to this new tool *
+
+You need:
+ * [http://www.mozilla.com/ Firefox]
+ * [http://seleniumhq.org/download/ Selenium IDE] (firefox add-on)
+ * [http://twill.idyll.org/ Twill], which you can install with:
+ {{{
+#!sh
+ sudo easy_install twill
+ }}}
+ * [http://pypi.python.org/pypi/selenium/ Selenium egg], which you can install with:
+ {{{
+#!sh
+ sudo easy_install selenium
+ }}}
+ * '''java''', which ''needs to be in your PATH''.
+
+Obsolete:
+ * [https://addons.mozilla.org/en-US/firefox/addon/1192 XPather] (Firefox add-on) 
+
+=== 2.b. Writing tests ===
+Think of Selenium as the dumbest bot possibly existing :)
+
+Handy functions are located in the file ''seleniumTestCase.py''. A dummy user is automatically created from this Class to carry on the creation of conferences and so.
+
+Here is the template of a Selenium's test file:
+{{{
+#!python
+from seleniumTestCase import SeleniumTestCase
+
+class ExampleTest(SeleniumTestCase):
+    def setUp(self):
+        SeleniumTestCase.setUp(self)
+    
+    def testMyFirstMethod(self):
+        sel = self.selenium
+        [...]
+
+    def tearDown(self):
+        SeleniumTestCase.tearDown(self)
+
+if __name__ == "__main__":
+    unittest.main()
+}}}
+
+Testing methods must start with the keyword '''test'''. Have a look at the file ''example_test.py'' to see how functional tests are written.
+
+You might find useful this piece of code for your method, for logging with the ''dummyuser''
+{{{
+#!python
+        sel.open("/indico/signIn.py")
+        sel.type("login", "dummyuser")
+        sel.type("password", "dummyuser")
+        sel.click("loginButton")
+        sel.wait_for_page_to_load("30000")
+}}}
+
+----
+
+If you create a new conference, you might want this conference to be deleted automatically if a test fails. Add this line just after the creation of the new conference or meeting:
+{{{
+#!python
+SeleniumTestCase.setConfID(self, sel.get_location())
+}}}
+
+----
+
+Since it is very time consuming and painful to debug Selenium's generated code, tests should be small and test specific part of Indico. Of course, a few overall tests are needed.
+
+Use Firefox's ''Selenium IDE'' to record your tests and set the output format to ''python'', but be rigorous with the following points:
+ 1. Selenium does not recognize Javascript auto-complete when a text is entered.[[BR]] ''Solution:'' Enter the whole word by hand.
+ 1. Javascript Calendar does not work either.[[BR]] ''Solution:'' Enter the date by hand.
+ 1. Do not make ''clicks'' or ''assertions'' on element containing '''IDs'''.[[BR]] ''Solution:'' Use XPath instead. Xpaths are easy to find with Firefox's plugin ''XPather''.
+ 1. When replaying, Selenium can get confused with buttons' names and can end up clicking on the wrong button.[[BR]] ''Solution:'' Once again, use XPath instead. Xpaths are easy to find with Firefox's plugin ''XPather''. For example, instead of having ''//td/tr/bla'', we use the whole path which starts with ''//html/etc''
+ 1. Popups and AJAX requests are very bothersome to test with Selenium. The latter would not wait for a page or a tab to load if we do not explicitly tell to do so.[[BR]] ''Solution:'' Use Selenium ''waitForElementPresent'' or ''waitForText'' function whenever a window pops up, a tab is loading or an AJAX request is sent:[[BR]]
+  ''waitForElementPresent'' will wait until the element introduced in ''Target'' is present. Note that you should always put an element that doesn't appear in the referer.[[BR]]
+  ''waitForText'' has a similar behaviour, but waits up until the element in ''Target'' has the value in ''Value''.[[BR]]
+
+And since Selenium is so unreliable about AJAX, to ensure that the action is performed, we do some brute forcing.
+
+So this generated code from Selenium:
+
+{{{
+#!python
+sel.click("addLink")
+for i in range(60):
+    try:
+        if "Session" == sel.get_text("link=Session"): break
+    except: pass
+    time.sleep(1)
+else: self.fail("time out")
+}}}
+Becomes:
+{{{
+#!python
+sel.click("addLink")
+for i in range(60):
+    try:
+        if "Session" == sel.get_text("link=Session"): break
+        else: sel.click("addLink")
+    except: pass
+    time.sleep(1)
+else: self.fail("time out")
+}}}
+The only line to add is '''else: sel.click("addLink")'''.
+
+----
+
+Finally, a test might work at several times and suddenly fail in the next run because of the reasons mentioned earlier. Running a test several times is a good indication to say if it is reliable or not. Check the test 10 times with the testing framework, just pointing at your test. Here's an example for a file called "testMyTest.py" in the folder "functional":
+{{{
+python setup.py test --functional --specify=testMyTest --repeat=10
+}}}
+
+=== 2.c. Naming conventions ===
+Files are organized by topic. For example, if you want to test your new widget for the timetable, the test file has to be in the folder ''timetable''. Overall tests are in folder ''general''.
+
+Names have to be explicit and conformed to ''nosetests'' conventions. For example: ''moveWidget_test.py''.
+
+Also, methods' name have to start with the keyword "test" (eg. testCreateLecture, testModifyConference, etc.).
+
+=== 2.d. Running tests ===
+{{{
+#!sh
+python setup.py test --functional
+}}}
+This will generate a report in ''tests/report/pyfunctional.txt''.
+
+Also you can add the ''--specify'' flag as previously described for [http://cdswaredev.cern.ch/indico/wiki/Dev/Tests#a1.d.Runningtests unit tests].
+
+=== 2.e. Summary ===
+Watch this tutorial video TODO
+
+
+== 3. Source analysis ==
+
+=== 3.a. Software to install ===
+The only tool needed is 
+    * [http://www.logilab.org/857 Pylint] and its associated libraries
+    * [http://www.logilab.org/project/logilab-astng Python Abstract Syntax Tree New Generation] and 
+    * [http://www.logilab.org/project/logilab-common Logilab common].
+    * '''pylint''' needs to be in your PATH!
+
+In order to install all this and have pylint in your PATH, you can simply do:
+{{{
+#!sh
+sudo apt-get pylint
+}}}
+
+=== 3.b. Running analysis ===
+{{{
+#!sh
+python setup.py test --pylint
+}}}
+This will generate a report in ''tests/report/pylint.txt''.
+
+If you're using ''Eclipse'', I strongly suggest to configure !PyDev following this [http://cdswaredev.cern.ch/indico/wiki/Dev/Tools#a2.CodeformattingtoolsforEclipsePyDev tutorial].
+
+
+=== 3.c. Configuration file ===
+You can have a look at the configuration file located in ''tests/tests.conf'' to see the conventions for maximum number of arguments, maximum length of line, etc...[[BR]]
+Naming rules are done according to [http://www.python.org/dev/peps/pep-0008/ PEP8] (extended with camelcase and numbers).[[BR]]
+Useful [http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html handouts].
+
+Type checker is disabled, because pylint gets stuck when trying to infer types. But these kind of errors should be caught by unit tests.
+
+
+== 4. Javascript Unit tests ==
+
+=== 4.a. Software to install ===
+
+We are using Google's [http://code.google.com/p/js-test-driver/downloads/list js-test-driver]. It allows to test javascript files on different browsers at the same time.
+
+Great [http://www.youtube.com/watch?v=V4wYrR6t5gE Video Tutorial] to get a general idea of the thing.
+
+Eclipse plugin: http://code.google.com/p/js-test-driver/wiki/UsingTheEclipsePlugin 
+
+For the code coverage, install [http://ltp.sourceforge.net/coverage/lcov/genhtml.1.php LCOV] to generate nice HTML files. You can install LCOV as a linux package:
+{{{
+#!sh
+sudo apt-get install lcov
+}}}
+
+'''java''' and '''genhtml''' have to be in your PATH. genhtml is an executable part of the lcov package.
+
+
+=== 4.b. Writing tests ===
+First, before writing any line of code, make sure that your test file is in the tests folder (tests/javascript/unit/tests/).
+
+The structure of a js test file first declares the ''testcase'', it is an identifier to run specific test cases, then a set up function, the actual tests and finally, if needed, a tear down function.
+
+{{{
+#!js
+MoveTest = TestCase("MoveTest");
+
+MoveTest.prototype.setUp = function() {
+    //your set up stuff
+};
+
+MoveTest.prototype.testUpdateEntry = function() {
+    //your tests
+    assertEquals("MSG", expectedValue, actualValue);
+};
+}}}
+
+Objects mocking and variables setting typically take place in ''setUp''. See example file ''Timetable/Base.js'' to see how to do objects and functions mocking. And here are the functions you need to write tests [http://code.google.com/p/js-test-driver/wiki/TestCase small tutorial]
+
+Javascript unit tests are pretty easy to write, but it can get quickly messy, so do not forget to organize and to comment well your tests to keep them maintainable!
+
+=== 4.c. Running tests ===
+{{{
+#!sh
+python setup.py test --jsunit
+}}}
+This will generate a report in ''tests/report/jsunit.txt''.
+
+To run a specific test:
+{{{
+#!sh
+python setup.py test --jsspecify=TestCase.testname
+}}}
+The output will be displayed directly in the console.
+
+=== 4.d. Code coverage ===
+To activate code coverage, simply add the flag --jscoverage:
+{{{
+#!sh
+python setup.py test --jsunit --jscoverage
+}}}
+Html files are going to be generated automatically, open file ''tests/report/jscoverage/index.html''.
+
+
+== 5. Javascript source analysis ==
+
+=== 5.a. Software to install ===
+    * [http://www.mozilla.org/rhino/ Rhino] is needed to run the javascript source analysis.
+    * '''rhino''' needs to be in your PATH.
+
+You can install Rhino simply on Linux as a package:
+{{{
+#!sh
+sudo apt-get install rhino
+}}}
+
+=== 5.b. Running scan ===
+{{{
+#!sh
+python setup.py test --jslint
+}}}
+This will generate a report in ''tests/report/jslint.txt''.
+
+Plugins folders are scanned, but also javascript files in ''indico/htdocs/js/indico''. Some folders are blacklisted, typically the folder ''pack''. If you need to blacklist a folder, append the name of the folder in the file ''tests/Indicop.py'', class Jsunit.
+
+As for pylint, you can run jslint scan directly from Eclipse. Instructions can be found [http://cdswaredev.cern.ch/indico/wiki/Dev/Tools#a4.JsLint here].
+
+== 6. Selenium Grid ==
+Selenium Grid allows you to run your functional tests on all sort of browsers and OS. If you have the a Selenium Grid set up, the only thing you need to do to run your tests is to set your configuration file ''tests.conf''. 
+
+=== 6.a. Configuration ===
+A file configuration should contain the following:
+{{{
+#!python
+#------------------------------------------------------------------------------
+# Selenium Grid
+#------------------------------------------------------------------------------
+HubURL         = "macuds04.cern.ch"
+HubPort        = 4444
+HubEnv         = ['Firefox on Windows',
+                  'IE on Windows', 
+                  'Safari on OS X',
+                  'Firefox on Linux']
+}}}
+The use of ''HubURL'' and ''!HubPort'' are straightforward. ''!HubEnv'' contains the list of browsers and OS on which you want to run your functional tests. A list of the available environments can be found here http://macuds04.cern.ch:4444/console. At CERN, our hub is on a iMac, which also has 2 RCs (Firefox and Safari). The rest of the RCs are instantiated from !VirtualBoxes on the iMac.
+
+=== 6.b. Running tests ===
+{{{
+#!sh
+python setup.py test --grid
+}}}
+This will generate a report in ''tests/report/pygrid.txt''.
+Now lean back and enjoy a cup of tea! But most important, do '''NOT''' press CTRL-C! This will jam the hub and it will be unusable unless we restart it.
+
+== 7. Databases - Fake vs Production ==
+The idea is to run the tests on the fake databases and temporary folders, so tests won't pollute anything with their ouputs.
+
+A fake database is instantiate at each run. Which means that if you have decided to run unit and functional tests, those tests are going to run on the same database, and after they have finished, this database will be deleted.
+
+To run only the unit tests, we can instantiate a database in parallel of the production database. However for the functional tests, we need to stop the production database (if running) in order to plug our fake database instead. This way, we will avoid to restart the apache server to run our tests. So make sure to provide the commands to stop and start the production database in the tests configuration file (''tests/tests.conf'').
+
+== 8. Integration server (CERN only) ==
+Each time you push code to your public repository, an integration server is going to run tests and give you a feedback. You can consult the builds status à this address: (currently down).

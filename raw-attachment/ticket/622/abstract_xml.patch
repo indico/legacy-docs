@@ -1,0 +1,24 @@
+--- /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/abstractModif.py.orig	2011-01-25 15:24:39.000000000 +0100
++++ /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/abstractModif.py	2011-01-25 15:22:56.000000000 +0100
+@@ -210,7 +210,8 @@
+         for f in afm.getFields():
+             id = f.getId()
+             if f.isActive() and self._target.getField(id).strip() != "":
+-                x.writeTag(id.replace(" ","_"),self._target.getField(id))
++                #x.writeTag(id.replace(" ","_"),self._target.getField(id))
++                x.writeTag("field",self._target.getField(id),[("id",id)])
+         x.writeTag("Conference", self._target.getConference().getTitle())
+         l = []
+         for au in self._target.getAuthorList():
+
+--- /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/conferenceModif.py.orig	2011-01-21 13:31:34.000000000 +0100
++++ /usr/lib/python2.5/site-packages/cds_indico-0.97_rc2-py2.5.egg/MaKaC/webinterface/rh/conferenceModif.py	2011-01-25 15:25:34.000000000 +0100
+@@ -4479,7 +4479,7 @@
+             x.writeTag("Content", abstract.getField("content"))
+             for f in self._conf.getAbstractMgr().getAbstractFieldsMgr().getFields():
+                 id = f.getId()
+-                x.writeTag(id, abstract.getField(id))
++                x.writeTag("field",abstract.getField(id),[("id",id)])
+             l = []
+             for au in abstract.getAuthorList():
+                 if abstract.isPrimaryAuthor(au):

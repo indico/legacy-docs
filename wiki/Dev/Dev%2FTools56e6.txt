@@ -1,0 +1,286 @@
+[[PageOutline]]
+
+= Warning: This page is massively outdated. =
+
+= IDEs =
+
+Most people in the Indico team use Eclipse/!PyDev. There's also a small Emacs community.
+
+
+== Eclipse + !PyDev ==
+
+=== Installation and setup === #PyDevInstallation
+
+==== 1. Downloading and installing Eclipse + !PyDev ====
+ a. Download Eclipse at http://www.eclipse.org/downloads/ . ''Eclipse IDE for Java EE Developers'' is the best option because it comes with Web Tools (HTML / JS / CSS editors, etc). It is not recommended to install eclipse from Ubuntu's package manager because as of January 2010, Ubuntu 9.10 Synaptic Package Manager's eclipse package does not come with Web Tools.
+ b. To install !PyDev:
+   * Go to the menu: ''Help > Install New Software''.
+   * Press the ''Add..'' button, choose a name for the !PyDev site, and write http://pydev.org/updates in the ''Location'' field.
+   * Note: at this point, if you are using Ubuntu 9.10, some Eclipse buttons will seem unresponsive, or the !PyDev packages not appearing after you add the pydev.org/updates site, check: http://mou.me.uk/2009/10/31/fixing-eclipse-in-ubuntu-9-10-karmic-koala
+   * The !PyDev package should now appear in the ''Install New Software'' window. Check the !PyDev package and press next, next, etc. Previously you also needed to install ''!PyDev extensions'' but this is no longer necessary: !Pydev extensions are included into !Pydev since version 1.5.
+   * Restart Eclipse when requested.
+
+
+==== 2. Open the !PyDev perspective ==== 
+Click on ''Window > Open perspective > Other...'' and select !PyDev. Close the Java EE perspective unless you will need it later.
+
+
+==== 3. Configure Eclipse and !PyDev ====
+For this, go to the menu ''Window > Preferences'' and perform the following operations:
+ a. Select the Python interpreter. For this, go to ''!PyDev options> Interpreter - Python > New... (interpreter)'' and locate/choose your python.exe or python (Linux). In the lasts versions of Eclipse there should even be an ''Auto Config'' button.
+ b. Change the default text encoding and new line delimiter. For this, go to ''General > Workspace'' and select: "Other: utf-8" under ''Text file encoding'' and "Other: Unix" under "New text file line delimeter".
+ c. Make Eclipse refresh the source code automatically on after external file system changes. In the same screen as before (''General > Workspace> Text file encoding''), select "Refresh automatically". With this, you will not need to press F5 to update manually, but Eclipse may slow down quite a bit when refreshing.
+ d. Configure the different editors and file types:
+   * Go to ''General > Editors > Text Editors'' and check "Insert spaces for tabs" and "Show line numbers".
+   * Go to ''General > Editors > Text Editors > Spelling'' and uncheck "Enable spell checking".
+   * Go to ''Javascript > Code style > Formatter''. Click on the ''New'' button and choose a name (e.g. "Indico"). Select "tab policy" as "spaces only" (size 4) in the ''Indentation'' section.
+   * Go to ''XML > XML Files > Editor'' and choose "Indent using spaces" (size 4).
+   * Go to ''Web > HTML Files > Editor'' and choose "Indent using spaces" (size 4).
+   * Go to ''Web > CSS Files > Editor'' and choose "Indent using spaces" (size 4).
+   * Go to ''General > Editors > File associations'':
+     * Add file type *.tpl and add associated editor "HTML Editor".
+     * Add file type *.wohl and add associated editor "XML Editor".
+   * Go to ''General > Content Types'':
+     * Under ''Content types'', select ''Text > HTML'', click on "Add..." and enter the  *.tpl file type.
+     * Then select ''Text > XML'', click "Add..." and enter *.wohl.
+ e. Press ok to close the Preferences dialog.
+
+
+==== 4. Create the Indico project inside !PyDev ====
+This step assumes you already cloned the repository to your local computer: see [/wiki/Dev/GettingStarted#a1.Gettingthesourcecode Getting the source code])
+ * Go to the menu ''File > New > !PyDev project'' (if you are do not see !Pydev project, probably you are not in the !PyDev perspective).
+ * Write a project name (e.g. "indico).
+ * Uncheck "use default".
+ * Select the root code folder of your Indico local repository (/home/youruser/code/indico/src).
+ * Choose the grammar version matching your Python version.
+ * Uncheck "Create default src folder"
+ * Click Finish.
+
+==== 5. Configure the Indico project ====
+ * Right click on the project name and select ''Properties''.
+ * Go to the ''!PyDev - PYTHONPATH'' section and add the project source folders (indico, tests, bin) in order to be able to use F3 (jump to definition).
+
+=== Code formatting and code analysis tools for Eclipse + !PyDev ===
+
+==== !AnyEditTools to remove trailing whitespaces ====
+To remove trailing whitespaces, which give a lot of problems when integrating branches in git, install [http://andrei.gmxhome.de/anyedit/index.html AnyEditTools]. You can do this by using the http://andrei.gmxhome.de/eclipse/ URL in ''Help > Install New Software''. There's a lot of packages; search for the !AnyEditTools package with the highest version number.
+
+==== !PyDev code formatter ====
+!PyDev has a ''Formatter'' section that can help you a bit to comply with the [http://www.python.org/dev/peps/pep-0008/ PEP08] recommendations:
+ * Open ''Window > Preferences'' and go to ''!PyDev > Editor > Code Style > Code Formatter''.
+ * Check the following options: Use space after commas, Use space before and after operators, Right trim lines (although !AnyEditTools already takes care of this), Add new line at the end of file.
+ * DO NOT check the following options: Use space before and after parenthesis, Use space before and after assign keyword arguments. PEP08 recommends against this.
+ * It is recommended to not check "Auto-format editor contents before saving": this is nice when editing new files, but when editing already existing files in Indico, you do not want to change all of the files and then commit a lot of format changes.
+ * You can instead apply the formatting using the '''Ctrl + Shift + F''' shortcut: it will format the selected Python code or the whole file if you do not select anything.
+
+==== Pylint with !PyDev ====
+!PyDev also allows you to use Pylint to analyze your code:
+
+ 1. Install Pylint in your system. For Linux, the simplest way is:
+ {{{
+#!sh
+ sudo easy_install pylint
+ }}}
+
+
+ 2. Configure Pylint in Eclipse. Open ''Window > Preferences'' and go to ''!PyDev > Pylint''.
+   * Check "Use Pylint".
+   * Check "Redirect Pylint output to console" if you want to see Pylint output in the ''Console'' View.
+   * Input the location of your ''lint.py'' file. For example, /usr/local/lib/python2.6/dist-packages/pylint-0.19.0-py2.6.egg/pylint/lint.py .
+   * Configure the "Severity" fields. For example, you can put everything to "Warning" except FATAL and ERROR.
+   * In the "Arguments to pass to Pylint", write the following (adapt the rcfile path to your system and change the --disable-msg option to your liking):
+   {{{
+   --rcfile=/home/youruser/code/indico/src/indico/tests/python/pylint/pylint.conf
+   --reports=yes
+   --comment=yes
+   --persistent=yes
+   --output-format=text
+   --disable-msg=W0511,C0301,W0703 (example)
+   }}}
+     Explanation of the different parameters:
+       * --rcfile: a pylint configuration file. We use the same one as Indico uses to be consistent with the reports that will be produced in the integration server.
+       * --output-format=text: this option has a non-default value in the Indico pylint.conf file. We need to overload this option back to the default value or !PyDev will not be able to parse the output.
+       * --reports, --comment, --persistent: these options are set to "no" in the Indico pylint.conf file, in order to make integration reports smaller. You can put them back to "yes" in Eclipse to have nicer reports.
+       * --disable-msg: a list of error and warning ids that you don't want to be informed about by Pylint.
+       * Check http://linux.die.net/man/1/pylint for more options.
+  
+ 3. Using Pylint
+   * Every time you save a Python file, Pylint will analyze it.
+   * !PyDev will then analyze its output and put "error" and "warning" markers next to the line numbers, like it already does with things such as non-imported classes or unused variables.
+   * The list of problems will also appear in the "Problems" view.
+   * Check http://www.logilab.org/card/pylintfeatures for an explanation of the different error / warning codes.
+
+More information (a bit out of date at the time of writing): http://pydev.org/manual_adv_pylint.html
+
+==== !JsLint ====
+
+!JsLint is a Javascript code analysis tool. It will remind you to put semicolons at the end of Javascript statements or detect commas at the end of lists (very nasty in IE), for example.
+
+It is possible to run !JsLint from inside Eclipse by configuring it as an ''External action''.
+
+ 1. Check that you have jslint.js in your system. It should be in ''indico/tests/javascript/jslint/jslint.js'' inside your Indico project.
+
+ 2. Check that you have Mozilla rhino installed, which is also needed for running Indico's [/wiki/Dev/Tests#a5.Javascriptsourceanalysis[ Javascript source analysis]]. In Linux, rhino is a package:
+{{{
+#!sh
+ sudo apt-get install rhino
+ }}}
+   Under Windows:
+   * You will need to download the latest rhino binaries at [http://www.mozilla.org/rhino/download.html]
+   * You will also need the Jline library. You can download the latest archive on [http://sourceforge.net/projects/jline/files/]
+   * Create a text file and copy the following batch code inside:
+     {{{
+:: rhino.bat
+:: Runs the Rhino JavaScript shell
+::
+@echo off
+
+set JAVA_CMD=java
+set JAVA_CLASSPATH=...\js.jar;...\jline.jar
+set JAVA_MAIN=org.mozilla.javascript.tools.shell.Main
+
+%JAVA_CMD% -classpath %JAVA_CLASSPATH% %JAVA_MAIN% %1 %2
+      }}}
+
+   Modify this batch such that the location of the file js.jar is put in place of ''...\js.jar'' and such that the location of the .jar for jline is put in place of ''...\jline.jar'' (under Windows this .jar file has a name of the form "jline-x.x.xx.jar").
+   Save it as rhino.bat. 
+   You'll maybe need to add the location of the folder containing the java binaries to your Path environment variable in order to make the script work.
+   
+ 3. Configure the external action in Eclipse:
+   * In the ''Run'' menu, go to ''External Tools > External Tools Configurations''.
+   * On the left panel, select ''Program'' and press the ''New launch configuration'' icon.
+   * Fill the configuration fields:
+     * Name: for example, !JsLint
+     * Location: /usr/bin/rhino or equivalent (you can check with ''which rhino'' in Linux). Under Windows put the absolute path of the rhino.bat script.
+     * Working Directory: write ''${workspace_loc}'' here.
+     * Arguments: write ''${project_loc}/indico/tests/javascript/jslint/jslint.js ${resource_loc}''.
+     * Save by clicking on ''Apply'' and closing the dialog.
+
+ 4. Running !JsLint
+   * !JsLint's output will appear in the console view. Make it appear by going to the ''Window'' menu: ''Show View > Console''.
+   * Run !JsLint on the current file by clicking on the "Run external tool" button, which is on the top Eclipse toolbar right of the "Run button". 
+   * Check the output in the console view and enjoy :)
+
+=== Debugging with !PyDev ===
+
+==== Configuration ====
+ a. Locate a folder similar to: .../eclipse/plugins/org.python.pydev.debug_1.5.3.1260479439/pysrc . Copy its address somewhere, we will need to paste it later in a couple places.
+ b. Go to your !PyDev project and in the properties, go to !PyDev - PYTHONPATH > External Libraries tab. Press the ''Add Source Folder'' button and add the previous folder. This is so that when you "import pydevd" (the debugging breakpoint statement import), !PyDev does not underline it in red.
+ c. Add the path to your Apache configuration file for Indico as the python-path parameter for the WSIDaemonProcess directive. For this, edit ''/etc/apache2/sites-available/indico'' (or similar) and locate the following line:
+ {{{
+WSGIDaemonProcess WSGIDAEMON processes=1 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/home/matt/projects/indico-store/tmp/egg-cache 
+ }}}
+
+ Append the parameter python-path with the value being the path copied above, like so:
+
+ {{{
+WSGIDaemonProcess WSGIDAEMON processes=1 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/home/matt/projects/indico-store/tmp/egg-cache \
+            python-path=/usr/bin/eclipse/plugins/org.python.pydev.debug_2.2.1.2011071313/pysrc/
+ }}}
+ d. Add the folder to your PYTHONPATH so that it is available when you execute Python scripts from the console, such as tests. For example, if you use a bash console in Linux, you can do this by adding a line in your ~/.bashrc file (this will only work for new consoles):
+ {{{
+#!sh
+ export PYTHONPATH=${PYTHONPATH}:/home/dmartinc/Applications/eclipse/plugins/org.python.pydev.debug_1.5.3.1260479439/pysrc/
+ }}}
+ in your ''.bashrc'' file (this will only work for new consoles).
+ 
+==== Using the debugger ====
+ a. Change to the ''Debug'' perspective by going to ''Window > Open Perspective''.
+ b. Start the debug server: this is necessary before placing breakpoints and running the code (from Apache or from a console script). For this, in the Debug perspective, press a little icon in the top toolbar with a green bug and a P.
+ c. Placing breakpoints: if you want to place a breakpoint, place the following line in your code:
+{{{
+#!python
+import pydevd; pydevd.settrace(stdoutToServer = True, stderrToServer = True)
+}}}
+ d. Execute your code by loading a page in Apache or launching the console script. The execution should stop in the breakpoint and you are now able to do step-by-step execution, see variable values, etc.
+
+==== Debugging tips ====
+ a. It is recommended to make a code template for ''import pydevd; pydevd.settrace(stdoutToServer = True, stderrToServer = True)'' by going to Eclipse Windows > Preferences > !PyDev > Editor > Templates. (After the creation of the template, just write in the code its name and then ctrl + space)
+ b. There are 3 ways of seeing the values of variables during execution:
+   * The ''Variables'' view will show all the local and global objects, and you can see the attributes with a tree-like interface;
+   * The ''Expressions'' view (not shown by default) lets you write watch expressions.
+   * The ''Console'' view will have an interactive Python console. Look for the console with the name ''Debug Server''. If you have used ''stdoutToServer = True, stderrToServer = True'', this is where messages will be printed. You '''must''' use ''stdoutToServer = True, stderrToServer = True'' for the console to work (in Indico, at least). To have the console display the values of the expressions you write, just write in the white space of the console. Your expression will appear in green. Press Enter ''2 times'' and the value will appear (often it takes a short but noticeable time).
+   * Check the [/wiki/Dev/Troubleshooting#PyDev PyDev troubleshooting] if you have problems.
+
+For the original guide, see http://pydev.org/manual_adv_remote_debugger.html .
+
+=== Eclipse + !PyDev shortcuts ===
+
+ 1. '''F3''': go to definition
+ 2. '''Ctrl + space''': auto-suggest and auto-import
+ 3. '''Ctrl + Shift + R''': open resource (quick search of resources)
+ 4. '''Ctrl + H''': global search
+ 5. '''F5''': refresh the project after external file system changes.
+ 6. '''Ctrl + F6''': swicht between tabs
+ 7. '''Select name + F4''': Hierarchy view.
+ 8. '''Ctrl + M''': maximize and unmaximize current tab
+ 9. '''Ctrl + Shift + F''': auto-format code. It will format whatever text is selected, or the whole file if nothing is selected.
+
+ More shortcuts: http://pydev.org/manual_adv_keybindings.html
+
+
+== Emacs ==
+
+ * The CDS guys have some [cerntwiki:CDS/Invenio#Programming_Tools_and_Tips nice documentation on this];
+ * There's a nice [http://trac-hacks.org/wiki/EmacsWikiEditScript Emacs mode] for Trac wiki editing;
+
+-----------------
+
+= Git =
+
+Git is the version control system that is currently used by Indico. On a UNIX system, getting Git working should be fairly easy. If you're working on Windows, you can still run it (though with 50% awesomeness). See GitAndWindows.
+
+Here are some nice sites on Git (in descending order of awesomeness):
+  * http://gitimmersion.com/
+  * http://progit.org/book/
+  * http://book.git-scm.com/
+  * http://marklodato.github.com/visual-git-guide/index-en.html
+  * http://www.eecs.harvard.edu/~cduan/technical/git/ 
+
+
+== Git4Eclipse ==
+
+This is an Eclipse plugin that integrates git functionality in Eclipse.
+
+ 1. The installation is similar to !PyDev and !AnyEditTools:
+   * Go to ''Help > Install New Software''
+   * Add a new site by using http://www.jgit.org/updates as the URL
+   * Check ONLY the option: Eclipse Egit (incubation) (Previously: ''Eclipse Git Plugin - Release Build'', became obsolete but still available using http://www.jgit.org/update-site as the URL).
+   * Click Install...and next and accept (license).
+   * Restart Eclipse when requested.
+ 2. Clone your git repo if you have not done already (much easier from command line): see [/wiki/Dev/GettingStarted#a1.Gettingthesourcecode Getting the source code].
+ 3. Create the !PyDev project if you have not done already (see point 4 of [#PyDevInstallation PyDev installation and setup]].
+ 4. Tell Git4Eclipse to follow your Indico project:
+   * Right-click on the project and select ''Team > Share Project...''
+   * Select Git > your indico.git project.
+
+== !TortoiseGit ==
+
+ Get it at http://code.google.com/p/tortoisegit/downloads/list
+
+-----------------
+
+= Other tools =
+
+== fakemail ==
+
+If you don't want to risk spamming innocent people with mails coming from your development server, there is a very handy tool that creates a fake SMTP server in your machine and saves the e-mails as text files:
+
+{{{
+$ sudo easy_install fakemail-python
+}}}
+
+You need root privileges to run it, as it should be bound to port 25:
+
+{{{
+$ mkdir /tmp/fakemail
+$ sudo fakemail.py --port=25 --path=/tmp/fakemail/ 
+}}}
+
+Make sure that in your `indico.conf` you have:
+
+{{{
+SmtpServer = ("localhost", 25)
+}}}

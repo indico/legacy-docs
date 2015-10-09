@@ -1,0 +1,59 @@
+[[PageOutline]]
+= Indexing =
+
+Python dictionaries are almost never not a good solution for ZODB
+applications that require map-like data structures, mainly because a
+regular dictionary stored in a ZODB storage needs to be completely
+unpickled each time one of its elements is requested (ZODB treats it as
+an atomic data structure). This is a problem for two reasons: primarily unpickling a very large dictionary is time-consuming and thus this operation can slow down the application and secondly a a single small change inside it causes the DB to commit the entire dictionary back again into the storage.
+
+== 1. ZODB Data Structures == 
+ZODB implements different versions of these trees and different structures based on them.
+
+=== 1.1 Tree ===
+ZODB provides a set of tree data structures that handles different variants. The difference between them is the type of the keys and values in mappings. The first two letters of the trees' names specify the mappings. The possible types are Object (a normal Python object, identified by ''O''), Integer (a 32 bit integer, identified by $I$), Large Integer (a 64 bit integer, identified by ''L'') and Float (a 32 bit floating point number, identified by ''F''), and any possible couple of them can be use to build a tree data model, e.i. ''OOBTree'' (Object Key - Object Value), ''IOBTree'' (Integer Key - Object Value) and so on.
+Because of the fact that the element inside the tree are stored in sorted order, range searching is very efficient.
+=== 1.2 Treeset ===
+Another clever use of BTrees is building ordered sets. There are different kinds, i.e. ''OOTreeSet'', ''IITreeSet'' and so on. The usage is very intuitive, they are sets, thus they don't have values, they just have keys. The performance is clearly worse than a classical set implemented as a consecutive array stored in memory, but the strength of the implementation is that, in spite of
+being stored as a BTree, the data structure is composed of several different nodes (Sets) that are accessed and fetched only if needed. Of course if it is known that the length of the set will be small, it does not make much sense the use of Treeset and it will be rather be a better idea to use normal persistent sets. Moreover, another advantage of Treesets over
+a normal Set is that if a single element inside it is modified, only the
+bucket containing the modified item has to be committed to the database.
+=== 1.3 Set === 
+ZODB offers its own version of persistent sets. There are different kinds, i.e. ''OOTreeSet'', ''IITreeSet'' and so on. ''OOSet'' contains a set of arbitrary ordered objects, it can store anything but it is less than optimal besides the use of built-in types (strings, longs, date, etc). The implementation is the classical one, that is the set is allocated in a simple data block inside the memory, just like normal lists or dictionaries, and because of that, insertion and deletion have order of ''O(n)''. This implementation requires the unpickling and the loading of the entire set every time a single element is needed.
+=== 1.4 Bucket ===
+Buckets are the individual building blocks for BTrees.
+They are provided as ''OOBucket'', ''IIBucket'', and so on. Basically they look like Sets except that they support key-value mappings.
+
+== 2. ZODB Indexing Solutions ==
+The ZODB package itself has been developed in order to be as light as possible, without any additional and unnecessary components, therefore it does not contain any indexing utilities. This choice is undoubtedly questionable, but this is not the aim of this report. Our goal is to explain and compare the different indexing solutions of a ZODB database. Basically there exist three solutions used to add this property to the basic package. The first one, and the most commonly used, is to add to the core of ZODB an external package developed explicitly for this purpose. It is called \textit{ZCatalog}. The second one, the so-called "ad-hoc solution", consists in creating your own indexing structure using the BTrees package of ZODB. This possibility is generally used when the web developer wants to create appropriate and optimized structures for a (or some) precise situations. On the other hand \textit{ZCatalog} is used for a complete website indexing, without taking care of any index implementation details. The choice between those two implementations has to be taken in function of the needed functionalities needed. The third possibility stays in the middle of the first two and it consists of using the already implemented indexes proposed by Zope. In the following sections, a detailed description of these possible solutions is presented.
+
+=== 2.1 ZCatalog ===
+''ZCatalog'' (More information at: http://www.zope.org/Documentation/How-To/ZCatalogTutorial) is a package proposed and developed by Zope that indexes and references objects and makes queries on them. Basically it is the query engine of Zope. It is very simple to use and in can be integrated in any ZODB standalone application. It maintains indexes for each referenced attribute and it provides a basic query language that can be used to perform complex queries.
+
+=== 2.2 Zope Indexes ===
+Zope offers a less abstract way of creating indexes. There exist a package named zope.indexes that contains ready-to-use indexes of different kind, depending on the needs.
+
+==== 2.2.1 Text Index ====
+The ZCTextIndex is used for full-text indexing. This index tokenizes the text and indexes every word in the indexing phase, then, during the runtime, it offers some useful features like relevance ranking, boolean operators and phrase matching.
+The indexing part consists in three different consecutive processors. The text to be indexed first passes through a ''Splitter'' that divides it using words. There exist different type of splitters depending on the needs, it can be a simple white-space splitter or a more complex HTML-aware splitter that removes any HTML markup from the input text, or even more specialised splitters (like ejSplitter, ChaSplitter) for foreign languages that don't use the same delimiters as in English.
+Successively the text to be indexed passes through a ''Case Normalizer'' that, if enabled, allows case-insensitive searches and finally it goes through a ''Stop Word Remover'' which removes all kind of common English words that are not helpful for searches and normally match most irrelevant documents.
+
+Each query, after going through the same processors used for the text indexing, scores documents relevance using one of these two algorithms, depending on the size of the query:
+
+* '''Okapi BM25 Rank''': this information retrieval solution is built on probability arguments about how words are placed inside the documents, and not on an abstract vector space model. 
+* '''Cosine Rule''': This algorithm implements the cosine similarity function described in \cite{cosine} at page 187. It basically computes the distance between two vector space models in order to determine the similarity between words.
+
+By default the Okapi inverted index is used.
+
+==== 2.2.2 Field Index ==== 
+This type of index considers the value of the attribute as one single element (even if it is composed of more than one word). This index has to be used in order to reference data that can not be considered as text, like numbers, dates, object type etc. The restriction imposed by this type of index is that one has to know exactly the value to search, otherwise he will not match any value.
+
+==== 2.2.3 Keywords Index ==== 
+This last index is a kind of hybrid between the field index and the text index. The values of the attributes are split into single words which are handled as key-words. If one or more key-words of the attribute are in a query, the object is considered as a match. For example an attribute with value "ZODB indexing problem" will match any of these queries: "ZODB", "indexing", "problem".
+
+=== 2.3 Ad-hoc Indexes ===
+The last possible solution is the one that creates from scratch new indexes that perfectly fits the needs using only the data structures offered by ZODB. This options requires a deep understanding of the needs and the possible solutions.
+== 3 Best Indexing Solution ==
+ZCatalog is the easier solution, but if an optimized index is needed then the best choice is to use an ''IOBTree'' as the external structure and ''OOTreeSet'' as the internal one. If one needs to store IDs then the best choice is an external ''IOBTree'' and an internal ''IITreeSet''
+== 4 Sets Merging ==
+As general rule, if more more than 2 sets need to be merged, use the ''multiunion'' algorithm provided by ZODB.

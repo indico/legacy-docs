@@ -1,0 +1,404 @@
+[[PageOutline]]
+
+= ZODB =
+== 1. What is the ZODB ==
+The ZODB (Zope {Zope is an open source web application server primarily written in the Python programming language} Object Database) is a persistence system for Python Objects. It allows the developer to store and write objects to and from a persistent storage without the need of any schema or relational mapper. Actually Python already offers a way of transforming objects into a string representation (pickling {The pickle module implements a fundamental, but powerful algorithm for serializing and de-serializing a Python object structure. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream is converted back into an object hierarchy.}) that afterwards can be easily saved into an already existing Python database module (like `bsdd' or `gdbm'), but this implementation requires that the programmer manages all the storing and writing operations by himself. The ZODB handles  the objects, uses the cache,  stores changes and keeps the cache clean and up to date. Therefore the code can completely exploit the power of Python, and the objects can refer to each other as they would do in any database-free Python code. 
+
+== 2. ZODB Internal ==
+
+=== 2.1 Architecture ===
+
+[[Image(http://www.gliffy.com/pubdoc/2124745/L.png)]]
+
+ * '''DB''': This is the core part of the database, it is responsible for handling Storages and Connections.
+
+ * '''Connection''': At runtime, Connections are the most important and used part of the ZODB since they are responsible for loading and storing objects from the database.
+ 
+ * '''Cache''': Each Connection has its own cache, called Picklecache. Basically there exists a cache for each thread or for each connection of the ZODB. The Picklecache is used for caching unpickled objects and it can contains a fixed maximum number of objects of any size. Objects are removed from the Picklecache following a least-recently-used strategy. 
+
+ * '''Transaction''': The application can add new data to the storage only through Transactions.
+
+ * '''Persistent''': This class is responsible for creating `persistent objects' supported by the ZODB (see \ref{ss:copiesAndStates}). Among others features a persistent object is able to automatically inform the persistence system if a change of its state occurred.
+
+ * '''Storage Interface''': This class provides the access to a disk-based storage.
+=== 2.2 ACID properties ===
+The ZODB provides all of the ACID properties (Atomicity, Consistency, Isolation, Durability).
+
+ * '''Atomicity:''' Atomicity is handled by the two-phase commit protocol of the transactions. The two possible states of a transaction are either `succeed' or `fail', therefore the data stored in the database would never be in an inconsistent state.
+
+ * '''Consistency:''' The ZODB uses optimistic concurrency control, that is it supposes that multiple concurrent transitions (one for each thread) will not work with the some objects and, therefore transactions are carried out without locking the data resources. Only before committing, the transaction checks that the used objects haven't been modified by others transactions. If a problems is encountered, the transaction rolls back and a conflict error is raised (read or write conflict, depending on the situation). The strategy used by the ZODB in order to find conflicts is called `backward validation', which means that all the recently successfully committed transactions are compared with the committing one. One important problem of ZODB's consistency mechanism is that the read operations are not always tracked and this can cause an inconsistent view of the database. Before the start of a new transaction all the objects modified by earlier transactions are removed from the cache, but during the time needed by the transaction to end it is possible that the latter fetches objects from the cache that are not consistent with the ones present in the storage. This means that consistency can be violated at most during the length of a transaction.
+
+ * '''Isolation:''' ZODB provides a `Read Committed' level of isolation (because, as explained previously, it is possible to read stale data).\\
+
+ * '''Durability:''' Because of the architecture of the Filestorage, the transactions are never lost or overwritten and therefore durability is achieved.
+
+=== 2.3 Filestorage ===
+Filestorage is the native ZODB storage backend. Basically it stores objects in one single file with a `.fs' extension. Every time a change is made, all the modified objects are simply appended to the end of the file (therefore the objects in the database appear in order, from oldest to newest). This means that once a byte is written in the database storage it is never overwritten. This feature allows the database to keep a history of all changes made into ZODB and, if needed, to roll back to a previous configuration. Simplifying, a ZODB storage file is a sequence of transaction records. Each transaction record has a transaction header, followed by a sequence of data records and each data record has a data header, followed by a serialized form ("pickle") of the object's state. Essentially there is one data record for each object modified by the transaction. 
+
+Even if the external view of this file can seem opaque and messy, the internal organization of this storage is, on the contrary, very clear and clean. It is a well known rooted graph, whose root represents the 'main door' for accessing the data. Starting from the first one, there is a dense network of nodes storing Python objects. Actually ZODB does not impose a particular schema to application developers, leaving it to their criteria.
+In summary, Filestorage can be seen as a labelled rooted graph in which the edges of the graph represent connections between objects (nodes) and the labels contain the different version of an object.
+
+Due to its history-based structure, a storage file has no theoretical size limit, but there is a simple mechanism that provides a way to reduce its size - the "packing" operation. Packing a storage means that all unused object revisions that are not reachable in the storage graph as of the pack time are removed. This operation is performed in a simple way: it inspects every object inside the database and copies all of them to a new file, except for the non-current records from transactions in which the time stamp value is less than the packing `operation time stamp', as they are all undone records. Once all objects have been visited the packing ends and the new file takes the place of the old one.
+
+In order to speed up object lookups, an index file with extension `.fs.index' is generated and created from the main storage file (the `.fs' file). The index file maps all the object ids to the offset within the `.fs' file at which the data record for the current revision of the object appears. In order to work properly, Filestorage needs to keep its index in memory. The required memory space is normally proportional to the storage file size. As the size of the index file usually varies between 1\% and 8\% of the total size of the storage, it is advisable to reserve at least 1GB of memory in the case of a storage with a size of 10GB. When opening a storage file, if the index file does not exist, the latter is generated automatically.
+
+== 3. Persistency ==
+
+With persistency, the programmer doesn't have to worry about the life's cycle of objects. A persistent object is an object which, once created, will be stored persistently in the Zope object database with its own OID - a unique persistent object identifier. 
+If the value of an attribute is changed, what will be stored in the ZODB is a new complete serialization of the Class instance (containing, amongst other things, all the non-persistence attributes), with the same OID. The change is detected because we call __setattr__ defined in the Persistent class. 
+
+Theoretically each object can be persistent, but sometimes it is useful to keep some objects non persistent, i.e. volatile. These attributes are used in classes in order to compute logics and they don't need to be stored in the database.
+
+The name of a volatile attribute has to start with _v_:
+
+{{{
+#!python
+def __init__(self, id):
+    self._v_config = self.getSomeTmpConfig()
+}}}
+
+When the persistent object is retrieved from the ZODB the init method is not called any more, thus the programmer has to make sure that all volatile attributes have a value. This can be done through the setstate method which is called each time the object is charged in the memory.
+
+{{{
+#!python
+from Globals import Persistent
+def __setstate__(self, state):
+    Globals.Persistent.__setstate__(self, state)
+    self._v_config = self.getSomeTmpConfig()
+}}}
+
+As already mentioned, the serialization process serialize the object with (recursively) all its attributes that are not persistent, this means that a simply modification of an instance causes the copy of the entire object. Thus a careful reflection has to be made in order to define which attributes will be persistent and which don't.
+
+=== 3.1 When to inherit from Persistent ===
+When implemeting a class which instances will often be modified you should make it persistent, to avoid impacting the container at each change.
+
+=== 3.2 When not to inherit from Persistent ===
+When implementing a class which instances will be and stay small (only reading the pickle from ZODB can tell you if the object is small) compared to the size of ZODB object header (which is basically the class name). Otherwise it will hurt information density, and the ZODB will contain more object header data than actual object payload. 
+
+== 4. ZODB Tools ==
+
+=== 4.1 Stats on Objects ===
+This script returns the list of the n-biggest objects present in the ZODB (I strongly recommend to set the 'n' option because it increases a lot the performance of the script and the readability of the output).
+
+Usage:
+{{{
+#!sh
+python objects_stats.py -f data.fs -n 100
+}}}
+
+If one wants to save the output list in a file results.out simply use redirection:
+{{{
+#!sh
+python objects_stats.py -f data.fs -n 100 > results.out
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help            show this help message and exit
+  -n NUM, --number=NUM  display only the n biggest objects
+  -f FILENAME, --file=FILENAME
+                        the FileStorage
+  -v, --verbose         show percentage and time remaining
+}}}
+
+Output:
+{{{
+#!sh
+#The list is ordered by decreasing size
+Module.ClassName | Oid | Percentage | Total Size | Min | Max | Copies
+
+# - Oid: the object identification 
+# - Percentage: the percentage that the class intances take of the entire database
+# - Total Size: the total size of all copies of that object in the database
+# - Min: the min copy's size
+# - Max: the max copy's size
+# - Copies: The total number of copies of that object 
+}}}
+
+=== 4.2 Stats on Classes ===
+Get statistics on classes stored. The output shows for each class the className, the percentage of space that it takes, the min, max and average object's size.
+
+Usage:
+{{{
+#!sh
+python class_stats.py -f data.fs -n 100   
+}}}
+
+If one wants to save the output list in a file results.out simply use redirection:
+{{{
+#!sh
+python class_stats.py -f data.fs -n 100 > results.out
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help            show this help message and exit
+  -n NUM, --number=NUM  display only the n biggest classes
+  -f FILENAME, --file=FILENAME
+                        your FileStorage
+}}}
+
+Output:
+{{{
+#!sh
+#The list is ordered by decreasing size
+Module.ClassName | Percentage | Min | Max | Size | Instances
+
+# - Percentage: the percentage that the class intances take of the entire database
+# - Min: the min instance's size
+# - Max: the max instance's size
+# - Size: total size of all instances of the class ClassName
+# - Instances: The total number of instances of that class 
+}}}
+
+=== 4.3 Stats on Transactions ===
+This script outputs the list of the 'n' busiest days from the point of view of the number of transactions. The output shows for each day the number of transactions and the average time between two of them. If one wants to search for information of a specific day use the option -d dd-mm-yyy
+
+Usage:
+{{{
+#!sh
+python transactions_stas.py -f data.fs -n 100 
+}}}
+
+If one wants to save the output list in a file results.out simply use redirection:
+{{{
+#!sh
+python transactions_stas.py -f data.fs -n 100 > results.out
+}}}
+
+If one wants to show statistics for one precise date (e.g. 01-01-2010):
+{{{
+#!sh
+python transactions_stats.py -f data.fs -d 01-01-2010
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help            show this help message and exit
+  -n NUM, --number=NUM  display only the n busiest days
+  -f FILENAME, --file=FILENAME
+                        your FileStorage
+  -d DATE, --date=DATE  show the transiction only for the date d (format dd-
+                        mm-yyyy)
+}}}
+
+Output:
+{{{
+#!sh
+#The list is ordered by decreasing size
+Date | Transactions | Records Changed | Average interval
+
+# - Transactions: the number of transactions made during the day Date
+# - Records Changed: the number of records that the transcations have modified
+# - Average interval: average time between two transactions in that day
+}}}
+
+
+=== 4.4 Show information for the last 'n' transactions ===
+This script outputs the list of the 'n' last transactions present in the FileStorage. For each of them a list of objects that it modified is also shown. By default the list in ordered by decreasing date, but by setting the '-o' option the last 'n' transactions are ordered by size.
+
+Usage:
+{{{
+#!sh
+python last_transactions_information.py -n 100 data.fs 
+}}}
+
+If one wants to save the output list in a file results.out simply use redirection:
+{{{
+#!sh
+python last_transactions_information.py -n 100 data.fs  > results.out
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help            show this help message and exit
+  -n NUM, --number=NUM  display the last n transactions (Default 100)
+  -o, --order           order the transactions by size
+}}}
+
+Output:
+{{{
+#!sh
+#By default the list is ordered by decreasing date
+TRANSACTION: ${Tid} ${Size}
+#The list of objects modified by the transaction
+ - ${counter1} ${Object1} ${Object1Size}
+ - ${counter2} ${Object2} ${Object2Size}
+...
+
+TRANSACTION: ${Tid} ${Size}
+...
+
+# - Tid: the transaction id, TimeStamp string holding the time at which the transaction was committed. 
+# - Size: the size of the transaction
+# - counter: the number of objects belonging to the same class that have been modified by this transaction
+}}}
+
+
+=== 4.5 Show details for one single transaction ===
+Once one has the 'tid' (found with the script "Show information for the last 'n' transactions" in §6.5), this script allows to see in details every object that this transaction modified.
+
+Usage:
+
+In order to use this script one has to make two things:
+
+Add Indico in the Pythonpath:
+{{{
+#!sh
+export PYTHONPATH=${PYTHONPATH}:/home/davide/indico/cds-indico/indico
+}}}
+
+Modify the protection of the file "indico.log"
+
+{{{
+#!sh
+sudo chmod a+w /home/davide/indico/log/indico.log
+}}}
+
+And now the script can be run:
+{{{
+#!sh
+python showTransactionDetails.py -t '2010-04-12 14:16:12.121825' data.fs 
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help         show this help message and exit
+  -t TID, --tid=TID  the researched trancation's tid
+}}}
+=== 4.6 Find path from oid ===
+The script returns the paths from the given oid to some other object in the database (if one wants imperatively to find the path to the root it has to pack the database first or use the option '--root').
+This script builds an entry in a dictionary for each object in the database, and this structure is stocked in the volatile memory. This means that the size of the RAM establishes a limit of the computation. Only small databases can be used.
+
+Usage:
+{{{
+#!sh
+python findPathFromOid.py -f /path/to/Data.fs -o oid [-r -s]
+#the 'oid' can be either hexadecimal (i.e. 0xa1e4) or decimal (41444) 
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help            show this help message and exit
+  -o OID, --oid=OID     the oid of the object
+  -f FILENAME, --file=FILENAME
+                        your FileStorage
+  -r, --root            if you want to display only paths to from the root
+  -s, --shortest        if you want to display only the shortest path
+}}}
+
+=== 4.7 Amount of data per day ===
+This scripts computes the amount of data added to the database in the past days. Then a few statistics are computed:
+ * Average amount data for packed days
+ * Prediction of the database's size in 1, 2 and 10 years
+ * Average amount data for both packed and unpacked days
+
+Usage:
+{{{
+#!sh
+sizeIncreasing_stats.py [options] data.fs
+}}}
+
+
+Options:
+{{{
+#!sh
+Options:
+  -h, --help            show this help message and exit
+  -d DAYS, --days=DAYS  show to amount of data added in the last 'd' days
+  -n NP, --notPacked=NP
+                        not packed days (starting from yesterday). The default value is 2
+}}}
+
+=== 4.8 Most modified classes during last 'n' days ===
+This script shows the most modified classes during the last 'n' days. Very useful if the 'n' days correspond to the unpacked days of the database.
+
+Usage:
+{{{
+#!sh
+mostUsedClasses.py [options] filename
+}}}
+
+Options:
+{{{
+#!sh
+  -h, --help            show this help message and exit
+  -d DAYS, --days=DAYS  show the most used classes during the last 'd' days
+}}}
+
+=== 4.9 Simple consistency checker for Filestorage. ===
+The fstest tool will scan all the data in a Filestorage and report an
+error if it finds any corrupt transaction data.  The tool will print a
+message when the first error is detected, then exit.
+
+The tool accepts one or more -v arguments.  If a single -v is used, it
+will print a line of text for each transaction record it encounters.
+If two -v arguments are used, it will also print a line of text for
+each object.  The objects for a transaction will be printed before the
+transaction itself.
+
+Note: It does not check the consistency of the object pickles.  It is
+possible for the damage to occur only in the part of the file that
+stores object pickles.  Those errors will go undetected.
+
+Usage:
+{{{
+#!sh
+python fstest.py [-v] data.fs
+}}}
+
+=== 4.10 ZODB Browser ===
+The ZODB browser allows you to inspect persistent objects stored in the ZODB, view their attributes and historical changes made to them. It is possible to undo modifications manually. Once the zodbbrowser is running, simply navigate inside the Filestorage with your browser.
+This application works very good even with a big database since it uses the index file already present and thus it doesn't have to compute the entire graph.  
+
+The installation is quite easy (be sure to have 'libxml2-dev' and 'libxslt1-dev' installed) 
+
+Is now possible to install zodbbrowser
+{{{
+#!sh
+  bzr get lp:zodbbrowser
+  cd zodbbrowser
+  python2.4 bootstrap.py
+  bin/buildout
+}}}
+
+Few lines have to be added (the ones commented in the following code) in zodbbrowser/src/zodbbrowser/standalone.py in order to be able to use the --zeo option.
+
+{{{
+#!python
+    elif opts.zeo:
+        if ':' in opts.zeo:
+            zeo_address = opts.zeo.split(':', 1)
+        else:
+            zeo_address = opts.zeo
+        #zeo_address = (zeo_address[0], int(zeo_address[1]))
+        db = DB(ClientStorage(zeo_address, read_only=opts.readonly #, username="IfYouHaveAUsername", password="IfYouHave", realm="IfYouHave"))
+}}}
+
+Now you can start zodbbrowser
+(Replace localhost:1234 with the address of your server zeo and replace pcituds01.cern.ch with the address of your machine)
+
+{{{
+#!sh
+  bin/zodbbrowser --zeo localhost:1234 --listen pcituds01.cern.ch:8070 
+}}}
+
+
+A few tricks: 
+ * Add indico sources to your Pythonpath
+ * run it with --rw:
+
+==== 4.10.1 How to use it ====
+ * If you know an object's OID (hex or converted to a base-10 integer), you can go directly to that object by going to @@zodbbrowser?oid=1234  (or @@zodbbrowser?oid=0x01234). This is the only way to reach object 0, which is the persistent mapping at the ZODB root. 
+ * There's a little 'help' link in the bottom-right corner of every page that describes the user interface in greater detail.
+
+= 5 References =
+ * Olivier Deckmyn, Pierre-Julier Grizel, ''Zope 3ème édition'', Editions Eyrolles, Paris 2005
+ * A.M. Kuchling, ''ZODB/ZEO Programming Guide, Release 0.3a2'', May 10, 2004, [http://wiki.zope.org/ZODB/guide/index.html]
+ * [http://www.erp5.org/UnderstandingPersistency]

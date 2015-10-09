@@ -1,0 +1,22 @@
+diff -NPur htdocs.orig/changeLang.py htdocs/changeLang.py
+--- htdocs.orig/changeLang.py	2010-01-08 17:34:42.000000000 +0100
++++ htdocs/changeLang.py	2010-03-25 04:44:27.000000000 +0100
+@@ -1,5 +1,6 @@
+ import MaKaC.webinterface.rh.lang as lang
++from MaKaC.common import Config
+ def index(req, **args):
+-    args['REFERER_URL'] = (str(req.headers_in['Referer']))
++    args['REFERER_URL'] = (str(req.headers_in.get('Referer', Config.getInstance().getBaseURL())))
+     return lang.RHChangeLang(req).process(args)
+ 
+diff -NPur htdocs.orig/resetSessionTZ.py htdocs/resetSessionTZ.py
+--- htdocs.orig/resetSessionTZ.py	2010-01-08 17:34:42.000000000 +0100
++++ htdocs/resetSessionTZ.py	2010-03-25 04:45:04.000000000 +0100
+@@ -1,5 +1,6 @@
+ import MaKaC.webinterface.rh.resetTimezone as resetTimezone
++from MaKaC.common import Config
+ def index(req, **args):
+-    args['REFERER_URL'] = (str(req.headers_in['Referer']))
++    args['REFERER_URL'] = (str(req.headers_in.get('Referer', Config.getInstance().getBaseURL())))
+     return resetTimezone.RHResetTZ(req).process(args)
+ 

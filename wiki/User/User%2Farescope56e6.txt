@@ -1,0 +1,13 @@
+= Alberto Resco =
+
+== Personal plan ==
+
+
+== Tickets overview (open) ==
+[[TicketQuery(owner=arescope, format=table, order=priority, group=milestone, status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=arescope,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=arescope)]]

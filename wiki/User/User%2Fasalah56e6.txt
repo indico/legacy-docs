@@ -1,0 +1,13 @@
+= Abdul Hafeth Salah =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=asalah,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=asalah,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=asalah)]]

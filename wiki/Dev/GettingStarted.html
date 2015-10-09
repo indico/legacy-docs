@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/GettingStarted by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/GettingStarted – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FGettingStarted56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="GettingStarted.html" title="View Dev/GettingStarted">GettingStarted</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/GettingStarted?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#Note">Note</a>
+  </li>
+  <li>
+    <a href="#Setup">Setup</a>
+    <ol>
+      <li>
+        <a href="#a0.Preparation"><strong>0. Preparation</strong></a>
+      </li>
+      <li>
+        <a href="#a1.PreparingyourPythonvirtualenvironment">1. Preparing your Python virtual environment</a>
+      </li>
+      <li>
+        <a href="#a2.PreparingtheDevelopmentEnvironment">2. Preparing the Development Environment</a>
+      </li>
+      <li>
+        <a href="#a3.Addingthepre-commithook">3. Adding the pre-commit hook</a>
+      </li>
+      <li>
+        <a href="#a4.Installexternalmodules">4. Install external modules</a>
+      </li>
+      <li>
+        <a href="#a5.LaunchingIndico">5. Launching Indico</a>
+      </li>
+      <li>
+        <a href="#a6.WhatdoIdonow">6. What do I do now?</a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#Git">Git</a>
+    <ol>
+      <li>
+        <a href="#LearningGit">Learning Git</a>
+        <ol>
+          <li>
+            <a href="#ConfiguringGit">Configuring Git</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="Note">Note</h1>
+<p>
+If you are just getting started and have no public Git repository, please read first the <a class="wiki" href="Collaboration.html">Collaboration guide</a>, so that you can first set it up. Then, continue reading this page. 
+</p>
+<p>
+If you are trying to install Indico on Windows, please use the <a class="wiki" href="GettingStartedWin.html">Windows guide</a>.
+</p>
+<h1 id="Setup">Setup</h1>
+<h2 id="a0.Preparation"><strong>0. Preparation</strong></h2>
+<p>
+You will need:
+</p>
+<ul><li>Python 2.6+ (2.7+ encouraged);
+</li><li>Python development packages [<tt>python-dev</tt> or <tt>python-devel</tt> depending on your linux distro] 
+</li><li>Virtualenv;
+</li><li><tt>libxml2</tt> and <tt>libxslt</tt> development packages;
+</li><li>git [git-core in some distros]
+</li></ul><h2 id="a1.PreparingyourPythonvirtualenvironment">1. Preparing your Python virtual environment</h2>
+<div class="code"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/code
+<span class="nv">$ </span>virtualenv indico
+New python executable in indico/bin/python
+Installing setuptools............done.
+Installing pip...............done.
+<span class="nv">$ </span><span class="nb">cd </span>indico
+<span class="nv">$ </span><span class="nb">source </span>bin/activate
+</pre></div><p>
+You can leave the virtualenv anytime using the <tt>deactivate</tt> command.
+</p>
+<h2 id="a2.PreparingtheDevelopmentEnvironment">2. Preparing the Development Environment</h2>
+<p>
+So, now we need to get Indico from Git. If you are using <a class="missing wiki">GitHub?</a> as a public repo, clone your "forked repo" instead.
+</p>
+<div class="code"><pre><span class="nv">$ </span>git clone git://github.com/indico/indico.git src
+</pre></div><p>
+Then:
+</p>
+<div class="code"><pre><span class="nv">$ </span><span class="nb">cd </span>src
+<span class="nv">$ </span>pip install --allow-all-external -r requirements.txt 
+<span class="nv">$ </span>python setup.py develop_config
+</pre></div><p>
+Follow the instructions. By the end of the process you should have Indico installed in your virtualenv. The config script should also provide you with some instructions on how to start the DB. That's what we'll do in the next section.
+</p>
+<p>
+During the requirements installation you may get a missing library error , for instance : /usr/bin/ld: cannot find -lz .Please install the missing library manually (f.e apt-get install zlib1g-dev).
+</p>
+<h2 id="a3.Addingthepre-commithook">3. Adding the pre-commit hook</h2>
+<p>
+This <a class="ext-link" href="http://git.io/4EeNZA"><span class="icon">​</span>pre-commit hook</a> will check your code for <a class="ext-link" href="http://www.python.org/dev/peps/pep-0008/"><span class="icon">​</span>PEP8</a> problems before you commit. We recommend that you set it up:
+</p>
+<div class="code"><pre><span class="nv">$ </span>pip install pep8
+<span class="nv">$ </span>curl -L http://git.io/4EeNZA &gt; .git/hooks/pre-commit
+</pre></div><h2 id="a4.Installexternalmodules">4. Install external modules</h2>
+<p>
+We need to install the external modules (jQuery, qTip, etc...)
+</p>
+<div class="code"><pre><span class="nv">$ </span>fab setup_deps
+</pre></div><p>
+Some known issues:
+</p>
+<ul><li>Missing <tt>curl</tt>: try to run the command with --show=debug to confirm, but most probably you will need to install <tt>curl</tt>
+</li><li>Mac OS: make sure you have installed <a class="ext-link" href="https://developer.apple.com/xcode/"><span class="icon">​</span>XCode</a>
+</li><li>Sometimes <tt>fab setup_deps</tt> just fails (e.g. failing to download some package) and retrying usually works ;)
+</li></ul><h2 id="a5.LaunchingIndico">5. Launching Indico</h2>
+<ol><li>Since you are running Indico from a virtualenv, you do not need root privileges. This said, you should <tt>chown</tt> your whole Indico directory (the one you specified in <tt>developer_config</tt> and that contains <tt>log</tt>, <tt>db</tt>, etc...) to your user:
+</li></ol><div class="code"><pre><span class="nv">$ </span>chown -R youruser:youruser /home/youruser/code/indico
+</pre></div><ol start="2"><li>You should also edit <tt>etc/zdctl.conf</tt> and replace:
+</li></ol><pre class="wiki">user www-data
+</pre><p>
+With
+</p>
+<pre class="wiki">user youruser
+</pre><ol start="3"><li>Finally, you'll have to edit <tt>etc/indico.conf</tt> and replace all the occurrences of the URL <tt>http://localhost</tt> with <tt>http://localhost:8000</tt> and <tt>https://localhost</tt> with <tt>https://localhost:8443</tt>. Done it? Great.
+</li></ol><ol start="4"><li>To start the ZODB database, type:
+</li></ol><div class="code"><pre><span class="nv">$ </span>zdaemon -C etc/zdctl.conf start
+</pre></div><ol start="5"><li>Then, start a development web server:
+</li></ol><div class="code"><pre><span class="nv">$ </span>indico_shell --web-server --with-ssl --reload-on-change
+</pre></div><ol start="6"><li>Open your browser and go to <a class="ext-link" href="http://localhost:8443/indico/"><span class="icon">​</span>http://localhost:8443/indico/</a> - Indico should be up and running! 
+</li></ol><h2 id="a6.WhatdoIdonow">6. What do I do now?</h2>
+<p>
+Now you need to setup your Git repo and start working.
+</p>
+<h1 id="Git">Git</h1>
+<h2 id="LearningGit">Learning Git</h2>
+<p>
+Read <a class="ext-link" href="http://git-scm.com/documentation"><span class="icon">​</span>Git's online manual</a>.
+Maybe you'll want to print the <a class="ext-link" href="https://na1.salesforce.com/help/doc/en/salesforce_git_developer_cheatsheet.pdf"><span class="icon">​</span>cheat sheet</a> and put it on your wall. Go ahead, print it!
+</p>
+<p>
+There is also a very nice <a class="ext-link" href="http://try.github.com/"><span class="icon">​</span>GitHub page</a> with an interactive Git walkthrough.
+</p>
+<h3 id="ConfiguringGit">Configuring Git</h3>
+<p>
+The first time you use Git you will need to set up your identity:
+</p>
+<pre class="wiki">git config --global user.name "John Doe"
+git config --global user.email john.doe@cern.ch
+</pre><p>
+That should be enough.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/GettingStarted?action=diff&amp;version=119" title="Version 119 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-04-14T14%3A49%3A04%2B02%3A00&amp;precision=second" title="See timeline at 04/14/14 14:49:04">18 months ago</a></span>
+            <span class="trac-print">Last modified on 04/14/14 14:49:04</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FGettingStarted56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/GettingStarted by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:11 GMT -->
+</html>

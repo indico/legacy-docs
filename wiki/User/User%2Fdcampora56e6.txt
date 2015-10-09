@@ -1,0 +1,13 @@
+= Daniel Hugo Cámpora Pérez =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=dcampora,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=dcampora,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=dcampora)]]

@@ -1,0 +1,12 @@
+= Ana Clara Lacerda de Siqueira =
+
+Main project: Offline website creation for Lectures, Meetings and Conferences.
+
+== Open Tickets ==
+[[TicketQuery(owner=alacerda,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=alacerda,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=alacerda)]]

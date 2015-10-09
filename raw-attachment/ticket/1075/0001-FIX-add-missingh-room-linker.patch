@@ -1,0 +1,26 @@
+From 10c48debe9106cf7dfafee49d9d904ff7dfad167 Mon Sep 17 00:00:00 2001
+From: Bjoern Pedersen <bjoern.pedersen@frm2.tum.de>
+Date: Tue, 21 Aug 2012 09:02:12 +0200
+Subject: [PATCH] [FIX] add missingh room linker
+
+Import the RoomLinker before use
+see #1075
+---
+ indico/web/http_api/fossils.py | 1 +
+ 1 Datei geändert, 1 Zeile hinzugefügt(+)
+
+diff --git a/indico/web/http_api/fossils.py b/indico/web/http_api/fossils.py
+index f28b779..aa0f74b 100644
+--- a/indico/web/http_api/fossils.py
++++ b/indico/web/http_api/fossils.py
+@@ -27,6 +27,7 @@ from indico.util.fossilize import IFossil, fossilize
+ from indico.util.fossilize.conversion import Conversion
+ from MaKaC.webinterface import urlHandlers
+ from MaKaC.fossils.conference import ISessionFossil
++from MaKaC.webinterface.linking import RoomLinker
+ 
+ 
+ class IHTTPAPIErrorFossil(IFossil):
+-- 
+1.7.12.rc0.10.g476109f
+

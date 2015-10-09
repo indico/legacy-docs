@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/10 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/INTREPID/10 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FINTREPID%252F1056e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../INTREPID.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../INTREPID.html" title="View Dev/INTREPID">INTREPID</a><span class="pathentry sep">/</span><a class="pathentry" href="10.html" title="View Dev/INTREPID/10">10</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../INTREPID.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/INTREPID/10?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <ol>
+      <li>
+        <a href="#InTRePId10">InTRePId 10</a>
+        <ol>
+          <li>
+            <a href="#Objectives">Objectives</a>
+          </li>
+          <li>
+            <a href="#Statusquo">Status quo</a>
+          </li>
+          <li>
+            <a href="#Description">Description</a>
+          </li>
+          <li>
+            <a href="#Comments">Comments</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h2 id="InTRePId10">InTRePId 10</h2>
+<p>
+<strong>Title:</strong> Metadata (Microformats, RDFa, etc) 
+</p>
+<p>
+<strong>Author:</strong> Pedro Ferreira
+</p>
+<p>
+<strong>Date:</strong> 11 Jul 2010
+</p>
+<p>
+<strong>Target version:</strong> ?
+</p>
+<p>
+<strong>Status:</strong> draft
+</p>
+<h3 id="Objectives">Objectives</h3>
+<ul><li>Providing useful information in indico pages, that can be reused by browsers and other applications;
+</li><li>Improving the overall quality of the metadata that can be be extracted from Indico pages;
+</li></ul><h3 id="Statusquo">Status quo</h3>
+<p>
+Currently, Indico pages look nice and well organized. However, in terms of actual metadata, things are not as good as they could be. We generally try to repect the semantic of HTML tags, but there are still many situations where this could be improved.
+</p>
+<p>
+Modern browsers are starting to include some degree of support for Microformats and other lightweight semantic web technologies <a class="missing changeset" title="No changeset 1 in the repository">[1]</a>, and several plugins exist that make it easy to feed metadata into external applications (calendars, agendas, contact lists...)<a class="missing changeset" title="No changeset 2 in the repository">[2]</a><a class="missing changeset" title="No changeset 3 in the repository">[3]</a><a class="missing changeset" title="No changeset 4 in the repository">[4]</a>. Providing some support for some of these technologies from within Indico would be definitely positive for user experience.
+</p>
+<p>
+In addition to this, Microformats/RDFa are starting to be consumed by search engines and other web services<a class="missing changeset" title="No changeset 5 in the repository">[5]</a><a class="missing changeset" title="No changeset 6 in the repository">[6]</a>. A good example of such a use case would be the location and date of an Indico event appearing directly under their search result in Google (for instances that choose to allow crawling of their pages).
+</p>
+<h3 id="Description">Description</h3>
+<p>
+There are several metadata formats to be considered here:
+</p>
+<ul><li>Microformats
+</li><li>RDFa
+</li><li>HTML5 Microdata - can be seen as an extension of Microformats;
+</li></ul><ul><li><a class="missing changeset" title="No changeset 1 in the repository">[1]</a> <a class="ext-link" href="https://developer.mozilla.org/en/Using_microformats"><span class="icon">​</span>https://developer.mozilla.org/en/Using_microformats</a>
+</li><li><a class="missing changeset" title="No changeset 2 in the repository">[2]</a> <a class="ext-link" href="http://microformats.org/wiki/firefox-extensions"><span class="icon">​</span>http://microformats.org/wiki/firefox-extensions</a>
+</li><li><a class="missing changeset" title="No changeset 3 in the repository">[3]</a> <a class="ext-link" href="http://microformats.org/wiki/chrome-extensions"><span class="icon">​</span>http://microformats.org/wiki/chrome-extensions</a>
+</li><li><a class="missing changeset" title="No changeset 4 in the repository">[4]</a> <a class="ext-link" href="http://microformats.org/wiki/Internet_Explorer"><span class="icon">​</span>http://microformats.org/wiki/Internet_Explorer</a>
+</li><li><a class="missing changeset" title="No changeset 5 in the repository">[5]</a> <a class="ext-link" href="http://googlewebmastercentral.blogspot.com/2009/05/introducing-rich-snippets.html"><span class="icon">​</span>http://googlewebmastercentral.blogspot.com/2009/05/introducing-rich-snippets.html</a>
+</li><li><a class="missing changeset" title="No changeset 6 in the repository">[6]</a> <a class="ext-link" href="http://microformats.org/wiki/search_engines"><span class="icon">​</span>http://microformats.org/wiki/search_engines</a>
+</li></ul><h3 id="Comments">Comments</h3>
+<p>
+</p><div id="commenting"><form action="http://old.indico-software.org/wiki/Dev/INTREPID/10#commenting" method="post"><fieldset><legend>Add comment</legend><div class="field"><textarea rows="5" name="addcomment" cols="80" disabled="disabled" class="wikitext" id="addcomment"></textarea></div><div><label for="authoraddcomment">Your email or username:</label><input type="text" id="authoraddcomment" value="anonymous" size="30" /></div><input type="hidden" name="__FORM_TOKEN" value="610bde29a97e49ea483b83be" /><div class="buttons"><input disabled="disabled" type="submit" name="submitaddcomment" value="Add comment" size="30" /><input disabled="disabled" type="submit" name="previewaddcomment" value="Preview comment" /><input disabled="disabled" type="submit" name="canceladdcomment" value="Cancel" /></div></fieldset></form></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/INTREPID/10?action=diff&amp;version=1" title="Version 1 by pferreir: first revision">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-07-11T15%3A19%3A15%2B02%3A00&amp;precision=second" title="See timeline at 07/11/10 15:19:15">5 years ago</a></span>
+            <span class="trac-print">Last modified on 07/11/10 15:19:15</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/wikitoolbar.js"></script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FINTREPID%252F1056e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/10 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:28 GMT -->
+</html>

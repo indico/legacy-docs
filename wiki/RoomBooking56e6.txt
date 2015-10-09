@@ -1,0 +1,111 @@
+= Schema for Room Booking Module =
+
+== Location ==
+
+ - aspects(list)
+ - avcSupportEmails(list)
+ - friendlyName(str)
+ - factory(?)
+
+== Room ==
+
+ - dailyBookablePeriod(list)
+ - equipment(str)
+ - locationName(str)
+ - name(str)
+ - nonBookableDates(list)
+ - photoId(str)
+ - avaibleVC(list)
+ - building(str)
+ - capacity(int)
+ - comments(str)
+ - customAttrs(str)
+ - division(str)
+ - floor(str)
+ - id(int)
+ - isActive(bool)
+ - isReservable(bool)
+ - latitude(str)
+ - longitude(str)
+ - maxAdvanceDays(int)
+ - responsibleId(str)
+ - resvEndNotification(bool)
+ - resvStartNotification(bool)
+ - resvNotificationAssistance(bool)
+ - resvNotificationToResponsible(bool)
+ - resvStartNotificationBefore(bool)
+ - resvsNeedConfirmation(bool)
+ - roomNr(str)
+ - site(str)
+ - surfaceArea(str)
+ - telephone(str)
+ - whereIsKey(str)
+
+== Reservation ==
+
+ - excludedDays(list)
+ - createdDate(date)
+ - endDate(date)
+ - bookedForId(str)
+ - bookedForName(str)
+ - contactEmail(str)
+ - contactPhone(str)
+ - createdBy(str)
+ - id(int)
+ - isCancelled(bool)
+ - isConfirmed(bool)
+ - isRejected(bool)
+ - needsAVCSupport(bool)
+ - needsAssistance(bool)
+ - reason(str)
+ - repeatibility
+ - history(list)
+ - room
+ - startEndNotification(bool)
+ - useVC(list)
+ - usesAVC(bool)
+
+== History ==
+
+ - info(list)
+ - responsibleUser(str)
+ - timestamp(date)
+
+== Blocking ==
+
+ - createdBy(str)
+ - createdDate(date)
+ - endDate(date)
+ - id(str)
+ - message(str)
+ - allowed(list)
+ - blockedRooms(list)
+
+== Blocked Room == 
+ 
+ - active(bool)
+ - notificationSent(bool)
+ - rejectedBy(str)
+ - rejectionReason(str)
+ - roomId(str)
+
+== Blocking Principal ==
+
+ - id(str)
+ - type(str)
+
+== Equipment ==
+
+ - id(str)
+ - location(str)
+ - name(str)
+
+== Custom Attrs ==
+
+ - id(str)
+ - info(dict)
+
+== Holiday ==
+
+ - id(str)
+ - day(date)

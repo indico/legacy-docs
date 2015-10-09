@@ -1,0 +1,11 @@
+--- MaKaC/common/Configuration_orig0981.py	2012-04-30 15:15:44.000000000 +0200
++++ MaKaC/common/Configuration.py	2012-04-30 15:16:44.000000000 +0200
+@@ -487,7 +487,7 @@
+                        'peopleDNQuery': ('uid={0}', 'DC=example,DC=com'),
+                        'groupDNQuery': ('cn={0}',
+                                         'OU=Groups,DC=example,DC=com'),
+-                       'membershipQuery': 'memberof={0}',
++                       'groupStyle': 'SLAPD',
+                        'accessCredentials': ('CN=user,OU=Users,'
+                                              'DC=example,DC=com',
+                                              'secret_password')}

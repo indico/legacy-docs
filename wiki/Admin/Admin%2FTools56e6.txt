@@ -1,0 +1,72 @@
+[[PageOutline]]
+
+= Administration Tools =
+
+== Indico Shell ==
+
+If for any reason you need direct access to the Indico DB, or to manually run some task, etc... indicoShell may be of your interest.
+indicoShell is a simple [http://ipython.scipy.org/ IPython]-based environment that automatically sets up some basic structures that will help you in your management tasks.
+
+==== Installing ====
+==== < v0.97 ====
+
+If for some reason you are using an older version of Indico, you can always download the required files from our [wiki:Download#Gitsources Git repo], or simply through our web interface:
+ * [source:indico/bin/utils/indicoShell.py@v0.97-series]
+ * [source:indico/bin/utils/indicoShell.sh@v0.97-series]
+
+==== v0.97+ ====
+indicoShell is part of the Indico distribution for all the v0.97-series releases. It's located inside `bin/utils`. You should adapt `indicoShell.sh` (or `indicoShell.bat` under Windows) to suit your Indico environment (set the `INDICOPATH` environment variable, or just ignore it if Indico is already installed in your system-wide python package directory).
+
+==== v0.98 ====
+
+From 0.98 on, the Indico Shell is available from the binary path of any server that has Indico installed:
+
+{{{
+jdoe ~$ indico_shell
+}}}
+
+
+IPython is required (you can simply easy_install/pip it). Windows users will also need to install [http://ipython.scipy.org/moin/PyReadline/Intro PyReadline].
+
+==== Example
+It should be very straightforward to use indicoShell:
+{{{
+#!python
+In [1]: AvatarHolder().getById(22116)
+Out[1]: <MaKaC.user.Avatar object at 0xb6f2822c>
+
+In [2]: AvatarHolder().getById(22116).getFullName()
+Out[2]: 'FERREIRA, Jose Pedro'
+
+In [3]: a = AvatarHolder().getById(22116) 
+
+In [4]: a.setSurName('Doe')
+
+In [5]: a.getFullName() 
+Out[5]: 'DOE, Jose Pedro'
+}}}
+
+Erasing an user and commiting changes to DB:
+{{{
+#!python
+In [1]: AvatarHolder().getById(0)
+Out[1]: <MaKaC.user.Avatar object at 0xb6f2822c>
+
+In [2]: a = AvatarHolder().getById(0) 
+
+In [3]: AvatarHolder().remove(a)
+
+In [4]: dbi.commit()
+}}}
+
+Erasing the DB:
+{{{
+#!python
+In [1]: a = dbi.getDBConnection().root()
+
+In [2]: a.clear()
+
+In [3]: dbi.commit()
+}}}
+
+A hands-on example for DB-exploration has been given [https://indico.cern.ch/contributionDisplay.py?sessionId=3&contribId=29&confId=235520 in the 1st InDiCo workshop].

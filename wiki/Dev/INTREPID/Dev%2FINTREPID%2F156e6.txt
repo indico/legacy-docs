@@ -1,0 +1,49 @@
+[[PageOutline]]
+
+== InTRePId 1 ==
+'''Title:''' ''Replacing the Templating Engine''
+
+'''Author:''' Pedro Ferreira
+
+'''Date:''' 06 Nov 2009
+
+'''Target version:''' [milestone:v0.98] (?)
+
+'''Status:''' implemented
+
+
+=== Objectives ===
+
+ * Replacing the templating engine that we currently use, as a way of:
+  * Reducing maintenance issues - there's no sense in maintaining our own thing if it's hacky and malfunctioning;
+  * Improving performance;
+  * Improving security;
+
+=== Status quo ===
+
+The current templating engine employs a mixture of two different techniques:
+ * Standard Python string replacement;
+ * A home-made templating language that allows `<%= ... %>` and `<% ... %>`;
+
+Some problems are caused by this:
+ * Problems with character escaping are frequent;
+ * Performance is bad - no caching is done;
+ * No protection mechanisms for XSS in place (on the templating side);
+
+=== Description ===
+
+A templating engine should include:
+ * Protection against XSS;
+ * Optimizations;
+ * Caching;
+ * Easy to parse markup (For IDEs and editors);
+
+Some options:
+ * [http://genshi.edgewall.org/ Genshi] (used by trac, ~~apparently the fastest~~)
+ * [http://jinja.pocoo.org/2/ Jinja 2]
+ * [http://www.makotemplates.org/ Mako]
+ * [http://evoque.gizmojo.org/features/ evoque]
+
+Other options at [PythonWiki:Templating].
+
+[[AddComment]]

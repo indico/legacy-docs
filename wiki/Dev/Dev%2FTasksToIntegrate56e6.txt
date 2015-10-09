@@ -1,0 +1,29 @@
+= Tasks to integrate =
+
+== How to use it ==
+Please follow this trac wiki format:
+{{{
+  * ticket_number [http://link_to_user_repo user_name] branch_name
+}}}
+Use a ! before the # if your branch name has a #. For instance:
+{{{
+  * #146 [http://cdsware.cern.ch/repo/?p=personal/cds-indico-dmartinc.git;a=summary dmartinc] fix!#146-something-funny
+}}}
+becomes:
+  * #146 [http://cdsware.cern.ch/repo/?p=personal/cds-indico-dmartinc.git;a=summary dmartinc] fix!#146-something-funny
+
+Finally, if you have several branches to integrate, write the most urgent ones first.
+
+
+== Pending list ==
+  * #395 [http://cdsware.cern.ch/repo/?p=personal/cds-indico-lsyroka.git;a=summary lsyroka] fix!#395-sanity-module ''Fixes also #389 and #376. Very sensitive. Need to be tested properly.''
+
+
+
+
+DONE:
+
+  * To install:
+  * Already installed:
+   
+

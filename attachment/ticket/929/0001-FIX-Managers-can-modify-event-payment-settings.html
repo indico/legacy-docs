@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/929/0001-FIX-Managers-can-modify-event-payment-settings.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      0001-FIX-Managers-can-modify-event-payment-settings.patch on Ticket #929 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/929/0001-FIX-Managers-can-modify-event-payment-settings.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/929.html" title="Ticket #929" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/929.html">Back to Ticket #929</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/929.html">Ticket #929</a>: 0001-FIX-Managers-can-modify-event-payment-settings.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File 0001-FIX-Managers-can-modify-event-payment-settings.patch,
+                <span title="2387 bytes">2.3 KB</span>
+                (added by jatrzask, <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-01-07T14%3A56%3A58%2B01%3A00&amp;precision=second" title="See timeline at 01/07/13 14:56:58">3 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+Patch that should be applied to  cds-indico-cern-resources
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py</a>
+        </h2>
+        <pre>From 05cbd31b2be98eaa275d7826085ace908f16c924 Mon Sep 17 00:00:00 2001
+From: Jakub Trzaskoma &lt;jakub.piotr.trzaskoma@cern.ch&gt;
+Date: Mon, 7 Jan 2013 14:02:53 +0100
+Subject: [PATCH] [FIX] Managers can modify event payment settings
+
+* Event managers can modify CERNEPayment setting
+* Apply Fees enabled by default
+* Closes #929
+---
+ .../indico/ext/epayment/cern/epayment.py           |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py b/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py
+index 77820ec..3b09a45 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py">
+                      a
+                  </th>
+                  <th title="File b/plugins/epayment/CERNYellowPay/indico/ext/epayment/cern/epayment.py">
+                      b
+                  </th>
+                  <td><em> class CERNYellowPayMod(BaseEPayMod):</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>41</th><th>41</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._enabled = False</span> </td>
+                  </tr><tr>
+                          <th>42</th><th>42</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._title = "CERN Epayment"</span> </td>
+                  </tr><tr>
+                          <th>43</th><th>43</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._paymentMethodList = {}</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>44</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._applyFee = <del>Fals</del>e</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>44</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._applyFee = <ins>Tru</ins>e</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>45</th><th>45</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>46</th><th>46</th><td class="l"><span>&nbsp; &nbsp; def getId(self):</span> </td>
+                  </tr><tr>
+                          <th>47</th><th>47</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return MODULE_ID</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L61">…</a></th>
+                  <th><a href="#L61">…</a></th>
+                  <td><em> class CERNYellowPayMod(BaseEPayMod):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>61</th><th>61</th><td class="l"><span>&nbsp; &nbsp; def getHashSeed(self):</span> </td>
+                  </tr><tr>
+                          <th>62</th><th>62</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return PluginsHolder().getPluginType("EPayment").getPlugin(MODULE_ID).getOption("hashSeed").getValue()</span> </td>
+                  </tr><tr>
+                          <th>63</th><th>63</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>64</th><th> </th><td class="l"><span>&nbsp; &nbsp; def getPluginSectionHTML(self, conf, <del>use</del>r, urlStatus, urlModif, img, text):</span> </td>
+                      </tr><tr>
+                        <th>65</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; # CERN Plugin: Just admins <del></del>can see and modify it</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>64</th><td class="r"><span>&nbsp; &nbsp; def getPluginSectionHTML(self, conf, <ins>avata</ins>r, urlStatus, urlModif, img, text):</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>65</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; # CERN Plugin: Just admins <ins>and event managers </ins>can see and modify it</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>66</th><th>66</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>67</th><th>67</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; minfo = HelperMaKaCInfo.getMaKaCInfoInstance()</span> </td>
+                  </tr><tr>
+                          <th>68</th><th>68</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; al = minfo.getAdminList()</span> </td>
+                  </tr><tr>
+                          <th>69</th><th>69</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>70</th><th>70</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; html = ""</span> </td>
+                  </tr><tr>
+                          <th>71</th><th>71</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>72</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if al.isAdmin(<del>use</del>r):</span> </td>
+                      </tr><tr>
+                        <th>73</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html = super(CERNYellowPayMod, self).getPluginSectionHTML(conf, <del>use</del>r, urlStatus, urlModif, img, text)</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>72</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; if al.isAdmin(<ins>avatar.getUser()) or conf.canModify(avata</ins>r):</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>73</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html = super(CERNYellowPayMod, self).getPluginSectionHTML(conf, <ins>avata</ins>r, urlStatus, urlModif, img, text)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>74</th><th>74</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; else:</span> </td>
+                  </tr><tr>
+                          <th>75</th><th>75</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; from MaKaC.plugins.base import PluginsHolder</span> </td>
+                  </tr><tr>
+                          <th>76</th><th>76</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; endis = "enable"</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L197">…</a></th>
+                  <th><a href="#L197">…</a></th>
+                  <td><em> class CERNYellowPayMod(BaseEPayMod):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>197</th><th>197</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>198</th><th>198</th><td class="l"><span>&nbsp; &nbsp; def getApplyFee(self):</span> </td>
+                  </tr><tr>
+                          <th>199</th><th>199</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if not hasattr(self,"_applyFee"):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>200</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._applyFee = <del>Fals</del>e</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>200</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self._applyFee = <ins>Tru</ins>e</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>201</th><th>201</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return self._applyFee</span> </td>
+                  </tr><tr>
+                          <th>202</th><th>202</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>203</th><th>203</th><td class="l"><span>&nbsp; &nbsp; def setApplyFee(self, applyFee):</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/929/0001-FIX-Managers-can-modify-event-payment-settings.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/929/0001-FIX-Managers-can-modify-event-payment-settings.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:36 GMT -->
+</html>

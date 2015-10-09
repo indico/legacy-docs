@@ -1,0 +1,50 @@
+= E-Ticket =
+
+== Introduction ==
+
+In large scale events, keeping track of all the attendants can be a very tedious and unproductive task. Whilst in small conferences and meeting it is easy to keep track of participant check-in with a simple paper list, such a technique becomes inefficient when the need to scale the process up arises. It is very often necessary to have separate queues of participants checking in, and to easily retrieve and synchronize all the related information (e.g. should coupons for the social dinner be given? Did the participant pay for the event t-shirt?). On top of that, the simple task of finding someone's name in a list may be itself time-consuming, when multiplied by the amount of participants.
+
+== Project Description ==
+
+The main goal of this project would be to develop an Indico plugin that would build on top of the existing participant registration module and provide "check-in" functionalities to the system. This would consist in the generation of a unique "ticket" per participant that could then be mailed or printed. This ticket would contain a unique bar/QR code that could then be read at check-in time by a simple computer/phone/tablet application that would be in permanent contact with Indico. The application could retrieve the registration data as well as mark the user as "checked in".
+
+== Main Objectives ==
+
+This project is divided in 3 sub-projects:
+
+1. Add a new feature to Indico core in order to:
+  * Add a 'setup config' so conference organisers can enable the e-ticket feature.
+  * Module that generates a unique e-ticket per registrant.
+  * Capability to send the e-ticket by email to the registrants after registration.
+  * Option to download the e-ticket at any moment:
+    * From the conference homepage (for registrants)
+    * From the conference management area (for organisers)
+  * Enable conference managers to check-in a registrant directly from the web interface
+    
+2. Extend the current HTTP API to provide:
+  * service that receives a code and returns the user data.
+  * service that checks a user in.
+  * [optional] service to list all the registered users in a conference.
+
+3. Develop a HTML5/JS mobile app that:
+  * enables mobile camera for code reading
+  * sends code to HTTP API service
+  * displays user data and an option to check the user in
+  * confirms user check-in
+  * [optional] list of users with the current status (checked-in?)
+
+4. Extra:
+  * PDF design tool
+  * Design a modern button for enabling/disabling options
+
+
+== Project Plan and Detailed Definition ==
+
+=== Phase 1: Add Bar/QR code generation to Indico core ===
+
+* Technologies:
+  * ...
+
+=== Phase 2: Extension of HTTP API ===
+
+=== Phase 3: Mobile App ===

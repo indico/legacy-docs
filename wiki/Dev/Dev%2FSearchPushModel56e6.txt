@@ -1,0 +1,94 @@
+
+= Search Push Model =
+
+== Objectives ==
+
+ * Leaving OAI to Invenio;
+   * No-one in the admin mailing list seems to be using it for other than interfacing with Invenio;
+ * Using a scheduler-based "push model" that uses Invenio's `WebUpload` (or other equivalent technology) to send web results to the search engine;
+   * A container of things to index is kept - time-indexed map with "pointers", one for each "agent".
+ * Using the existing XML generating mechanisms (or something new) in order to send the information to the search engine;
+ * Allow other services to be plugged in, by making the module extensible enough as to allow other application handlers to register themselves as "receivers" of this data;
+
+== Requirements ==
+
+ * [A] An extensible mechanism that allows the creation of "agents" that notify periodically external services about changes occurring in Indico records (conferences, contributions and sub-contributions), processing the information in the way they choose to;
+   * The information doesn't need to be "live", meaning that the size of the notification cycle can be in the order of minutes (as to not affect the response time significantly);
+ * [A] A particular "agent" that, using Invenio's `WebUpload`, periodically uploads records that need to be updated;
+   * [B] Similar implementation for CERN Search;
+   * Invenio includes the code for a small "client library" that can be used for this task;
+   * Agents should be as configurable as possible;
+ * [A] Means of logging and error control, as well as mechanisms that guarantee that no data is lost;
+ * [A] Protection scheme, that grants each agent the equivalent permissions of a user or group (or just to all the available content);
+ * [A] `indico.modules.scheduler`-based jobs (one for each "agent") that invoke the agent "submit cycle", that submits information to remote services;
+   * [D] It should be possible to limit the number of records that is submitted each time by an agent/job (deal with backlog issues?);
+ * [B] A mechanism for the manual export of data (in case of failure and in order to index data that already exists in Indico);
+   * It should be possible to specify the date range;
+ * [C] An administration interface, that allows different instances of different `Agent`s to be created and plugged in to different remote systems;
+   * [D] Additionally, a list of all the agents/tasks, the current "pointer" status, and the dates of the (last) data submission should be shown; details about the last transaction (or a log of them) should be displayed: number of submitted objects, duration of operation, types of submitted objects, etc...;
+ * [D] Detailed documentation, explaining how to develop such an "agent", and the different phases of the update process;
+   * Likewise, documents that explain the migration process, for an Indico instance;
+ 
+
+== Architecture ==
+
+=== Systems ===
+
+ * Indico;
+ * Remote System (i.e. Invenio) - a system that consumes Information provided that Indico, and that will be periodically sent metadata ("push model");
+
+=== Design ===
+
+==== Agents ====
+
+An "agent" represents a remote service that consumes data. It basically defines a set of operations that are performed each time there is an update cycle. This normally consists of sending information to the remote service in question, after properly processing it.
+There should be a `DataSyncAgent` base class, where the specific agents would inherit from.
+
+==== Agent Manager ====
+
+Agents would register themselves with an "Agent Manager" that would be responsible for keeping track of the existing "services", etc...
+==== Task/job (scheduler) ====
+
+There will be a scheduler task (`DataSyncTask`) that will be responsible for periodically checking existing data, serializing it and sending it to the remote system.
+
+=== Process ===
+
+==== Interaction between layers ====
+
+[[Image(interaction.png)]]
+
+
+//A "Generator" is used in this context as a mechanism that allows metadata to be generated from the records that exist in the Indico DB. Its use should probably not be enforced by the framework, but it is shown in the diagram as it will generally be required (as Indico records need to be serialized in some way)//
+
+==== "Agent task" (job) ====
+[[Image(job_sequence.png)]]
+
+
+== Testing ==
+
+ * Component testing;
+  * Unit tests
+    * `DataSyncAgent`
+    * `DataSyncAgentManager`
+    * Container data structure;
+ * Integration testing;
+  * Unit tests
+    * A `DataSyncAgentManager`, several `DataSyncAgent`s subscribing to it, and data structure and remote system stubs - check if changes are properly stored, and ;
+ * System testing;
+    * Stress/load tests
+ * Acceptance testing (n/a);
+
+== Questions ==
+
+ * How will the "core" notify this subsystem about changes? Directly? Through an event/plugin subsystem?
+ * Which information should be stored about each record set that is submitted? (as a precaution in case of failure)
+
+== Remarks ==
+
+ * Metadata generation should be done fast, and probably in one single pass, since the existing "agents" are known in advance;
+ * Modifying the protection of a huge category will increase the size of the container and will affect the performance of the agents.
+ * In order to avoid long response times when executing protection operations on i.e. categories, objects can be added directly to the "container", be them simple contributions or whole categories. Then, the agent should translate them to "sub-objects", taking into account if the changes should be really reported for each sub-object (for example, if a change to a state in which a sub-object is already in is performed, there's not need to re-submit it);
+
+== Future development ==
+
+ * Build it as a plugin (or at least a module that can be deactivated)? Maybe other people don't want to use search engines - why should we store this information then?

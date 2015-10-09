@@ -1,0 +1,931 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1076/0001-REF-Do-not-use-derepcated-sets.Set.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      0001-REF-Do-not-use-derepcated-sets.Set.patch on Ticket #1076 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/1076/0001-REF-Do-not-use-derepcated-sets.Set.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/1076.html" title="Ticket #1076" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/1076.html">Back to Ticket #1076</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/1076.html">Ticket #1076</a>: 0001-REF-Do-not-use-derepcated-sets.Set.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File 0001-REF-Do-not-use-derepcated-sets.Set.patch,
+                <span title="10067 bytes">9.8 KB</span>
+                (added by pedersen, <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-22T14%3A23%3A35%2B02%3A00&amp;precision=second" title="See timeline at 08/22/12 14:23:35">3 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>bin/recovery/backup.py</a>
+        </h2>
+        <pre>From 2f121a28af4305a81caa350d6f296e91df2e94a7 Mon Sep 17 00:00:00 2001
+From: Bjoern Pedersen &lt;bjoern.pedersen@frm2.tum.de&gt;
+Date: Mon, 20 Aug 2012 15:23:26 +0200
+Subject: [PATCH] [REF] Do not use derepcated sets.Set
+
+ * change from deprecated sets.Set to set.
+---
+ bin/recovery/backup.py                          |  5 ++---
+ indico/MaKaC/booking.py                         |  1 -
+ indico/MaKaC/webinterface/pages/conferences.py  |  5 ++---
+ indico/MaKaC/webinterface/rh/conferenceModif.py |  7 +++----
+ indico/MaKaC/webinterface/rh/sessionModif.py    |  7 +++----
+ indico/MaKaC/webinterface/rh/trackModif.py      |  7 +++----
+ indico/MaKaC/webinterface/timetable.py          | 11 +++++------
+ indico/htdocs/scripts/Forthcoming.py            |  7 +++----
+ indico/htdocs/scripts/SSLPdisplay.py            |  2 +-
+ indico/htdocs/scripts/createCategoryHeader.py   |  2 +-
+ indico/tests/runners.py                         |  3 +--
+ 11 Dateien geÃ€ndert, 24 Zeilen hinzugefÃŒgt(+), 33 Zeilen entfernt(-)
+
+diff --git a/bin/recovery/backup.py b/bin/recovery/backup.py
+index 4a61093..1077047 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/bin/recovery/backup.py">
+                      a
+                  </th>
+                  <th title="File b/bin/recovery/backup.py">
+                      b
+                  </th>
+                  <td><em> import os</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>22</th><th>22</th><td class="l"><span>import sys</span> </td>
+                  </tr><tr>
+                          <th>23</th><th>23</th><td class="l"><span>## TO BE CHANGED:</span> </td>
+                  </tr><tr>
+                          <th>24</th><th>24</th><td class="l"><span>#sys.path.append('C:/Documents and Settings/smilenko/My Documents/project/indico/code/code')</span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>25</th><th> </th><td class="l"><del>import sets</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>26</th><th>25</th><td class="l"><span>from distutils import sysconfig</span> </td>
+                  </tr><tr>
+                          <th>27</th><th>26</th><td class="l"><span>from datetime import datetime</span> </td>
+                  </tr><tr>
+                          <th>28</th><th>27</th><td class="l"><span>from MaKaC.common import Config</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L41">…</a></th>
+                  <th><a href="#L40">…</a></th>
+                  <td><em> python = os.path.join(sysconfig.get_config_vars()["exec_prefix"], "python")</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>41</th><th>40</th><td class="l"><span>repozo = "C:/Python23/Scripts/repozo.py"</span> </td>
+                  </tr><tr>
+                          <th>42</th><th>41</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>43</th><th>42</th><td class="l"><span>def main():</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>44</th><th> </th><td class="l"><span>&nbsp; &nbsp; tmp = set<del>s.Set</del>(os.listdir(backupsPath))</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>43</th><td class="r"><span>&nbsp; &nbsp; tmp = set<ins></ins>(os.listdir(backupsPath))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>45</th><th>44</th><td class="l"><span>&nbsp; &nbsp; name = datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")</span> </td>
+                  </tr><tr>
+                          <th>46</th><th>45</th><td class="l"><span>&nbsp; &nbsp; os.system("%s %s %s %s %s %s %s %s %s"%(python, repozo, "-B", "-f",\</span> </td>
+                  </tr><tr>
+                          <th>47</th><th>46</th><td class="l"><span>&nbsp; &nbsp; "\"%s\""%os.path.join(currentPath, dataFile), "-F", "-z", "-r",\</span> </td>
+                  </tr><tr>
+                          <th>48</th><th>47</th><td class="l"><span>&nbsp; &nbsp; "\"%s\""%backupsPath))</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>49</th><th> </th><td class="l"><span>&nbsp; &nbsp; names = set<del>s.Set</del>(os.listdir(backupsPath))</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>48</th><td class="r"><span>&nbsp; &nbsp; names = set<ins></ins>(os.listdir(backupsPath))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>50</th><th>49</th><td class="l"><span>&nbsp; &nbsp; names.difference_update(tmp)</span> </td>
+                  </tr><tr>
+                          <th>51</th><th>50</th><td class="l"><span>&nbsp; &nbsp; for n in names:</span> </td>
+                  </tr><tr>
+                          <th>52</th><th>51</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; os.rename(os.path.join(backupsPath, n), os.path.join(backupsPath,\</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/booking.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/booking.py b/indico/MaKaC/booking.py
+index f4d342c..ce1be9b 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/booking.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/booking.py">
+                      b
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>21</th><th>21</th><td class="l"><span>import os</span> </td>
+                  </tr><tr>
+                          <th>22</th><th>22</th><td class="l"><span>import re</span> </td>
+                  </tr><tr>
+                          <th>23</th><th>23</th><td class="l"><span>import tempfile</span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>24</th><th> </th><td class="l"><del>import sets</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>25</th><th>24</th><td class="l"><span>import os.path</span> </td>
+                  </tr><tr>
+                          <th>26</th><th>25</th><td class="l"><span>import copy</span> </td>
+                  </tr><tr>
+                          <th>27</th><th>26</th><td class="l"><span>from pytz import timezone</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/pages/conferences.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/pages/conferences.py b/indico/MaKaC/webinterface/pages/conferences.py
+index 6938df5..7106855 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/pages/conferences.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/pages/conferences.py">
+                      b
+                  </th>
+                  <td><em> class WConfMyStuffMySessions(wcomponents.WTemplated):</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>7583</th><th>7583</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if self._aw.getUser() is None:</span> </td>
+                  </tr><tr>
+                          <th>7584</th><th>7584</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ""</span> </td>
+                  </tr><tr>
+                          <th>7585</th><th>7585</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; #ls=self._conf.getCoordinatedSessions(self._aw.getUser())+self._conf.getManagedSession(self._aw.getUser())</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>7586</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; from sets import Set</span> </td>
+                      </tr><tr>
+                        <th>7587</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; ls = Set(self._conf.getCoordinatedSessions(self._aw.getUser()))</span> </td>
+                      </tr><tr>
+                        <th>7588</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; ls = list(ls | Set(self._conf.getManagedSession(self._aw.getUser())))</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>7586</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; ls = set(self._conf.getCoordinatedSessions(self._aw.getUser()))</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>7587</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; ls = list(ls | set(self._conf.getManagedSession(self._aw.getUser())))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>7589</th><th>7588</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; if len(ls)&lt;=0:</span> </td>
+                  </tr><tr>
+                          <th>7590</th><th>7589</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return ""</span> </td>
+                  </tr><tr>
+                          <th>7591</th><th>7590</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; res=[]</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/rh/conferenceModif.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/rh/conferenceModif.py b/indico/MaKaC/webinterface/rh/conferenceModif.py
+index 7f8f228..ee62237 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/rh/conferenceModif.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/rh/conferenceModif.py">
+                      b
+                  </th>
+                  <td><em> from pytz import timezone</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>29</th><th>29</th><td class="l"><span>import MaKaC.webinterface.common.timezones as convertTime</span> </td>
+                  </tr><tr>
+                          <th>30</th><th>30</th><td class="l"><span>import MaKaC.common.timezoneUtils as timezoneUtils</span> </td>
+                  </tr><tr>
+                          <th>31</th><th>31</th><td class="l"><span>from BTrees.OOBTree import OOBTree</span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>32</th><th> </th><td class="l"><del>from sets import Set</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>33</th><th>32</th><td class="l"><span>from MaKaC.webinterface.common.abstractDataWrapper import AbstractParam</span> </td>
+                  </tr><tr>
+                          <th>34</th><th>33</th><td class="l"><span>import MaKaC.review as review</span> </td>
+                  </tr><tr>
+                          <th>35</th><th>34</th><td class="l"><span>import MaKaC.webinterface.urlHandlers as urlHandlers</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L5113">…</a></th>
+                  <th><a href="#L5112">…</a></th>
+                  <td><em> class RHAbstractsParticipantList(RHConfModifCFABase):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>5113</th><th>5112</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; submitters = OOBTree()</span> </td>
+                  </tr><tr>
+                          <th>5114</th><th>5113</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthors = OOBTree()</span> </td>
+                  </tr><tr>
+                          <th>5115</th><th>5114</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthors = OOBTree()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>5116</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; submitterEmails = <del>S</del>et()</span> </td>
+                      </tr><tr>
+                        <th>5117</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthorEmails = <del>S</del>et()</span> </td>
+                      </tr><tr>
+                        <th>5118</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthorEmails = <del>S</del>et()</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>5115</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; submitterEmails = <ins>s</ins>et()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>5116</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthorEmails = <ins>s</ins>et()</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>5117</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthorEmails = <ins>s</ins>et()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>5119</th><th>5118</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>5120</th><th>5119</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._setGroupsToDisplay()</span> </td>
+                  </tr><tr>
+                          <th>5121</th><th>5120</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/rh/sessionModif.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/rh/sessionModif.py b/indico/MaKaC/webinterface/rh/sessionModif.py
+index 8984a4b..b8cf40d 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/rh/sessionModif.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/rh/sessionModif.py">
+                      b
+                  </th>
+                  <td><em> from MaKaC.PDFinterface.conference import ConfManagerContribsToPDF</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>42</th><th>42</th><td class="l"><span>from MaKaC.common import Config</span> </td>
+                  </tr><tr>
+                          <th>43</th><th>43</th><td class="l"><span>from BTrees.OOBTree import OOBTree</span> </td>
+                  </tr><tr>
+                          <th>44</th><th>44</th><td class="l"><span>from BTrees.IOBTree import IOBTree</span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>45</th><th> </th><td class="l"><del>from sets import Set</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>46</th><th>45</th><td class="l"><span>from datetime import datetime,timedelta,date</span> </td>
+                  </tr><tr>
+                          <th>47</th><th>46</th><td class="l"><span>from MaKaC.errors import FormValuesError</span> </td>
+                  </tr><tr>
+                          <th>48</th><th>47</th><td class="l"><span>from MaKaC.conference import SessionChair</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L1388">…</a></th>
+                  <th><a href="#L1387">…</a></th>
+                  <td><em> class RHContribsParticipantList(RHSessionModUnrestrictedContribMngCoordBase):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>1388</th><th>1387</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; speakers = OOBTree()</span> </td>
+                  </tr><tr>
+                          <th>1389</th><th>1388</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthors = OOBTree()</span> </td>
+                  </tr><tr>
+                          <th>1390</th><th>1389</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthors = OOBTree()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>1391</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; speakerEmails = <del>S</del>et()</span> </td>
+                      </tr><tr>
+                        <th>1392</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthorEmails = <del>S</del>et()</span> </td>
+                      </tr><tr>
+                        <th>1393</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthorEmails = <del>S</del>et()</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>1390</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; speakerEmails = <ins>s</ins>et()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>1391</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthorEmails = <ins>s</ins>et()</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>1392</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthorEmails = <ins>s</ins>et()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>1394</th><th>1393</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>1395</th><th>1394</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._setGroupsToDisplay()</span> </td>
+                  </tr><tr>
+                          <th>1396</th><th>1395</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for contribId in self._contribIds:</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/rh/trackModif.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/rh/trackModif.py b/indico/MaKaC/webinterface/rh/trackModif.py
+index b82a47f..b5eee4e 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/rh/trackModif.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/rh/trackModif.py">
+                      b
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>18</th><th>18</th><td class="l"><span>## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,</span> </td>
+                  </tr><tr>
+                          <th>19</th><th>19</th><td class="l"><span>## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.</span> </td>
+                  </tr><tr>
+                          <th>20</th><th>20</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>21</th><th> </th><td class="l"><del>from sets import Set</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>22</th><th>21</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>23</th><th>22</th><td class="l"><span>from BTrees.OOBTree import OOBTree</span> </td>
+                  </tr><tr>
+                          <th>24</th><th>23</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L749">…</a></th>
+                  <th><a href="#L748">…</a></th>
+                  <td><em> class RHAbstractsParticipantList(RHTrackAbstractsBase):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>749</th><th>748</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; submitters = OOBTree()</span> </td>
+                  </tr><tr>
+                          <th>750</th><th>749</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthors = OOBTree()</span> </td>
+                  </tr><tr>
+                          <th>751</th><th>750</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthors = OOBTree()</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>752</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; submitterEmails = <del>S</del>et()</span> </td>
+                      </tr><tr>
+                        <th>753</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthorEmails = <del>S</del>et()</span> </td>
+                      </tr><tr>
+                        <th>754</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthorEmails = <del>S</del>et()</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>751</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; submitterEmails = <ins>s</ins>et()</span> </td>
+                      </tr><tr>
+                        <th> </th><th>752</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; primaryAuthorEmails = <ins>s</ins>et()</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>753</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; coAuthorEmails = <ins>s</ins>et()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>755</th><th>754</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>756</th><th>755</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; self._setGroupsToDisplay()</span> </td>
+                  </tr><tr>
+                          <th>757</th><th>756</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/timetable.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/timetable.py b/indico/MaKaC/webinterface/timetable.py
+index 14918c0..7b3b0bb 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/timetable.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/timetable.py">
+                      b
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>20</th><th>20</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>21</th><th>21</th><td class="l"><span>import MaKaC.schedule as schedule</span> </td>
+                  </tr><tr>
+                          <th>22</th><th>22</th><td class="l"><span>import MaKaC.conference as conference</span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>23</th><th> </th><td class="l"><del>import sets</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>24</th><th>23</th><td class="l"><span>from datetime import timedelta,datetime</span> </td>
+                  </tr><tr>
+                          <th>25</th><th>24</th><td class="l"><span>import pytz</span> </td>
+                  </tr><tr>
+                          <th>26</th><th>25</th><td class="l"><span>from pytz import timezone</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L537">…</a></th>
+                  <th><a href="#L536">…</a></th>
+                  <td><em> class Day(object):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>537</th><th>536</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return False</span> </td>
+                  </tr><tr>
+                          <th>538</th><th>537</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>539</th><th>538</th><td class="l"><span>&nbsp; &nbsp; def getContainerMaxOverlap(self):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>540</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; contSet = set<del>s.Set</del>()</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>539</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; contSet = set<ins></ins>()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>541</th><th>540</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for slot in self.getSlotList():</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>542</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; contSet.u<del>nion_update( sets.S</del>et(slot.getContainerList()) )</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>541</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; contSet.u<ins>pdate( s</ins>et(slot.getContainerList()) )</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>543</th><th>542</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; max = 0</span> </td>
+                  </tr><tr>
+                          <th>544</th><th>543</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for cont in contSet:</span> </td>
+                  </tr><tr>
+                          <th>545</th><th>544</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; max += cont.getMaxOverlap(self)</span> </td>
+                  </tr><tr>
+                          <th>546</th><th>545</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return max</span> </td>
+                  </tr><tr>
+                          <th>547</th><th>546</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>548</th><th>547</th><td class="l"><span>&nbsp; &nbsp; def getNumContainers(self):</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>549</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; containerSet = set<del>s.Set</del>()</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>548</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; containerSet = set<ins></ins>()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>550</th><th>549</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; for slot in self.getSlotList():</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>551</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; slotContainerSet = set<del>s.Set</del>(slot.getContainerList())</span> </td>
+                      </tr><tr>
+                        <th>552</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; containerSet.u<del>nion_u</del>pdate(slotContainerSet)</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>550</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; slotContainerSet = set<ins></ins>(slot.getContainerList())</span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>551</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; containerSet.u<ins></ins>pdate(slotContainerSet)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>553</th><th>552</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return len(containerSet)</span> </td>
+                  </tr><tr>
+                          <th>554</th><th>553</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>555</th><th>554</th><td class="l"><span>&nbsp; &nbsp; def removeSlot(self, slot):</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/htdocs/scripts/Forthcoming.py</a>
+        </h2>
+        <pre>diff --git a/indico/htdocs/scripts/Forthcoming.py b/indico/htdocs/scripts/Forthcoming.py
+index 65878b3..7f9d31e 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/htdocs/scripts/Forthcoming.py">
+                      a
+                  </th>
+                  <th title="File b/indico/htdocs/scripts/Forthcoming.py">
+                      b
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>19</th><th>19</th><td class="l"><span>## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.</span> </td>
+                  </tr><tr>
+                          <th>20</th><th>20</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>21</th><th>21</th><td class="l"><span>import sys,re</span> </td>
+                  </tr>
+            </tbody><tbody class="rem">
+                  <tr class="last first">
+                          <th>22</th><th> </th><td class="l"><del>import sets</del> </td>
+                  </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>23</th><th>22</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>24</th><th>23</th><td class="l"><span>from MaKaC.common.general import *</span> </td>
+                  </tr><tr>
+                          <th>25</th><th>24</th><td class="l"><span>from MaKaC.common import db</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L86">…</a></th>
+                  <th><a href="#L85">…</a></th>
+                  <td><em> def sortByStartDate(conf1,conf2):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>86</th><th>85</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>87</th><th>86</th><td class="l"><span>def getConfList(startdate,ids):</span> </td>
+                  </tr><tr>
+                          <th>88</th><th>87</th><td class="l"><span>&nbsp; #create result set</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>89</th><th> </th><td class="l"><span>&nbsp; res = set<del>s.Set</del>()</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>88</th><td class="r"><span>&nbsp; res = set<ins></ins>()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>90</th><th>89</th><td class="l"><span>&nbsp; #instanciate indexes</span> </td>
+                  </tr><tr>
+                          <th>91</th><th>90</th><td class="l"><span>&nbsp; im = indexes.IndexesHolder()</span> </td>
+                  </tr><tr>
+                          <th>92</th><th>91</th><td class="l"><span>&nbsp; catIdx = im.getIndex('category')</span> </td>
+                  </tr><tr>
+                          <th>93</th><th>92</th><td class="l"><span>&nbsp; calIdx = im.getIndex('calendar')</span> </td>
+                  </tr><tr>
+                          <th>94</th><th>93</th><td class="l"><span>&nbsp; c1 = calIdx.getObjectsStartingAfter(startdate)</span> </td>
+                  </tr><tr>
+                          <th>95</th><th>94</th><td class="l"><span>&nbsp; for id in ids:</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>96</th><th> </th><td class="l"><span>&nbsp; &nbsp; confIds=set<del>s.Set</del>(catIdx.getItems(id))</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>95</th><td class="r"><span>&nbsp; &nbsp; confIds=set<ins></ins>(catIdx.getItems(id))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>97</th><th>96</th><td class="l"><span>&nbsp; &nbsp; confIds.intersection_update(c1)</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>98</th><th> </th><td class="l"><span>&nbsp; &nbsp; res.u<del>nion_u</del>pdate(confIds)</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>97</th><td class="r"><span>&nbsp; &nbsp; res.u<ins></ins>pdate(confIds)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>99</th><th>98</th><td class="l"><span>&nbsp; res = list(res)</span> </td>
+                  </tr><tr>
+                          <th>100</th><th>99</th><td class="l"><span>&nbsp; res.sort(sortByStartDate)</span> </td>
+                  </tr><tr>
+                          <th>101</th><th>100</th><td class="l"><span>&nbsp; return res</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/htdocs/scripts/SSLPdisplay.py</a>
+        </h2>
+        <pre>diff --git a/indico/htdocs/scripts/SSLPdisplay.py b/indico/htdocs/scripts/SSLPdisplay.py
+index c2f36b2..52c9189 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/htdocs/scripts/SSLPdisplay.py">
+                      a
+                  </th>
+                  <th title="File b/indico/htdocs/scripts/SSLPdisplay.py">
+                      b
+                  </th>
+                  <td><em> def index(req, **params):</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>125</th><th>125</th><td class="l"><span>&nbsp; &nbsp; for id in ids:</span> </td>
+                  </tr><tr>
+                          <th>126</th><th>126</th><td class="l"><span>&nbsp; &nbsp; &nbsp; confIds=sets.Set(catIdx.getItems(id))</span> </td>
+                  </tr><tr>
+                          <th>127</th><th>127</th><td class="l"><span>&nbsp; &nbsp; &nbsp; confIds.intersection_update(c1)</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>128</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; res.u<del>nion_u</del>pdate(confIds)</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>128</th><td class="r"><span>&nbsp; &nbsp; &nbsp; res.u<ins></ins>pdate(confIds)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>129</th><th>129</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>130</th><th>130</th><td class="l"><span>&nbsp; &nbsp; res = list(res)</span> </td>
+                  </tr><tr>
+                          <th>131</th><th>131</th><td class="l"><span>&nbsp; &nbsp; res.sort(sortByStartDate)</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/htdocs/scripts/createCategoryHeader.py</a>
+        </h2>
+        <pre>diff --git a/indico/htdocs/scripts/createCategoryHeader.py b/indico/htdocs/scripts/createCategoryHeader.py
+index 5492c0c..45afe32 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/htdocs/scripts/createCategoryHeader.py">
+                      a
+                  </th>
+                  <th title="File b/indico/htdocs/scripts/createCategoryHeader.py">
+                      b
+                  </th>
+                  <td><em> def index(req, **params):</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>57</th><th>57</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>58</th><th>58</th><td class="l"><span>&nbsp; for cid in ids:</span> </td>
+                  </tr><tr>
+                          <th>59</th><th>59</th><td class="l"><span>&nbsp; &nbsp; confIds = calIdx.getObjectsInDays(cid, startdate, enddate)</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>60</th><th> </th><td class="l"><span>&nbsp; &nbsp; res.u<del>nion_u</del>pdate(confIds)</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>60</th><td class="r"><span>&nbsp; &nbsp; res.u<ins></ins>pdate(confIds)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>61</th><th>61</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>62</th><th>62</th><td class="l"><span>&nbsp; res = list(res)</span> </td>
+                  </tr><tr>
+                          <th>63</th><th>63</th><td class="l"><span>&nbsp; res.sort(sortByStartDate)</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/tests/runners.py</a>
+        </h2>
+        <pre>diff --git a/indico/tests/runners.py b/indico/tests/runners.py
+index d9dc7f7..6fb570b 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/tests/runners.py">
+                      a
+                  </th>
+                  <th title="File b/indico/tests/runners.py">
+                      b
+                  </th>
+                  <td><em> class JSLintTestRunner(BaseTestRunner):</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>643</th><th>643</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>644</th><th>644</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; # Folders which are not going to be scanned.</span> </td>
+                  </tr><tr>
+                          <th>645</th><th>645</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; # Files are going to be find recursively in the other folders</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>646</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; import sets</span> </td>
+                      </tr><tr>
+                        <th>647</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; blackList = sets.Set(['pack', 'Loader.js', 'Common', 'i18n'])</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>646</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; blackList = set(['pack', 'Loader.js', 'Common', 'i18n'])</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>648</th><th>647</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>649</th><th>648</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; #checking if rhino is accessible</span> </td>
+                  </tr><tr>
+                          <th>650</th><th>649</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; statusOutput = commands.getstatusoutput("rhino -?")</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/1076/0001-REF-Do-not-use-derepcated-sets.Set.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1076/0001-REF-Do-not-use-derepcated-sets.Set.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:49 GMT -->
+</html>

@@ -1,0 +1,396 @@
+[[PageOutline]]
+= Installing Indico =
+
+'''Only >=0.98''
+
+== Before starting ==
+
+From 0.98 on, Indico runs on WSGI. Previous releases were using `mod_python`. `mod_python` is **no longer supported**.
+
+There are WSGI modules for all major web servers. We normally run [http://code.google.com/p/modwsgi/ mod_wsgi], using the [http://httpd.apache.org Apache httpd] server. Here is the recommended setup:
+
+ * Python 2.6+
+ * python-dev (or python-devel depending  on your OS)
+ * Apache httpd 2.2+
+ * mod_wsgi 3.3+ (by installing libapache2-mod-wsgi)
+
+Some older versions will probably work, but we cannot guarantee that everything goes fine.
+
+There are two dependencies that cannot be installed by `easy_install`:
+  * ReportLab
+  * PIL
+
+You can bypass this by installing them using `pip`:
+
+{{{
+   $ easy_install pip   # if you don't have it already
+   $ pip install reportlab PIL
+}}}
+
+Otherwise, you can install them manually.
+
+[http://indico-software.org/browser/indico/requirements.txt?rev=9d536609a836e012731b8c97ce426c3a682d12d8 Here] is the complete list of dependencies (if for some reason you need to install them manually). The version numbers are indicative - they're versions known to be stable, but more recent versions may work as well.
+
+
+== Installing it ==
+
+There are two options:
+
+=== fetching a release ('''recommended''') ===
+
+You can do it from command line ('''recommended''') executing:
+
+{{{
+# easy_install indico
+}}}
+
+Or, you can also do it fetching a tarball or egg file from [wiki:Download here].
+
+=== from our Git repository ===
+
+You can find our git repository [wiki:Download#Gitsources here] ('''development sources''');
+
+You should have checked out a `cds-indico` directory. `cd` into it and simply do (as root):
+{{{
+# python setup.py install
+}}}
+
+The setup script will fetch all the dependencies for you and install Indico as a Python EGG in your Python library path.
+
+== Post-Install script ==
+
+The next step is to run `indico_initial_setup`:
+
+{{{
+# indico_initial_setup 
+No previous installation of Indico was found.
+Please specify a directory prefix:
+[/opt/indico]: 
+}}}
+
+and follow the instructions that the script will provide. By default, Indico will be installed under ``/opt/indico``, but the setup script allows you to specify other paths.
+
+By the end of the process, you should have obtained some information on how to start the database:
+
+{{{
+If you are running ZODB on this host:
+ - Review etc/zodb.conf and etc/zdctl.conf to make sure everything is ok.
+ - To start the database run: zdaemon -C etc/zdctl.conf start
+}}}
+
+As well as some information on the paths:
+
+{{{
+    indico.conf:      /opt/indico/etc/indico.conf
+
+    BinDir:           /opt/indico/bin
+    DocumentationDir: /opt/indico/doc
+    ConfigurationDir: /opt/indico/etc
+    HtdocsDir:        /opt/indico/htdocs
+}}}
+
+== Configuring Apache ==
+
+If you already have a previous installation of Indico with `mod_python`, you should first remove it before starting the `mod_wsgi` installation and configuration. 
+
+**If this is not your case, you can skip this step.**
+
+=== Removing mod_python ===
+
+Locate the apache configuration file (httpd.conf or apache2.conf). In Linux, it is located by default in /etc/apache2/.
+
+Edit the apache configuration file and make sure the next lines are commented (add a '#' at the start of each line):
+
+''Let's pretend your username is '''jdoe''' ''
+
+{{{
+#        DocumentRoot /opt/indico/htdocs
+#        directoryIndex index.py index.html
+
+#        SetEnv PYTHON_EGG_CACHE /tmp/.python-eggs
+
+#<Directory "/opt/indico/htdocs/services">
+#    PythonPath "sys.path+['/opt/indico','/opt/indico/htdocs']"
+#    SetHandler python-program
+#    PythonHandler MaKaC.services.handler
+#    Allow from All
+#</Directory>
+
+#<Directory "/opt/indico/htdocs">
+#    AddHandler python-program .py
+#    PythonHandler mod_python.publisher
+#    PythonDebug On
+#    PythonPath "sys.path+['/opt/indico']"
+#    Allow from All 
+#</Directory>
+
+#Alias /indico/images "/opt/indico/htdocs/images"
+#Alias /indico/js "/opt/indico/htdocs/js"
+#Alias /indico "/opt/indico/htdocs"
+}}}
+
+Finally, you might want to disable mod_python and the previous Indico installation, for avoiding incompatibilities.
+
+ * In Linux, execute the next lines:
+{{{
+jdoe@localhost ~$ sudo a2dismod python
+jdoe@localhost ~$ sudo a2dissite [name of the old webpage file]
+}}}
+
+ In many cases the name of the old webpage file will be ''indico''. To make sure, you can try writing "sudo a2dissite " and pressing [tab] for autocompletion.
+
+[[BR]]
+
+You have two different configurations. You can choose to use only one of them or both.
+
+=== HTTP Mode ===
+
+Create a new file in the 'sites-available' folder of apache. It's located by default under '/etc/apache2/sites-available/'.
+{{{
+jdoe@localhost ~$ sudo gedit /etc/apache2/sites-available/indico
+}}}
+
+Copy the next lines into that file, making sure to replace 'jdoe' with your username:
+{{{
+AddDefaultCharset UTF-8
+<VirtualHost *:80>
+        # mod_wsgi indico
+
+	ErrorLog /var/log/apache2/error.log
+        LogLevel warn
+	
+	Alias /indico/images "/opt/indico/htdocs/images"
+	Alias /indico/css "/opt/indico/htdocs/css"
+	Alias /indico/js "/opt/indico/htdocs/js"
+	Alias /indico/ihelp "/opt/indico/htdocs/ihelp"
+
+	WSGIDaemonProcess WSGIDAEMON processes=32 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/opt/indico/tmp/egg-cache
+
+	WSGIScriptAlias /indico "/opt/indico/htdocs/index.wsgi"
+	
+	<Directory "/opt/indico">
+	    WSGIProcessGroup WSGIDAEMON
+	    WSGIApplicationGroup %{GLOBAL}
+	    AllowOverride None
+	    Options None
+	    Order deny,allow
+	    Allow from all
+	</Directory>
+</VirtualHost>
+}}}
+
+Here's the explanation of the above lines:
+
+    * Alias: Redirects some static locations to the containing folders, reducing load times.
+    * WSGIDaemonProcess: Create 32 daemon processes of 1 thread each with name WSGIDAEMON. Set the python-path and python-eggs paths. (The other two parameters are for robustness).
+    * WSGIScriptAlias: Redirect all petitions starting with /indico to the specified file.
+    * WSGIProcessGroup: Configure the execution with the settings of WSGIDAEMON.
+    * WSGIApplicationGroup: Set the execution to run under the same Python interpreter (the first created).
+
+
+Finally, enable wsgi, the new webpage and restart apache.
+{{{
+jdoe@localhost ~$ sudo a2enmod wsgi
+jdoe@localhost ~$ sudo a2ensite indico
+jdoe@localhost ~$ sudo apache2ctl restart
+}}}
+
+Accessing `http://localhost/indico/index.py` should give you the main Indico page.
+
+=== HTTPS Mode ===
+
+Create a new file in the 'sites-available' folder of apache. It's located by default under '/etc/apache2/sites-available/'.
+{{{
+jdoe@localhost ~$ sudo gedit /etc/apache2/sites-available/indico-ssl
+}}}
+
+Copy the next lines into that file, making sure to replace 'jdoe' with your username:
+{{{
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+
+	ErrorLog /var/log/apache2/error.log
+            LogLevel warn
+	
+	Alias /indico/images "/opt/indico/htdocs/images"
+	Alias /indico/css "/opt/indico/htdocs/css"
+	Alias /indico/js "/opt/indico/htdocs/js"
+	Alias /indico/ihelp "/opt/indico/htdocs/ihelp"
+
+        WSGIScriptAlias /indico "/opt/indico/htdocs/index.wsgi"
+
+        SSLEngine on
+        SSLCertificateFile    /etc/ssl/certs/ssl-cert-snakeoil.pem
+	SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+</VirtualHost>
+</IfModule>
+}}}
+
+Finally, enable ssl and wsgi, the new webpage and restart apache.
+{{{
+jdoe@localhost ~$ sudo a2enmod ssl
+jdoe@localhost ~$ sudo a2enmod wsgi
+jdoe@localhost ~$ sudo a2ensite indico-ssl
+jdoe@localhost ~$ sudo apache2ctl restart
+}}}
+
+Accessing `https://localhost/indico/index.py` should give you the main Indico page.
+
+== Configuring uWSGI/nginx ==
+
+Indico might be installed as a uWSGI application, in order to run on Nginx (and possibly on Varnish as well). Create a uWSGI application configuration file for indico on /etc/uwsgi/apps-available/indico.ini:
+
+{{{
+[uwsgi]
+pythonpath = /opt/indico
+processes = 4
+threads = 2
+wsgi-file = /opt/indico/htdocs/index.wsgi
+post-buffering = 1
+autoload = true
+master = true
+workers = 2
+no-orphans = true
+pidfile = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/pid
+socket = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/socket
+chmod-socket = 660
+log-date = true
+uid = www-data
+gid = www-data
+}}}
+
+Then symlink this configuration file at /etc/uwsgi/apps-enabled/indico.ini:
+
+{{{
+# ln -s ../apps-available/indico.ini /etc/uwsgi/apps-enabled/indico.ini
+}}}
+
+The uWSGI daemon should be started after ZODB is running, and if you commit any changes to indico configuration, the daemon should also be restarted:
+
+{{{
+# /etc/init.d/uwsgi start
+}}}
+
+This will create the uwsgi daemon socket at `/run/uwsgi/app/indico/socket`.
+
+=== Nginx configuration ===
+
+By default all you need to do on Nginx is to redirect all Indico requests to the uwsgi socket. However, static files should be delivered directly. Here's a sample configuration that works for both HTTP and HTTPS:
+
+{{{
+
+## Here's the upstream socket
+upstream indico {
+    server unix:/run/uwsgi/app/indico/socket;
+}
+
+## Uncomment the following lines in case you want to enable HTTPS
+#ssl_certificate        /etc/ssl/certs/ssl-cert-snakeoil.pem;
+#ssl_certificate_key    /etc/ssl/private/ssl-cert-snakeoil.key;
+
+## uWSGI cache params:
+uwsgi_cache_key     $scheme$host$request_uri;
+uwsgi_cache_valid   200 302  1h;
+uwsgi_cache_valid   301      1d;
+uwsgi_cache_valid   any      1m;
+uwsgi_cache_min_uses  1;
+uwsgi_cache_use_stale error  timeout invalid_header http_500;
+
+server {
+    listen 80;
+    ## uncomment the following line to enable HTTPS access
+    #listen 443 ssl;
+
+    server_name _;
+    root                   /opt/indico/htdocs;
+    index                  index.py;
+
+    ## try to get static files directly, if not, send request to Indico upstream
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt|pdf|swf|woff|ttf|otf|svg|ico)$ {
+        access_log        off;
+        expires           max;
+        try_files $uri @indico;
+    }
+
+    ## This is should be the same path as the BaseURL configuration at indico.conf
+    location / {
+        include         uwsgi_params;
+        uwsgi_pass      indico;
+    }
+
+    location @indico {
+        include         uwsgi_params;
+        uwsgi_pass      indico;
+    }
+}
+
+}}}
+
+If the file `/etc/nginx/uwsgi_params` does not exist, create it with the following content:
+{{{
+
+uwsgi_param     QUERY_STRING            $query_string;
+uwsgi_param     REQUEST_METHOD          $request_method;
+uwsgi_param     CONTENT_TYPE            $content_type;
+uwsgi_param     CONTENT_LENGTH          $content_length;
+
+uwsgi_param     REQUEST_URI             $request_uri;
+uwsgi_param     PATH_INFO               $document_uri;
+uwsgi_param     DOCUMENT_ROOT           $document_root;
+uwsgi_param     SERVER_PROTOCOL         $server_protocol;
+uwsgi_param     UWSGI_SCHEME            $scheme;
+
+uwsgi_param     REMOTE_ADDR             $remote_addr;
+uwsgi_param     REMOTE_PORT             $remote_port;
+uwsgi_param     SERVER_PORT             $server_port;
+uwsgi_param     SERVER_NAME             $server_name;
+
+}}}
+
+Please note that the uwsgi_param `UWSGI_SCHEME` is not available by default, and it's required in case you configure a server with both HTTP and HTTPS.
+
+After setup, restart nginx:
+
+{{{
+# /etc/init.d/nginx restart
+}}}
+
+== Indico config file ==
+
+The next step should be inspecting `indico.conf` and configuring it to fit your server configuration. `indico.conf`
+replaces the old `config.xml`, so you will have to update it with the paramaters that you already have in your `config.xml`.
+
+== Post-install tasks ==
+
+If you wish to use the scheduler daemon (replaces old `taskDaemon`), then you should run:
+
+{{{
+sudo -u apache indico_scheduler start
+}}}
+
+Do not forget to delete the following file:
+
+{{{
+/your/tmp/folder/vars.js.tpl.tmp
+}}}
+
+== Migration ==
+
+If you are using an existing DB, please [wiki:Releases/Indico0.99#Upgrading read this].
+
+== Future installations ==
+
+Once you have succeeded to install Indico for the first time, you can automatize the upgrading process
+with a single script. This script should basically include the following actions:
+
+{{{
+
+$ easy_install -U indico
+
+$ indico_initial_setup --existing-config=/opt/indico/etc/indico.conf #replace with your path to your indico.conf
+
+# restart apache
+/path/to/httpd restart
+
+}}}

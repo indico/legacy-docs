@@ -1,0 +1,589 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1545 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:18:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1545 (spelling mistake on French version of indico)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1544.html" title="Ticket #1544" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t15451fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1545a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1545a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1546.html" title="Ticket #1546" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1544.html" title="Ticket #1544">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1546.html" title="Ticket #1546">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-03T11%3A27%3A17%2B02%3A00&amp;precision=second" title="See timeline at 06/03/14 11:27:17">16 months ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T17%3A56%3A12%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 17:56:12">16 months ago</a></p>
+  </div>
+  <h2>
+    <a href="1545.html" class="trac-id">#1545</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=fixed">fixed</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">spelling mistake on French version of indico</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=muriel">muriel</a></td>
+      <th id="h_owner">Owned by:</th>
+      <td headers="h_owner"><a href="http://old.indico-software.org/query?status=!closed&amp;owner=tpapini">tpapini</a></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-2.html">v1.2</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=Registration+form">Registration form</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=1.1">1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;keywords=~French">French</a> <a href="http://old.indico-software.org/query?status=!closed&amp;keywords=~Form">Form</a>
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+Hi, <br />
+Upon completing the registration form <br />
+<a class="ext-link" href="https://indico.cern.ch/event/319485/"><span class="icon">​</span>https://indico.cern.ch/event/319485/</a> <br />
+I get the following :<br />
+</p>
+<p>
+"Merci d'avoir complêter votre formulaire d'inscription qui a été envoyé à l'attention des organisateurs". <br />
+</p>
+<p>
+Please correct the spelling, all our registrators get this and this is not OK.<br />
+</p>
+<p>
+"Merci d'avoir complété votre formulaire d'inscription qui a été envoyé à l'attention des organisateurs. "<br />
+</p>
+<p>
+Thank you !<br />
+Cheers,<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(11)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1402045488872158">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-06T11%3A04%3A48%2B02%3A00&amp;precision=second" title="See timeline at 06/06/14 11:04:48">16 months ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v1.2</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-2-1402049755179694">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-06T12%3A15%3A55%2B02%3A00&amp;precision=second" title="See timeline at 06/06/14 12:15:55">16 months ago</a> by tpapini
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-owner">
+      <strong class="trac-field-owner">Owner</strong>
+        set to <em>tpapini</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>assigned</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-3-1402049781936951">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-06T12%3A16%3A21%2B02%3A00&amp;precision=second" title="See timeline at 06/06/14 12:16:21">16 months ago</a> by tpapini
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>assigned</em> to <em>awaiting_merge</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-4-1402867582021512">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-15T23%3A26%3A22%2B02%3A00&amp;precision=second" title="See timeline at 06/15/14 23:26:22">16 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Please explain what you have done and why it is "awaiting_merge".<br />
+I checked transifex (which is supposed to be the source of the <tt>messages.pot</tt> file, right?), and the text was still wrong. Now corrected by me.<br />
+However Transifex has become more complicated, and I am not sure, if Thomas needs to validate the change now, before it can be extracted.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-5-1402868159312762">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:6" class="follow-up">↓ 6</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-15T23%3A35%3A59%2B02%3A00&amp;precision=second" title="See timeline at 06/15/14 23:35:59">16 months ago</a> by jmonnich
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I think he changed it directly in his git repository: <a class="ext-link" href="https://github.com/tommy39/indico/commit/e314c8e0a7d875f9da4f1120698d8157f8396688"><span class="icon">​</span>https://github.com/tommy39/indico/commit/e314c8e0a7d875f9da4f1120698d8157f8396688</a><br />
+awaiting_merge means it's not integrated into the master (or in this case v1.2) branch yet. I guess he didn't know about transifex - so many thanks for updating it over there, too!<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1402898033105996">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+        in reply to:
+    <a href="#comment:5">↑ 5</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T07%3A53%3A53%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 07:53:53">16 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1545.html#comment:5" title="Comment 5 for Ticket #1545">jmonnich</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+I think he changed it directly in his git repository: <a class="ext-link" href="https://github.com/tommy39/indico/commit/e314c8e0a7d875f9da4f1120698d8157f8396688"><span class="icon">​</span>https://github.com/tommy39/indico/commit/e314c8e0a7d875f9da4f1120698d8157f8396688</a><br />
+[...] I guess he didn't know about transifex - so many thanks for updating it over there, too!<br />
+</p>
+</blockquote>
+<p>
+That's what I guessed, too. The work would have been lost with the next extraction from Transifex.<br />
+Is there a way to avoid this in future? (I cannot always be "police" for POT files. ;-)<br />
+To start, I would recommend to put a warning "DON'T EDIT THIS FILE" into all the derived POT files, unless we can find a good way to have the extraction implicit with a <tt>make</tt> like command.<br />
+Probably this is beyond the ticket, but we must formalise a bit more what we are doing with Transifex. I tried to add Thomas (Baron) as observer to this ticket. How can I do that?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1402899491114562">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:8" class="follow-up">↓ 8</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T08%3A18%3A11%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 08:18:11">16 months ago</a> by jmonnich
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+A "do not edit" comment pointing to transifex sounds like a good idea. We'll certainly discuss it in two weeks once Jose and Pedro are back.<br />
+</p>
+<p>
+About the trac question: Not sure. I see a CC field in the "modify ticket" area which might do the job. Anyway, I believe Pedro is the guy to talk to since he's the project manager after all and he'll see the notification email from trac once he's back.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1402908513868977">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+        in reply to:
+    <a href="#comment:7">↑ 7</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T10%3A48%3A33%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 10:48:33">16 months ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1545.html#comment:7" title="Comment 7 for Ticket #1545">jmonnich</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+About the trac question: Not sure. I see a CC field in the "modify ticket" area which might do the job.<br />
+</p>
+</blockquote>
+<p>
+I see that field, but cannot change it.<br />
+</p>
+<blockquote class="citation">
+<blockquote>
+<p>
+Anyway, I believe Pedro is the guy to talk to since he's the project manager after all and he'll see the notification email from trac once he's back.<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+OK, fine for me. But I think Thomas is coordinating the french translation on transifex and should be at least informed. A <tt>makefile</tt> like update would be ideal, but I do not know, how to do it in an clean way. (Likely to need a transifex-login to update the POTs.) There should be a semi-automatic update at least for each release build.<br />
+</p>
+
+    </div>
+  <div class="trac-lastedit ">
+    Last edited <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T10%3A49%3A33%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 10:49:33">16 months ago</a>
+        by hoffmann
+      (<a href="1545d8bc.html?cversion=0&amp;cnum_hist=8#comment:8">previous</a>)
+      (<a href="1545dad3.html?action=comment-diff&amp;cnum=8&amp;version=1">diff</a>)
+  </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1402908702587946">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T10%3A51%3A42%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 10:51:42">16 months ago</a> by jmonnich
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Ah, didn't know he's maintaining the French translation. Makes sense though as he's the only native french speaker in the team.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-10-1402934166360765">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T17%3A56%3A06%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 17:56:06">16 months ago</a> by jmonnich
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>awaiting_merge</em> to <em>merging</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-11-1402934172215451">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-06-16T17%3A56%3A12%2B02%3A00&amp;precision=second" title="See timeline at 06/16/14 17:56:12">16 months ago</a> by jmonnich
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>merging</em> to <em>closed</em>
+    </li>
+  </ul>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t15451fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1545a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1545a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1545 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:18:55 GMT -->
+</html>

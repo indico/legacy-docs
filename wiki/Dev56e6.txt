@@ -1,0 +1,26 @@
+ * '''For developers'''
+    * Quick start
+      * [wiki:Dev/GettingStarted Getting started]
+      * [wiki:Dev/Collaboration Indico world-wide collaboration]
+    * Development process
+      * [wiki:Dev/Process Development Process]
+      * [wiki:Dev/Tools Development Tools]
+      * Development practices:
+        * [wiki:Dev/DevPractices Main Development Practices]
+        * [wiki:Dev/DevPractices/DevelopmentGuidelines Indico Guidelines]
+        * [wiki:Dev/DevPractices/NamingConventions Naming Conventions]
+        * [wiki:Dev/DevPractices/UserInterfaceGuidelines User Interface Guidelines]
+      * Testing:
+        * [wiki:Dev/Tests Testing Indico]
+        * [wiki:Dev/Tests/CheatSheet Testing cheatsheet]
+      * [wiki:Dev/Doc Writing documentation]
+      * [wiki:Dev/Profile Profiling requests]
+      * [wiki:Dev/i18n Internationalization (i18n)]
+      * [wiki:Dev/Versioning Version management]
+    * Existing documentation
+      * [wiki:Dev/Technical Technical documentation]
+      * [wiki:Dev/Tips Tips & Tricks]
+      * [wiki:Dev/Troubleshooting Troubleshooting]
+      * [wiki:Dev/Ideas Development Ideas]
+    * [wiki:Dev/BugReporting Bug reporting]
+    * [wiki:Dev/TasksToIntegrate Tasks to integrate]

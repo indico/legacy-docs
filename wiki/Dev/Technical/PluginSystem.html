@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/PluginSystem by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/PluginSystem – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FPluginSystem56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="PluginSystem.html" title="View Dev/Technical/PluginSystem">PluginSystem</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/PluginSystem?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#Introduction"><strong> Introduction </strong></a>
+  </li>
+  <li>
+    <a href="#A.ImprovementsSummary"><strong> A. Improvements Summary </strong></a>
+    <ol>
+      <li>
+        <a href="#A.1.Whattheoldsystemprovided"><strong> A.1. What the old system provided </strong></a>
+      </li>
+      <li>
+        <a href="#A.2."><strong> A.2. What the new system provides </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#B.Pythonmoduleswhichimplementthesystem"><strong> B. Python modules which implement the system</strong></a>
+    <ol>
+      <li>
+        <a href="#B.1.__init__.py"><strong> B.1. __init__.py </strong></a>
+      </li>
+      <li>
+        <a href="#B.2.base.py"><strong> B.2. base.py </strong></a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#C.Howtousethenewfeatureswhenprogrammingapluginssubsystemoraplugin"><strong> C. How to use the new features when programming a plugins subsystem or …</strong></a>
+    <ol>
+      <li>
+        <a href="#C.1.GettingaPluginobject"><strong> C.1. Getting a Plugin object </strong></a>
+      </li>
+      <li>
+        <a href="#C.2.Loadandretrieveapluginmodule"><strong> C.2. Load and retrieve a plugin module </strong></a>
+      </li>
+      <li>
+        <a href="#C.3.LoadingreloadingthepluginsintotheDB"><strong> C.3. Loading / reloading the plugins into the DB </strong></a>
+      </li>
+      <li>
+        <a href="#C.4.Declarationsinthe__init__.pyofamodule"><strong> C.4. Declarations in the __init__.py of a module </strong></a>
+        <ol>
+          <li>
+            <a href="#C.4.1plugintype__init__.py"><strong> C.4.1 <em>plugin type</em> __init__.py </strong></a>
+          </li>
+          <li>
+            <a href="#C.4.2plugins__init__.py"><strong> C.4.2 <em>plugin's</em> __init__.py </strong></a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#C.5.Pluginattributes"><strong> C.5. Plugin attributes </strong></a>
+      </li>
+      <li>
+        <a href="#C.6"><strong> C.6. Plugin / PluginType options. Declaration, reading and writing …</strong></a>
+      </li>
+      <li>
+        <a href="#C.7."><strong> C.7. Plugin / PluginType actions </strong></a>
+      </li>
+      <li>
+        <a href="#C.8.PluginGlobalData"><strong> C.8. Plugin <em>Global Data</em> </strong></a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="Introduction"><strong> Introduction </strong></h1>
+<p>
+This document explains the new features of Indico's new Plugin System.
+</p>
+<p>
+It is intended both for:
+</p>
+<ul><li>developers of new <em>plugin systems</em> (such as epayment, Collaboration), or developers who wish to adapt the epayment or the room booking <em>plugin systems</em> to use the new features, such as activating / deactivating plugins from the Server Admin web interface, storing options (URLs, logins, etc.) in the database instead of writing them in the code, etc.
+</li><li>developers of plugins.
+</li></ul><p>
+The first group should read sections A, B, C.1, C.2, C.3, C.5, C.6 and C.7 in particular, and the others too if developing or adapting plugins.
+The second group should read sections A, C.4, C.6, C.7 and C.8 with more attention.
+</p>
+<h1 id="A.ImprovementsSummary"><strong> A. Improvements Summary </strong></h1>
+<p>
+Indico's plugin system was improved as part of the Collaboration Tools project.
+</p>
+<h2 id="A.1.Whattheoldsystemprovided"><strong> A.1. What the old system provided </strong></h2>
+<p>
+The old "system" was only a set of low-level functions that loaded the plugin's Python modules on demand, by walking through the plugins directory.
+</p>
+<p>
+It also imposed a small set of conventions to the way plugin folders had to be organized.
+</p>
+<h2 id="A.2."><strong> A.2. What the new system provides </strong></h2>
+<p>
+The most important improvement is the added capability to manage and configure the different <em>plugins</em> and <em>plugin systems</em> (epayment, room booking, collaboration).
+</p>
+<p>
+Information about the <em>plugin systems</em> and the plugins is stored in the database. Therefore, without the need to edit the code:
+</p>
+<ul><li>Plugins and <em>plugin systems</em> can be activated / deactivated.
+</li></ul><ul><li>It is possible and easy to define configuration values for the plugins, and even the <em>plugin systems</em>. Example of configuration values are an epayment URL, Indico's ID / password for a remote system, a list of users with special rights...
+</li></ul><ul><li>These configuration values are called <em>options</em> and the property of each option is very easily specified in each plugin's code. However the values themselves are stored in the DB and can be changed thanks to a new <em>Plugins</em> section in the Server Admin interface.
+</li></ul><ul><li>It is also possible to define <em>actions</em> for plugins and <em>plugin systems</em>. <em>Actions</em> are pieces of code (such as maintenance code) that can also be executed from the Server Admin interface. It is also possible to execute them as a trigger from an option value change.
+</li></ul><ul><li>Finally, each plugin can maintain a <em>GlobalData</em> object in the DB, where it can store whatever other data that does not fit in the <em>option</em> concept, but is not related to any Indico event in particular (i.e. Global in the server).
+</li></ul><p>
+Finally, as part of the development of the new plugin system, the code of the low-level functions to load modules on demand was refactored; although not perfect, now the code is clearer.
+</p>
+<p>
+<br />
+</p>
+<h1 id="B.Pythonmoduleswhichimplementthesystem"><strong> B. Python modules which implement the system</strong></h1>
+<h2 id="B.1.__init__.py"><strong> B.1. __init__.py </strong></h2>
+<p>
+The file <em>MaKaC.plugins.__init__.py</em> contains the low-level code that deals with the plugin folders and files, and loads their Python modules into memory.
+</p>
+<p>
+Most of the methods are class methods of the <em>MaKaC.plugins.Plugins</em> class (inside <em>MaKaC.plugins.__init__.py</em> ). There also some module-level functions that have been left there because they were already used in the epayment and room booking plugin systems.
+</p>
+<h2 id="B.2.base.py"><strong> B.2. base.py </strong></h2>
+<p>
+The file <em>MaKaC.plugins.base</em> contains most of the new implemented code. Its classes deal with storing and managing information about the plugins in the DB. They also provide wrappers around the methods and functions in <em>MaKaC.plugins.__init__.py</em>. Methods of classes in this file should always be used instead of the low-level <em>MaKaC.plugins.__init__.py</em> ones if possible.
+</p>
+<p>
+The <em>PluginsHolder</em> class is a singleton which must be used to access all the information in the DB.
+</p>
+<p>
+The <em>PluginType</em> and <em>Plugin</em> classes represent <em>plugin types</em> and <em>plugins</em> respectively. A <em>plugin type</em> is a set of plugins / plugins subsystem that share a common interface with Indico, and usually have a common purpose. At this time Indico has three <em>plugin types</em>: Epayment, Room Booking and Collaboration.
+</p>
+<p>
+The <em>PluginsHolder</em> singleton, and the <em>PluginType</em> and <em>Plugin</em> objects form a hierarchy: the <em>PluginsHolder</em> has several <em>PluginType</em> objects, and each of them has several <em>Plugin</em> objects. Each <em>Plugin</em> object only belongs to a <em>PluginType</em>.
+</p>
+<p>
+Both the <em>PluginType</em> and <em>Plugin</em> classes, besides attributes with primitive values, have a list of <em>PluginOption</em> and <em>PluginAction</em> objects, which represent the options and actions we spoke of previously in section <a class="wiki" href="PluginSystem.html#A.2.">A.2.</a> Also, since <em>PluginType and </em>Plugin<em> have a lot of common attributes, they both inherit from the </em>PluginBase<em> "abstract" class.
+</em></p>
+<p>
+Finally, the <em>ActionBase</em> class should be used by Action classes defines in the plugins' <em>actions.py</em> file (more on that later in section <a class="wiki" href="PluginSystem.html#C.7.">C.7.</a>).
+</p>
+<p>
+<a style="padding:0; border:none" href="../../../attachment/wiki/Dev/Technical/PluginSystem/Plugin%20System%20class%20diagram.html"><img src="../../../raw-attachment/wiki/Dev/Technical/PluginSystem/Plugin%20System%20class%20diagram.png" alt="Plugin System UML class diagram" title="Plugin System UML class diagram" /></a>
+</p>
+<p>
+Class diagram for the new Plugin System. These classes' instances are stored in Indico's DB.
+</p>
+<p>
+<br />
+</p>
+<h1 id="C.Howtousethenewfeatureswhenprogrammingapluginssubsystemoraplugin"><strong> C. How to use the new features when programming a plugins subsystem or a plugin</strong></h1>
+<p>
+In the following sub-sections, we are going to explain many usual tasks / problems related to the new plugin system.ç
+</p>
+<p>
+In the <em>MaKaC.plugins.Collaboration.collaborationTools.CollaborationTools</em> class, good examples of usage can be found in its classmethods.
+</p>
+<h2 id="C.1.GettingaPluginobject"><strong> C.1. Getting a Plugin object </strong></h2>
+<p>
+In order to retrieve a <em>Plugin</em> object from the database, we must access it through the <em>PluginsHolder</em> singleton. For example:
+</p>
+<div class="code"><pre>p <span class="o">=</span> PluginsHolder<span class="p">()</span><span class="o">.</span>getPluginType<span class="p">(</span><span class="s">"Collaboration"</span><span class="p">)</span><span class="o">.</span>getPlugin<span class="p">(</span><span class="s">"EVO"</span><span class="p">)</span>
+</pre></div><p>
+The p object will be an instance of the <em>Plugin</em> (<em>MaKaC.plugins.base.Plugin</em>) class. It has information about the plugin; it is <em>not</em> the root module of the plugin.
+</p>
+<h2 id="C.2.Loadandretrieveapluginmodule"><strong> C.2. Load and retrieve a plugin module </strong></h2>
+<p>
+To get the root module of a plugin, one can simply use the <em>.getModule()</em> method of the <em>Plugin</em> class. For example, to get the root module of the EVO plugin:
+</p>
+<div class="code"><pre>EVORootModule <span class="o">=</span> PluginsHolder<span class="p">()</span><span class="o">.</span>getPluginType<span class="p">(</span><span class="s">"Collaboration"</span><span class="p">)</span><span class="o">.</span>getPlugin<span class="p">(</span><span class="s">"EVO"</span><span class="p">)</span><span class="o">.</span>getModule<span class="p">()</span>
+</pre></div><p>
+Once we have the root module, we can access the plugin modules, and also the variables defined in the plugin's __init__.py (if need be).
+</p>
+<p>
+Example: inside the <acronym title="European Organization for Nuclear Research">CERN</acronym>MCU folder, there is a <em>common.py</em> file. This file has a ParticipantPerson class inside it. We can construct an instance of this class by doing:
+</p>
+<div class="code"><pre>CERNMCUModule <span class="o">=</span> PluginsHolder<span class="p">()</span><span class="o">.</span>getPluginType<span class="p">(</span><span class="s">"Collaboration"</span><span class="p">)</span><span class="o">.</span>getPlugin<span class="p">(</span><span class="s">"CERNMCU"</span><span class="p">)</span><span class="o">.</span>getModule<span class="p">()</span>
+participantPersonClass <span class="o">=</span> CERNMCUModule<span class="o">.</span>common<span class="o">.</span>Participant
+participantPersonInstance <span class="o">=</span> participantClass<span class="p">(</span>arg1<span class="p">,</span> arg2<span class="p">,</span> arg3<span class="p">)</span>
+</pre></div><h2 id="C.3.LoadingreloadingthepluginsintotheDB"><strong> C.3. Loading / reloading the plugins into the DB </strong></h2>
+<p>
+Since information about the plugins is stored in the DB, when we add or remove a plugin from the Indico code, or define a new option or action for a plugin, we need to update the DB. Ideally this should be done in the Indico install / update script, but this has not been programmed yet. Therefore, after a new installation where something has changed in the plugin system, we need to reload the information in the DB.
+</p>
+<p>
+This can be done from the <em>Server Admin</em> interface by going to the <em>Plugins</em> section and pressing the <em>Reload All</em> button, or the <em>Reload</em> button in each of the plugin type's tabs. It can also be done programatically via the <em>PluginsHolder</em> class's <em>reloadAllPlugins</em> and <em>reloadPluginType</em> methods.
+</p>
+<h2 id="C.4.Declarationsinthe__init__.pyofamodule"><strong> C.4. Declarations in the __init__.py of a module </strong></h2>
+<p>
+The __init__.py file inside a <em>plugin type</em> folder, e.g. <em>MaKaC/plugins/Collaboration/__init__.py</em>, and the __init__.py file inside a plugin folder, e.g. <em>MaKaC/plugins/Collaboration/<acronym title="European Organization for Nuclear Research">CERN</acronym>MCU/__init__.py</em> have a set of variables that need to be defined and others that are optional.
+</p>
+<h3 id="C.4.1plugintype__init__.py"><strong> C.4.1 <em>plugin type</em> __init__.py </strong></h3>
+<div class="code"><pre>__metadata__ <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'name'</span><span class="p">:</span> <span class="s">"Live Sync"</span><span class="p">,</span>
+    <span class="s">'description'</span><span class="p">:</span> <span class="s">"Synchronizes information between Indico and external repositories"</span><span class="p">,</span>
+    <span class="s">'ignore'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">'requires'</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">}</span>
+</pre></div><ul><li><strong>name</strong>: a string. It is a more "readable" name for the plugin (can have spaces etc...);
+</li></ul><ul><li><strong>description</strong>: a descriptive string.
+</li></ul><ul><li><strong>ignore</strong>: a boolean. Optional, with False as default value. If set to True, for all purposes it will be like this <em>plugin type</em> would not exist.
+</li></ul><ul><li><strong>visible</strong>: a boolean. Optional, with True as default value. If set to True, information about this <em>plugin type</em> and all its plugins will not appear in the <em>Server Admin</em> interface, but it will still be possible to load the code via the <em>PluginsHolder</em> singleton.
+</li></ul><ul><li><strong>requires</strong>: a list of strings. Optional, with <tt>[]</tt> as default value. It makes sure that all the specified packages are installed before activating a plugin. If some package is missing, a message will be displayed in the admin area, and the plugin will be set as "non usable".
+</li></ul><h3 id="C.4.2plugins__init__.py"><strong> C.4.2 <em>plugin's</em> __init__.py </strong></h3>
+<div class="code"><pre>__metadata__ <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'type'</span><span class="p">:</span> <span class="s">"Collaboration"</span><span class="p">,</span>
+    <span class="s">'name'</span><span class="p">:</span> <span class="s">"DummyPlugin"</span><span class="p">,</span>
+    <span class="s">'ignore'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">'testPlugin'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="s">'description'</span><span class="p">:</span> <span class="s">"Dummy collaboration plugin used for tests"</span><span class="p">,</span>
+    <span class="s">'requires'</span><span class="p">:</span> <span class="p">[</span><span class="s">"ZODB3"</span><span class="p">]</span>
+    <span class="p">}</span>
+</pre></div><ul><li><strong>type</strong>: a string. The <em>plugin type</em> it belongs to; the string has to be the same value as the id (module name) of the <em>plugin type</em>.
+</li></ul><ul><li><strong>name</strong>: <em>same as for <tt>PluginType</tt></em>;
+</li></ul><ul><li><strong>description</strong>: <em>same as for <tt>PluginType</tt></em>;
+</li></ul><ul><li><strong>ignore</strong>: <em>same as for <tt>PluginType</tt></em>;
+</li></ul><ul><li><strong>testPlugin</strong>: a boolean. Optional, with False as default value. Indicates if the plugin will be used for tests of the plugin system. This has been deprecated and should not be used.
+</li></ul><ul><li><strong>requires</strong>: <em>same as for <tt>PluginType</tt></em>;
+</li></ul><p>
+Also, in the plugin's __init__.py file the following lines have to be included, due to the low-level code that loads the plugin's code:
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">MaKaC.plugins</span> <span class="kn">import</span> getModules<span class="p">,</span> initModule
+<span class="o">...</span>
+modules <span class="o">=</span> <span class="p">{}</span>
+topModule <span class="o">=</span> <span class="bp">None</span>
+</pre></div><p>
+All of the previously mentioned variables, except <strong>ignore</strong>, have getter methods in the <em>PluginType</em> and <em>Plugin</em> classes of <em>MaKaC/plugins/base.py</em>.
+</p>
+<h2 id="C.5.Pluginattributes"><strong> C.5. Plugin attributes </strong></h2>
+<p>
+Besides the __init__.py variables mentioned in the previous point, there are other attributes for the <em>PluginType</em> and <em>Plugin</em> instances:
+</p>
+<ul><li><strong>active</strong>: can be read with the <em>PluginType</em> and <em>Plugin's</em> <em>isActive()</em> method and changed with their <em>toggleActive()</em> method. This is just a boolean stored in the DB, representing if the Server Admins have activated or deactivated the plugin.
+</li></ul><blockquote>
+<p>
+For example, in the Collaboration plugin system, if the EVO plugin is deactivated, the event managers will no longer be able to create EVO meetings for their events, in all of Indico.
+</p>
+</blockquote>
+<blockquote>
+<p>
+Therefore if one wishes to write a new plugin system or refactor the Epayment / Room Booking systems, it is very important to take into account if a given plugin is active or not:
+</p>
+<div class="code"><pre> PluginsHolder<span class="p">()</span><span class="o">.</span>getPluginType<span class="p">(</span><span class="s">"xxxx"</span><span class="p">)</span><span class="o">.</span>getPlugin<span class="p">(</span><span class="s">"yyyy"</span><span class="p">)</span><span class="o">.</span>isActive<span class="p">()</span>
+</pre></div></blockquote>
+<ul><li><strong>present</strong>: another boolean stored in the DB. Can be read with the <em>isPresent()</em> method. Normally its value will be True; it will only be False if there is a plugin or <em>plugin type</em> folder missing and we reload those plugins. In that case, for most purposes they do not exist. However, in order not to delete configuration information, the <em>PluginType</em> and <em>Plugin</em> objects are kept, with present = False.
+</li></ul><h2 id="C.6"><strong> C.6. Plugin / PluginType options. Declaration, reading and writing values </strong></h2>
+<p>
+One of the most powerful features of the new plugin system is to easily declare <em>options</em> for <em>plugins</em> and <em>plugin types</em>. The plugin system will keep the option values and attributes in the DB and therefore it is discouraged to write those values directly in the code (such as an epayment URL). Also, the plugin system will automatically create an interface for each plugin in the <em>Server Admin</em> pages in Indico.
+</p>
+<p>
+<em>Options</em> have to be declared into a file called <em>options.py</em> in the root folder of the plugin or of the <em>plugin type</em>.
+</p>
+<p>
+Examples can be seen inside in the <em>MaKaC/plugins/Collaboration/options.py</em> file and all of the <em>options.py</em> files inside each the Collaboration plugins.
+</p>
+<p>
+The declaration of a plugin's options is done as follows:
+</p>
+<div class="code"><pre>globalOptions <span class="o">=</span> <span class="p">[</span>tuple1<span class="p">,</span> tuple2<span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+</pre></div><p>
+Each tuple represents an option. The order that the options are declared will also be the order that the options appear in the Server Admin interface.
+</p>
+<p>
+Each tuple has 2 members: the option id and the option attributes, which is a dictionary. Example:
+</p>
+<div class="code"><pre><span class="p">(</span><span class="s">"MCUAddress"</span><span class="p">,</span> <span class="p">{</span><span class="s">"description"</span><span class="p">:</span> _<span class="p">(</span><span class="s">"MCU URL"</span><span class="p">),</span>
+                <span class="s">"type"</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="s">"defaultValue"</span><span class="p">:</span> <span class="s">"https://cern-mcu1.cern.ch"</span><span class="p">,</span>
+                <span class="s">"editable"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">"visible"</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div><p>
+As can be seen the first member of the tuple is the option id (a string), the second member being a dictionary with the attributes of the option.
+</p>
+<p>
+Explanation of the different attributes:
+</p>
+<ul><li><strong>description</strong> (compulsory): an internationalized string with the description of the option that will appear in the <em>Server Admin</em> web interface next to each option value field.
+</li></ul><ul><li><strong>type</strong> (compulsory): the type of the value stored inside the option. Possible types include Python's primitive types <em>str</em>, <em>bool</em>, <em>int</em>, <em>list</em> (will represent a list of strings), <em>dict</em> (represents any dictionary; in the iterface it will appear as a list of keys and values), <em>"users"</em> (represents a list of users and will have its own widget to search, add and remove users to it), <em>"rooms"</em> (represents a list of location:room pairs taken from Indico's RB database, it will have its own widget).
+</li></ul><ul><li><strong>defaultValue</strong> (compulsory): the initial value of this option when it is first loaded. It can be an empty value of the corresponding type (such as an empty string) or anything that is needed.
+</li></ul><ul><li><strong>editable</strong> (optional): a boolean, True by default. If False, the value of the option will be displayed in the <em>Server Admin</em> interface, but it will not be changeable through the interface. It is always possible to change it programatically or through a console.
+</li></ul><ul><li><strong>visible</strong> (optional): a boolean, True by default. If False, the option will not appear at all in the <em>Server Admin</em> interface.
+</li></ul><ul><li><strong>mustReload</strong> (optional): a boolean, False by default. If True, the option's <strong>defaultValue</strong> defined in the code will be loaded inside the option everytime the plugins are reloaded.
+</li></ul><p>
+<em>Plugin</em> options are represented in the DB by the <em>PluginOption</em> class. Each <em>Plugin</em> or <em>PluginType</em> object has a list of options attached.
+</p>
+<p>
+A <em>PluginOption</em> object can be retrieved from <em>Plugin</em> objects or <em>PluginType</em> objects via the <em>getOption</em> method of the <em>PluginBase</em> class (both <em>Plugin</em> and <em>PluginType</em> inherit from <em>PluginBase</em>). Then, its value can be retrieved with the <em>getValue</em> method:
+</p>
+<div class="code"><pre>PluginsHolder<span class="p">()</span><span class="o">.</span>getPluginType<span class="p">(</span><span class="s">"Collaboration"</span><span class="p">)</span><span class="o">.</span>getPlugin<span class="p">(</span><span class="s">"CERNMCU"</span><span class="p">)</span><span class="o">.</span>getOption<span class="p">(</span><span class="s">"MCUAddress"</span><span class="p">)</span><span class="o">.</span>getValue<span class="p">()</span>
+</pre></div><h2 id="C.7."><strong> C.7. Plugin / PluginType actions </strong></h2>
+<p>
+<em>Actions</em> are pieces of code related to a given plugin or <em>plugin system</em> that can be executed at 3 moments:
+</p>
+<ul><li>When a server admin presses the button that launches the action;
+</li><li>When an option's value is changed and this change triggers an action;
+</li><li>When plugins are reloaded.
+</li></ul><p>
+<em>Actions</em> are declared and programmed in the <em>actions.py</em> file at the root of each plugin / <em>plugin type</em> folder.
+</p>
+<p>
+The declaration is similar to that of <em>options</em>: a list of tuples. Example of an EVO action tuple:
+</p>
+<div class="code"><pre><span class="p">(</span><span class="s">"reloadCommunityList"</span><span class="p">,</span> <span class="p">{</span><span class="s">"buttonText"</span><span class="p">:</span> _<span class="p">(</span><span class="s">"Reload Community List"</span><span class="p">),</span>
+                         <span class="s">"associatedOption"</span><span class="p">:</span> <span class="s">"communityList"</span><span class="p">}</span>
+</pre></div><p>
+The first member of the tuple is the action id.
+</p>
+<p>
+The second member of the tuple is a dictionary with the action attributes. Explanation of the different attributes:
+</p>
+<ul><li><strong>buttonText</strong> (compulsory): a string. The text that will appear in the button in the <em>Server Admin</em> interface that launches the action.
+</li></ul><ul><li><strong>visible</strong> (optional): a boolean, True by default. Says if the action button will be visible in the <em>Server Admin</em> interface or not.
+</li></ul><ul><li><strong>associatedOption</strong> (optional): the id of an option of the same plugin / <em>plugin type</em>. If set, the button will appear after the corresponding option in the <em>Server Admin</em> interface.
+</li></ul><ul><li><strong>triggeredBy</strong> (optional): a list of strings. The strings have to be the ids of options in the same plugin. If it is a <em>plugin type</em> option, options from the child plugins can also be included. If set, the action will be called when the value of one of these options changes.
+</li></ul><ul><li><strong>executeOnLoad</strong> (optiona): a boolean, False by default. If set to True, the action will be executed when the plugins are reloaded.
+</li></ul><p>
+Finally, the action code has to be implemented in the <em>actions.py</em> file too. For this, we need to write an <em>Action</em> class that inherits from <em>ActionBase</em>, and with a <em>call()</em> method. The name of the class has to be the same as the corresponding action id, with first capital letter, and the word "Action" afterwards. Example:
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">MaKaC.plugins.base</span> <span class="kn">import</span> ActionBase
+
+pluginTypeActions <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s">"indexPluginsPerEventType"</span><span class="p">,</span> <span class="p">{</span><span class="s">"visible"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                                 <span class="s">"executeOnLoad"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                                 <span class="s">"triggeredBy"</span><span class="p">:</span> <span class="p">[</span><span class="s">"allowedOn"</span><span class="p">]}</span> <span class="p">),</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">IndexPluginsPerEventTypeAction</span><span class="p">(</span>ActionBase<span class="p">):</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <span class="o">...</span>
+</pre></div><h2 id="C.8.PluginGlobalData"><strong> C.8. Plugin <em>Global Data</em> </strong></h2>
+<p>
+Each plugin can also store a <em>Global Data</em> object where global information for the plugin can be stored. This could be done inside an invisible option's value; however this is not very elegant.
+</p>
+<p>
+If a plugin wants to have a <em>GlobalData</em> object, it has to define a <em>GlobalData</em> class inside a file called <em>common.py</em> at the root of the plugin folder.
+</p>
+<p>
+Then, the <em>Plugin</em> class's methods <em>initializeGlobalData()</em>, <em>getGlobalData()</em> and <em>setGlobalData()</em> can be used.
+</p>
+<p>
+A good example of this is inside the Collaboration system's <acronym title="European Organization for Nuclear Research">CERN</acronym>MCU plugin's <em>common.py</em> file.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/PluginSystem?action=diff&amp;version=16" title="Version 16 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-04-06T17%3A09%3A01%2B02%3A00&amp;precision=second" title="See timeline at 04/06/11 17:09:01">5 years ago</a></span>
+            <span class="trac-print">Last modified on 04/06/11 17:09:01</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(1)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../../attachment/wiki/Dev/Technical/PluginSystem/Plugin%20System%20class%20diagram.html" title="View attachment">Plugin System class diagram.png</a><a href="../../../raw-attachment/wiki/Dev/Technical/PluginSystem/Plugin%20System%20class%20diagram.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="18095 bytes">17.7 KB</span>) -
+      added by <em>dmartinc</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-18T17%3A24%3A47%2B01%3A00&amp;precision=second" title="See timeline at 01/18/10 17:24:47">6 years ago</a>.
+                <q>Plugin System UML class diagram</q>
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../../zip-attachment/wiki/Dev/Technical/PluginSystem/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FPluginSystem56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/PluginSystem by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:17 GMT -->
+</html>

@@ -1,0 +1,13 @@
+= Matt Pugh =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=mpugh,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=mpugh,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=mpugh)]]

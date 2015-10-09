@@ -1,0 +1,13 @@
+= Alejandro Avilés =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=aavilesd, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=aavilesd,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=aavilesd)]]

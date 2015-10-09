@@ -1,0 +1,55 @@
+= Git Workflow =
+== Workflow ==
+
+ * The model is very similar to [cerntwiki:CDS/GitWorkflow the one used by the Invenio guys] (only with slight changes);
+   * Please, pay special attention to the sections S1, S4, W1, W2, W3, W4, W5, W6 and W7.
+ * The access to the git repo is granted by the 'gatekeepers' - they're the only ones who can push code into it;
+   * As of now, they're [wiki:User/jbenito Jose] and [wiki:User/pferreir Pedro];
+
+Just to remark some hot topics:
+ 
+ * Things you '''should''' do:
+   * before creating a branch, '''pull all the modifications from the origin''';
+   * '''create topic branches''' for your developments and please name them sensibly ('''use dash rather than underscore''');
+   * '''rebase before pushing''' the branch into your public repo, but never again rebase that branch (unless you don't care that references will change and no-one will be able to pull from it);
+   * '''push to your public repo''', just '''when you have finished and tested''' the feature you have developed;
+
+ * Things you should '''never''' do:
+   * '''do not''' work on the master branch, create always a new branch for your developments;
+   * '''do not''' rebase or squash on your public repo;
+   * '''do not''' rebase a branch in your private repo when that branch was already pushed into your public;
+
+
+== Naming conventions (branches) ==
+ * '''`999-refactor-*`''' for feature/code refactorings;
+ * '''`999-fix-*`''' for fixes;
+ * '''`999-new-*`''' for new features;
+ * '''`999-imp-*`''' for improvement/enhancements;
+ * '''`999-exp-*`''' for experimental developments;
+ * '''`999-prov-*`''' for provisional branches that will be deleted;
+ * '''`999-v*-series`''' for releases (i.e. `v0.97-series`);
+
+Note: 999 is the ticket number.
+
+Check the [wiki:Dev/DevPractices devpractices] for more details about the development practices.
+
+Some examples:
+ * Branch for implementing enhacement number 305: 305-new-reschedule
+ * Branch for fixing defect number 302: 302-fix-search-ie
+
+== Things you should know ==
+
+ * Git takes care of trailing white spaces for you. Inside your `.git/hooks` Just rename `pre-commit.sample` to `pre-commit` (make sure it has execution privileges too) - git will now remove them for you;
+
+ * You can close a Trac ticket from a commit. Just add {{{fixes #<ticket_number>}}} somewhere in your commit message. [wiki:User/pferreir I] usually do it as part of a list:
+
+ {{{
+Some silly bug
+  - changed something in order to fix the silly bug;
+  - deleted some useless code;
+  - fixes #42
+ }}}
+
+ '''Example:''' #14
+ 
+Check the [trachacks:wiki:GitPlugin#AuthorContributors GitPlugin trac-hacks page] for more on syntax (check the post-receive hook's source code).

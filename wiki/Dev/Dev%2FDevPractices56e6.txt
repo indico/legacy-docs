@@ -1,0 +1,48 @@
+[[PageOutline]]
+
+= Development Practices =
+
+== 1. Basics ==
+
+ * Common Principles
+   * First, learn Indico development style and workflow, then develop your module.
+   * '''Follow and keep Indico layers''': Main core, rh, pages, wcomponents, services.
+   * As usual, no need to reinvent the wheel;
+   * There's a library that does it? Use it (unless the cost of using it is higher than that of doing it yourself);
+   * Use known [wikipedia:Software_design_patterns design patterns] as much as possible - patterns are a common language that allow us to better communicate ideas, and programming languages and libraries tend to follow them as well;
+   * If it's '''not obvious''', add a '''comment''';
+   * Use '''UTF-8''' as encoding by default for every single file.
+   * Follow our [wiki:Dev/DevPractices/NamingConventions naming conventions].
+   * Please, don't commit any trailing white spaces (see [wiki:Dev/GitWorkflow])! If using Eclipse, [/wiki/Dev/Tools#a1.AnyEditToolstoremovetrailingwhitespaces AnyEditTools] can help to remove trailing white spaces in all kind of test files.
+
+ * Python
+   * Use always '''4 white spaces instead of TABs'''!
+   * Use consistent names for variables.
+   * Comment always your classes and methods, even if they look trivial for you.
+   * Use comments whenever you feel that people will not find out what a particular segment of code does just by reading it.
+   * Try to follow the [http://www.python.org/dev/peps/pep-0008/ PEP08] when formatting your Python code.
+     * Exception: historically variable names in Indico's Python are ''camelCase'' instead of using ''lower_case_with_underscores''. The current development team still likes ''camelCase''.
+   * Speak Python [http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html language]
+   * Got new code? '''[wikipedia:Automated_code_review Pylint] it''' before adding it to the repo.
+   * There are several tools for Eclipse than can help you to properly format your code and use Pylint, see [/wiki/Dev/Tools#a2.PyDevcodeformatter PyDev formatter] and [/wiki/Dev/Tools#a3.PylintwithPyDev Pylint with PyDev].
+
+ * !JavaScript
+   * '''[wikipedia:Automated_code_review jslint] your files''' as often as possible. It helps you prevent a lot of stupid mistakes. Emacs users have a nice [http://www.emacswiki.org/emacs/FlymakeJavaScript jslint mode] for that. Or see [/wiki/Dev/Tools#a4.JsLint this guide] to use jslint from Eclipse.
+
+
+== 2. Version Control ==
+
+Check the [wiki:Dev/GitWorkflow Git Workflow] page.
+
+== 3. Security ==
+
+[indico:75551] contains a presentation on the topic. Most of it is described by the [wiki:Dev/SecurityGuidelines Security Guidelines]
+
+If you are working at CERN, we strongly recommend you to follow the course [http://cta.cern.ch/cta2/f?p=110:9:2375776445054375::NO::X_COURSE_ID,X_STATUS:4064,D Developing secure software]
+
+== 4. HTML Specific Rules ==
+Have Indico 100% HTML4.01 compliant (so far, this is an utopia for Indico...)
+
+== 5. User Interface guidelines ==
+
+See the [wiki:Dev/DevPractices/UserInterfaceGuidelines User Interface Guidelines] page.

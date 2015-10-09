@@ -1,0 +1,38 @@
+[[PageOutline]]
+
+== InTRePId 8 ==
+'''Title:''' Central export service - PDF 
+
+'''Author:''' José Benito González López
+
+'''Date:''' 28 Apr 2010
+
+'''Target version:''' v0.98
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+The idea is to create a general way of generating reports/books/pdfs on Indico. Some of the objectives would be:
+ * Create a central place to export any kind of information from Indico. Or, at least, show the export mechanism in a standard way from the different sections of Indico (abstracts, contributions, timetable, registrants);
+ * Improve all the PDF files that are generated;
+ * Check the different ways of create files for the timetable, contribution/s, abstract/s, book of abstracts, etc
+ * Allow to attach indexes for every document: e.g. author index in the book of abstracts with paging. This indexes should be easily injected in any kind of PDF (timetable, contributions, abstracts);
+ * Study a solution based on the taskdaemon, rather than an instant document retrieval (since it can take long);
+ * Add flexibility and new features, such as:
+   * Greater degree of customization for speaker/author names (titles, order of names, affiliation, etc...);
+   * Possibility to change the order things are presented, based on sessions, etc...
+
+=== Status quo ===
+
+Right now, we can get PDFs from the timetable, list of abstracts, list of contributions, etc and it is not clear if they are the same, what the difference is, the purpose, etc. Also some of them are customizable, another ones not, etc. This should be done in a modular way so, if you want to have an index in a PDF X, you can inject it easily.
+
+
+=== Description ===
+
+ * Reportlab: check if there is something better and refactor/redesign the base classes.
+
+
+=== Comments ===
+[[AddComment]]

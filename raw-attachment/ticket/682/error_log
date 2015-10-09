@@ -1,0 +1,41 @@
+[Wed Mar 02 09:38:09 2011] [notice] SELinux policy enabled; httpd running as context root:system_r:httpd_t:s0
+[Wed Mar 02 09:38:09 2011] [notice] suEXEC mechanism enabled (wrapper: /usr/sbin/suexec)
+[Wed Mar 02 09:38:09 2011] [notice] Digest: generating secret for digest authentication ...
+[Wed Mar 02 09:38:09 2011] [notice] Digest: done
+[Wed Mar 02 09:38:09 2011] [notice] mod_python: Creating 4 session mutexes based on 256 max processes and 0 max threads.
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [notice] Apache/2.2.3 (Scientific Linux) configured -- resuming normal operations
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+ImportError: No module named MaKaC::setEnvironment
+[Wed Mar 02 09:38:09 2011] [error] directive_PythonImport: error importing MaKaC::setEnvironment
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher: Traceback (most recent call last):
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/site-packages/mod_python/apache.py", line 299, in HandlerDispatch\n    result = object(req)
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/site-packages/mod_python/publisher.py", line 204, in handler\n    module = page_cache[req]
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/site-packages/mod_python/cache.py", line 82, in __getitem__\n    return self._checkitem(name)[2]
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/site-packages/mod_python/cache.py", line 124, in _checkitem\n    value = self.build(key, name, opened, entry)
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/site-packages/mod_python/publisher.py", line 77, in build\n    return ModuleCache.build(self, key, req, opened, entry)
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/site-packages/mod_python/cache.py", line 371, in build\n    exec opened in module.__dict__
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/opt/indico/htdocs/index.py", line 22, in ?\n    import MaKaC.webinterface.rh.welcome as welcome
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/webinterface/rh/welcome.py", line 22, in ?\n    import MaKaC.webinterface.rh.base as base
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/webinterface/rh/base.py", line 21, in ?\n    from MaKaC.webinterface.pages.conferences import WPConferenceModificationClosed
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/webinterface/pages/conferences.py", line 21, in ?\n    from MaKaC.plugins.Collaboration.collaborationTools import CollaborationTools
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/plugins/Collaboration/collaborationTools.py", line 22, in ?\n    from MaKaC.plugins.base import PluginsHolder
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/plugins/base.py", line 29, in ?\n    from MaKaC.common.Counter import Counter
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/common/__init__.py", line 29, in ?\n    from db import DBMgr
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/common/db.py", line 39, in ?\n    from MaKaC.common.logger import Logger
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/common/logger.py", line 13, in ?\n    class Logger:
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib/python2.4/site-packages/cds_indico-0.98_dev-py2.4.egg/MaKaC/common/logger.py", line 22, in Logger\n    __indicoFileHandler = logging.FileHandler(os.path.join(config.getLogDir(), 'indico.log'),'a')
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher:   File "/usr/lib64/python2.4/logging/__init__.py", line 757, in __init__\n    stream = open(filename, mode)
+[Wed Mar 02 09:38:15 2011] [error] [client 127.0.0.1] PythonHandler mod_python.publisher: IOError: [Errno 13] Permission denied: '/opt/indico/log/indico.log'

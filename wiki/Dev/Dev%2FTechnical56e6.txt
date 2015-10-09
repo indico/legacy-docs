@@ -1,0 +1,47 @@
+= Technical Documentation =
+
+ * API:
+    * JS API - ''coming soon''
+    * Python API  - ''coming soon''
+ * Database:
+    * [wiki:Dev/Technical/ZEO ZEO]
+    * [wiki:Dev/Technical/DB ZODB]
+    * [wiki:Dev/Technical/Indexing Indexing]
+ * Flask:
+    * [wiki:Dev/Technical/Flask/Usage Using Flask]
+    * [wiki:Dev/Technical/Flask/URL_Structure URL Structure]
+ * Metadata:
+    * [wiki:Dev/Technical/MARCXML MARCXML]
+    * [wiki:Dev/Technical/LiveSync livesync]
+    * [wiki:Dev/Technical/ExportAPI Export Interface]
+ * My Indico
+    * [wiki:Dev/Technical/MyIndicoMyProfile My Profile]
+    * [wiki:Dev/Technical/DashboardContents Dashboard contents]
+    * [wiki:Dev/Technical/MyIndicoBackend Backend]
+ * Plugin System:
+    * [wiki:Dev/Technical/PluginSystem Introduction to the Plugin System]
+    * [wiki:Dev/Technical/CollaborationPluginsDevelopment Collaboration Plugins Development]
+    * [wiki:Dev/Technical/PluginExtension Extending Indico]
+    * Old "Plugin" System:
+      * [wiki:Dev/Technical/Epayment E-payment "plugin" development]
+ * Research:
+    * [wiki:Dev/Technical/WSGI WSGI]
+    * [wiki:Dev/Technical/TemplateEngines Template engines]
+ * Template engine:
+    * [wiki:Dev/Technical/UsingMako Using Mako]
+ * Using "Indico" javascript library:
+    * [wiki:Dev/Technical/JS/Popups Creating popups] - ''under construction''
+ * Workflows:
+    * [wiki:Dev/Technical/ParticipantsWorkflow Participants]
+ * More:
+    * [wiki:Dev/Technical/CloudTechnology Cloud Technology]
+    * [wiki:Dev/Technical/IIS Indico on IIS]
+    * [wiki:Dev/Technical/CodeCaveats Code Caveats]
+
+= Initial Technical Documentation ('''Obsolete''') =
+
+(to view the doc files in html, you will need the Java plug-in 1.3 or later, available from Sun's [http://java.sun.com/ Java web site]).
+
+    * user requirements ([http://indico-software.org/doc/old/InDiCo_UR.pdf pdf], [http://indico-software.org/doc/old/index.html html])
+    * analysis ([http://indico-software.org/doc/old/InDiCo_AN.pdf pdf], [http://indico-software.org/doc/old/index.html html])
+    * architecture ([http://indico-software.org/doc/old/InDiCo_AR.pdf pdf], [http://indico-software.org/doc/old/index.html html])

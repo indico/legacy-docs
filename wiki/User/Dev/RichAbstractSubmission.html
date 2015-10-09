@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/User/Dev/RichAbstractSubmission by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:11:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      User/Dev/RichAbstractSubmission – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="User%252FDev%252FRichAbstractSubmission56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../User.html" title="View User">User</a><span class="pathentry sep">/</span><a class="pathentry" href="../Dev.html" title="View User/Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="RichAbstractSubmission.html" title="View User/Dev/RichAbstractSubmission">RichAbstractSubmission</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/User/Dev/RichAbstractSubmission?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="RichAbstractSubmission">Rich Abstract Submission</h1>
+<h2 id="Abstract">Abstract</h2>
+<p>
+The proposal consists on improving Indico abstract editor to be able to accept <a class="ext-link" href="http://www.latex-project.org/"><span class="icon">​</span>LaTeX</a> and <a class="ext-link" href="http://daringfireball.net/projects/markdown/"><span class="icon">​</span>Markdown</a>/<a class="ext-link" href="http://www.mathjax.org/"><span class="icon">​</span>MathJax</a> formulas to generate HTML and PDF compiled outputs. Using <a class="ext-link" href="https://code.google.com/p/pagedown/"><span class="icon">​</span>PageDown editor</a> to translate the plain text from input to LaTeX documents ("book of abstracts") and HTML while live previewing the edition on a canvas.
+</p>
+<h2 id="UseCases">Use Cases</h2>
+<p>
+Indico abstract editor is a plain text editor for physics to submit their paper abstracts and research documentation. For a better comprehension of how useful my features are, here are some use cases:
+</p>
+<ul><li>Joe just made an incredible discovery and he wants to submit an article about it. To do this, he's used to write down some topics on a blank sheet and then copy them to Indico abstract editor, where he can easily submit plain text combined with MathJax formulas that will be interpreted by the editor.
+</li><li>Janet is looking for some research to complement her's, she knows there is a database where she can navigate between submitted abstracts from her fellow co-workers without opening and/or saving PDF documents into her computer. She can explore the abstracts directly from her browser of choice, viewing all the complex formulas that she's used to in LaTeX documents.
+</li><li>Higgs is a newbie using MathJax formulas, but he needs to submit a quick article to Indico. He opens the editor and with the live preview feature he can anticipate the outcome of his paper, along with any syntax errors he may correct in real time as he types.
+</li><li>Jamie has over 10 papers submitted on Indico in HTML format and he has a presentation in 30 minutes; he needs to print out some copies to offer to his audience, so he logs into Indico, opens the HTML view of the paper and clicks on that blue button on the corner "Generate LaTeX document". In a few seconds he saves the generated document and prints it out; the presentation is a success!
+</li></ul><h2 id="Deliverables">Deliverables</h2>
+<p>
+<a class="ext-link" href="https://github.com/pedrogaudencio/indico"><span class="icon">​</span>Github branch</a> with Javascript script files to handle the canvas live preview and formula translation to show them on HTML, and Python classes/script files to manage LaTeX-to-PDF compiling and syntax error reporting/correction; also the document and article storing ("book of abstracts"). It will be primarily tested on several browsers on Linux, Mac and Windows to assure compatibility and accessibility.
+</p>
+<h2 id="Timeline">Timeline</h2>
+<p>
+Milestone like schedule with concise objectives for each step. Here the plan:
+</p>
+<ol><li>Pre-GSoC:
+<ul><li>analysis to current Indico source, familiarisation with the code and define exactly what needs to be changed and implemented;
+</li><li>also patch any existing bugs that might affect further development of the project and some general bug fixing so I get acquaintance with the base code.
+</li></ul></li><li>Community Bonding Period:
+<ul><li>read Indico documentation, learn its complexity and main behavior;
+</li><li>read PageDown (<a class="ext-link" href="http://math.stackexchange.com/questions/ask"><span class="icon">​</span>Math StackExchange editor</a>) wiki and documentation, discuss integration issues with project mentors and evaluate the best ways to implement;
+</li></ul></li><li>Week 1:
+<ul><li>class structures, plot diagrams, and a general draw of the final interface workflow.
+</li></ul></li><li>Week 2 to 3:
+<ul><li>make the necessary changes to the Indico user interface;
+</li><li>design and implement the new interface elements.
+</li></ul></li><li>Week 4 to 6:
+<ul><li>implementation and integration of PageDown Markdown converter into existing Indico editor, testing parser functionalities and evaluate security issues from possible "evil inputs";
+</li><li>implement live preview on a canvas that shows acyclically the expected result;
+</li></ul></li><li>Mid-term evaluations deadline:
+<ul><li>by mid-term I expect to have Indico editor accepting MathJax and LaTeX formulas and parsing them into HTML, also the live preview canvas up and running - it is probable that some bugs still exist, but I'll clean them up in the final weeks.
+</li></ul></li><li>Week 7 to 8:
+<ul><li>study, implementation and testing of the LaTeX documents generation algorithm.
+</li></ul></li><li>Week 9 to 10:
+<ul><li>integration of the LaTeX generator with the user interface.
+</li></ul></li><li>Week 11 to 12:
+<ul><li>Testing, correcting bugs and documentation.
+</li></ul></li></ol><p>
+ 
+</p>
+<h2 id="Development">Development</h2>
+<h3 id="a1.IntegratingPageDownEditorandMathJax">1. Integrating PageDown Editor and MathJax</h3>
+<p>
+<strong>Abstract and Contribution Data Modification:</strong>
+</p>
+<p>
+Templates changed: <tt>AbstractDataModification.tpl</tt>, <tt>ContributionDataModification.tpl</tt>.
+</p>
+<p>
+As described in the <a class="ext-link" href="https://code.google.com/p/pagedown/wiki/PageDown#Markdown.Editor.js"><span class="icon">​</span>PageDown documentation</a>, if there is more than one editor in the current page each panel has to have its unique <tt>id</tt>. So, we wrap the textarea inside the <tt>&lt;div class="wmd-panel"&gt;</tt>, the respective buttons inside that with <tt>&lt;div id="wmd-button-bar-f_${ field.getId() }"&gt;&lt;/div&gt;</tt> - the <tt>${ field.getId()</tt> is a Mako function that asks for the field id (for instance, <tt>f_content</tt> and <tt>f_summary</tt>), providing an unique <tt>id</tt> to this div. Same thing for the <tt>&lt;textarea  class="wmd-input" id="wmd-input-f_${ field.getId() }"&gt;</tt> and the preview canvas <tt>&lt;div id="wmd-preview-f_${ field.getId() }" class="wmd-panel wmd-preview"&gt;&lt;/div&gt;</tt>.
+</p>
+<p>
+Using javascript we iterate on each textarea with <tt>class="wmd-input"</tt> and create a converter and an editor for it - this behaviour is documented <a class="ext-link" href="https://code.google.com/p/pagedown/wiki/PageDown#In_the_browser"><span class="icon">​</span>here</a>.
+</p>
+<p>
+The <tt>PageDownMathJax.mathjaxEditing().prepareWmdForMathJax()</tt> is loaded to handle the MathJax inserted, it receives the editor variable, the <tt>wmd-input</tt> textarea id suffix and and array with the MathJax delimiters we're using (in this case, <tt>["$$", "$$"]</tt> and <tt>["\\\\(","\\\\)"]</tt>. This was first written by <a class="ext-link" href="http://www.math.union.edu/~dpvc/"><span class="icon">​</span>Davide P. Cervone</a> and released under <em>Apache 2.0</em> licence, so it has some modifications.
+</p>
+<p>
+<tt>prepareWmdForMathJax()</tt> acts has a hook and its purpose is to strip out every MathJax piece of code inside the given delimiters, storing them as arguments in an array and replace them by tokens (<tt>@@0@@</tt>, <tt>@@1@@</tt>, <tt>@@...@@</tt>), then run Markdown, then replace the tokens by the original MathJax afterward.
+</p>
+<h3 id="a2.RenderMarkdownMathJax">2. Render Markdown/MathJax</h3>
+<p>
+<strong>Abstract and Contribution Display:</strong>
+</p>
+<p>
+Templates changed: <tt>AbstractDisplay.tpl</tt>, <tt>ContributionDisplayFull.tpl</tt>
+</p>
+<p>
+We wrote <tt>render_markdown()</tt> on <em>strings.py</em> to convert any text from Markdown to HTML, we use it on <em>abstracts.py</em> and <em>contributions.py</em> to properly render the text in the management area. To use it as a Mako filter, we just added <tt>m</tt> to wrap <tt>${abstract.getField(f.getId()) | h, m}</tt> and <tt>${escape(Contribution.getField(f.getId())) | m}</tt> (which is the field that holds the content and summary of the abstract) in the templates after importing it in <tt>TemplateExec.py</tt> in <tt>FILTER_IMPORTS</tt> list.
+</p>
+<h3 id="a3.PDFgeneration">3. PDF generation</h3>
+<p>
+Classes envolved in PDF generation: <tt>CFADisplay.py</tt>, <tt>abstractModif.py</tt>, <tt>contribDisplay.py</tt>, <tt>contribMod.py</tt>, <tt>conferenceDisplay.py</tt>, <tt>conferenceModif.py</tt>
+</p>
+<p>
+<strong> Tested solutions: </strong>
+</p>
+<p>
+Since the technology chosen for the new abstracts PDF format was LaTeX, we had to convert Markdown text to LaTeX notation, these are the ones tested.
+</p>
+<table class="wiki">
+<tr><th> Name               </th><th> Conclusions/Observations 
+</th></tr><tr><td> <a class="ext-link" href="https://pypi.python.org/pypi/markdown2latex/"><span class="icon">​</span>Python markdown2latex extension</a> </td><td> Out of date since 2009; updating it would not only solve what we need but also contribute to the community 
+</td></tr><tr><td> <a class="ext-link" href="https://github.com/fletcher/peg-multimarkdown/"><span class="icon">​</span>Multimarkdown</a> </td><td>  
+</td></tr><tr><td> <a class="ext-link" href="http://johnmacfarlane.net/pandoc/"><span class="icon">​</span>Pandoc</a> </td><td>  
+</td></tr></table>
+<p>
+<strong> Workflow: </strong>
+</p>
+<p>
+<tt>LatexRunner()</tt> is implemented in <em>base.py</em>, this is an example of its behaviour from <em>CFADisplay.py</em> <tt>RHUserAbstractsPDF()</tt>:
+</p>
+<pre class="wiki">
+filename = 'my-abstracts.pdf'
+
+pdf = AbstractsToPDF(self._conf, self._abstractIds, tz=tz)
+
+latex_template = 'LatexRHUserAbstractsPDF.tpl'
+
+kwargs = {'first_page': pdf.firstPageLatex(),
+                'title': self._target.getTitle(),
+                'page_no': i18nformat(""" _("Page") """),
+                'body': pdf.getBodyLatex()
+                }
+
+latex = LatexRunner(filename, True)
+pdffile = latex.run(latex_template, **kwargs)
+latex.cleanup()
+
+return send_file(filename, pdffile, 'PDF')
+
+</pre><p>
+<tt>filename</tt>: name provided for the file name
+</p>
+<p>
+<tt>pdf</tt>: object to be converted
+</p>
+<p>
+<tt>latex_template</tt>: chosen LaTeX template from <em>tpls/latex/</em> template folder imported as a string
+</p>
+<p>
+<tt>kwargs</tt>: arguments that the template will receive, this is a dictionary
+</p>
+<p>
+<tt>latex</tt>: <tt>LatexRunner(self, filename, has_toc = False)</tt> handles the PDF generation from a chosen LaTeX template. It receives the name of the file and if a second argument is <tt>True</tt> (by default this is set to <tt>False</tt>) that means the pdf to generate has a <em>Table of Contents</em>: this works the same way for every run, except for the Contributions Book that holds a Table of Contents, in this case the pdflatex command has to run twice: the first one to generate the <em>.toc</em> file and the second to compile it into the created <em>.tex</em> file. <tt>run(self, template_name, **kwargs)</tt> receives the chosen <tt>latex_template</tt> and <tt>kwargs</tt>, on every call this method imports the template and renders it with the arguments given into a Mako template, creates a temporary directory to store the <em>.tex</em>, <em>.log</em>, <em>.aux</em>, <em>.out</em> (<em>.toc</em> also, if it's the case) and generates the PDF by running <tt>pdflatex</tt> using <tt>subprocess</tt>, also storing the generated file in the temporary directory and returning its absolute path. The <tt>cleanup()</tt> method deletes the <em>.tex</em>, <em>.log</em>, <em>.aux</em>, <em>.out</em> (and <em>.toc</em>) files in the temporary directory.
+</p>
+<h3 id="TO-DO:">TO-DO:</h3>
+<ul><li>Check if the logger event after every PDF generation is working
+</li></ul><h2 id="Extra">Extra</h2>
+<p>
+<a class="ext-link" href="https://indico.cern.ch/conferenceDisplay.py?confId=273481"><span class="icon">​</span>CERN presentation</a> slides: <a class="ext-link" href="https://indico.cern.ch/getFile.py/access?contribId=0&amp;sessionId=1&amp;resId=0&amp;materialId=slides&amp;confId=273481"><span class="icon">​</span>pdf</a>, <a class="ext-link" href="https://indico.cern.ch/getFile.py/access?contribId=0&amp;sessionId=1&amp;resId=1&amp;materialId=slides&amp;confId=273481"><span class="icon">​</span>odp</a>.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/User/Dev/RichAbstractSubmission?action=diff&amp;version=7" title="Version 7 by pedrogaudencio: Updated documentation to match the fixed Mako template render and the event log on every PDF generation.">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-27T14%3A37%3A57%2B01%3A00&amp;precision=second" title="See timeline at 12/27/13 14:37:57">22 months ago</a></span>
+            <span class="trac-print">Last modified on 12/27/13 14:37:57</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="User%252FDev%252FRichAbstractSubmission56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/User/Dev/RichAbstractSubmission by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:11:30 GMT -->
+</html>

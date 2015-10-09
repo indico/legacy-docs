@@ -1,0 +1,5 @@
+= My Indico: Backend =
+
+Currently, the backend of '''My Indico''' is essentially the {{{linkedTo}}} dictionary within an {{{Avatar}}} object. In order to extend the functionality of My Indico this data structure will need to go through a refactoring process. More information about the current implementation is available in the [wiki:Dev/Technical/DashboardContents Dashboard wiki page].
+
+There is a [http://indico-software.org/ticket/1234#ticket ticket] associated to this task.

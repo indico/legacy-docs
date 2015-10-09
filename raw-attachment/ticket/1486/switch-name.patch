@@ -1,0 +1,15 @@
+diff --git a/MaKaC/authentication/LDAPAuthentication.py b/MaKaC/authentication/LDAPAuthentication.py
+index d060c7f..460eb20 100644
+--- a/MaKaC/authentication/LDAPAuthentication.py
++++ b/MaKaC/authentication/LDAPAuthentication.py
+@@ -369,8 +369,8 @@ class LDAPUserCreator(object):
+             try:
+                 av = user.Avatar()
+                 name = data.get('cn')
+-                av.setName(name.split()[0])
+-                av.setSurName(name.split()[-1])
++                av.setName(name.split()[-1])
++                av.setSurName(name.split()[0])
+                 av.setOrganisation(data.get('o', ""))
+                 av.setEmail(data['mail'])
+                 if 'postalAddress' in data:

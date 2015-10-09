@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/ZEO by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/ZEO – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FZEO56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="ZEO.html" title="View Dev/Technical/ZEO">ZEO</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/ZEO?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#ZEO">ZEO</a>
+    <ol>
+      <li>
+        <a href="#a1.Introduction">1. Introduction</a>
+        <ol>
+          <li>
+            <a href="#a1.1Caches">1.1 Caches</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a2.Connection">2. Connection</a>
+        <ol>
+          <li>
+            <a href="#a2.1Picklecache">2.1 Picklecache</a>
+          </li>
+          <li>
+            <a href="#a2.2Picklecachesstrategy">2.2 Picklecache's strategy</a>
+          </li>
+          <li>
+            <a href="#a2.3HowtochangethePicklecachecachesize">2.3 How to change the Picklecache cache size</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a3.ZEOclient">3. ZEO client</a>
+        <ol>
+          <li>
+            <a href="#a3.1ZEOClientcache">3.1 ZEO Client cache</a>
+          </li>
+          <li>
+            <a href="#a3.2ZEOClientcachesstrategy">3.2 ZEO Client cache's strategy</a>
+          </li>
+          <li>
+            <a href="#a3.3HowtochangetheZEOClientcachesize">3.3 How to change the ZEO Client cache size</a>
+          </li>
+          <li>
+            <a href="#a3.3Howtochoosethecorrectcachesize">3.3 How to choose the correct cache size</a>
+          </li>
+          <li>
+            <a href="#a3.4Howtocomputethehitrateofthecaches">3.4 How to compute the hit rate of the caches</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a4.DifferentStorages">4. Different Storages</a>
+        <ol>
+          <li>
+            <a href="#a4.1Clientstorage">4.1 Clientstorage</a>
+          </li>
+          <li>
+            <a href="#a4.2Filestorage">4.2 Filestorage</a>
+          </li>
+          <li>
+            <a href="#a4.3Relstorage">4.3 Relstorage</a>
+          </li>
+          <li>
+            <a href="#a4.4DirectoryStorage">4.4 Directory Storage</a>
+          </li>
+          <li>
+            <a href="#a4.5BestStorage">4.5 Best Storage</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a5.Replication">5. Replication</a>
+        <ol>
+          <li>
+            <a href="#a5.1ZeoRaid">5.1 Zeo Raid</a>
+            <ol>
+              <li>
+                <a href="#a5.1.1HowtoinstallZeoRaid">5.1.1 How to install Zeo Raid</a>
+              </li>
+              <li>
+                <a href="#a5.1.2HowtouseZeoRaidwithIndico">5.1.2 How to use Zeo Raid with Indico</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#a5.2ZRS4">5.2 ZRS [4]</a>
+          </li>
+          <li>
+            <a href="#a5.3NEO">5.3 NEO</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a6.References">6. References</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="ZEO">ZEO</h1>
+<h2 id="a1.Introduction">1. Introduction</h2>
+<p>
+ZODB does not support concurrencies processes. Only one application can open the file storage at a time. 
+ZEO is a client-server system for sharing a
+single storage among many clients.
+</p>
+<p>
+Normally, a ZODB storage can only
+be used by a single process.  When you use ZEO, the storage is opened
+in the ZEO server process.  Client programs connect to this process
+using a ZEO Client Storage.
+</p>
+<p>
+<a style="padding:0; border:none" href="http://www.gliffy.com/pubdoc/2067229/M.png"><img src="http://www.gliffy.com/pubdoc/2067229/M.png" alt="http://www.gliffy.com/pubdoc/2067229/M.png" title="http://www.gliffy.com/pubdoc/2067229/M.png" /></a>
+</p>
+<p>
+In principle each request made to the Apache Server creates a new process (and therefore all global variables, class variables and singleton are set again), and then each thread of this process owns its own connection.
+</p>
+<h3 id="a1.1Caches">1.1 Caches</h3>
+<p>
+<a style="padding:0; border:none" href="http://www.gliffy.com/pubdoc/2060766/M.png"><img src="http://www.gliffy.com/pubdoc/2060766/M.png" alt="http://www.gliffy.com/pubdoc/2060766/M.png" title="http://www.gliffy.com/pubdoc/2060766/M.png" /></a>
+</p>
+<p>
+There are always two caches working with ZEO. 
+</p>
+<ul><li>A Connection object has "a pickle cache", which is an in-memory cache.  By default, it holds 400 objects across transaction boundaries, regardless of how much RAM they consume. 
+</li><li>A second-level cache (the ZEO client cache, see §3.1), seeing only requests not satisfied by the pickle cache.  It's a disk-based cache, and defaults to a maximum size of 20MB
+</li></ul><h2 id="a2.Connection">2. Connection</h2>
+<h3 id="a2.1Picklecache">2.1 Picklecache</h3>
+<p>
+Each DB Connection has a separate Picklecache.  The Cache serves two purposes. It acts like a memo for unpickling.  It also keeps recent objects in memory under the assumption that they may be used again. As already mentioned in §1.1, the size of the cache is the number of objects that can be cached, by default this number is 400.
+</p>
+<h3 id="a2.2Picklecachesstrategy">2.2 Picklecache's strategy</h3>
+<p>
+The least-recently used objects are booted out at transaction boundaries.
+</p>
+<h3 id="a2.3HowtochangethePicklecachecachesize">2.3 How to change the Picklecache cache size</h3>
+<p>
+The Picklecache's cache size can be changed through the initialization of the MaKaCDB object, and this can be done as follows (assuming one wants to set it to 800 objects):
+</p>
+<div class="code"><pre><span class="k">class</span> <span class="nc">DBMgr</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> hostname<span class="o">=</span><span class="bp">None</span><span class="p">,</span> port<span class="o">=</span><span class="bp">None</span> <span class="p">):</span>
+        <span class="o">...</span>
+        <span class="bp">self</span><span class="o">.</span>_db<span class="o">=</span>MaKaCDB<span class="p">(</span><span class="bp">self</span><span class="o">.</span>_storage<span class="p">,</span> cache_size <span class="o">=</span> <span class="mi">800</span><span class="p">)</span>
+        <span class="o">....</span>
+    <span class="o">...</span>
+</pre></div><h2 id="a3.ZEOclient">3. ZEO client</h2>
+<p>
+Zeo Clients create a connection with the Zeo Server each time they need to read or write in the ZODB.
+</p>
+<p>
+Indico uses ZEO and ZODB without the ZOPE support, therefore the configuration for the ZEO-Client is directly made inside the code, at its initialization. More precisely in the DBMgr class when creating the Client Storage class.
+The Client Storage class accepts these configuration values (the complete list and description can be found at: <a class="ext-link" href="http://svn.zope.org/ZODB/trunk/doc/zeo.txt?rev=82954&amp;view=markup"><span class="icon">​</span>http://svn.zope.org/ZODB/trunk/doc/zeo.txt?rev=82954&amp;view=markup</a>)
+</p>
+<ul><li>cache-size: the maximun size of the client cache, in bytes
+</li><li>client: enables persistent cache files. If it is not specified, the client creates a temprary cache that will only be used by the current by the current object (in our case for the current process)
+</li><li>var: the directory where persistent cache file are stored. By default, if they are persistent, the cache files are stored in the current directoy
+</li></ul><h3 id="a3.1ZEOClientcache">3.1 ZEO Client cache</h3>
+<p>
+Each ZEO client keeps an on-disk cache because fetching an object over the network can be much slower than fetching the object from a local File Storage. The client cache can be:
+</p>
+<ul><li><em>Persistent</em>: the cache file is retained for user after process restarts (in order to define a cache as persistent one has to define the configuration parameter 'client' in the Client Storage initialization (see §3).
+</li><li><em>Transient</em>: the cache uses temporary files that are removed when the client storage is closed
+</li></ul><p>
+When the client is connected to the server, it receives invalidations every time an object is modified. 
+If the cache is Persistent, when the client is disconnected then reconnects, it must perform cache verification to make sure its cached data is synchronized with the storage's current state.
+</p>
+<p>
+As of 2012, this cache can only be used one process at a time, which apparently renders it useless if your processes are persistent and you have enough memory to spare. See <a class="ext-link" href="https://mail.zope.org/pipermail/zodb-dev/2010-October/013737.html"><span class="icon">​</span>this thread</a> for some more info.
+</p>
+<h3 id="a3.2ZEOClientcachesstrategy">3.2 ZEO Client cache's strategy</h3>
+<p>
+The ZEO Client cache uses a FIFO strategy. In others words there is a pointer inside the cache that goes around the file, circularly, forever.
+</p>
+<h3 id="a3.3HowtochangetheZEOClientcachesize">3.3 How to change the ZEO Client cache size</h3>
+<p>
+The default value of the zeo client cache size is 20MB. If one wants to modify this value, one has to add a 'cache-size' parameter in the construction of the DBMgr's storage field. 
+For examble if one wants to set 50Mb (5242880 bytes) of cache size, the code will be:
+</p>
+<div class="code"><pre><span class="k">class</span> <span class="nc">DBMgr</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> hostname<span class="o">=</span><span class="bp">None</span><span class="p">,</span> port<span class="o">=</span><span class="bp">None</span> <span class="p">):</span>
+        <span class="o">...</span>
+        <span class="bp">self</span><span class="o">.</span>_storage<span class="o">=</span>ClientStorage<span class="p">((</span>hostname<span class="p">,</span> port<span class="p">),</span> username<span class="o">=</span>cfg<span class="o">.</span>getDBUserName<span class="p">(),</span> password<span class="o">=</span>cfg<span class="o">.</span>getDBPassword<span class="p">(),</span>
+                      realm<span class="o">=</span>cfg<span class="o">.</span>getDBRealm<span class="p">(),</span> cache_size<span class="o">=</span><span class="mi">5242880</span><span class="p">)</span>
+        <span class="o">....</span>
+    <span class="o">...</span>
+</pre></div><h3 id="a3.3Howtochoosethecorrectcachesize">3.3 How to choose the correct cache size</h3>
+<p>
+Follow these instructions: <a class="ext-link" href="http://svn.zope.org/ZODB/trunk/doc/zeo-client-cache-tracing.txt"><span class="icon">​</span>http://svn.zope.org/ZODB/trunk/doc/zeo-client-cache-tracing.txt</a>
+</p>
+<h3 id="a3.4Howtocomputethehitrateofthecaches">3.4 How to compute the hit rate of the caches</h3>
+<p>
+If you want to analyse the hit rate of both caches (Picklecache and Clientcache) (absolutely necessary in order to benchmark a filestorage and compute the amount of time spent in the Warm, Cold, Hot or Steaming' configuration of the caches) it is easier and more accurate the apply these few changes to your ZODB and ZEO code source (with Ubuntu 9.10 it can be found at /usr/local/lib/python2.X/dist-packages/ZODB3-3.X).
+Just remember:
+</p>
+<ul><li>Before applying any change, always backup the file.
+</li><li>Don't apply these changes at the code used in production
+</li></ul><p>
+Then add the following commented lines:
+</p>
+<p>
+In the file ZODB/Connection.py:
+</p>
+<div class="code"><pre><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> oid<span class="p">):</span>
+        <span class="sd">"""Return the persistent object with oid 'oid'."""</span>
+        <span class="sd">"""Return pickle data and serial number."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span>opened <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> ConnectionStateError<span class="p">(</span><span class="s">"The database connection is closed"</span><span class="p">)</span>
+        obj <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>_cache<span class="o">.</span>get<span class="p">(</span>oid<span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="c">#f = open('/tmp/cache', 'a')</span>
+        <span class="k">if</span> obj <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c">#f.write("[LOAD PICKLE] Hit %s\n" % oid_repr(oid) )</span>
+            <span class="c">#f.flush()</span>
+            <span class="k">return</span> obj
+        <span class="c">#f.close()</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">_store_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> writer<span class="p">,</span> transaction<span class="p">):</span>
+        <span class="k">for</span> obj <span class="ow">in</span> writer<span class="p">:</span>
+            oid <span class="o">=</span> obj<span class="o">.</span>_p_oid
+            <span class="c">#f = open('/tmp/cache', 'a')</span>
+            <span class="c">#obj2 = self._cache.get(oid, None)</span>
+            <span class="c">#if obj2 is not None:</span>
+            <span class="c">#    f.write("[STORE PICKLE] Hit %s\n" % oid_repr(oid) )</span>
+            <span class="c">#    f.flush()</span>
+            <span class="c">#else:</span>
+            <span class="c">#    f.write("[STORE PICKLE] Miss %s\n" % oid_repr(oid) )</span>
+            <span class="c">#    f.flush()</span>
+            <span class="c">#f.close()</span>
+            serial <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>obj<span class="p">,</span> <span class="s">"_p_serial"</span><span class="p">,</span> z64<span class="p">)</span>
+        <span class="o">...</span>
+    <span class="o">...</span>
+
+</pre></div><p>
+In the file ZEO/ClientStorage.py:
+</p>
+<div class="code"><pre><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> oid<span class="p">,</span> version<span class="o">=</span><span class="s">''</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="bp">self</span><span class="o">.</span>_lock<span class="o">.</span>acquire<span class="p">()</span>    <span class="c"># for atomic processing of invalidations</span>
+    <span class="k">try</span><span class="p">:</span>
+        t <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>_cache<span class="o">.</span>load<span class="p">(</span>oid<span class="p">)</span>
+        <span class="c">#f = open('/tmp/cache', 'a')</span>
+        <span class="k">if</span> t<span class="p">:</span>
+        <span class="c">#   f.write("[LOAD CLIENT] Hit %s\n" % oid_repr(oid) )</span>
+        <span class="c">#   f.flush()</span>
+            <span class="k">return</span> t
+        <span class="c">#else:</span>
+        <span class="c">#   f.write("[LOAD CLIENT] Miss %s\n" % oid_repr(oid) )</span>
+        <span class="c">#   f.flush()</span>
+        <span class="c">#f.close()</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> oid<span class="p">,</span> serial<span class="p">,</span> data<span class="p">,</span> version<span class="p">,</span> txn<span class="p">):</span>
+    <span class="sd">"""Storage API: store data for an object."""</span>
+    <span class="k">assert</span> <span class="ow">not</span> version
+    <span class="c">#f = open('/tmp/cache', 'a')</span>
+    <span class="c">#t = self._cache.load(oid)</span>
+    <span class="c">#if t:</span>
+    <span class="c">#    f.write("[STORE CLIENT] Hit %s\n" % oid_repr(oid) )</span>
+    <span class="c">#else:</span>
+    <span class="c">#    f.write("[STORE CLIENT] Miss %s\n" % oid_repr(oid) )</span>
+    <span class="c">#f.flush()</span>
+    <span class="c">#f.close()</span>
+    <span class="o">...</span>
+</pre></div><p>
+From this moment every use of the cache will be logged in /tmp/cache. As soon as you'll ready to compute the statistics about the hit rate just:
+</p>
+<div class="code"><pre>sudo touch /tmp/cache; sudo chmod a+wxr /tmp/cache
+python cacheAnalyser.py /tmp/cache
+</pre></div><h2 id="a4.DifferentStorages">4. Different Storages</h2>
+<h3 id="a4.1Clientstorage">4.1 Clientstorage</h3>
+<p>
+The Zeo storage. Instead of saving objects to a file, a Clientstorage sends objects over a network connection to a Storageserver
+</p>
+<h3 id="a4.2Filestorage">4.2 Filestorage</h3>
+<p>
+See <a href="http://indico-software.org/wiki/Dev/Technical/DB#a2.3Filestorage">http://indico-software.org/wiki/Dev/Technical/DB#a2.3Filestorage</a> .
+</p>
+<h3 id="a4.3Relstorage">4.3 Relstorage</h3>
+<p>
+Relstorage is designed to be a replacement for a ZODB/Filestorage/ZEO stack. The main difference between these two solutions is that Relstorage stores objects (also called "pickles") in an existing relational database instead of creating and managing a personal file storage. This storage allows multiple ZODB clients to share the same database without any additional configuration. An important feature of Relstorage is that it is not bound to a particular RBDMS but instead users can freely choose between several supported ones, which are, at the time of writing: Oracle 10g (via cx\_Oracle, a Python extension module that allows access to Oracle databases), MySQL 5.0.32+ / 5.1.34+ (via MySQLdb 1.2.2 and above) and PostreSQL 8.1 and above (via psycopg2).
+</p>
+<h3 id="a4.4DirectoryStorage">4.4 Directory Storage</h3>
+<p>
+Another available backend storage for ZODB is Directorystorage. The main difference from the standard Filestorage of ZODB is that Directory Storage stores the data in multiple files instead of having one single big file. More precisely it creates a file per revision per object plus one file per transaction. This allows a greater degree of transparency  to the outside world, a simple way of locating objects inside the storage and the replication process is straightforward. Objects are never changed after their creation (just like with Filestorage).
+</p>
+<h3 id="a4.5BestStorage">4.5 Best Storage</h3>
+<p>
+July 2010: the best storage solution is Filestorage. Details on the master thesis.
+</p>
+<h2 id="a5.Replication">5. Replication</h2>
+<h3 id="a5.1ZeoRaid">5.1 Zeo Raid</h3>
+<p>
+"The ZEO RAID storage is a proxy storage that works like a RAID controller by creating a redundant array of ZEO servers. The redundancy is similar to RAID level 1 except that each ZEO server keeps a complete copy of the database."<a class="missing changeset" title="No changeset 3 in the repository">[3]</a>
+Therefore, up to N-1 out of N ZEO servers can fail without interrupting.
+</p>
+<h4 id="a5.1.1HowtoinstallZeoRaid">5.1.1 How to install Zeo Raid</h4>
+<p>
+(From INSTALL.txt)
+</p>
+<ol><li>Check out the ZEORaid code and buildout:
+</li></ol><blockquote>
+<p>
+$ svn co <a class="ext-link" href="svn://svn.zope.org/repos/main/gocept.zeoraid/tags/1.0b1"><span class="icon">​</span>svn://svn.zope.org/repos/main/gocept.zeoraid/tags/1.0b1</a> gocept.zeoraid
+</p>
+</blockquote>
+<ol start="2"><li>Copy the <tt>buildout.cfg.example</tt> file to <tt>buildout.cfg</tt>:
+</li></ol><blockquote>
+<p>
+$ cp buildout.cfg.example buildout.cfg
+</p>
+</blockquote>
+<ol start="3"><li>Bootstrap and run the buildout with Python 2.4:
+</li></ol><blockquote>
+<p>
+$ python2.4 bootstrap.py
+</p>
+</blockquote>
+<blockquote>
+<p>
+$ bin/buildout
+</p>
+</blockquote>
+<ol start="4"><li>Start the servers:
+</li></ol><blockquote>
+<p>
+$ bin/zeo1 start
+</p>
+</blockquote>
+<blockquote>
+<p>
+$ bin/zeo2 start
+</p>
+</blockquote>
+<blockquote>
+<p>
+$ bin/zeoraid1 start
+</p>
+</blockquote>
+<blockquote>
+<p>
+$ bin/zeoraid2 start
+</p>
+</blockquote>
+<h4 id="a5.1.2HowtouseZeoRaidwithIndico">5.1.2 How to use Zeo Raid with Indico</h4>
+<p>
+If the Zeo raid server is listening to the same address:port than the normal zeo indico server (by default localhost:9675), no changes are needed. Otherwise one has just to change de indico.conf file and change the value: DBConnectionParams.
+</p>
+<h3 id="a5.2ZRS4">5.2 ZRS <a class="missing changeset" title="No changeset 4 in the repository">[4]</a></h3>
+<p>
+Zope replication service (ZRS), offered commercially from the Zope corporation (More information at <a class="ext-link" href="http://customers.zope.com/ZRS/"><span class="icon">​</span>http://customers.zope.com/ZRS/</a>), provides database replication for ZODB. With the use of ZRS, it is possible to define a primary storage and one or more secondary storages for each database. ZRS does not solve problems, it just provides a fast recovery if a problem occurs, in other words ZRS minimizes the cluster downtime while maximizing the transactional integrity of the ZODB. The downtime is limited to the time necessary to detect a failure and to the time taken by the administrator to switch to a secondary ZRS replica. 
+If the primary server fails, the system falls back to a read-only mode, but it is easy and fast to reconfigure a secondary server to be the primary. Thanks to this architecture ZRS increases the availability of the application by reducing the time needed to repair and restart the entire system in the case of an unexpected crash of the primary storage (using a normal configuration, that is just a simple ZEO or ZODB server, the time needed for a restart can be very long because the storage has to be checked for consistency and, if a problem is found, it has to be restored from a backup).
+</p>
+<p>
+Clients direct all the queries to the primary storage server which basically does all the operations. After having answered to a request the primary server has to broadcast all the changes and the updates to the read-only replicas, which will execute the transactions locally. The fact of forwarding the transactions instead of sending the modified objects avoid the problem of replicating corrupted data (that is if corruption occurs in one database, that error will not be reproduced in any other storages almost for sure) and therefore, if the primary would go down, all the replicas would have a consistent and complete copy of the entire storage. Another important point of the fact that ZRS replicates at the transaction level is that each secondary storage can use a different storage (Filestorage, Relstorage, Directorystorage) without the obligation of using a pre-establish one.
+</p>
+<h3 id="a5.3NEO">5.3 NEO</h3>
+<p>
+NEO is a high performance distributed fault tolerant ZODB storage, it has been developed by NEOPPOD \footnote{More information at <a class="ext-link" href="http://www.neoppod.org/"><span class="icon">​</span>http://www.neoppod.org/</a>} and its aim is to improve ZODB storage scalability (load  balancing over multiple machines).  NEO is distributed and different types of nodes take place in its architecture:
+</p>
+<ul><li><strong> 'Master' (mandatory, 1 or more):</strong> There is only one active master node (the 'primary master', elected by all the nodes) active at a time and it is in charge of all centralised task as oid/tid generation, broadcasting all the moves inside the cluster  (new node connection or disconnection), cluster consistency checking (it answers question like "is there enough nodes to cover all the data?"). Moreover it guarantees unicity and atomicity. All the other extra masters (also called "secondary masters") are spares and they become active only if the primary goes down and a new one has to be chosen.
+</li></ul><p>
+ 
+</p>
+<ul><li><strong> 'Storage' nodes (mandatory, 1 or more):</strong> Nodes that contain object data stored in a MySQL database. 
+</li></ul><p>
+ 
+</p>
+<ul><li><strong> 'Client' nodes:</strong> normal server that needs to store and to load data inside the cluster, typically any application using NEO.
+</li></ul><p>
+An important feature of NEO is that locks are done at the object level and not at the database level. ZEO uses the policy of locking the entire database when a client wants to modify an object in order to prevent concurrent transactions to modify the same object. Unfortunately this safe implementation is a bottleneck since transactions  have to wait until the end of all the unrelated active transactions in order to being able to modify an object. On the other hand NEO locks only the requested objects and let all the concurrent processes work in parallel. This feature will reduce the commit latency.
+</p>
+<h2 id="a6.References">6. References</h2>
+<ul><li><a class="missing changeset" title="No changeset 1 in the repository">[1]</a> <a class="ext-link" href="http://pypi.python.org/pypi/gocept.zeoraid/1.0b7"><span class="icon">​</span>http://pypi.python.org/pypi/gocept.zeoraid/1.0b7</a>
+</li><li><a class="missing changeset" title="No changeset 2 in the repository">[2]</a> <a class="ext-link" href="http://wiki.zope.org/ZODB/howto.html"><span class="icon">​</span>http://wiki.zope.org/ZODB/howto.html</a>
+</li><li><a class="missing changeset" title="No changeset 3 in the repository">[3]</a> <a class="ext-link" href="http://svn.zope.org/ZODB/trunk/doc"><span class="icon">​</span>http://svn.zope.org/ZODB/trunk/doc</a>
+</li><li><a class="missing changeset" title="No changeset 4 in the repository">[4]</a> <a class="ext-link" href="http://www.zope.com/products/zope_replication_services.html"><span class="icon">​</span>http://www.zope.com/products/zope_replication_services.html</a>
+</li><li><a class="missing changeset" title="No changeset 5 in the repository">[5]</a> <a class="ext-link" href="http://customers.zope.com/ZRS/download.html"><span class="icon">​</span>http://customers.zope.com/ZRS/download.html</a>
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/ZEO?action=diff&amp;version=101" title="Version 101 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-02-10T12%3A09%3A16%2B01%3A00&amp;precision=second" title="See timeline at 02/10/12 12:09:16">4 years ago</a></span>
+            <span class="trac-print">Last modified on 02/10/12 12:09:16</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FZEO56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/ZEO by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:14 GMT -->
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/UsingMako by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/UsingMako – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FUsingMako56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="UsingMako.html" title="View Dev/Technical/UsingMako">UsingMako</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/UsingMako?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+There is an official <a class="ext-link" href="http://www.makotemplates.org/docs/"><span class="icon">​</span>Mako documentation</a>. This page discusses some differences from Indico template language or presents problems that might occur while using Mako and suggests solutions to them.
+</p>
+<h1 id="a1.Inlineconditionalconstructs">1. Inline conditional constructs</h1>
+<p>
+Using Indico templating language one can write,
+</p>
+<pre class="wiki">&lt;div class="pageHeader &lt;% if dark: %&gt;pageHeaderDark&lt;% end %&gt;"&gt;
+</pre><p>
+It is not possible to do this with Mako <tt>if</tt> construct due to its syntax,
+</p>
+<pre class="wiki">% if expr:
+    text to be printed
+% endif
+</pre><p>
+A simple solution to get an inline if in Mako is to use Python ternary operator,
+</p>
+<pre class="wiki">&lt;div class="pageHeader ${"pageHeaderDark" if dark else ""}"&gt;
+</pre><h1 id="a2.Argumentstoincludedfiles">2. Arguments to included files</h1>
+<p>
+It is required to declare what arguments the included template expects to receive. If there is a file <tt>EventHeader.tpl</tt> with code,
+</p>
+<pre class="wiki">&lt;%include file="SessionBar.tpl" args="dark=dark"/&gt;
+</pre><p>
+then the file <tt>SessionBar.tpl</tt> must contain a line,
+</p>
+<pre class="wiki">&lt;%page args="dark=None"/&gt;
+</pre><p>
+Here <tt>None</tt> defines the default value for <tt>dark</tt>.
+</p>
+<p>
+Another important thing is that only the arguments that were passed to the <tt>render()</tt> method get passed along to the included templates. Local variables or <tt>pageargs</tt> from some template <tt>A.tpl</tt> will not be available in all the templates that <tt>A.tpl</tt> includes.
+</p>
+<h1 id="a3.Whitespacebetweentwoexpressionsmatters">3. Whitespace between two expressions matters</h1>
+<p>
+In Indico the whitespace between <tt>&lt;%= "a" %&gt;</tt> and <tt>&lt;%= "b" %&gt;</tt> is ignored, so one for example would use one of the following,
+</p>
+<pre class="wiki">&lt;%= _("Name:") + " "%&gt; &lt;%= name %&gt;
+</pre><pre class="wiki">&lt;%= _("Name:") %&gt;&amp;nbsp;&lt;%= name %&gt;
+</pre><p>
+With Mako the whitespace is preserved, so the line above can be written in a simple way,
+</p>
+<pre class="wiki">${_("Name:")} ${name}
+</pre><h1 id="a4.Usingcurlybracketsinsideof">4. Using curly brackets inside of <tt>${} </tt></h1>
+<p>
+There is a <a class="ext-link" href="http://www.makotemplates.org/trac/ticket/20"><span class="icon">​</span>known limitation</a> in Mako for using curly brackets inside of <tt>${}.</tt> Usually this is a problem when there is a dictionary being constructed inside of <tt>${}.</tt> If all <tt>dict</tt> keys are strings, then instead of,
+</p>
+<pre class="wiki">${ beautify({ "UlClassName" : "optionList", "KeyClassName" : "optionKey" }) }
+</pre><p>
+one should use,
+</p>
+<pre class="wiki">${ beautify(dict(UlClassName="optionList", KeyClassName="optionKey")) }
+</pre><p>
+If there exists a non-string key, then the following <tt>dict</tt> construction method should be used,
+</p>
+<pre class="wiki">${ offlineRequest(dict([(termsDict[type]['paramsKey'], target.getId())])) };
+</pre><p>
+Some of the other situations where this might get in a way are translatable strings and Javascript code,
+</p>
+<pre class="wiki">${ _("This is a right curly bracket: }.") }
+
+# bad example, but you get the idea..
+${ "if (test == %s) { doSomething(); doItAgain(); }" % testValue }
+</pre><p>
+In this cases the following workaround can be used (it can be used for <tt>dict</tt> as well),
+</p>
+<pre class="wiki">&lt;% text = _("This is a right curly bracket: }.") %&gt;
+${ text }
+&lt;% code = "if (test == %s) { doSomething(); doItAgain(); }" %&gt;
+${ code % testValue }
+</pre><h1 id="a5.Conflictsbetweenargumentsandlocalvariables">5. Conflicts between arguments and local variables</h1>
+<p>
+The following Mako template would give an <tt>UndefinedName</tt> error,
+</p>
+<pre class="wiki">${var}
+&lt;% var = "new value" %&gt;
+</pre><p>
+This is not a bug, it is mentioned in <a class="ext-link" href="http://www.makotemplates.org/docs/runtime.html#context-variables"><span class="icon">​</span>Mako website</a> and <a class="ext-link" href="http://groups.google.com/group/mako-discuss/browse_thread/thread/b79f1b458cc7083b/2c5bc939ffcdb479"><span class="icon">​</span>mailing list</a>. If an assignment to a variable is found in a template, Mako assumes it is a local variable and not a parameter which was passed to a template. Therefore it does not take variable's value from the parameters passed to the template. If one needs to modify and use a variable between different templates, it is recommended to use a dictionary parameter as described in Mako documentation.
+</p>
+<h1 id="a6.Built-innames">6. Built-in names</h1>
+<p>
+There are some <a class="ext-link" href="http://www.makotemplates.org/docs/runtime.html#all-the-built-in-names"><span class="icon">​</span>built-in names</a> that cannot be used as parameter names. Indico templates used the name <tt>self</tt> extensively to refer to the component that is being renderer. In Mako it should be replaced to <tt>self_</tt> or something similar.
+</p>
+<h1 id="a7.ContinuousPythonblocksshouldbemergedintoone">7. Continuous Python blocks should be merged into one</h1>
+<p>
+Indico template <a class="ext-link" href="https://espace.cern.ch/indico-soft/developers/wiki for Indico developers/Templating engine guide.aspx"><span class="icon">​</span>documentation</a> recommends to surround each Python code line with <tt>&lt;% %&gt;</tt>. Mako generates faster code when continuous <tt>&lt;% %&gt;</tt> blocks are merged into one. This is because after <tt>&lt;% %&gt;</tt> Python code execution Mako updates a dictionary where it keeps some information about the variables.
+</p>
+<h1 id="a8.Searchpathininclusionmechanism">8. Search path in inclusion mechanism</h1>
+<p>
+If the template <tt>A.tpl</tt> includes another template using <tt>&lt;%include file="B.tpl"/&gt;</tt>, then Mako searches for <tt>B.tpl</tt> in the same directory where <tt>A.tpl</tt> is stored. This becomes a problem, for example, when a template in the plugins folder tries to do,
+</p>
+<pre class="wiki">&lt;%include file="ConfModifCollaborationDefaultAdvancedTab.tpl"/&gt;
+</pre><p>
+and the file to be included is in the main templates directory. The problem can be solved by using full path:
+</p>
+<pre class="wiki">&lt;%include file="${TPLS}/ConfModifCollaborationDefaultAdvancedTab.tpl"/&gt;
+</pre><p>
+The variable <tt>TPLS</tt> is defined to be <tt>Config.getInstance().getTPLDir()</tt>.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/UsingMako?action=diff&amp;version=2" title="Version 2 by mdamarac">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-03-24T17%3A46%3A51%2B01%3A00&amp;precision=second" title="See timeline at 03/24/11 17:46:51">5 years ago</a></span>
+            <span class="trac-print">Last modified on 03/24/11 17:46:51</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FUsingMako56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/UsingMako by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:20 GMT -->
+</html>

@@ -1,0 +1,221 @@
+= 1. Introduction =
+
+This page contains notes about choosing the new template engine for Indico. The following engines were selected for benchmarks:
+  * [[https://espace.cern.ch/indico-soft/developers/wiki%20for%20Indico%20developers/Templating%20engine%20guide.aspx|Indico]]
+  * [[http://www.makotemplates.org/|Mako]]
+  * [[http://genshi.edgewall.org/|Genshi]] (both XML and Text based engines)
+  * [[http://jinja.pocoo.org/|Jinja2]]
+  * [[http://www.cheetahtemplate.org/|Cheetah]]
+
+Some points that should be considered:
+
+    * Indico works with simple bytestrings. However the majority of template engines work with Unicode strings. If a bytestring containing a value > 127 would be passed by Indico to the Unicode based template engine, it would raise an {{{UnicodeDecodeError}}} exception. A simple solution is to call {{{decode('utf-8')}}} on all strings before passing them to the template, but it gets more complicated if Indico passes an object to the template and then the template calls some method of the object to get a string.
+
+    * Indico templates allow arbitrary Python code and some pages (e.g. !RoomBookingRoomCalendarBar.tpl, !NavigationDrawer.tpl) use this feature extensively. To make the integration easier, the new engine should support the inclusion of Python code in the template files. Some template engines (e.g. Django, Jinja2) take the separation of logic and presentation very seriously and allow only a very restricted subset of Python to be used in the templates. It can result in quite an awkward code.
+
+    * There is a choice between Text and XML based template engines. XML templates are slower, but they ensure that the resulting page will be a valid XML document. Obviously there is also a good support for XML editors. Text based templates are faster and allow much more freedom in what you can output. Since Indico has used Text based templates throughout its lifetime, it would be easier to integrate a new Text based template. Personal opinion: maintaining Text based templates is also much easier.
+
+    * Template engine should have a syntax that is easy to parse (for editors) and also easy to edit for developers. For this reason small examples of the syntax are included for each template language.
+
+= 2. Template engines =
+
+== 2.1. Indico ==
+
+{{{#!xml
+<% for day in iterdays( calendarStartDT, calendarEndDT ): %>
+    <%
+        dayD = day.date()
+    %>
+    <% if bars.has_key(day.date()): %>
+        <div id="calendarDayContainer">
+            <strong><%= formatDate(dayD) %></strong>
+        </div>
+    <% end %>
+<% end %>
+}}}
+
+Indico template engine translates the template file into the Python code and then executes it. According to the benchmarks it is quite fast. The restrictions are documented in [[https://espace.cern.ch/indico-soft/developers/wiki%20for%20Indico%20developers/Templating%20engine%20guide.aspx|Templating engine guide]].
+
+== 2.2. Mako ==
+
+{{{#!xml
+% for day in iterdays( calendarStartDT, calendarEndDT ):
+    <%
+        dayD = day.date()
+    %>
+    % if bars.has_key(day.date()):
+        <div id="calendarDayContainer">
+            <strong>${formatDate(dayD)}</strong>
+        </div>
+    % endif
+% endfor
+}}}
+
+Just like Indico template engine, Mako also translates the template file into Python code. Advantage over Indico is that Mako saves the generated code to a file and when the next time the same page is requested, it skips the translation and just loads the Python module. Following benchmarks demonstrate the difference of loading time between the first and second request:
+
+||= Component =||= !#1 =||= !#2 =||
+|| !RoomBookingRoomCalendar || 1.04649 || 0.91011 ||
+|| !RoomBookingManyRoomsCalendar || 1.53808 || 1.45852 ||
+|| !BigTest || 0.13385 || 0.11491 ||
+|| !UserDetails || 0.04239 || 0.00213 ||
+|| !CategoryMap || 0.01492 || 0.00106 ||
+
+Mako also has a caching mechanism. Every template file can be defined to be cached with a directive {{{<%page cached="True"/>}}}. After the template is rendered, the result is saved in memory. On all subsequent rendering calls to the same {{{Template}}} object, the result from cache will be returned. Speed improvement is very big, but this caching cannot be applied to the templates with dynamic content:
+
+||= Component =||= Normal =||= Cache =||
+|| !RoomBookingRoomCalendar || 1.14111 || 0.00261 ||
+|| !RoomBookingManyRoomsCalendar || 1.39286 || 0.00859 ||
+|| !BigTest || 0.08318 || 0.00230 ||
+|| !UserDetails || 0.00354 || 0.00168 ||
+|| !CategoryMap || 0.00144 || 0.00080 ||
+
+By default Mako works with Unicode strings, but there is an option to disable unicode. This can be very convenient for Indico, as described in Introduction.
+
+Mako uses the same syntax for Python code inclusion as Indico templates. Most of the Python code in Indico templates has every line wrapped in {{{<% .. %>}}}, but Mako generates faster code if all the continuous Python code lines are wrapped in just one {{{<% .. %>}}} block.
+
+== 2.3. Genshi ==
+
+Genshi XML based template language example:
+{{{#!xml
+<py:for each="day in iterdays( calendarStartDT, calendarEndDT )">
+    <?python
+        dayD = day.date()
+    ?>
+    <py:if test="bars.has_key(day.date())">
+        <div id="calendarDayContainer">
+            <strong>${formatDate(dayD)}</strong>
+        </div>
+    </py:if>
+</py:for>
+}}}
+
+Genshi Text based template language example:
+{{{#!xml
+{% for day in iterdays( calendarStartDT, calendarEndDT ) %}
+    {% python
+        dayD = day.date()
+    %}
+    {% if bars.has_key(day.date()) %}
+        <div id="calendarDayContainer">
+            <strong>${formatDate(dayD)}</strong>
+        </div>
+    {% end %}
+{% end %}
+}}}
+
+Genshi was the only XML based template engine considered. It was more difficult to translate Indico templates to Genshi XML templates, than to Text based templates. Also it is not as straightforward to control what is being outputted, e.g. with symbols like {{{&}}} or {{{&nbsp;}}}, also HTML code {{{<div></div>}}} was automatically replaced to {{{<div/>}}} which resulted in a different looking result (at least in Firefox 3.6). It isn't allowed to put HTML tags in translatable strings. This was a problem with !UserDetails.tpl page.
+
+It is allowed to include arbitrary Python code blocks, which is a plus.
+
+Genshi works with Unicode strings, so all the strings passed from Indico must be converted.
+
+Genshi also has a simple Text based engine, but according to the benchmarks, it is slower than other Text based engines.
+
+The first time the template is loaded, Genshi caching mechanism saves the parsed template in memory. Speed improvements after the first request:
+
+||= Component =||= XML !#1 =||= XML !#2 =||= Text !#1 =||= Text !#2 =||
+|| !RoomBookingManyRoomsCalendar || 9.49691 || 9.10890 || 6.27557 || 5.93521 ||
+|| !BigTest || 5.21903 || 5.19453 || 3.28489 || 3.12738 ||
+|| !UserDetails || 0.08692 || 0.01119 || 0.05303 || 0.00266 ||
+|| !CategoryMap || 0.02770 || 0.00324 || 0.01048 || 0.00079 ||
+
+== 2.4. Jinja2 ==
+
+{{{#!xml
+<table>
+{% for row in data %}
+<tr>
+    {% for cell in row %}
+    <td>
+        {% if cell[-1] == '9' %}
+        <b>{{cell}}</b>
+        {% endif %}
+    </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+</table>
+}}}
+
+Jinja2 allows only restricted use of Python in templates, so it was not possible to (easily) implement the benchmarks for !RoomBookingRoomCalendar and !RoomBookingManyRoomsCalendar.
+
+== 2.5. Cheetah ==
+
+{{{#!xml
+<table>
+#for row in $data
+<tr>
+    #for cell in $row
+    <td>
+        #if $cell[-1] == '9':
+        <b>${cell}</b>
+        #end if
+    </td>
+    #end for
+</tr>
+#end for
+</table>
+}}}
+
+Personal opinion: syntax is not as nice as other engines, because of all the {{{$}}} and {{{#}}} symbols.
+
+Cheetah supports the compilation of template files to Python code, but developers have to do the compilation themselves, then include the compiled Python module and render it.
+
+= 3. Benchmarks =
+
+== 3.1. System ==
+
+Benchmarks were performed on Intel(R) Pentium(R) 4 CPU 3.00GHz, 2 GB RAM running Ubuntu 10.04 operating system.
+
+== 3.2. Script ==
+
+The idea of the benchmarking script is summarized in the following Python-like pseudocode:
+
+{{{#!python
+from MaKaC.common.TemplateExec import TemplateExec
+
+for each template engine t and each component c:
+    # Substitute the rendering method.
+    # renderer(t) returns the engine specific rendering method
+    # of the form function(tpl, params, tplFilename)
+    TemplateExec.executeTemplate = renderer(t)
+
+    # Setup the decorator which logs the times of entry to and
+    # exit from the function. Because of includes, executeTemplate
+    # can be called multiple times, so we are interested in the
+    # time of the first entry and time of the last exit.
+    TemplateExec.executeTemplate = timing(TemplateExec.executeTemplate)
+
+    # Run some code to initiate the rendering of c
+    c.getHTML()
+
+    # EXIT_TIME is the time of the last exit from executeTemplate
+    # ENTRY_TIME is the time of the first entry to executeTemplate
+    rendering_time = EXIT_TIME - ENTRY_TIME
+}}}
+
+== 3.3. Components ==
+
+Following components were used for benchmarks:
+
+||= Component =||= Motivation =||
+|| !RoomBookingRoomCalendar || Template with a lot of includes, which apparently works slow on Indico production server. Benchmarking data contained 1394 bookings during the three month span. ||
+|| !RoomBookingManyRoomsCalendar || Slow on Indico production server. Benchmarked with 3068 bookings and 572 rooms (had to disable the overload condition in Indico code to make the benchmark work). ||
+|| !BigTest || Not from Indico, contains two nested for loops with an if condition and some variable output inside. Renders a 100 x 100 table of numbers. ||
+|| !UserDetails || Simple component with some variables and translatable strings. ||
+|| !CategoryMap || Original motivation for this was inclusion of the big text and also Unicode characters. Now with different data this benchmark is quite useless. ||
+
+== 3.4. Results ==
+
+Some benchmarks were not implemented (marked with - sign). Cheetah templates were not compiled to Python modules.
+
+||= =||= Indico =||= Mako (compiled) =||= Genshi XML =||= Genshi XML (cache) =||= Genshi Text =||= Genshi Text (cache) =||= Jinja2 =||= Jinja2 (cache) =||= Cheetah =||
+|| !RoomBookingRoomCalendar || 6.38599 || '''0.99091''' || - || - || - || - || - || - ||  - ||
+|| !RoomBookingManyRoomsCalendar || 2.15272 || '''1.74113''' || 9.49691 || 9.10890 || 6.27557 || 5.93521 || - || - ||  - ||
+|| !BigTest || 0.60132 || 0.11450 || 5.21903 || 5.19453 || 3.28489 || 3.12738 || 0.15350 || '''0.10468''' || 1.19566 ||
+|| !UserDetails || 0.00625 || '''0.00207''' || 0.08692 || 0.01119 || 0.05303 || 0.00266 || 0.03847 || 0.00268 || 0.06674 ||
+|| !CategoryMap || 0.00078 || 0.00161 || 0.02770 || 0.00324 || 0.01048 || 0.00079  || 0.00826 || '''0.00060''' || 0.01998 || 
+
+= 4. Conclusion =
+
+In terms of features Mako seems to be the most appropriate new template engine for Indico. Speed-wise it gets beaten in some benchmarks, but the difference is insignificant.

@@ -1,0 +1,13 @@
+= Version numbering =
+
+There's a difference between version numbering '''in the source code''' (`MaKaC/__init__.py`) and '''in Git''' (branch name, tag, etc...):
+
+== Git ==
+
+ * We usually work on a `v[number]-series` branch (i.e. `v0.97-series`);
+ * Occasionally, we create tags for specific releases (i.e. `v0.97b` and `v0.97b2`)
+ * For parallel development (i.e. `v0.97-series` against `v0.98-series`) we branch out and periodically merge;
+
+== Source code ==
+
+ * We usually keep the version number of the last release (except for new branches, that deserve a `dev` prefix, i.e. `v0.98-dev`);

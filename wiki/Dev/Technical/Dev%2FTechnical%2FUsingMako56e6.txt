@@ -1,0 +1,98 @@
+There is an official [[http://www.makotemplates.org/docs/|Mako documentation]]. This page discusses some differences from Indico template language or presents problems that might occur while using Mako and suggests solutions to them.
+
+= 1. Inline conditional constructs =
+Using Indico templating language one can write,
+{{{
+<div class="pageHeader <% if dark: %>pageHeaderDark<% end %>">
+}}}
+It is not possible to do this with Mako {{{if}}} construct due to its syntax,
+{{{
+% if expr:
+    text to be printed
+% endif
+}}}
+A simple solution to get an inline if in Mako is to use Python ternary operator,
+{{{
+<div class="pageHeader ${"pageHeaderDark" if dark else ""}">
+}}}
+
+= 2. Arguments to included files =
+It is required to declare what arguments the included template expects to receive. If there is a file {{{EventHeader.tpl}}} with code,
+{{{
+<%include file="SessionBar.tpl" args="dark=dark"/>
+}}}
+then the file {{{SessionBar.tpl}}} must contain a line,
+{{{
+<%page args="dark=None"/>
+}}}
+Here {{{None}}} defines the default value for {{{dark}}}.
+
+Another important thing is that only the arguments that were passed to the {{{render()}}} method get passed along to the included templates. Local variables or {{{pageargs}}} from some template {{{A.tpl}}} will not be available in all the templates that {{{A.tpl}}} includes.
+
+= 3. Whitespace between two expressions matters =
+In Indico the whitespace between {{{<%= "a" %>}}} and {{{<%= "b" %>}}} is ignored, so one for example would use one of the following,
+{{{
+<%= _("Name:") + " "%> <%= name %>
+}}}
+{{{
+<%= _("Name:") %>&nbsp;<%= name %>
+}}}
+With Mako the whitespace is preserved, so the line above can be written in a simple way,
+{{{
+${_("Name:")} ${name}
+}}}
+
+= 4. Using curly brackets inside of {{{${} }}} =
+There is a [[http://www.makotemplates.org/trac/ticket/20|known limitation]] in Mako for using curly brackets inside of {{{${}.}}} Usually this is a problem when there is a dictionary being constructed inside of {{{${}.}}} If all {{{dict}}} keys are strings, then instead of,
+{{{
+${ beautify({ "UlClassName" : "optionList", "KeyClassName" : "optionKey" }) }
+}}}
+one should use,
+{{{
+${ beautify(dict(UlClassName="optionList", KeyClassName="optionKey")) }
+}}}
+If there exists a non-string key, then the following {{{dict}}} construction method should be used,
+{{{
+${ offlineRequest(dict([(termsDict[type]['paramsKey'], target.getId())])) };
+}}}
+Some of the other situations where this might get in a way are translatable strings and Javascript code,
+{{{
+${ _("This is a right curly bracket: }.") }
+
+# bad example, but you get the idea..
+${ "if (test == %s) { doSomething(); doItAgain(); }" % testValue }
+}}}
+
+In this cases the following workaround can be used (it can be used for {{{dict}}} as well),
+{{{
+<% text = _("This is a right curly bracket: }.") %>
+${ text }
+<% code = "if (test == %s) { doSomething(); doItAgain(); }" %>
+${ code % testValue }
+}}}
+
+= 5. Conflicts between arguments and local variables =
+The following Mako template would give an {{{UndefinedName}}} error,
+{{{
+${var}
+<% var = "new value" %>
+}}}
+
+This is not a bug, it is mentioned in [[http://www.makotemplates.org/docs/runtime.html#context-variables|Mako website]] and [[http://groups.google.com/group/mako-discuss/browse_thread/thread/b79f1b458cc7083b/2c5bc939ffcdb479|mailing list]]. If an assignment to a variable is found in a template, Mako assumes it is a local variable and not a parameter which was passed to a template. Therefore it does not take variable's value from the parameters passed to the template. If one needs to modify and use a variable between different templates, it is recommended to use a dictionary parameter as described in Mako documentation.
+
+= 6. Built-in names =
+There are some [[http://www.makotemplates.org/docs/runtime.html#all-the-built-in-names|built-in names]] that cannot be used as parameter names. Indico templates used the name {{{self}}} extensively to refer to the component that is being renderer. In Mako it should be replaced to {{{self_}}} or something similar.
+
+= 7. Continuous Python blocks should be merged into one =
+Indico template [[https://espace.cern.ch/indico-soft/developers/wiki%20for%20Indico%20developers/Templating%20engine%20guide.aspx|documentation]] recommends to surround each Python code line with {{{<% %>}}}. Mako generates faster code when continuous {{{<% %>}}} blocks are merged into one. This is because after {{{<% %>}}} Python code execution Mako updates a dictionary where it keeps some information about the variables.
+
+= 8. Search path in inclusion mechanism =
+If the template {{{A.tpl}}} includes another template using {{{<%include file="B.tpl"/>}}}, then Mako searches for {{{B.tpl}}} in the same directory where {{{A.tpl}}} is stored. This becomes a problem, for example, when a template in the plugins folder tries to do,
+{{{
+<%include file="ConfModifCollaborationDefaultAdvancedTab.tpl"/>
+}}}
+and the file to be included is in the main templates directory. The problem can be solved by using full path:
+{{{
+<%include file="${TPLS}/ConfModifCollaborationDefaultAdvancedTab.tpl"/>
+}}}
+The variable {{{TPLS}}} is defined to be {{{Config.getInstance().getTPLDir()}}}.

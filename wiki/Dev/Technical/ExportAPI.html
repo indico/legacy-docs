@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/ExportAPI by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/ExportAPI – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FExportAPI56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="ExportAPI.html" title="View Dev/Technical/ExportAPI">ExportAPI</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/ExportAPI?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="IndicoHTTPExportAPI">Indico HTTP Export API</h1>
+<h2 id="Proposal">Proposal</h2>
+<p>
+See <a class="wiki" href="../INTREPID/7.html">Dev/INTREPID/7</a>
+</p>
+<h2 id="Brainstorming">Brainstorming</h2>
+<ul><li>URLs
+<ul><li><a class="ext-link" href="http://indico.cern.ch/export/categ/2l5.json?&amp;orderby=date&amp;descending=true&amp;from=20100120&amp;to=20110202T150000Z00&amp;limit=10"><span class="icon">​</span>http://indico.cern.ch/export/categ/2l5.json?&amp;orderby=date&amp;descending=true&amp;from=20100120&amp;to=20110202T150000Z00&amp;limit=10</a>
+</li><li><a class="ext-link" href="http://indico.cern.ch/export/event/1234.json"><span class="icon">​</span>http://indico.cern.ch/export/event/1234.json</a>
+</li><li><a class="ext-link" href="http://indico.cern.ch/export/event/1234/0.json"><span class="icon">​</span>http://indico.cern.ch/export/event/1234/0.json</a>
+</li></ul></li></ul><ul><li>Output granularity:
+<ul><li>events
+</li><li>sessions / contributions
+</li><li>only contributions
+</li><li>sub-contributions
+</li></ul></li></ul><ul><li>Criteria (only one? several?)
+<ul><li>Name - regexp?
+</li><li>Date/time
+<ul><li>event criterion: start date, end date, happening
+</li><li>absolute interval: from/to
+</li><li>relative interval (next 2 hours, 5 days, 1 month...)
+</li></ul></li><li>ID (URL implicit?)
+</li><li>Location - extension?
+</li></ul></li></ul><ul><li>Results
+<ul><li>Limit (number of results)
+</li><li>Order by (criterion)
+. date
+. alphabetic
+. ...
+</li><li>Suppress sorting if the result set is getting too big;
+<ul><li>either just fail or return the incomplete set;
+</li></ul></li><li>Descending - order of appearance
+</li></ul></li></ul><ul><li>Metadata
+<ul><li>Authors/speakers
+</li><li>Whole timetable? (w/ breaks, etc)
+</li><li>Materials?
+</li><li>Protection data?
+</li></ul></li></ul><ul><li>Formats:
+<ul><li>URL encoded?
+</li><li>JSON
+<ul><li>jsonp?
+</li></ul></li><li>XML
+</li><li>HTML 4
+</li><li>HTML 5 Microdata ?
+</li><li>YAML ?
+</li><li>RDF ?
+</li><li>CSV ?
+</li></ul></li></ul><h2 id="Access">Access</h2>
+<ul><li>HTTPS only
+</li><li>HTTP auth?
+</li><li>Cookie?
+</li><li>SSO? Is there anything?
+</li><li>API key for specific user? 
+<ul><li><a class="ext-link" href="http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html"><span class="icon">​</span>http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html</a>
+</li></ul></li><li>client-side certificates?
+</li></ul><h2 id="Others">Others</h2>
+<ul><li>Caching
+<ul><li>File, memory, memcached?
+</li></ul></li></ul><h2 id="CurrentURLS">Current URLS</h2>
+<ul><li>Category
+<ul><li>/export/categ/ID.TYPE
+</li></ul></li></ul><ul><li>Event
+<ul><li>/export/event/ID.TYPE
+</li><li>/export/timetable/ID.TYPE -&gt; /export/event/0/timetable.TYPE
+</li><li>/export/event/EVENT_ID/session/SESSION_ID.type
+</li><li>/export/event/EVENT_ID/contribution/SESSION_ID.type
+</li><li>/export/event/search/TERM.type
+</li></ul></li></ul><ul><li>Registration
+<ul><li>/export/event/EVENT_ID/registrant/REGISTRANT_ID/checkin.TYPE
+</li><li>/export/event/EVENT_ID/registrant/all.TYPE
+</li></ul></li></ul><ul><li>File
+<ul><li>/export/event/EVENT_ID/session/SESSION_ID/contrib/CONTRIBUTION_ID/subcontrib/SUBCONTRIBUTION_ID/material/MATERIAL_ID/RESOURCE_ID.TYPE
+</li></ul></li></ul><ul><li>User
+<ul><li>/export/user/ID.type
+</li><li>/export/user/(linked|categ)_events.type?userid=USER_ID -&gt; /export/user/USER_ID/(linked|categ)_events.type
+</li></ul></li></ul><ul><li>Collaboration
+<ul><li>/export/video/SERVICE_ID.TYPE --&gt; /export/cs/video/SERVICE_ID.TYPE 
+</li><li>/export/eAgreements/EVENT_ID.type --&gt; /export/event/EVENT_ID/cs/eagreements.TYPE 
+</li><li>/export/recordingManager/createLink.json -&gt; /export/cs/recordingmanager/create_link.json 
+</li></ul></li></ul><ul><li>Roombooking
+<ul><li>/api/roomBooking/bookRoom.json
+</li><li>/export/reservation/LOCATION.TYPE  -&gt; 
+</li><li>/export/room/LOCATION/ID.TYPE
+</li><li>/export/roomName/LOCATION/ROOMNAME.TYPE -&gt; export/room/LOCATION/search/ROOMNAME.TYPE
+</li></ul></li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/ExportAPI?action=diff&amp;version=11" title="Version 11 by arescope">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-01T11%3A33%3A29%2B01%3A00&amp;precision=second" title="See timeline at 11/01/13 11:33:29">2 years ago</a></span>
+            <span class="trac-print">Last modified on 11/01/13 11:33:29</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FExportAPI56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/ExportAPI by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:16 GMT -->
+</html>

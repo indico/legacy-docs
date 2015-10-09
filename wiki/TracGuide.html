@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/TracGuide by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:53:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      TracGuide – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="TracGuide.html" />
+        <link rel="alternate" href="TracGuide56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="http://old.indico-software.org/chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://old.indico-software.org/"><img src="http://old.indico-software.org/chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="http://old.indico-software.org/prefs">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="http://old.indico-software.org/wiki">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="http://old.indico-software.org/roadmap">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="http://old.indico-software.org/blog">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="http://old.indico-software.org/wiki">wiki:</a><a class="pathentry" href="http://old.indico-software.org/wiki/TracGuide" title="View TracGuide">TracGuide</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="http://old.indico-software.org/wiki/WikiStart">Start Page</a></li><li><a href="http://old.indico-software.org/wiki/TitleIndex">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/TracGuide?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="TheTracUserandAdministrationGuide">The Trac User and Administration Guide</h1>
+<p>
+</p><div class="wiki-toc"><h4>Table of Contents</h4><ul><li class="active"><a class="False" href="http://old.indico-software.org/wiki/TracGuide">Index</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracInstall">Installation</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracInterfaceCustomization">Customization</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracPlugins">Plugins</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracUpgrade">Upgrading</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracIni">Configuration</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracAdmin">Administration</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracBackup">Backup</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracLogging">Logging</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracPermissions">Permissions</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracWiki">The Wiki</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/WikiFormatting">Wiki Formatting</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracTimeline">Timeline</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracBrowser">Repository Browser</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracRevisionLog">Revision Log</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracChangeset">Changesets</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracTickets">Tickets</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracWorkflow">Workflow</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracRoadmap">Roadmap</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracQuery">Ticket Queries</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracBatchModify">Batch Modify</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracReports">Reports</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracRss">RSS Support</a></li><li class="False"><a class="False" href="http://old.indico-software.org/wiki/TracNotification">Notification</a></li></ul></div><p>
+</p>
+<span style="font-size:90%"><em>The <a class="wiki" href="http://old.indico-software.org/wiki/TracGuide">TracGuide</a> is meant to serve as a starting point for all documentation regarding Trac usage and development. The guide is a free document, a collaborative effort, and a part of the <a class="ext-link" href="http://trac.edgewall.org/"><span class="icon">​</span>Trac Project</a> itself.</em></span><h2 id="Introduction">Introduction</h2>
+<p>
+Trac is an enhanced wiki and issue tracking system for software development projects. Trac uses a minimalistic approach to web-based software project management. It strives to help developers write great software while staying out of the way. Trac should impose as little as possible on a team's established development process and policies.
+</p>
+<p>
+It provides an interface to Subversion (and other version control systems), an integrated Wiki and convenient reporting facilities.
+</p>
+<p>
+Trac allows wiki markup in issue descriptions and commit messages, creating links and seamless references between bugs, tasks, changesets, files and wiki pages. A timeline shows all current and past project events in order, making the acquisition of an overview of the project and tracking progress very easy. The roadmap shows the road ahead, listing the upcoming milestones.
+</p>
+<h2 id="UserGuide">User Guide</h2>
+<ul><li>Using the Wiki subsystem
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracWiki">TracWiki</a> — How to use the built-in Wiki.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/WikiFormatting">WikiFormatting</a> — Reference to the wiki syntax used throughout.
+</li></ul></li><li>Using the Version Control subsystem
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracBrowser">TracBrowser</a> — Browsing source code with Trac.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracChangeset">TracChangeset</a> — Viewing changes to source code.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracRevisionLog">TracRevisionLog</a> — Viewing change history.
+</li></ul></li><li>Using the Ticket subsystem
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracTickets">TracTickets</a> — Using the issue tracker.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracRoadmap">TracRoadmap</a> — The roadmap helps tracking project progress.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracReports">TracReports</a> — Writing and using reports.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracQuery">TracQuery</a> — Executing custom ticket queries.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracBatchModify">TracBatchModify</a> - Modifying a batch of tickets in one request.
+</li></ul></li><li>Other modules and general topics
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracSearch">TracSearch</a> — Full text search in all content.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracTimeline">TracTimeline</a> — The timeline provides a historic perspective on a project.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracRss">TracRss</a> — RSS content syndication in Trac.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracAccessibility">TracAccessibility</a> — Accessibility keys support
+</li></ul></li></ul><h2 id="AdministratorGuide">Administrator Guide</h2>
+<ul><li>Installation and upgrade
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracInstall">TracInstall</a> — How to install and run Trac.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracUpgrade">TracUpgrade</a> — How to upgrade existing installations.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracImport">TracImport</a> — Importing tickets from other bug databases.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracPlugins">TracPlugins</a> — Installing and managing Trac extensions.
+</li></ul></li><li>Configuration and customization
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracIni">TracIni</a> — Trac configuration file reference. 
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracPermissions">TracPermissions</a> — Access control and permissions.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracNavigation">TracNavigation</a> — Customize main navigation menus.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracInterfaceCustomization">TracInterfaceCustomization</a> — Customizing the Trac interface.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracLogging">TracLogging</a> — The Trac logging facility.
+</li></ul></li><li>Administering the Version Control subsystem
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracRepositoryAdmin">TracRepositoryAdmin</a> — Management of Source Code Repositories.
+</li></ul></li><li>Administering the Ticket subsystem
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracTicketsCustomFields">TracTicketsCustomFields</a> — Expanding tickets with customized fields.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracNotification">TracNotification</a> — Email notification.
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracWorkflow">TracWorkflow</a> — Configurable Ticket Workflow.
+</li></ul></li><li>Reference
+<ul><li><a class="wiki" href="http://old.indico-software.org/wiki/TracEnvironment">TracEnvironment</a> — All you need to know about Trac environments
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracAdmin">TracAdmin</a> — Administering a Trac project via the command-line.
+</li></ul></li></ul><h2 id="SupportandOtherSourcesofInformation">Support and Other Sources of Information</h2>
+<ul><li><a class="ext-link" href="http://trac.edgewall.org/intertrac/TracFaq" title="TracFaq in Trac project trac"><span class="icon">​</span>Trac FAQ</a> — A collection of Frequently Asked Questions (on the project website).
+</li><li><a class="ext-link" href="http://trac.edgewall.org/intertrac/TracDev" title="TracDev in Trac project trac"><span class="icon">​</span>TracDev</a> and <a class="ext-link" href="http://trac.edgewall.org/intertrac/TracDev/ApiDocs" title="TracDev/ApiDocs in Trac project trac"><span class="icon">​</span>API docs</a> — Trac Developer documentation
+</li><li><a class="wiki" href="http://old.indico-software.org/wiki/TracSupport">TracSupport</a> — How to get more information
+</li></ul><p>
+If you are looking for a good place to ask a question about Trac, look no further than the <a class="ext-link" href="http://trac.edgewall.org/wiki/MailingList"><span class="icon">​</span>MailingList</a>. It provides a friendly environment to discuss openly among Trac users and developers.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/TracGuide?action=diff&amp;version=3" title="Version 3 by trac">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-01-21T10%3A28%3A55%2B01%3A00&amp;precision=second" title="See timeline at 01/21/13 10:28:55">3 years ago</a></span>
+            <span class="trac-print">Last modified on 01/21/13 10:28:55</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="http://old.indico-software.org/wiki/TracGuide?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="http://old.indico-software.org/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="http://old.indico-software.org/about"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/TracGuide by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:53:53 GMT -->
+</html>

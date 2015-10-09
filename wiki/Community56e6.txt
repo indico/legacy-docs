@@ -1,0 +1,33 @@
+[[TracNav(TOC|noreorder)]]
+
+= Indico collaboration =
+
+If you want to collaborate with your own developments please read [wiki:Dev/Collaboration this].
+
+== Translation
+
+If you wish to help translate Indico in your language, you can visit [https://www.transifex.net/projects/p/indico/ our Transifex page].
+
+= Community = 
+==== Mailing Lists
+
+ * [https://groups.cern.ch/group/project-indico-administrators/default.aspx project-indico-administrators@cern.ch] - Possibly high-volume mailing list, intended for discussion among Indico server administrators (installation problems, bugs, tech questions...). Please, try to follow our guidelines on [wiki:Dev/BugReporting bug reporting]. 
+   * You can join the mailing list [http://cern.ch/simba3/SelfSubscription.aspx?userHasAccount=false&groupName=project-indico-administrators here]
+   * Unsubscribe from [http://cern.ch/simba3/SelfSubscription.aspx?userHasAccount=false&groupName=project-indico-administrators here]
+ * [https://groups.cern.ch/group/project-indico-devel/default.aspx project-indico-devel@cern.ch] - Possibly high-volume mailing list, intended for discussion among Indico developers and hackers.
+   * You can join the mailing list [http://cern.ch/simba3/SelfSubscription.aspx?userHasAccount=false&groupName=project-indico-devel here]
+   * Unsubscribe from [http://cern.ch/simba3/SelfSubscription.aspx?userHasAccount=false&groupName=project-indico-devel here]
+
+Moderated: no
+
+==== IRC
+
+You can join us at our official **#indico** channel at **Freenode** (`irc.freenode.net`).
+
+If you don't have an IRC client, you can always use Freenode's own [http://webchat.freenode.net/?channels=indico web client].
+
+==== Jabber
+
+You can also contact us using our Jabber/XMPP channel:
+ * '''Server:''' `conference.jabber.cern.ch`
+ * '''Room:''' `indico`

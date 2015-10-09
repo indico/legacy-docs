@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Tools by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Tools – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTools56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="Tools.html" title="View Dev/Tools">Tools</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Tools?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#Warning:Thispageismassivelyoutdated.">Warning: This page is massively outdated.</a>
+  </li>
+  <li>
+    <a href="#IDEs">IDEs</a>
+    <ol>
+      <li>
+        <a href="#EclipsePyDev">Eclipse + PyDev</a>
+        <ol>
+          <li>
+            <a href="#PyDevInstallation">Installation and setup</a>
+            <ol>
+              <li>
+                <a href="#a1.DownloadingandinstallingEclipsePyDev">1. Downloading and installing Eclipse + PyDev</a>
+              </li>
+              <li>
+                <a href="#a2.OpenthePyDevperspective">2. Open the PyDev perspective</a>
+              </li>
+              <li>
+                <a href="#a3.ConfigureEclipseandPyDev">3. Configure Eclipse and PyDev</a>
+              </li>
+              <li>
+                <a href="#a4.CreatetheIndicoprojectinsidePyDev">4. Create the Indico project inside PyDev</a>
+              </li>
+              <li>
+                <a href="#a5.ConfiguretheIndicoproject">5. Configure the Indico project</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#CodeformattingandcodeanalysistoolsforEclipsePyDev">Code formatting and code analysis tools for Eclipse + PyDev</a>
+            <ol>
+              <li>
+                <a href="#AnyEditToolstoremovetrailingwhitespaces">AnyEditTools to remove trailing whitespaces</a>
+              </li>
+              <li>
+                <a href="#PyDevcodeformatter">PyDev code formatter</a>
+              </li>
+              <li>
+                <a href="#PylintwithPyDev">Pylint with PyDev</a>
+              </li>
+              <li>
+                <a href="#JsLint">JsLint</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#DebuggingwithPyDev">Debugging with PyDev</a>
+            <ol>
+              <li>
+                <a href="#Configuration">Configuration</a>
+              </li>
+              <li>
+                <a href="#Usingthedebugger">Using the debugger</a>
+              </li>
+              <li>
+                <a href="#Debuggingtips">Debugging tips</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#EclipsePyDevshortcuts">Eclipse + PyDev shortcuts</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#Emacs">Emacs</a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#Git">Git</a>
+    <ol>
+      <li>
+        <a href="#Git4Eclipse">Git4Eclipse</a>
+      </li>
+      <li>
+        <a href="#TortoiseGit">TortoiseGit</a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#Othertools">Other tools</a>
+    <ol>
+      <li>
+        <a href="#fakemail">fakemail</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="Warning:Thispageismassivelyoutdated.">Warning: This page is massively outdated.</h1>
+<h1 id="IDEs">IDEs</h1>
+<p>
+Most people in the Indico team use Eclipse/PyDev. There's also a small Emacs community.
+</p>
+<h2 id="EclipsePyDev">Eclipse + PyDev</h2>
+<h3 id="PyDevInstallation">Installation and setup</h3>
+<h4 id="a1.DownloadingandinstallingEclipsePyDev">1. Downloading and installing Eclipse + PyDev</h4>
+<ol class="loweralpha"><li>Download Eclipse at <a class="ext-link" href="http://www.eclipse.org/downloads/"><span class="icon">​</span>http://www.eclipse.org/downloads/</a> . <em>Eclipse IDE for Java EE Developers</em> is the best option because it comes with Web Tools (HTML / JS / CSS editors, etc). It is not recommended to install eclipse from Ubuntu's package manager because as of January 2010, Ubuntu 9.10 Synaptic Package Manager's eclipse package does not come with Web Tools.
+</li><li>To install PyDev:
+<ul><li>Go to the menu: <em>Help &gt; Install New Software</em>.
+</li><li>Press the <em>Add..</em> button, choose a name for the PyDev site, and write <a class="ext-link" href="http://pydev.org/updates"><span class="icon">​</span>http://pydev.org/updates</a> in the <em>Location</em> field.
+</li><li>Note: at this point, if you are using Ubuntu 9.10, some Eclipse buttons will seem unresponsive, or the PyDev packages not appearing after you add the pydev.org/updates site, check: <a class="ext-link" href="http://mou.me.uk/2009/10/31/fixing-eclipse-in-ubuntu-9-10-karmic-koala"><span class="icon">​</span>http://mou.me.uk/2009/10/31/fixing-eclipse-in-ubuntu-9-10-karmic-koala</a>
+</li><li>The PyDev package should now appear in the <em>Install New Software</em> window. Check the PyDev package and press next, next, etc. Previously you also needed to install <em>PyDev extensions</em> but this is no longer necessary: !Pydev extensions are included into !Pydev since version 1.5.
+</li><li>Restart Eclipse when requested.
+</li></ul></li></ol><h4 id="a2.OpenthePyDevperspective">2. Open the PyDev perspective</h4>
+<p>
+Click on <em>Window &gt; Open perspective &gt; Other...</em> and select PyDev. Close the Java EE perspective unless you will need it later.
+</p>
+<h4 id="a3.ConfigureEclipseandPyDev">3. Configure Eclipse and PyDev</h4>
+<p>
+For this, go to the menu <em>Window &gt; Preferences</em> and perform the following operations:
+</p>
+<ol class="loweralpha"><li>Select the Python interpreter. For this, go to <em>PyDev options&gt; Interpreter - Python &gt; New... (interpreter)</em> and locate/choose your python.exe or python (Linux). In the lasts versions of Eclipse there should even be an <em>Auto Config</em> button.
+</li><li>Change the default text encoding and new line delimiter. For this, go to <em>General &gt; Workspace</em> and select: "Other: utf-8" under <em>Text file encoding</em> and "Other: Unix" under "New text file line delimeter".
+</li><li>Make Eclipse refresh the source code automatically on after external file system changes. In the same screen as before (<em>General &gt; Workspace&gt; Text file encoding</em>), select "Refresh automatically". With this, you will not need to press F5 to update manually, but Eclipse may slow down quite a bit when refreshing.
+</li><li>Configure the different editors and file types:
+<ul><li>Go to <em>General &gt; Editors &gt; Text Editors</em> and check "Insert spaces for tabs" and "Show line numbers".
+</li><li>Go to <em>General &gt; Editors &gt; Text Editors &gt; Spelling</em> and uncheck "Enable spell checking".
+</li><li>Go to <em>Javascript &gt; Code style &gt; Formatter</em>. Click on the <em>New</em> button and choose a name (e.g. "Indico"). Select "tab policy" as "spaces only" (size 4) in the <em>Indentation</em> section.
+</li><li>Go to <em>XML &gt; XML Files &gt; Editor</em> and choose "Indent using spaces" (size 4).
+</li><li>Go to <em>Web &gt; HTML Files &gt; Editor</em> and choose "Indent using spaces" (size 4).
+</li><li>Go to <em>Web &gt; CSS Files &gt; Editor</em> and choose "Indent using spaces" (size 4).
+</li><li>Go to <em>General &gt; Editors &gt; File associations</em>:
+<ul><li>Add file type *.tpl and add associated editor "HTML Editor".
+</li><li>Add file type *.wohl and add associated editor "XML Editor".
+</li></ul></li><li>Go to <em>General &gt; Content Types</em>:
+<ul><li>Under <em>Content types</em>, select <em>Text &gt; HTML</em>, click on "Add..." and enter the  *.tpl file type.
+</li><li>Then select <em>Text &gt; XML</em>, click "Add..." and enter *.wohl.
+</li></ul></li></ul></li><li>Press ok to close the Preferences dialog.
+</li></ol><h4 id="a4.CreatetheIndicoprojectinsidePyDev">4. Create the Indico project inside PyDev</h4>
+<p>
+This step assumes you already cloned the repository to your local computer: see <a href="GettingStarted.html#a1.Gettingthesourcecode">Getting the source code</a>)
+</p>
+<ul><li>Go to the menu <em>File &gt; New &gt; PyDev project</em> (if you are do not see !Pydev project, probably you are not in the PyDev perspective).
+</li><li>Write a project name (e.g. "indico).
+</li><li>Uncheck "use default".
+</li><li>Select the root code folder of your Indico local repository (/home/youruser/code/indico/src).
+</li><li>Choose the grammar version matching your Python version.
+</li><li>Uncheck "Create default src folder"
+</li><li>Click Finish.
+</li></ul><h4 id="a5.ConfiguretheIndicoproject">5. Configure the Indico project</h4>
+<ul><li>Right click on the project name and select <em>Properties</em>.
+</li><li>Go to the <em>PyDev - PYTHONPATH</em> section and add the project source folders (indico, tests, bin) in order to be able to use F3 (jump to definition).
+</li></ul><h3 id="CodeformattingandcodeanalysistoolsforEclipsePyDev">Code formatting and code analysis tools for Eclipse + PyDev</h3>
+<h4 id="AnyEditToolstoremovetrailingwhitespaces">AnyEditTools to remove trailing whitespaces</h4>
+<p>
+To remove trailing whitespaces, which give a lot of problems when integrating branches in git, install <a class="ext-link" href="http://andrei.gmxhome.de/anyedit/index.html"><span class="icon">​</span>AnyEditTools</a>. You can do this by using the <a class="ext-link" href="http://andrei.gmxhome.de/eclipse/"><span class="icon">​</span>http://andrei.gmxhome.de/eclipse/</a> URL in <em>Help &gt; Install New Software</em>. There's a lot of packages; search for the AnyEditTools package with the highest version number.
+</p>
+<h4 id="PyDevcodeformatter">PyDev code formatter</h4>
+<p>
+PyDev has a <em>Formatter</em> section that can help you a bit to comply with the <a class="ext-link" href="http://www.python.org/dev/peps/pep-0008/"><span class="icon">​</span>PEP08</a> recommendations:
+</p>
+<ul><li>Open <em>Window &gt; Preferences</em> and go to <em>PyDev &gt; Editor &gt; Code Style &gt; Code Formatter</em>.
+</li><li>Check the following options: Use space after commas, Use space before and after operators, Right trim lines (although AnyEditTools already takes care of this), Add new line at the end of file.
+</li><li>DO NOT check the following options: Use space before and after parenthesis, Use space before and after assign keyword arguments. PEP08 recommends against this.
+</li><li>It is recommended to not check "Auto-format editor contents before saving": this is nice when editing new files, but when editing already existing files in Indico, you do not want to change all of the files and then commit a lot of format changes.
+</li><li>You can instead apply the formatting using the <strong>Ctrl + Shift + F</strong> shortcut: it will format the selected Python code or the whole file if you do not select anything.
+</li></ul><h4 id="PylintwithPyDev">Pylint with PyDev</h4>
+<p>
+PyDev also allows you to use Pylint to analyze your code:
+</p>
+<ol><li>Install Pylint in your system. For Linux, the simplest way is:
+<div class="code"><pre> sudo easy_install pylint
+</pre></div></li></ol><ol start="2"><li>Configure Pylint in Eclipse. Open <em>Window &gt; Preferences</em> and go to <em>PyDev &gt; Pylint</em>.
+<ul><li>Check "Use Pylint".
+</li><li>Check "Redirect Pylint output to console" if you want to see Pylint output in the <em>Console</em> View.
+</li><li>Input the location of your <em>lint.py</em> file. For example, /usr/local/lib/python2.6/dist-packages/pylint-0.19.0-py2.6.egg/pylint/lint.py .
+</li><li>Configure the "Severity" fields. For example, you can put everything to "Warning" except FATAL and ERROR.
+</li><li>In the "Arguments to pass to Pylint", write the following (adapt the rcfile path to your system and change the --disable-msg option to your liking):
+<pre class="wiki">--rcfile=/home/youruser/code/indico/src/indico/tests/python/pylint/pylint.conf
+--reports=yes
+--comment=yes
+--persistent=yes
+--output-format=text
+--disable-msg=W0511,C0301,W0703 (example)
+</pre>Explanation of the different parameters:
+<ul><li>--rcfile: a pylint configuration file. We use the same one as Indico uses to be consistent with the reports that will be produced in the integration server.
+</li><li>--output-format=text: this option has a non-default value in the Indico pylint.conf file. We need to overload this option back to the default value or PyDev will not be able to parse the output.
+</li><li>--reports, --comment, --persistent: these options are set to "no" in the Indico pylint.conf file, in order to make integration reports smaller. You can put them back to "yes" in Eclipse to have nicer reports.
+</li><li>--disable-msg: a list of error and warning ids that you don't want to be informed about by Pylint.
+</li><li>Check <a class="ext-link" href="http://linux.die.net/man/1/pylint"><span class="icon">​</span>http://linux.die.net/man/1/pylint</a> for more options.
+</li></ul></li></ul></li></ol><p>
+  
+</p>
+<ol start="3"><li>Using Pylint
+<ul><li>Every time you save a Python file, Pylint will analyze it.
+</li><li>PyDev will then analyze its output and put "error" and "warning" markers next to the line numbers, like it already does with things such as non-imported classes or unused variables.
+</li><li>The list of problems will also appear in the "Problems" view.
+</li><li>Check <a class="ext-link" href="http://www.logilab.org/card/pylintfeatures"><span class="icon">​</span>http://www.logilab.org/card/pylintfeatures</a> for an explanation of the different error / warning codes.
+</li></ul></li></ol><p>
+More information (a bit out of date at the time of writing): <a class="ext-link" href="http://pydev.org/manual_adv_pylint.html"><span class="icon">​</span>http://pydev.org/manual_adv_pylint.html</a>
+</p>
+<h4 id="JsLint">JsLint</h4>
+<p>
+JsLint is a Javascript code analysis tool. It will remind you to put semicolons at the end of Javascript statements or detect commas at the end of lists (very nasty in <acronym title="Internet Explorer">IE</acronym>), for example.
+</p>
+<p>
+It is possible to run JsLint from inside Eclipse by configuring it as an <em>External action</em>.
+</p>
+<ol><li>Check that you have jslint.js in your system. It should be in <em>indico/tests/javascript/jslint/jslint.js</em> inside your Indico project.
+</li></ol><ol start="2"><li>Check that you have Mozilla rhino installed, which is also needed for running Indico's <a href="Tests.html#a5.Javascriptsourceanalysis[">Javascript source analysis</a>]. In Linux, rhino is a package:
+<div class="code"><pre> sudo apt-get install rhino
+</pre></div>Under Windows:
+<ul><li>You will need to download the latest rhino binaries at <a class="ext-link" href="http://www.mozilla.org/rhino/download.html"><span class="icon">​</span>http://www.mozilla.org/rhino/download.html</a>
+</li><li>You will also need the Jline library. You can download the latest archive on <a class="ext-link" href="http://sourceforge.net/projects/jline/files/"><span class="icon">​</span>http://sourceforge.net/projects/jline/files/</a>
+</li><li>Create a text file and copy the following batch code inside:
+<pre class="wiki">:: rhino.bat
+:: Runs the Rhino JavaScript shell
+::
+@echo off
+
+set JAVA_CMD=java
+set JAVA_CLASSPATH=...\js.jar;...\jline.jar
+set JAVA_MAIN=org.mozilla.javascript.tools.shell.Main
+
+%JAVA_CMD% -classpath %JAVA_CLASSPATH% %JAVA_MAIN% %1 %2
+</pre></li></ul></li></ol><blockquote>
+<blockquote>
+<p>
+Modify this batch such that the location of the file js.jar is put in place of <em>...\js.jar</em> and such that the location of the .jar for jline is put in place of <em>...\jline.jar</em> (under Windows this .jar file has a name of the form "jline-x.x.xx.jar").
+Save it as rhino.bat. 
+You'll maybe need to add the location of the folder containing the java binaries to your Path environment variable in order to make the script work.
+</p>
+</blockquote>
+</blockquote>
+<p>
+   
+</p>
+<ol start="3"><li>Configure the external action in Eclipse:
+<ul><li>In the <em>Run</em> menu, go to <em>External Tools &gt; External Tools Configurations</em>.
+</li><li>On the left panel, select <em>Program</em> and press the <em>New launch configuration</em> icon.
+</li><li>Fill the configuration fields:
+<ul><li>Name: for example, JsLint
+</li><li>Location: /usr/bin/rhino or equivalent (you can check with <em>which rhino</em> in Linux). Under Windows put the absolute path of the rhino.bat script.
+</li><li>Working Directory: write <em>${workspace_loc}</em> here.
+</li><li>Arguments: write <em>${project_loc}/indico/tests/javascript/jslint/jslint.js ${resource_loc}</em>.
+</li><li>Save by clicking on <em>Apply</em> and closing the dialog.
+</li></ul></li></ul></li></ol><ol start="4"><li>Running JsLint
+<ul><li>JsLint's output will appear in the console view. Make it appear by going to the <em>Window</em> menu: <em>Show View &gt; Console</em>.
+</li><li>Run JsLint on the current file by clicking on the "Run external tool" button, which is on the top Eclipse toolbar right of the "Run button". 
+</li><li>Check the output in the console view and enjoy :)
+</li></ul></li></ol><h3 id="DebuggingwithPyDev">Debugging with PyDev</h3>
+<h4 id="Configuration">Configuration</h4>
+<ol class="loweralpha"><li>Locate a folder similar to: .../eclipse/plugins/org.python.pydev.debug_1.5.3.1260479439/pysrc . Copy its address somewhere, we will need to paste it later in a couple places.
+</li><li>Go to your PyDev project and in the properties, go to PyDev - PYTHONPATH &gt; External Libraries tab. Press the <em>Add Source Folder</em> button and add the previous folder. This is so that when you "import pydevd" (the debugging breakpoint statement import), PyDev does not underline it in red.
+</li><li>Add the path to your Apache configuration file for Indico as the python-path parameter for the WSIDaemonProcess directive. For this, edit <em>/etc/apache2/sites-available/indico</em> (or similar) and locate the following line:
+<pre class="wiki">WSGIDaemonProcess WSGIDAEMON processes=1 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/home/matt/projects/indico-store/tmp/egg-cache 
+</pre></li></ol><blockquote>
+<p>
+Append the parameter python-path with the value being the path copied above, like so:
+</p>
+</blockquote>
+<pre class="wiki">WSGIDaemonProcess WSGIDAEMON processes=1 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+            python-eggs=/home/matt/projects/indico-store/tmp/egg-cache \
+            python-path=/usr/bin/eclipse/plugins/org.python.pydev.debug_2.2.1.2011071313/pysrc/
+</pre><ol class="loweralpha" start="4"><li>Add the folder to your PYTHONPATH so that it is available when you execute Python scripts from the console, such as tests. For example, if you use a bash console in Linux, you can do this by adding a line in your ~/.bashrc file (this will only work for new consoles):
+<div class="code"><pre> <span class="nb">export </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="k">${</span><span class="nv">PYTHONPATH</span><span class="k">}</span>:/home/dmartinc/Applications/eclipse/plugins/org.python.pydev.debug_1.5.3.1260479439/pysrc/
+</pre></div>in your <em>.bashrc</em> file (this will only work for new consoles).
+</li></ol><p>
+ 
+</p>
+<h4 id="Usingthedebugger">Using the debugger</h4>
+<ol class="loweralpha"><li>Change to the <em>Debug</em> perspective by going to <em>Window &gt; Open Perspective</em>.
+</li><li>Start the debug server: this is necessary before placing breakpoints and running the code (from Apache or from a console script). For this, in the Debug perspective, press a little icon in the top toolbar with a green bug and a P.
+</li><li>Placing breakpoints: if you want to place a breakpoint, place the following line in your code:
+<div class="code"><pre><span class="kn">import</span> <span class="nn">pydevd</span><span class="p">;</span> pydevd<span class="o">.</span>settrace<span class="p">(</span>stdoutToServer <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> stderrToServer <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div></li><li>Execute your code by loading a page in Apache or launching the console script. The execution should stop in the breakpoint and you are now able to do step-by-step execution, see variable values, etc.
+</li></ol><h4 id="Debuggingtips">Debugging tips</h4>
+<ol class="loweralpha"><li>It is recommended to make a code template for <em>import pydevd; pydevd.settrace(stdoutToServer = True, stderrToServer = True)</em> by going to Eclipse Windows &gt; Preferences &gt; PyDev &gt; Editor &gt; Templates. (After the creation of the template, just write in the code its name and then ctrl + space)
+</li><li>There are 3 ways of seeing the values of variables during execution:
+<ul><li>The <em>Variables</em> view will show all the local and global objects, and you can see the attributes with a tree-like interface;
+</li><li>The <em>Expressions</em> view (not shown by default) lets you write watch expressions.
+</li><li>The <em>Console</em> view will have an interactive Python console. Look for the console with the name <em>Debug Server</em>. If you have used <em>stdoutToServer = True, stderrToServer = True</em>, this is where messages will be printed. You <strong>must</strong> use <em>stdoutToServer = True, stderrToServer = True</em> for the console to work (in Indico, at least). To have the console display the values of the expressions you write, just write in the white space of the console. Your expression will appear in green. Press Enter <em>2 times</em> and the value will appear (often it takes a short but noticeable time).
+</li><li>Check the <a href="Troubleshooting.html#PyDev">PyDev troubleshooting</a> if you have problems.
+</li></ul></li></ol><p>
+For the original guide, see <a class="ext-link" href="http://pydev.org/manual_adv_remote_debugger.html"><span class="icon">​</span>http://pydev.org/manual_adv_remote_debugger.html</a> .
+</p>
+<h3 id="EclipsePyDevshortcuts">Eclipse + PyDev shortcuts</h3>
+<ol><li><strong>F3</strong>: go to definition
+</li><li><strong>Ctrl + space</strong>: auto-suggest and auto-import
+</li><li><strong>Ctrl + Shift + R</strong>: open resource (quick search of resources)
+</li><li><strong>Ctrl + H</strong>: global search
+</li><li><strong>F5</strong>: refresh the project after external file system changes.
+</li><li><strong>Ctrl + F6</strong>: swicht between tabs
+</li><li><strong>Select name + F4</strong>: Hierarchy view.
+</li><li><strong>Ctrl + M</strong>: maximize and unmaximize current tab
+</li><li><strong>Ctrl + Shift + F</strong>: auto-format code. It will format whatever text is selected, or the whole file if nothing is selected.
+</li></ol><blockquote>
+<p>
+More shortcuts: <a class="ext-link" href="http://pydev.org/manual_adv_keybindings.html"><span class="icon">​</span>http://pydev.org/manual_adv_keybindings.html</a>
+</p>
+</blockquote>
+<h2 id="Emacs">Emacs</h2>
+<ul><li>The CDS guys have some <a class="ext-link" href="https://twiki.cern.ch/twiki/bin/view/CDS/Invenio#Programming_Tools_and_Tips" title="CDS/Invenio in CERN Teiki"><span class="icon">​</span>nice documentation on this</a>;
+</li><li>There's a nice <a class="ext-link" href="http://trac-hacks.org/wiki/EmacsWikiEditScript"><span class="icon">​</span>Emacs mode</a> for Trac wiki editing;
+</li></ul><hr />
+<h1 id="Git">Git</h1>
+<p>
+Git is the version control system that is currently used by Indico. On a UNIX system, getting Git working should be fairly easy. If you're working on Windows, you can still run it (though with 50% awesomeness). See <a class="wiki" href="../GitAndWindows.html">GitAndWindows</a>.
+</p>
+<p>
+Here are some nice sites on Git (in descending order of awesomeness):
+</p>
+<ul><li><a class="ext-link" href="http://gitimmersion.com/"><span class="icon">​</span>http://gitimmersion.com/</a>
+</li><li><a class="ext-link" href="http://progit.org/book/"><span class="icon">​</span>http://progit.org/book/</a>
+</li><li><a class="ext-link" href="http://book.git-scm.com/"><span class="icon">​</span>http://book.git-scm.com/</a>
+</li><li><a class="ext-link" href="http://marklodato.github.com/visual-git-guide/index-en.html"><span class="icon">​</span>http://marklodato.github.com/visual-git-guide/index-en.html</a>
+</li><li><a class="ext-link" href="http://www.eecs.harvard.edu/~cduan/technical/git/"><span class="icon">​</span>http://www.eecs.harvard.edu/~cduan/technical/git/</a> 
+</li></ul><h2 id="Git4Eclipse">Git4Eclipse</h2>
+<p>
+This is an Eclipse plugin that integrates git functionality in Eclipse.
+</p>
+<ol><li>The installation is similar to PyDev and AnyEditTools:
+<ul><li>Go to <em>Help &gt; Install New Software</em>
+</li><li>Add a new site by using <a class="ext-link" href="http://www.jgit.org/updates"><span class="icon">​</span>http://www.jgit.org/updates</a> as the URL
+</li><li>Check ONLY the option: Eclipse Egit (incubation) (Previously: <em>Eclipse Git Plugin - Release Build</em>, became obsolete but still available using <a class="ext-link" href="http://www.jgit.org/update-site"><span class="icon">​</span>http://www.jgit.org/update-site</a> as the URL).
+</li><li>Click Install...and next and accept (license).
+</li><li>Restart Eclipse when requested.
+</li></ul></li><li>Clone your git repo if you have not done already (much easier from command line): see <a href="GettingStarted.html#a1.Gettingthesourcecode">Getting the source code</a>.
+</li><li>Create the PyDev project if you have not done already (see point 4 of <a class="wiki" href="Tools.html#PyDevInstallation">PyDev installation and setup</a>].
+</li><li>Tell Git4Eclipse to follow your Indico project:
+<ul><li>Right-click on the project and select <em>Team &gt; Share Project...</em>
+</li><li>Select Git &gt; your indico.git project.
+</li></ul></li></ol><h2 id="TortoiseGit">TortoiseGit</h2>
+<blockquote>
+<p>
+Get it at <a class="ext-link" href="http://code.google.com/p/tortoisegit/downloads/list"><span class="icon">​</span>http://code.google.com/p/tortoisegit/downloads/list</a>
+</p>
+</blockquote>
+<hr />
+<h1 id="Othertools">Other tools</h1>
+<h2 id="fakemail">fakemail</h2>
+<p>
+If you don't want to risk spamming innocent people with mails coming from your development server, there is a very handy tool that creates a fake SMTP server in your machine and saves the e-mails as text files:
+</p>
+<pre class="wiki">$ sudo easy_install fakemail-python
+</pre><p>
+You need root privileges to run it, as it should be bound to port 25:
+</p>
+<pre class="wiki">$ mkdir /tmp/fakemail
+$ sudo fakemail.py --port=25 --path=/tmp/fakemail/ 
+</pre><p>
+Make sure that in your <tt>indico.conf</tt> you have:
+</p>
+<pre class="wiki">SmtpServer = ("localhost", 25)
+</pre></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Tools?action=diff&amp;version=56" title="Version 56 by jmonnich">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-03-07T12%3A14%3A33%2B01%3A00&amp;precision=second" title="See timeline at 03/07/14 12:14:33">19 months ago</a></span>
+            <span class="trac-print">Last modified on 03/07/14 12:14:33</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTools56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Tools by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:13 GMT -->
+</html>

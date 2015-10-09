@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Flask/Usage by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/Flask/Usage – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FFlask%252FUsage56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Flask.html" title="View parent page" />
+        <link rel="start" href="../../../../wiki.html" />
+        <link rel="stylesheet" href="../../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../../index.html"><img src="../../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../../wiki.html">wiki:</a><a class="pathentry" href="../../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="../Flask.html" title="View Dev/Technical/Flask">Flask</a><span class="pathentry sep">/</span><a class="pathentry" href="Usage.html" title="View Dev/Technical/Flask/Usage">Usage</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Flask.html">Up</a></li><li><a href="../../../WikiStart.html">Start Page</a></li><li><a href="../../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/Flask/Usage?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+Flask makes a various things in Indico much nicer. Here's a quick overview of them.
+</p>
+<h1 id="URLRouting">URL Routing</h1>
+<p>
+You should not touch or even create <tt>*.py</tt> files in <tt>indico/htdocs</tt>. All of them obsolete, unused and will be removed eventually.
+</p>
+<p>
+<strong>
+NOTE: For any new developments the following paragraph is not relevant!
+</strong>
+<br />
+Why are they still there? When integrating something from the era before Flask chances are good that something is added there. In this case add appropriate URL rules (with pretty URLs) for the new RHs and update the UHs to point to the new endpoint instead of the relativeURL. The <tt>bin/utils/generateLegacyBlueprint.py</tt> script can be used to create a legacy rule in the legacy blueprint. This will not have a pretty URL but you can copy&amp;paste it into a proper blueprint and then update the URL rule. Running the script again afterwards should remove the entry from legacy.py assuming the endpoint name stayed the same.
+</p>
+<h2 id="WheretoputBlueprintsandURLrules">Where to put Blueprints and URL rules?</h2>
+<h3 id="Plugins">Plugins</h3>
+<p>
+<tt>blueprint.py</tt> inside your plugin's package. The module name is not a requirement (any global holding an instance of <tt>IndicoBlueprint</tt> is loaded) but highly suggested. Note that you need to reload plugins after adding a new blueprint and restart your webserver afterwards (since the URL map is only loaded on startup)
+</p>
+<h3 id="Core">Core</h3>
+<p>
+In the <tt>indico.web.flask.blueprints</tt> package. Check for a subpackage/module in there that fits your purpose. Unless you develop something totally new chances are good that this is the case. For example, anything that's part of the public view of an event is in <tt>indico.web.flask.blueprints.event.display</tt> (you can create a submodule in there though which uses the event blueprint). Event management is likewise in <tt>.event.management</tt>.
+</p>
+<p>
+For *very* small things (such as the "about" page) there's no need to create a new blueprint either. Use the <tt>misc</tt> blueprint for them. But please don't abuse it and dump lots of things in there.
+</p>
+<h2 id="HowtocreateaproperURLrule">How to create a proper URL rule?</h2>
+<p>
+The URL should be pretty. Look at the already existing URL schema and at <a class="wiki" href="URL_Structure.html">this wiki page</a> for the logic behind the current structure. About trailing slashes: If <tt>/foo/</tt> contains lots of things that will actually show up in the user's address bar, use the trailing slash. Otherwise just use <tt>/foo</tt>.
+</p>
+<p>
+The first argument of <tt>add_url_rule()</tt> is the actual URL rule, prefixed with the blueprint's <tt>url_prefix</tt> if set. If you want to override that prefix, prefix your rule with <tt>!</tt> (e.g. <tt>'!/foo/'</tt> instead of <tt>'/foo/'</tt>). Use this sparingly - if you have a new blueprint where you using it all the time either your URL structure is bad or you shouldn't be using <tt>url_prefix</tt> at all.
+</p>
+<p>
+The second argument (the endpoint name) should be short but meaningful. Most existing endpoint names resemble the old <tt>*.py</tt> file structure since those endpoint names are used to generate the compatibility blueprint. You do not need to care about this for anything new - new endpoint names will not be taken into account by the compatibility rule generation.
+</p>
+<p>
+The third argument is the view function. You can actually pass a RH directly - it'll be processed to be used as a view function automatically. Besides that, you can also pass a simple callable, e.g. generated by <tt>indico.web.flask.util.redirect_view</tt>. For details on how the argument is processed see <tt>indico.web.flask.util.make_view_func</tt>
+</p>
+<p>
+The fourth argument, ALWAYS a keyword argument, is OPTIONAL. If a rule should only accept GET requests, simply omit it. If you want to support another HTTP verb such as POST specify a tuple containing the allowed verbs, e.g. <tt>methods=('GET', 'POST')</tt> or <tt>methods=('POST',)</tt> (don't forget the trailing comma). Always be specific: If the RH only modifies data you usually do not want to accept GET requests. However, if a RH contains separate process functions for GET and POST it's very appropriate (and actually necessary ;)) to allow both methods.
+</p>
+<h2 id="BuildingURLs">Building URLs</h2>
+<p>
+Import the <tt>url_for</tt> wrapper from <tt>indico.web.flask.util</tt>. The function's docstring pretty much explains everything you need to know but here are the basics:
+</p>
+<p>
+The first argument is like in flask's native <tt>url_for</tt>, i.e. the endpoint. This is <tt>'blueprintname.endpointname'</tt>. DO NOT use the <tt>'.endpointname'</tt> shortcut unless you put a very small view function in the same file as the Blueprint itself (you usually do not do this!). While it would usually work it greatly reduces the readability since you don't see immediately from which blueprint the endpoint is taken.
+</p>
+<p>
+The second argument is optional and can be any object that has a <tt>getLocator()</tt> method. It automatically adds the dict returned by that method to the URL values.
+</p>
+<p>
+Any other arguments are keyword arguments containing the URL values which either end up in the URL itself or in the query string. Some special ones are supported, too:
+</p>
+<ul><li><tt>_external</tt> - set this to <tt>True</tt> if you want an absolute URL e.g. for an email.
+</li><li><tt>_secure</tt> - set this to <tt>True</tt> or <tt>False</tt> if you want to enforce HTTPS or HTTP. Only works with <tt>_external=True</tt>
+</li><li><tt>_scheme</tt> - allows you to set the protocol manually. Does not work when <tt>_secure</tt> is present and should not be needed at all (unless you want to build e.g. an <tt>xmpp://</tt> URL)
+</li><li><tt>_anchor</tt> - sets the anchor/fragment part of the URL, e.g. the part after the <tt>#</tt>
+</li></ul><p>
+The <tt>url_for</tt> function is available in all templates without importing it.
+</p>
+<p>
+If you want to build URLs using JavaScript, you can do so, too:
+</p>
+<pre class="wiki">var url_template = ${ url_rule_to_js('blueprintname.endpoint') | j,n };
+var url = build_url(url_template, {whatever: 'arguments', you: 'have'});
+</pre><p>
+<tt>build_url()</tt> supports both the objects returned by <tt>url_rule_to_js</tt> and plain URLs. So you can use this function whenever you need to build/extend an URL with query string arguments. It is much cleaner than using string operations! When using it with a js_router it adds any argument not used in the URL rule to the query string. If you need a <tt>#anchor</tt>, you can specify it as a third argument.
+</p>
+<h2 id="URLHandlersnotneededfornewstuff">URLHandlers (not needed for new stuff)</h2>
+<p>
+They now use <tt>_endpoint</tt> instead of <tt>_relativeURL</tt>. The syntax is <tt>_endpoint = 'blueprintname.endpointname'</tt>, e.g. <tt>'misc.about'</tt>.
+</p>
+<p>
+If you need to build an URL in JavaScript and have an <tt>URLHandler</tt> you can use the <tt>js_router</tt> property of the class returned by the <tt>getURL</tt> method:
+</p>
+<pre class="wiki">var url_template = ${ someUH.getURL().js_router | j,n };
+var url = build_url(url_template, {whatever: 'arguments', you: 'have'});
+</pre><p>
+See the previous section for details.
+</p>
+<h1 id="RequestargumentsURIGETPOST">Request arguments (URI, GET, POST)</h1>
+<p>
+The <tt>_checkParams</tt> method of each RH still has a <tt>params</tt> argument because of legacy code that receives a version where all arguments have been merged and converted to UTF-8. Do not use this for new development!
+After <tt>from flask import request</tt> you can use <tt>request.view_args</tt> for URL arguments (e.g. <tt>&lt;foo&gt;</tt> in the URL rule gives you <tt>request.view_args['foo']</tt>), <tt>request.args</tt> for GET arguments and <tt>request.form</tt> for POST arguments. <tt>request.files</tt> contains all uploaded files.
+</p>
+<p>
+<tt>view_args</tt> is a normal <tt>dict</tt>, the others are <tt>ImmutableMultiDict</tt> objects. This is usually not relevant - you can use them like normal dicts. The only case is if an argument is present more than once. In this case, <tt>whatever['key']</tt> gives you only the first value; to get the list containing all of them use <tt>whatever.getlist('key')</tt>. This allows you to use the simple version in most cases where you don't expect/support multiple values and <tt>.getlist()</tt> in other cases where you *always* want a list, even if there's only one value present.
+</p>
+<p>
+Remember to use <tt>.encode('utf-8')</tt> on the values you retrieve from those arrays unless a <tt>unicode</tt> object is fine or you never have any non-ASCII data in the argument (for a <tt>confId</tt> it wouldn't matter for example since those are always plain ASCII).
+</p>
+<p>
+If an argument is required, you can simply read it using the <tt>whatever['key']</tt> notation. If it does not exist a special <tt>KeyError</tt> (<tt>BadRequestKeyError</tt>) is raised. It will be shown to the user like a <tt>FormValuesError</tt> with the message <tt>Required argument missing: &lt;key&gt;</tt>.
+</p>
+<h1 id="HTTPVerbsinRHsnotfinalyet-todiscuss">HTTP Verbs in RHs (not final yet - to discuss)</h1>
+<p>
+Besides the normal <tt>_checkParams</tt> and <tt>_checkProtection</tt> methods which are always called a RH class MAY contain additional methods named e.g. <tt>_checkParams_POST</tt> or <tt>_checkProtection_GET</tt> which are invoked AFTER the normal method without any arguments. This allows you e.g. to check/require data that is only available/needed when the user submitted a form easily by putting it into <tt>_checkParams_POST</tt>.
+</p>
+<p>
+The <tt>_process</tt> method behaves a bit different since it's pointless to call more than one in the same request. If a custom <tt>_process</tt> method exists only this one is called no matter which request method is used. If no such method exists the RH class MUST implement a <tt>_process_VERB</tt> for each supported method. If e.g. only <tt>_process_POST</tt> is implemented but a GET request is sent, it will fail with a HTTP 405 error. However, your routing rule MUST already specify the allowed methods anyway if anything but GET is allowed, so the 405 failing on the RH layer is just for your convenience during development.
+</p>
+<p>
+Look at <tt>RHResetPasswordBase</tt> if you want an example.
+</p>
+<h1 id="Sendingfilestotheclient">Sending files to the client</h1>
+<p>
+While flask has its own <tt>send_file</tt> function we have a wrapper for it that performs some indico-specific tasks. Always use our function:
+<tt>from indico.web.flask.util import send_file</tt>
+</p>
+<p>
+It is documented well in its docstring, but the most simple usage is this:
+</p>
+<pre class="wiki"># Physical file
+send_file('foo.png', '/path/to/the/file', 'image/png')
+
+# Generated data
+from cStringIO import StringIO
+send_file('foo.pdf', StringIO(pdf_data), 'PDF')
+</pre><h1 id="Session">Session</h1>
+<p>
+The session interface is much more comfortable now. All you need to do to use it is <tt>from flask import session</tt>. It has a dict-like interface which you SHOULD use. The session object tracks modification so if you modify it (e.g. by assigning or deleting a value) it will be automatically saved. However, a session can contain mutable objects. If you modify such an object you need to set <tt>session.modified = True</tt> or it won't be saved.
+</p>
+<p>
+Example:
+</p>
+<pre class="wiki"># setdefault only marks the session as modified if it actually modified it (i.e. if the key did not exist yet)
+selected_items = session.setdefault('selected_items', set())
+selected_items.add(foo)
+session.modified = True
+</pre><p>
+Another important thing to know is that the session is pickled and stored in Indico's cache backend (i.e. preferably redis). This means it is not stored in the ZODB which in turn means that you MUST NOT store a <tt>Persistent</tt> object in the session - otherwise loading the session will fail. Store the ID or Locator of the object instead and retrieve the database object when necessary.
+</p>
+<p>
+The session contains some indico-specific properties. See <tt>indico.web.flask.session.IndicoSession</tt> for them. TLDR: <tt>session.user</tt> is the current user's <tt>Avatar</tt> or <tt>None</tt>; <tt>session.lang</tt>, <tt>session.timezone</tt>, <tt>session.csrf_protected</tt>, and <tt>session.csrf_token</tt> should be self-explanatory. Besides the CSRF ones all of them can be modified.
+</p>
+<p>
+Please do not add your own properties to the session class unless you REALLY need to do so. The only reason to do so is something in the Indico core that needs getter/setter logic and thus cannot be cleanly realized using the dict interface. Make sure to read the comment right above the <tt>IndicoSession</tt> class.
+</p>
+<h1 id="Templates">Templates</h1>
+<p>
+Still Mako. Sorry if you hoped to read about Jinja2 here. ;)
+</p>
+<p>
+The various Flask proxy objects are available in templates, prefixed with an underscore to avoid collisions with custom variables: <tt>_session</tt>, <tt>_request</tt>, <tt>_g</tt>, <tt>_app</tt>. This makes it easy to show e.g. a success message after a redirect:
+</p>
+<pre class="wiki">% if 'fooDone' in _request.args:
+Foo has been done.
+% endif
+</pre><p>
+However, we should consider using flask's <tt>flash()</tt> for this instead!
+</p>
+<p>
+The functions <tt>url_for</tt> and <tt>url_rule_to_js</tt> are also available in all templates.
+</p>
+<h1 id="Miscellaneousthings">Miscellaneous things</h1>
+<ul><li><tt>request.remote_addr</tt> takes the "Use Proxy" setting of Indico into account.
+</li><li><tt>app.debug</tt> uses the "Debug" setting from Indico
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/Flask/Usage?action=diff&amp;version=9" title="Version 9 by jmonnich">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-07-22T14%3A15%3A51%2B02%3A00&amp;precision=second" title="See timeline at 07/22/13 14:15:51">2 years ago</a></span>
+            <span class="trac-print">Last modified on 07/22/13 14:15:51</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FFlask%252FUsage56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Flask/Usage by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+</html>

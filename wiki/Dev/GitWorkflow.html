@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/GitWorkflow by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/GitWorkflow – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FGitWorkflow56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="GitWorkflow.html" title="View Dev/GitWorkflow">GitWorkflow</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/GitWorkflow?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="GitWorkflow">Git Workflow</h1>
+<h2 id="Workflow">Workflow</h2>
+<ul><li>The model is very similar to <a class="ext-link" href="https://twiki.cern.ch/twiki/bin/view/CDS/GitWorkflow" title="CDS/GitWorkflow in CERN Teiki"><span class="icon">​</span>the one used by the Invenio guys</a> (only with slight changes);
+<ul><li>Please, pay special attention to the sections S1, S4, W1, W2, W3, W4, W5, W6 and W7.
+</li></ul></li><li>The access to the git repo is granted by the 'gatekeepers' - they're the only ones who can push code into it;
+<ul><li>As of now, they're <a class="wiki" href="../User/jbenito.html">Jose</a> and <a class="wiki" href="../User/pferreir.html">Pedro</a>;
+</li></ul></li></ul><p>
+Just to remark some hot topics:
+ 
+</p>
+<ul><li>Things you <strong>should</strong> do:
+<ul><li>before creating a branch, <strong>pull all the modifications from the origin</strong>;
+</li><li><strong>create topic branches</strong> for your developments and please name them sensibly (<strong>use dash rather than underscore</strong>);
+</li><li><strong>rebase before pushing</strong> the branch into your public repo, but never again rebase that branch (unless you don't care that references will change and no-one will be able to pull from it);
+</li><li><strong>push to your public repo</strong>, just <strong>when you have finished and tested</strong> the feature you have developed;
+</li></ul></li></ul><ul><li>Things you should <strong>never</strong> do:
+<ul><li><strong>do not</strong> work on the master branch, create always a new branch for your developments;
+</li><li><strong>do not</strong> rebase or squash on your public repo;
+</li><li><strong>do not</strong> rebase a branch in your private repo when that branch was already pushed into your public;
+</li></ul></li></ul><h2 id="Namingconventionsbranches">Naming conventions (branches)</h2>
+<ul><li><strong><tt>999-refactor-*</tt></strong> for feature/code refactorings;
+</li><li><strong><tt>999-fix-*</tt></strong> for fixes;
+</li><li><strong><tt>999-new-*</tt></strong> for new features;
+</li><li><strong><tt>999-imp-*</tt></strong> for improvement/enhancements;
+</li><li><strong><tt>999-exp-*</tt></strong> for experimental developments;
+</li><li><strong><tt>999-prov-*</tt></strong> for provisional branches that will be deleted;
+</li><li><strong><tt>999-v*-series</tt></strong> for releases (i.e. <tt>v0.97-series</tt>);
+</li></ul><p>
+Note: 999 is the ticket number.
+</p>
+<p>
+Check the <a class="wiki" href="DevPractices.html">devpractices</a> for more details about the development practices.
+</p>
+<p>
+Some examples:
+</p>
+<ul><li>Branch for implementing enhacement number 305: 305-new-reschedule
+</li><li>Branch for fixing defect number 302: 302-fix-search-ie
+</li></ul><h2 id="Thingsyoushouldknow">Things you should know</h2>
+<ul><li>Git takes care of trailing white spaces for you. Inside your <tt>.git/hooks</tt> Just rename <tt>pre-commit.sample</tt> to <tt>pre-commit</tt> (make sure it has execution privileges too) - git will now remove them for you;
+</li></ul><ul><li>You can close a Trac ticket from a commit. Just add <tt>fixes #&lt;ticket_number&gt;</tt> somewhere in your commit message. <a class="wiki" href="../User/pferreir.html">I</a> usually do it as part of a list:
+</li></ul><pre class="wiki">Some silly bug
+  - changed something in order to fix the silly bug;
+  - deleted some useless code;
+  - fixes #42
+</pre><blockquote>
+<p>
+<strong>Example:</strong> <a class="closed ticket" href="../../ticket/14.html" title="defect: 'Move' widget doesn't work correctly with IE (closed: fixed)">#14</a>
+</p>
+</blockquote>
+<p>
+ 
+Check the <a class="ext-link" href="http://trac-hacks.org/intertrac/wiki%3AGitPlugin%23AuthorContributors" title="wiki:GitPlugin#AuthorContributors in trac-hacks.org"><span class="icon">​</span>GitPlugin trac-hacks page</a> for more on syntax (check the post-receive hook's source code).
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/GitWorkflow?action=diff&amp;version=21" title="Version 21 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-08-07T10%3A37%3A24%2B02%3A00&amp;precision=second" title="See timeline at 08/07/14 10:37:24">14 months ago</a></span>
+            <span class="trac-print">Last modified on 08/07/14 10:37:24</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FGitWorkflow56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/GitWorkflow by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:13 GMT -->
+</html>

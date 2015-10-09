@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/DB by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/DB – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FDB56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="DB.html" title="View Dev/Technical/DB">DB</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/DB?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#ZODB">ZODB</a>
+    <ol>
+      <li>
+        <a href="#a1.WhatistheZODB">1. What is the ZODB</a>
+      </li>
+      <li>
+        <a href="#a2.ZODBInternal">2. ZODB Internal</a>
+        <ol>
+          <li>
+            <a href="#a2.1Architecture">2.1 Architecture</a>
+          </li>
+          <li>
+            <a href="#a2.2ACIDproperties">2.2 ACID properties</a>
+          </li>
+          <li>
+            <a href="#a2.3Filestorage">2.3 Filestorage</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a3.Persistency">3. Persistency</a>
+        <ol>
+          <li>
+            <a href="#a3.1WhentoinheritfromPersistent">3.1 When to inherit from Persistent</a>
+          </li>
+          <li>
+            <a href="#a3.2WhennottoinheritfromPersistent">3.2 When not to inherit from Persistent</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a4.ZODBTools">4. ZODB Tools</a>
+        <ol>
+          <li>
+            <a href="#a4.1StatsonObjects">4.1 Stats on Objects</a>
+          </li>
+          <li>
+            <a href="#a4.2StatsonClasses">4.2 Stats on Classes</a>
+          </li>
+          <li>
+            <a href="#a4.3StatsonTransactions">4.3 Stats on Transactions</a>
+          </li>
+          <li>
+            <a href="#a4.4Showinformationforthelastntransactions">4.4 Show information for the last 'n' transactions</a>
+          </li>
+          <li>
+            <a href="#a4.5Showdetailsforonesingletransaction">4.5 Show details for one single transaction</a>
+          </li>
+          <li>
+            <a href="#a4.6Findpathfromoid">4.6 Find path from oid</a>
+          </li>
+          <li>
+            <a href="#a4.7Amountofdataperday">4.7 Amount of data per day</a>
+          </li>
+          <li>
+            <a href="#a4.8Mostmodifiedclassesduringlastndays">4.8 Most modified classes during last 'n' days</a>
+          </li>
+          <li>
+            <a href="#a4.9SimpleconsistencycheckerforFilestorage.">4.9 Simple consistency checker for Filestorage.</a>
+          </li>
+          <li>
+            <a href="#a4.10ZODBBrowser">4.10 ZODB Browser</a>
+            <ol>
+              <li>
+                <a href="#a4.10.1Howtouseit">4.10.1 How to use it</a>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#a5References">5 References</a>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="ZODB">ZODB</h1>
+<h2 id="a1.WhatistheZODB">1. What is the ZODB</h2>
+<p>
+The ZODB (Zope {Zope is an open source web application server primarily written in the Python programming language} Object Database) is a persistence system for Python Objects. It allows the developer to store and write objects to and from a persistent storage without the need of any schema or relational mapper. Actually Python already offers a way of transforming objects into a string representation (pickling {The pickle module implements a fundamental, but powerful algorithm for serializing and de-serializing a Python object structure. “Pickling” is the process whereby a Python object hierarchy is converted into a byte stream, and “unpickling” is the inverse operation, whereby a byte stream is converted back into an object hierarchy.}) that afterwards can be easily saved into an already existing Python database module (like <tt>bsdd' or </tt>gdbm'), but this implementation requires that the programmer manages all the storing and writing operations by himself. The ZODB handles  the objects, uses the cache,  stores changes and keeps the cache clean and up to date. Therefore the code can completely exploit the power of Python, and the objects can refer to each other as they would do in any database-free Python code. 
+</p>
+<h2 id="a2.ZODBInternal">2. ZODB Internal</h2>
+<h3 id="a2.1Architecture">2.1 Architecture</h3>
+<p>
+<a style="padding:0; border:none" href="http://www.gliffy.com/pubdoc/2124745/L.png"><img src="http://www.gliffy.com/pubdoc/2124745/L.png" alt="http://www.gliffy.com/pubdoc/2124745/L.png" title="http://www.gliffy.com/pubdoc/2124745/L.png" /></a>
+</p>
+<ul><li><strong>DB</strong>: This is the core part of the database, it is responsible for handling Storages and Connections.
+</li></ul><ul><li><strong>Connection</strong>: At runtime, Connections are the most important and used part of the ZODB since they are responsible for loading and storing objects from the database.
+</li></ul><p>
+ 
+</p>
+<ul><li><strong>Cache</strong>: Each Connection has its own cache, called Picklecache. Basically there exists a cache for each thread or for each connection of the ZODB. The Picklecache is used for caching unpickled objects and it can contains a fixed maximum number of objects of any size. Objects are removed from the Picklecache following a least-recently-used strategy. 
+</li></ul><ul><li><strong>Transaction</strong>: The application can add new data to the storage only through Transactions.
+</li></ul><ul><li><strong>Persistent</strong>: This class is responsible for creating `persistent objects' supported by the ZODB (see \ref{ss:copiesAndStates}). Among others features a persistent object is able to automatically inform the persistence system if a change of its state occurred.
+</li></ul><ul><li><strong>Storage Interface</strong>: This class provides the access to a disk-based storage.
+</li></ul><h3 id="a2.2ACIDproperties">2.2 ACID properties</h3>
+<p>
+The ZODB provides all of the ACID properties (Atomicity, Consistency, Isolation, Durability).
+</p>
+<ul><li><strong>Atomicity:</strong> Atomicity is handled by the two-phase commit protocol of the transactions. The two possible states of a transaction are either <tt>succeed' or </tt>fail', therefore the data stored in the database would never be in an inconsistent state.
+</li></ul><ul><li><strong>Consistency:</strong> The ZODB uses optimistic concurrency control, that is it supposes that multiple concurrent transitions (one for each thread) will not work with the some objects and, therefore transactions are carried out without locking the data resources. Only before committing, the transaction checks that the used objects haven't been modified by others transactions. If a problems is encountered, the transaction rolls back and a conflict error is raised (read or write conflict, depending on the situation). The strategy used by the ZODB in order to find conflicts is called `backward validation', which means that all the recently successfully committed transactions are compared with the committing one. One important problem of ZODB's consistency mechanism is that the read operations are not always tracked and this can cause an inconsistent view of the database. Before the start of a new transaction all the objects modified by earlier transactions are removed from the cache, but during the time needed by the transaction to end it is possible that the latter fetches objects from the cache that are not consistent with the ones present in the storage. This means that consistency can be violated at most during the length of a transaction.
+</li></ul><ul><li><strong>Isolation:</strong> ZODB provides a `Read Committed' level of isolation (because, as explained previously, it is possible to read stale data).<br />
+</li></ul><ul><li><strong>Durability:</strong> Because of the architecture of the Filestorage, the transactions are never lost or overwritten and therefore durability is achieved.
+</li></ul><h3 id="a2.3Filestorage">2.3 Filestorage</h3>
+<p>
+Filestorage is the native ZODB storage backend. Basically it stores objects in one single file with a `.fs' extension. Every time a change is made, all the modified objects are simply appended to the end of the file (therefore the objects in the database appear in order, from oldest to newest). This means that once a byte is written in the database storage it is never overwritten. This feature allows the database to keep a history of all changes made into ZODB and, if needed, to roll back to a previous configuration. Simplifying, a ZODB storage file is a sequence of transaction records. Each transaction record has a transaction header, followed by a sequence of data records and each data record has a data header, followed by a serialized form ("pickle") of the object's state. Essentially there is one data record for each object modified by the transaction. 
+</p>
+<p>
+Even if the external view of this file can seem opaque and messy, the internal organization of this storage is, on the contrary, very clear and clean. It is a well known rooted graph, whose root represents the 'main door' for accessing the data. Starting from the first one, there is a dense network of nodes storing Python objects. Actually ZODB does not impose a particular schema to application developers, leaving it to their criteria.
+In summary, Filestorage can be seen as a labelled rooted graph in which the edges of the graph represent connections between objects (nodes) and the labels contain the different version of an object.
+</p>
+<p>
+Due to its history-based structure, a storage file has no theoretical size limit, but there is a simple mechanism that provides a way to reduce its size - the "packing" operation. Packing a storage means that all unused object revisions that are not reachable in the storage graph as of the pack time are removed. This operation is performed in a simple way: it inspects every object inside the database and copies all of them to a new file, except for the non-current records from transactions in which the time stamp value is less than the packing `operation time stamp', as they are all undone records. Once all objects have been visited the packing ends and the new file takes the place of the old one.
+</p>
+<p>
+In order to speed up object lookups, an index file with extension <tt>.fs.index' is generated and created from the main storage file (the </tt>.fs' file). The index file maps all the object ids to the offset within the `.fs' file at which the data record for the current revision of the object appears. In order to work properly, Filestorage needs to keep its index in memory. The required memory space is normally proportional to the storage file size. As the size of the index file usually varies between 1\% and 8\% of the total size of the storage, it is advisable to reserve at least 1GB of memory in the case of a storage with a size of 10GB. When opening a storage file, if the index file does not exist, the latter is generated automatically.
+</p>
+<h2 id="a3.Persistency">3. Persistency</h2>
+<p>
+With persistency, the programmer doesn't have to worry about the life's cycle of objects. A persistent object is an object which, once created, will be stored persistently in the Zope object database with its own OID - a unique persistent object identifier. 
+If the value of an attribute is changed, what will be stored in the ZODB is a new complete serialization of the Class instance (containing, amongst other things, all the non-persistence attributes), with the same OID. The change is detected because we call <span class="underline">setattr</span> defined in the Persistent class. 
+</p>
+<p>
+Theoretically each object can be persistent, but sometimes it is useful to keep some objects non persistent, i.e. volatile. These attributes are used in classes in order to compute logics and they don't need to be stored in the database.
+</p>
+<p>
+The name of a volatile attribute has to start with _v_:
+</p>
+<div class="code"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span>_v_config <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>getSomeTmpConfig<span class="p">()</span>
+</pre></div><p>
+When the persistent object is retrieved from the ZODB the init method is not called any more, thus the programmer has to make sure that all volatile attributes have a value. This can be done through the setstate method which is called each time the object is charged in the memory.
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">Globals</span> <span class="kn">import</span> Persistent
+<span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> state<span class="p">):</span>
+    Globals<span class="o">.</span>Persistent<span class="o">.</span>__setstate__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> state<span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span>_v_config <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>getSomeTmpConfig<span class="p">()</span>
+</pre></div><p>
+As already mentioned, the serialization process serialize the object with (recursively) all its attributes that are not persistent, this means that a simply modification of an instance causes the copy of the entire object. Thus a careful reflection has to be made in order to define which attributes will be persistent and which don't.
+</p>
+<h3 id="a3.1WhentoinheritfromPersistent">3.1 When to inherit from Persistent</h3>
+<p>
+When implemeting a class which instances will often be modified you should make it persistent, to avoid impacting the container at each change.
+</p>
+<h3 id="a3.2WhennottoinheritfromPersistent">3.2 When not to inherit from Persistent</h3>
+<p>
+When implementing a class which instances will be and stay small (only reading the pickle from ZODB can tell you if the object is small) compared to the size of ZODB object header (which is basically the class name). Otherwise it will hurt information density, and the ZODB will contain more object header data than actual object payload. 
+</p>
+<h2 id="a4.ZODBTools">4. ZODB Tools</h2>
+<h3 id="a4.1StatsonObjects">4.1 Stats on Objects</h3>
+<p>
+This script returns the list of the n-biggest objects present in the ZODB (I strongly recommend to set the 'n' option because it increases a lot the performance of the script and the readability of the output).
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>python objects_stats.py -f data.fs -n 100
+</pre></div><p>
+If one wants to save the output list in a file results.out simply use redirection:
+</p>
+<div class="code"><pre>python objects_stats.py -f data.fs -n 100 &gt; results.out
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -n NUM, --number<span class="o">=</span>NUM  display only the n biggest objects
+  -f FILENAME, --file<span class="o">=</span>FILENAME
+                        the FileStorage
+  -v, --verbose         show percentage and <span class="nb">time </span>remaining
+</pre></div><p>
+Output:
+</p>
+<div class="code"><pre><span class="c">#The list is ordered by decreasing size
+</span>Module.ClassName | Oid | Percentage | Total Size | Min | Max | Copies
+
+<span class="c"># - Oid: the object identification 
+# - Percentage: the percentage that the class intances take of the entire database
+# - Total Size: the total size of all copies of that object in the database
+# - Min: the min copy's size
+# - Max: the max copy's size
+# - Copies: The total number of copies of that object 
+</span></pre></div><h3 id="a4.2StatsonClasses">4.2 Stats on Classes</h3>
+<p>
+Get statistics on classes stored. The output shows for each class the className, the percentage of space that it takes, the min, max and average object's size.
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>python class_stats.py -f data.fs -n 100   
+</pre></div><p>
+If one wants to save the output list in a file results.out simply use redirection:
+</p>
+<div class="code"><pre>python class_stats.py -f data.fs -n 100 &gt; results.out
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -n NUM, --number<span class="o">=</span>NUM  display only the n biggest classes
+  -f FILENAME, --file<span class="o">=</span>FILENAME
+                        your FileStorage
+</pre></div><p>
+Output:
+</p>
+<div class="code"><pre><span class="c">#The list is ordered by decreasing size
+</span>Module.ClassName | Percentage | Min | Max | Size | Instances
+
+<span class="c"># - Percentage: the percentage that the class intances take of the entire database
+# - Min: the min instance's size
+# - Max: the max instance's size
+# - Size: total size of all instances of the class ClassName
+# - Instances: The total number of instances of that class 
+</span></pre></div><h3 id="a4.3StatsonTransactions">4.3 Stats on Transactions</h3>
+<p>
+This script outputs the list of the 'n' busiest days from the point of view of the number of transactions. The output shows for each day the number of transactions and the average time between two of them. If one wants to search for information of a specific day use the option -d dd-mm-yyy
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>python transactions_stas.py -f data.fs -n 100 
+</pre></div><p>
+If one wants to save the output list in a file results.out simply use redirection:
+</p>
+<div class="code"><pre>python transactions_stas.py -f data.fs -n 100 &gt; results.out
+</pre></div><p>
+If one wants to show statistics for one precise date (e.g. 01-01-2010):
+</p>
+<div class="code"><pre>python transactions_stats.py -f data.fs -d 01-01-2010
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -n NUM, --number<span class="o">=</span>NUM  display only the n busiest days
+  -f FILENAME, --file<span class="o">=</span>FILENAME
+                        your FileStorage
+  -d DATE, --date<span class="o">=</span>DATE  show the transiction only <span class="k">for </span>the date d <span class="o">(</span>format dd-
+                        mm-yyyy<span class="o">)</span>
+</pre></div><p>
+Output:
+</p>
+<div class="code"><pre><span class="c">#The list is ordered by decreasing size
+</span>Date | Transactions | Records Changed | Average interval
+
+<span class="c"># - Transactions: the number of transactions made during the day Date
+# - Records Changed: the number of records that the transcations have modified
+# - Average interval: average time between two transactions in that day
+</span></pre></div><h3 id="a4.4Showinformationforthelastntransactions">4.4 Show information for the last 'n' transactions</h3>
+<p>
+This script outputs the list of the 'n' last transactions present in the <a class="missing wiki">FileStorage?</a>. For each of them a list of objects that it modified is also shown. By default the list in ordered by decreasing date, but by setting the '-o' option the last 'n' transactions are ordered by size.
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>python last_transactions_information.py -n 100 data.fs 
+</pre></div><p>
+If one wants to save the output list in a file results.out simply use redirection:
+</p>
+<div class="code"><pre>python last_transactions_information.py -n 100 data.fs  &gt; results.out
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -n NUM, --number<span class="o">=</span>NUM  display the last n transactions <span class="o">(</span>Default 100<span class="o">)</span>
+  -o, --order           order the transactions by size
+</pre></div><p>
+Output:
+</p>
+<div class="code"><pre><span class="c">#By default the list is ordered by decreasing date
+</span>TRANSACTION: <span class="k">${</span><span class="nv">Tid</span><span class="k">}</span> <span class="k">${</span><span class="nv">Size</span><span class="k">}</span>
+<span class="c">#The list of objects modified by the transaction
+</span> - <span class="k">${</span><span class="nv">counter1</span><span class="k">}</span> <span class="k">${</span><span class="nv">Object1</span><span class="k">}</span> <span class="k">${</span><span class="nv">Object1Size</span><span class="k">}</span>
+ - <span class="k">${</span><span class="nv">counter2</span><span class="k">}</span> <span class="k">${</span><span class="nv">Object2</span><span class="k">}</span> <span class="k">${</span><span class="nv">Object2Size</span><span class="k">}</span>
+...
+
+TRANSACTION: <span class="k">${</span><span class="nv">Tid</span><span class="k">}</span> <span class="k">${</span><span class="nv">Size</span><span class="k">}</span>
+...
+
+<span class="c"># - Tid: the transaction id, TimeStamp string holding the time at which the transaction was committed. 
+# - Size: the size of the transaction
+# - counter: the number of objects belonging to the same class that have been modified by this transaction
+</span></pre></div><h3 id="a4.5Showdetailsforonesingletransaction">4.5 Show details for one single transaction</h3>
+<p>
+Once one has the 'tid' (found with the script "Show information for the last 'n' transactions" in §6.5), this script allows to see in details every object that this transaction modified.
+</p>
+<p>
+Usage:
+</p>
+<p>
+In order to use this script one has to make two things:
+</p>
+<p>
+Add Indico in the Pythonpath:
+</p>
+<div class="code"><pre><span class="nb">export </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="k">${</span><span class="nv">PYTHONPATH</span><span class="k">}</span>:/home/davide/indico/cds-indico/indico
+</pre></div><p>
+Modify the protection of the file "indico.log"
+</p>
+<div class="code"><pre>sudo chmod a+w /home/davide/indico/log/indico.log
+</pre></div><p>
+And now the script can be run:
+</p>
+<div class="code"><pre>python showTransactionDetails.py -t <span class="s1">'2010-04-12 14:16:12.121825'</span> data.fs 
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help         show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -t TID, --tid<span class="o">=</span>TID  the researched trancation<span class="err">'</span>s tid
+</pre></div><h3 id="a4.6Findpathfromoid">4.6 Find path from oid</h3>
+<p>
+The script returns the paths from the given oid to some other object in the database (if one wants imperatively to find the path to the root it has to pack the database first or use the option '--root').
+This script builds an entry in a dictionary for each object in the database, and this structure is stocked in the volatile memory. This means that the size of the RAM establishes a limit of the computation. Only small databases can be used.
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>python findPathFromOid.py -f /path/to/Data.fs -o oid <span class="o">[</span>-r -s<span class="o">]</span>
+<span class="c">#the 'oid' can be either hexadecimal (i.e. 0xa1e4) or decimal (41444) 
+</span></pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -o OID, --oid<span class="o">=</span>OID     the oid of the object
+  -f FILENAME, --file<span class="o">=</span>FILENAME
+                        your FileStorage
+  -r, --root            <span class="k">if </span>you want to display only paths to from the root
+  -s, --shortest        <span class="k">if </span>you want to display only the shortest path
+</pre></div><h3 id="a4.7Amountofdataperday">4.7 Amount of data per day</h3>
+<p>
+This scripts computes the amount of data added to the database in the past days. Then a few statistics are computed:
+</p>
+<ul><li>Average amount data for packed days
+</li><li>Prediction of the database's size in 1, 2 and 10 years
+</li><li>Average amount data for both packed and unpacked days
+</li></ul><p>
+Usage:
+</p>
+<div class="code"><pre>sizeIncreasing_stats.py <span class="o">[</span>options<span class="o">]</span> data.fs
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>Options:
+  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -d DAYS, --days<span class="o">=</span>DAYS  show to amount of data added in the last <span class="s1">'d'</span> days
+  -n NP, --notPacked<span class="o">=</span>NP
+                        not packed days <span class="o">(</span>starting from yesterday<span class="o">)</span>. The default value is 2
+</pre></div><h3 id="a4.8Mostmodifiedclassesduringlastndays">4.8 Most modified classes during last 'n' days</h3>
+<p>
+This script shows the most modified classes during the last 'n' days. Very useful if the 'n' days correspond to the unpacked days of the database.
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>mostUsedClasses.py <span class="o">[</span>options<span class="o">]</span> filename
+</pre></div><p>
+Options:
+</p>
+<div class="code"><pre>  -h, --help            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  -d DAYS, --days<span class="o">=</span>DAYS  show the most used classes during the last <span class="s1">'d'</span> days
+</pre></div><h3 id="a4.9SimpleconsistencycheckerforFilestorage.">4.9 Simple consistency checker for Filestorage.</h3>
+<p>
+The fstest tool will scan all the data in a Filestorage and report an
+error if it finds any corrupt transaction data.  The tool will print a
+message when the first error is detected, then exit.
+</p>
+<p>
+The tool accepts one or more -v arguments.  If a single -v is used, it
+will print a line of text for each transaction record it encounters.
+If two -v arguments are used, it will also print a line of text for
+each object.  The objects for a transaction will be printed before the
+transaction itself.
+</p>
+<p>
+Note: It does not check the consistency of the object pickles.  It is
+possible for the damage to occur only in the part of the file that
+stores object pickles.  Those errors will go undetected.
+</p>
+<p>
+Usage:
+</p>
+<div class="code"><pre>python fstest.py <span class="o">[</span>-v<span class="o">]</span> data.fs
+</pre></div><h3 id="a4.10ZODBBrowser">4.10 ZODB Browser</h3>
+<p>
+The ZODB browser allows you to inspect persistent objects stored in the ZODB, view their attributes and historical changes made to them. It is possible to undo modifications manually. Once the zodbbrowser is running, simply navigate inside the Filestorage with your browser.
+This application works very good even with a big database since it uses the index file already present and thus it doesn't have to compute the entire graph.  
+</p>
+<p>
+The installation is quite easy (be sure to have 'libxml2-dev' and 'libxslt1-dev' installed) 
+</p>
+<p>
+Is now possible to install zodbbrowser
+</p>
+<div class="code"><pre>  bzr get lp:zodbbrowser
+  <span class="nb">cd </span>zodbbrowser
+  python2.4 bootstrap.py
+  bin/buildout
+</pre></div><p>
+Few lines have to be added (the ones commented in the following code) in zodbbrowser/src/zodbbrowser/standalone.py in order to be able to use the --zeo option.
+</p>
+<div class="code"><pre>    <span class="k">elif</span> opts<span class="o">.</span>zeo<span class="p">:</span>
+        <span class="k">if</span> <span class="s">':'</span> <span class="ow">in</span> opts<span class="o">.</span>zeo<span class="p">:</span>
+            zeo_address <span class="o">=</span> opts<span class="o">.</span>zeo<span class="o">.</span>split<span class="p">(</span><span class="s">':'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            zeo_address <span class="o">=</span> opts<span class="o">.</span>zeo
+        <span class="c">#zeo_address = (zeo_address[0], int(zeo_address[1]))</span>
+        db <span class="o">=</span> DB<span class="p">(</span>ClientStorage<span class="p">(</span>zeo_address<span class="p">,</span> read_only<span class="o">=</span>opts<span class="o">.</span>readonly <span class="c">#, username="IfYouHaveAUsername", password="IfYouHave", realm="IfYouHave"))</span>
+</pre></div><p>
+Now you can start zodbbrowser
+(Replace localhost:1234 with the address of your server zeo and replace pcituds01.cern.ch with the address of your machine)
+</p>
+<div class="code"><pre>  bin/zodbbrowser --zeo localhost:1234 --listen pcituds01.cern.ch:8070 
+</pre></div><p>
+A few tricks: 
+</p>
+<ul><li>Add indico sources to your Pythonpath
+</li><li>run it with --rw:
+</li></ul><h4 id="a4.10.1Howtouseit">4.10.1 How to use it</h4>
+<ul><li>If you know an object's OID (hex or converted to a base-10 integer), you can go directly to that object by going to @@zodbbrowser?oid=1234  (or @@zodbbrowser?oid=0x01234). This is the only way to reach object 0, which is the persistent mapping at the ZODB root. 
+</li><li>There's a little 'help' link in the bottom-right corner of every page that describes the user interface in greater detail.
+</li></ul><h1 id="a5References">5 References</h1>
+<ul><li>Olivier Deckmyn, Pierre-Julier Grizel, <em>Zope 3ème édition</em>, Editions Eyrolles, Paris 2005
+</li><li>A.M. Kuchling, <em>ZODB/ZEO Programming Guide, Release 0.3a2</em>, May 10, 2004, <a class="ext-link" href="http://wiki.zope.org/ZODB/guide/index.html"><span class="icon">​</span>http://wiki.zope.org/ZODB/guide/index.html</a>
+</li><li><a class="ext-link" href="http://www.erp5.org/UnderstandingPersistency"><span class="icon">​</span>http://www.erp5.org/UnderstandingPersistency</a>
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/DB?action=diff&amp;version=127" title="Version 127 by dgalimbe">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-13T18%3A51%3A16%2B02%3A00&amp;precision=second" title="See timeline at 09/13/10 18:51:16">5 years ago</a></span>
+            <span class="trac-print">Last modified on 09/13/10 18:51:16</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(1)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../../attachment/wiki/Dev/Technical/DB/completeBackup.html" title="View attachment">completeBackup.eps</a><a href="../../../raw-attachment/wiki/Dev/Technical/DB/completeBackup.ps" class="trac-rawlink" title="Download">​</a>
+       (<span title="281270 bytes">274.7 KB</span>) -
+      added by <em>dgalimbe</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-13T18%3A52%3A13%2B02%3A00&amp;precision=second" title="See timeline at 09/13/10 18:52:13">5 years ago</a>.
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../../zip-attachment/wiki/Dev/Technical/DB/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FDB56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/DB by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:14 GMT -->
+</html>

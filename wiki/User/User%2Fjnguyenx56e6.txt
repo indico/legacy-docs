@@ -1,0 +1,20 @@
+= Jérémy Nguyen Xuan =
+
+
+
+== Personal plan ==
+
+
+
+ * Testing framework
+
+
+== Open Tickets ==
+
+[[TicketQuery(owner=jnguyenx,status!=closed)]]
+
+
+
+== Closed Tickets ==
+
+[[TicketQuery(owner=jnguyenx,status=closed)]]

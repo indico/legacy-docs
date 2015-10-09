@@ -1,0 +1,73 @@
+From 3477cee63fa0faca4a4be452d71c3d46215786f2 Mon Sep 17 00:00:00 2001
+From: Bjoern Pedersen <bjoern.pedersen@frm2.tum.de>
+Date: Mon, 20 Aug 2012 14:00:39 +0200
+Subject: [PATCH] [REF] Do not use deprecated md5/sha modules
+
+ * use hashlib instead of the deprecated modules
+---
+ indico/MaKaC/export/oai2.py                        | 4 ++--
+ indico/MaKaC/services/interface/rpc/description.py | 4 ++--
+ indico/MaKaC/webinterface/session/base.py          | 4 ++--
+ 3 Dateien geändert, 6 Zeilen hinzugefügt(+), 6 Zeilen entfernt(-)
+
+diff --git a/indico/MaKaC/export/oai2.py b/indico/MaKaC/export/oai2.py
+index 4700d48..59658be 100644
+--- a/indico/MaKaC/export/oai2.py
++++ b/indico/MaKaC/export/oai2.py
+@@ -28,7 +28,7 @@ import string
+ from string import split
+ import re
+ import time
+-import md5
++import hashlib
+ from datetime import datetime
+ from pytz import timezone
+ 
+@@ -1310,7 +1310,7 @@ class OAIResponse:
+     def OAIGenResumptionToken(self):
+         "Generates unique ID for resumption token management."
+ 
+-        return md5.new(str(time.time())).hexdigest()
++        return hashlib.md5(str(time.time())).hexdigest()
+ 
+ 
+     def OAICacheIn(self, resumptionToken, sysnos):
+diff --git a/indico/MaKaC/services/interface/rpc/description.py b/indico/MaKaC/services/interface/rpc/description.py
+index 443c8ed..d7ce973 100644
+--- a/indico/MaKaC/services/interface/rpc/description.py
++++ b/indico/MaKaC/services/interface/rpc/description.py
+@@ -1,6 +1,6 @@
+ from MaKaC.common import Config
+ 
+-import sha
++import hashlib
+ 
+ def fetchClasses(module, namespace):
+     table = {}
+@@ -52,7 +52,7 @@ def describe(params, remoteHost, session):
+     from MaKaC.services.interface.rpc import handlers
+ 
+     # a unique identifier for the service
+-    shaObj = sha.new(Config.getInstance().getBaseURL())
++    shaObj = hashlib.sha1(Config.getInstance().getBaseURL())
+     jsonRpcServiceId = shaObj.hexdigest()
+     # endpoint
+     jsonRpcServiceURL = Config.getInstance().getBaseURL() + '/services/json-rpc/'
+diff --git a/indico/MaKaC/webinterface/session/base.py b/indico/MaKaC/webinterface/session/base.py
+index b403f88..304a022 100644
+--- a/indico/MaKaC/webinterface/session/base.py
++++ b/indico/MaKaC/webinterface/session/base.py
+@@ -111,8 +111,8 @@ try:
+ 
+ except IOError:
+     # this is much less secure than the above function
+-    import sha
+-    _randstate = sha.new(str(time() + clock()))
++    import hashlib
++    _randstate = hashlib.sha1(str(time() + clock()))
+     def randlong(bytes):
+         """Return bits of random data as a long integer."""
+         global _randstate
+-- 
+1.7.12.rc0.10.g476109f
+

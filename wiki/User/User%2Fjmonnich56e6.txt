@@ -1,0 +1,13 @@
+= Adrian Monnich =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=jmonnich, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=jmonnich,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=jmonnich)]]

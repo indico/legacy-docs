@@ -1,0 +1,26 @@
+From ae291290dfd388935de8a9bf56fd6aef72176fe8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= <bjoern.pedersen@frm2.tum.de>
+Date: Wed, 24 Oct 2012 15:23:48 +0200
+Subject: [PATCH] [FIX] javascript error due to None return
+
+getPDFConversionStatus returns a plain None, should be a string.
+---
+ indico/MaKaC/conference.py | 2 +-
+ 1 Datei geändert, 1 Zeile hinzugefügt(+), 1 Zeile entfernt(-)
+
+diff --git a/indico/MaKaC/conference.py b/indico/MaKaC/conference.py
+index cb71774..cc9f4a5 100644
+--- a/indico/MaKaC/conference.py
++++ b/indico/MaKaC/conference.py
+@@ -11620,7 +11620,7 @@ class Resource(CommonObjectBase):
+ 
+         if self.pdfConversionRequestDate is not None and self.pdfConversionRequestDate + timedelta(seconds=50) > nowutc() :
+             return 'converting'
+-        return None
++        return 'None'
+ 
+ 
+ class Link(Resource):
+-- 
+1.7.12.rc0.10.g476109f
+

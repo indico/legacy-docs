@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/5 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/INTREPID/5 – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FINTREPID%252F556e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../INTREPID.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../INTREPID.html" title="View Dev/INTREPID">INTREPID</a><span class="pathentry sep">/</span><a class="pathentry" href="5.html" title="View Dev/INTREPID/5">5</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../INTREPID.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/INTREPID/5?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <ol>
+      <li>
+        <a href="#InTRePId5">InTRePId 5</a>
+        <ol>
+          <li>
+            <a href="#Objectives">Objectives</a>
+          </li>
+          <li>
+            <a href="#Statusquo">Status quo</a>
+          </li>
+          <li>
+            <a href="#Description">Description</a>
+            <ol>
+              <li>
+                <a href="#Furtherimprovements">Further improvements</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#Comments">Comments</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h2 id="InTRePId5">InTRePId 5</h2>
+<p>
+<strong>Title:</strong> New Namespace
+</p>
+<p>
+<strong>Author:</strong> Pedro Ferreira
+</p>
+<p>
+<strong>Date:</strong> 09 Feb 2010
+</p>
+<p>
+<strong>Target version:</strong> 0.98
+</p>
+<p>
+<strong>Status:</strong> draft
+</p>
+<h3 id="Objectives">Objectives</h3>
+<ul><li>To migrate from an existing <tt>MaKaC</tt> package to a brand-new <tt>indico</tt> one;
+</li><li>To reorganize once and for all the namespace;
+</li><li>Better isolating some modules, so that they can be unit tested;
+</li><li>Enforcing Python good practices;
+</li></ul><h3 id="Statusquo">Status quo</h3>
+<ul><li>Indico is aging, no major refactoring effort done;
+</li><li>Performance is a priority, and some architectural changes will be required;
+</li><li>Naming of modules and package structure is out of date and degraded (MaKaC, no isolation between modules, etc...);
+</li><li>Some plugins (<a class="wiki" href="../../RoomBooking.html">RoomBooking</a>, epayment) are not actually plugins;
+</li><li>Unification between the "classical" interface and the new ajax-capable services is required;
+</li></ul><h3 id="Description">Description</h3>
+<ul><li><tt>indico</tt>
+<ul><li><tt>core</tt> - core objects and functions - should be testable without db access;
+<ul><li><tt>schema</tt> - database objects
+<ul><li><tt>base</tt> - basic, general objects (Avatar, etc...)
+</li><li><tt>event</tt> - event-related stuff (Conference, Session, Contribution, etc...
+</li><li><tt>resource</tt> - material/resource and data storage classes (<a class="missing wiki">LocalFile?</a>, etc...)
+</li></ul></li><li><tt>index</tt> - contains <tt>IndexManager</tt>, and other index classes
+</li></ul></li><li><tt>modules</tt> - basic modules, included in Indico
+<ul><li><tt>scheduler</tt> - old "task daemon"
+</li><li><tt>news</tt>
+</li><li><tt>upcoming</tt>
+</li><li><tt>cssTpls</tt>
+</li><li>...
+</li></ul></li><li><tt>util</tt> - utility functions
+<ul><li><tt>time</tt> - time, timezone, etc...
+</li><li><tt>fossilize</tt> - "fossilization"
+</li><li><tt>struct</tt> - data structures
+</li></ul></li><li><tt>db</tt> 
+<ul><li><tt>access</tt> - database <strong>access</strong>
+</li></ul></li><li><tt>web</tt>
+<ul><li><tt>util</tt> - web interface utils 
+<ul><li><tt>html</tt> - html escaping, sanitization, etc...
+</li></ul></li><li><tt>interface</tt>
+<ul><li><tt>common</tt> - shared among interfaces (i.e. protection)
+</li><li><tt>form</tt> - current WP + RH (part of it) (?)
+</li><li><tt>jsonrpc</tt> - current JSONRPC services
+</li><li><tt>export</tt> - data export services - common query interface, type conversion at the end (?) - <em>further study required</em>
+<ul><li><tt>ical</tt> - iCal interface
+</li><li><tt>rss</tt> - RSS interface
+</li><li><tt>atom</tt>
+</li><li><tt>json</tt>
+</li><li><tt>xml</tt>
+</li></ul></li></ul></li><li><tt>wsgi</tt> - WSGI handlers, etc
+</li><li><tt>tpl</tt> - template files
+</li></ul></li><li><tt>ext</tt> - base namespace for extensions (plugins)
+<ul><li><tt>base</tt>- base classes for plugins
+</li><li><tt>livesync</tt>
+</li></ul></li></ul></li></ul><h4 id="Furtherimprovements">Further improvements</h4>
+<ul><li>Plugins should be isolated as individual packages (EGGs, RPMs, etc...) instead of being moved to the source tree;
+</li></ul><h3 id="Comments">Comments</h3>
+<p>
+</p><div id="commenting"><form action="http://old.indico-software.org/wiki/Dev/INTREPID/5#commenting" method="post"><fieldset><legend>Add comment</legend><div class="field"><textarea rows="5" name="addcomment" cols="80" disabled="disabled" class="wikitext" id="addcomment"></textarea></div><div><label for="authoraddcomment">Your email or username:</label><input type="text" id="authoraddcomment" value="anonymous" size="30" /></div><input type="hidden" name="__FORM_TOKEN" value="610bde29a97e49ea483b83be" /><div class="buttons"><input disabled="disabled" type="submit" name="submitaddcomment" value="Add comment" size="30" /><input disabled="disabled" type="submit" name="previewaddcomment" value="Preview comment" /><input disabled="disabled" type="submit" name="canceladdcomment" value="Cancel" /></div></fieldset></form></div><p>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/INTREPID/5?action=diff&amp;version=23" title="Version 23 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-11-16T10%3A52%3A07%2B01%3A00&amp;precision=second" title="See timeline at 11/16/10 10:52:07">5 years ago</a></span>
+            <span class="trac-print">Last modified on 11/16/10 10:52:07</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/wikitoolbar.js"></script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FINTREPID%252F556e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/INTREPID/5 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:26 GMT -->
+</html>

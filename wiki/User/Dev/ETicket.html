@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/User/Dev/ETicket by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      User/Dev/ETicket – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="User%252FDev%252FETicket56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../User.html" title="View User">User</a><span class="pathentry sep">/</span><a class="pathentry" href="../Dev.html" title="View User/Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="ETicket.html" title="View User/Dev/ETicket">ETicket</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/User/Dev/ETicket?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="E-Ticket">E-Ticket</h1>
+<h2 id="Introduction">Introduction</h2>
+<p>
+In large scale events, keeping track of all the attendants can be a very tedious and unproductive task. Whilst in small conferences and meeting it is easy to keep track of participant check-in with a simple paper list, such a technique becomes inefficient when the need to scale the process up arises. It is very often necessary to have separate queues of participants checking in, and to easily retrieve and synchronize all the related information (e.g. should coupons for the social dinner be given? Did the participant pay for the event t-shirt?). On top of that, the simple task of finding someone's name in a list may be itself time-consuming, when multiplied by the amount of participants.
+</p>
+<h2 id="ProjectDescription">Project Description</h2>
+<p>
+The main goal of this project would be to develop an Indico plugin that would build on top of the existing participant registration module and provide "check-in" functionalities to the system. This would consist in the generation of a unique "ticket" per participant that could then be mailed or printed. This ticket would contain a unique bar/QR code that could then be read at check-in time by a simple computer/phone/tablet application that would be in permanent contact with Indico. The application could retrieve the registration data as well as mark the user as "checked in".
+</p>
+<h2 id="MainObjectives">Main Objectives</h2>
+<p>
+This project is divided in 3 sub-projects:
+</p>
+<ol><li>Add a new feature to Indico core in order to:
+<ul><li>Add a 'setup config' so conference organisers can enable the e-ticket feature.
+</li><li>Module that generates a unique e-ticket per registrant.
+</li><li>Capability to send the e-ticket by email to the registrants after registration.
+</li><li>Option to download the e-ticket at any moment:
+<ul><li>From the conference homepage (for registrants)
+</li><li>From the conference management area (for organisers)
+</li></ul></li><li>Enable conference managers to check-in a registrant directly from the web interface
+</li></ul></li></ol><p>
+    
+</p>
+<ol start="2"><li>Extend the current HTTP API to provide:
+<ul><li>service that receives a code and returns the user data.
+</li><li>service that checks a user in.
+</li><li>[optional] service to list all the registered users in a conference.
+</li></ul></li></ol><ol start="3"><li>Develop a HTML5/JS mobile app that:
+<ul><li>enables mobile camera for code reading
+</li><li>sends code to HTTP API service
+</li><li>displays user data and an option to check the user in
+</li><li>confirms user check-in
+</li><li>[optional] list of users with the current status (checked-in?)
+</li></ul></li></ol><ol start="4"><li>Extra:
+<ul><li>PDF design tool
+</li><li>Design a modern button for enabling/disabling options
+</li></ul></li></ol><h2 id="ProjectPlanandDetailedDefinition">Project Plan and Detailed Definition</h2>
+<h3 id="Phase1:AddBarQRcodegenerationtoIndicocore">Phase 1: Add Bar/QR code generation to Indico core</h3>
+<ul><li>Technologies:
+<ul><li>...
+</li></ul></li></ul><h3 id="Phase2:ExtensionofHTTPAPI">Phase 2: Extension of HTTP API</h3>
+<h3 id="Phase3:MobileApp">Phase 3: Mobile App</h3>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/User/Dev/ETicket?action=diff&amp;version=4" title="Version 4 by jbenito">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-07-22T15%3A51%3A13%2B02%3A00&amp;precision=second" title="See timeline at 07/22/13 15:51:13">2 years ago</a></span>
+            <span class="trac-print">Last modified on 07/22/13 15:51:13</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="User%252FDev%252FETicket56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/User/Dev/ETicket by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:33 GMT -->
+</html>

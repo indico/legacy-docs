@@ -1,0 +1,32 @@
+[[PageOutline]]
+
+== InTRePId <number> ==
+'''Title:''' XML output refactoring
+
+'''Author:''' Jose Benito Gonzalez Lopez
+
+'''Date:''' 12/04/2010
+
+'''Target version:''' 0.98
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * Get rid of the current XML output generator
+ * Design a easy and extensible solution to generate XML, avoiding the cod 
+repetition (for instance, when generating MarcXML).
+ * "Extensible", since plugins might be adding extra information to XML outputs.
+
+=== Status quo ===
+
+The current output.py file is a bunch of methods with incomprehensible "if" conditions
+and hard-coded stuff. Extending this output.py is rather impossible.
+
+=== Description ===
+
+
+
+=== Comments ===
+[[AddComment]]

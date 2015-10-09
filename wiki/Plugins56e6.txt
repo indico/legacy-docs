@@ -1,0 +1,10 @@
+= Indico Plugins =
+
+== Search ==
+
+=== repozer ===
+
+Repozer provides search capabilities out of the box from within Indico. It uses [http://docs.repoze.org/catalog/ repoze.catalog] as its index. Repozer gives you the ability to search inside Events.
+
+ * **Developer:** Giorgio Pieretti
+ * **Repository:** https://github.com/Ictp/Repozer

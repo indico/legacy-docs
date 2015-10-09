@@ -1,0 +1,11 @@
+= César Muñoz Oreña =
+
+== Personal plan ==
+
+ * Bug fixing
+
+== Open Tickets ==
+[[TicketQuery(owner=cemunoz,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=cemunoz,status=closed)]]

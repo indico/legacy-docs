@@ -1,0 +1,11 @@
+= Migration from CDS Agenda =
+
+In order to migrate data (metadata and files) stored in an old CDS Agenda server to an Indico server, you should download this script  and follow the procedure described below.
+
+The script allows you to map the complete structure of the source server to the new server (use topcat="0"), or to migrate only one category (use topcat="xxx"), or to migrate only one agenda (use agenda_id="yyy"), or to store all migrated events into one predefined category (parent_categ="zzz").
+
+Before running the script, make sure you fill in all the necessary variables at the beginning of the file with parameters adapted to your local setup (mysql credentials for metadata access, scp credentials for file access on the CDS Agenda server).
+
+Warning 1: Indico metadata should be stored in UTF-8. If your source MySQL database stores data in other encodings (latin-1 for eg.), the migration script should be modified. Erwan Marec from LAL-IN2P3 has provided an updated version of the script working with Latin-1 encoded db (download it [http://indico-software.org/download/migration_agenda.py here]; See the [http://indico-software.org/download/migration_agenda.README.txt associated notes])
+
+Warning 2: If the migration script finds in Indico existing objects (events, category) with the same ids as the migrated ones, they will then be replaced by the migrated ones. Use the "prefix" variable to avoid this problem for events. For categories, if your Indico database is not empty, then it is safer to precreate the category tree in Indico, then migrate the categories one by one by using the "parent_categ" variable. 

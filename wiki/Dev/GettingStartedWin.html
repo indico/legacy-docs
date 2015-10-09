@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/GettingStartedWin by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/GettingStartedWin – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FGettingStartedWin56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="GettingStartedWin.html" title="View Dev/GettingStartedWin">GettingStartedWin</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/GettingStartedWin?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#Setup">Setup</a>
+    <ol>
+      <li>
+        <a href="#a0.Preparation"><strong>0. Preparation</strong></a>
+      </li>
+      <li>
+        <a href="#a1.PreparingyourPythonvirtualenvironment">1. Preparing your Python virtual environment</a>
+      </li>
+      <li>
+        <a href="#a2.PreparingtheDevelopmentEnvironment">2. Preparing the Development Environment</a>
+      </li>
+      <li>
+        <a href="#a3.LaunchingIndico">3. Launching Indico</a>
+      </li>
+      <li>
+        <a href="#a3.WhatdoIdonow">3. What do I do now?</a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#Git">Git</a>
+    <ol>
+      <li>
+        <a href="#LearningGit">Learning Git</a>
+        <ol>
+          <li>
+            <a href="#ConfiguringGit">Configuring Git</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="Setup">Setup</h1>
+<h2 id="a0.Preparation"><strong>0. Preparation</strong></h2>
+<p>
+You will need:
+</p>
+<ul><li>Python 2.6+ (2.7+ encouraged);
+</li><li>Python development packages [<tt>python-dev</tt> or <tt>python-devel</tt> depending on your linux distro] 
+</li><li>Virtualenv;
+</li><li><tt>libxml2</tt> and <tt>libxsl</tt> development packages;
+</li><li>git [git-core in some distros]
+</li></ul><h2 id="a1.PreparingyourPythonvirtualenvironment">1. Preparing your Python virtual environment</h2>
+<div class="code"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/code
+<span class="nv">$ </span>virtualenv indico
+New python executable in indico/bin/python
+Installing setuptools............done.
+Installing pip...............done.
+<span class="nv">$ </span><span class="nb">cd </span>indico
+<span class="nv">$ </span><span class="nb">source </span>bin/activate
+</pre></div><p>
+You can leave the virtualenv anytime using the <tt>deactivate</tt> command.
+</p>
+<h2 id="a2.PreparingtheDevelopmentEnvironment">2. Preparing the Development Environment</h2>
+<p>
+So, now we need to get Indico from Git. If you are using <a class="missing wiki">GitHub?</a> as a public repo, clone your "forked repo" instead.
+</p>
+<div class="code"><pre><span class="nv">$ </span>git clone git://github.com/indico/indico.git src
+</pre></div><p>
+Then:
+</p>
+<div class="code"><pre><span class="nv">$ </span><span class="nb">cd </span>src
+<span class="nv">$ </span>pip install -r requirements.txt
+<span class="nv">$ </span>python setup.py develop_config
+</pre></div><p>
+Follow the instructions. By the end of the processt you should have Indico installed in your virtualenv. The config script should also provide you with some instructions on how to start the DB. That's what we'll do in the next section.
+</p>
+<h2 id="a3.LaunchingIndico">3. Launching Indico</h2>
+<ol><li>To start the ZODB database, type:
+</li></ol><div class="code"><pre><span class="nv">$ </span>sudo zdaemon -C etc/zdctl.conf start
+</pre></div><ol start="2"><li>Then, start a development web server:
+</li></ol><div class="code"><pre><span class="nv">$ </span>indico_shell --web-server
+</pre></div><ol start="3"><li>Open your browser and go to <a class="ext-link" href="http://localhost:8000/indico/"><span class="icon">​</span>http://localhost:8000/indico/</a> - Indico should be up and running! 
+</li></ol><h2 id="a3.WhatdoIdonow">3. What do I do now?</h2>
+<p>
+Now you need to setup your Git repo and start working.
+</p>
+<h1 id="Git">Git</h1>
+<h2 id="LearningGit">Learning Git</h2>
+<p>
+Read <a class="ext-link" href="http://git-scm.com/documentation"><span class="icon">​</span>Git's online manual</a>.
+Maybe you'll want to print the <a class="ext-link" href="https://na1.salesforce.com/help/doc/en/salesforce_git_developer_cheatsheet.pdf"><span class="icon">​</span>cheat sheet</a> and put it on your wall. Go ahead, print it!
+</p>
+<p>
+There is also a very nice <a class="ext-link" href="http://try.github.com/"><span class="icon">​</span>GitHub page</a> with an interactive Git walkthrough.
+</p>
+<h3 id="ConfiguringGit">Configuring Git</h3>
+<p>
+The first time you use Git you will need to set up your identity:
+</p>
+<pre class="wiki">git config --global user.name "John Doe"
+git config --global user.email john.doe@cern.ch
+</pre><p>
+That should be enough.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/GettingStartedWin?action=diff&amp;version=1" title="Version 1 by cpecorar">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-07-18T15%3A58%3A57%2B02%3A00&amp;precision=second" title="See timeline at 07/18/12 15:58:57">3 years ago</a></span>
+            <span class="trac-print">Last modified on 07/18/12 15:58:57</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FGettingStartedWin56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/GettingStartedWin by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:12 GMT -->
+</html>

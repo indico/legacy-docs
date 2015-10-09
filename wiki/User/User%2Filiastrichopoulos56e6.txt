@@ -1,0 +1,13 @@
+= Ilias Trichopoulos =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=iliastrichopoulos, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=iliastrichopoulos,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=iliastrichopoulos)]]

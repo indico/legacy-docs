@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/FutureDB by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/FutureDB – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FFutureDB56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="FutureDB.html" title="View Dev/FutureDB">FutureDB</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/FutureDB?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="NextGenerationIndicoDB">Next Generation Indico DB</h1>
+<h2 id="ActionPlan">Action Plan</h2>
+<ol><li>Tecnology Survey - Getting information on suitable DBMSs
+</li><li>Evaluation - Classifying options in terms of pre-defined criteria
+</li><li>Prototyping
+<ul><li>Creation of small prototypes that implement isolated parts of the Indico schema, using a limited number of DB technologies
+</li><li>Benchmarking/profiling
+</li></ul></li><li>Decision - evaluating results from previous 2 phases and choosing one of the options (or several, if that's the case)
+</li><li>Boilerplate creation
+<ul><li>Creating a set of base classes/modules for use in future versions of Indico
+</li></ul></li><li>Migration
+<ul><li>Gradual (dual-DB)?
+</li><li>Immediate?
+</li></ul></li></ol><h2 id="SelectionCriteria">Selection Criteria</h2>
+<h3 id="Technical">Technical</h3>
+<ul><li><strong>Software Availability</strong> - Unless we want to jeopardize Indico's position as a widely-available Open Source solution, the chosen DB product should be equally accessible to the general public. This does, of course, discourage the use of a commercial product, unless compatibility with a similar free/open alternative is ensured.
+</li><li><strong>Scalability</strong> - It shouldn't be hard to scale up the infrastructure (more nodes), be it vertically (better machines) or horizontally (more machines).
+</li><li><strong>Replication</strong> - Data should be replicated across several machines, for fault-tolerance and/or load-balancing purposes (scalability); 
+</li><li><strong>Ease of use/development</strong>
+<ul><li>Is the DB in question easy to develop with?
+</li><li>How are the support tools?
+</li></ul></li></ul><h4 id="Data-related">Data-related</h4>
+<ul><li><strong>Transactions</strong> - This is going to be a tough point. Most NoSQL solutions choose not to implement transactions, something we currently heavily rely on.
+</li><li><strong>Complex Schema</strong> - Indico has a quite complex schema. The selected platform should have:
+<ul><li><strong>Indexing</strong>
+</li><li><strong>Support for complex queries</strong>
+</li></ul></li></ul><h3 id="Project-related">Project-related</h3>
+<ul><li><strong>Project/Community Momentum</strong>
+<ul><li>Is the user community large?
+</li><li>What about the ecosystem? Is it growing?
+</li><li>Is it probable that it will stay around?
+</li><li>Where in the hype curve are we?
+</li></ul></li><li><strong>Cloud-friendliness</strong> - This is not a mandatory requirement, but ensuring that the system can be deployed across a broad range of cloud providers would be good;
+</li></ul><h3 id="Cost-related">Cost-related</h3>
+<ul><li><strong>(Possible) Future costs</strong> - Is it probable that we will need paid support in the future?
+</li><li><strong><a class="wiki" href="FutureDB/MigrationCosts.html">Migration costs</a></strong>
+<ul><li>Will it be easy to move from ZODB to this technology?
+</li><li>No, it won't. But will it be very hard or extremely hard?
+</li></ul></li><li><strong>Way out</strong> - Can we easily change to something else in case we realize we made the wrong choice?
+</li><li><strong><acronym title="European Organization for Nuclear Research">CERN</acronym></strong> - How would the solution fit <acronym title="European Organization for Nuclear Research">CERN</acronym>'s infrastructure and/or existing services? 
+</li></ul><h2 id="Possibilities">Possibilities</h2>
+<table class="wiki">
+<tr><th> Name               </th><th> Type              </th><th> License                      </th><th> Community Size 
+</th></tr><tr><td> ZODB                 </td><td> OODBMS              </td><td> Zope Public License            </td><td> Small            
+</td></tr><tr><td> Wakanda              </td><td> OODBMS              </td><td> GPLv3 / AGPLv3 / Commercial    </td><td style="text-align: center">                  
+</td></tr><tr><td style="text-align: center">                      </td><td style="text-align: center">                     </td><td style="text-align: center">                                </td><td style="text-align: center">                  
+</td></tr><tr><td> MariaDB              </td><td> RDBMS               </td><td> GPLv2                          </td><td> Large            
+</td></tr><tr><td> Microsoft SQL Server </td><td> RDBMS               </td><td> Commercial                     </td><td> Large            
+</td></tr><tr><td> MySQL                </td><td> RDBMS               </td><td> GPLv2 / <acronym title="European Union">EU</acronym>LA                   </td><td> Large            
+</td></tr><tr><td> Oracle Database      </td><td> RDBMS               </td><td> Commercial                     </td><td> Large            
+</td></tr><tr><td> PostgresSQL          </td><td> ORDBMS              </td><td> PostgresSQL License            </td><td> Large            
+</td></tr><tr><td> VoltDB               </td><td> RDBMS               </td><td> AGPLv3                         </td><td> Small            
+</td></tr><tr><td style="text-align: center">                      </td><td style="text-align: center">                     </td><td style="text-align: center">                                </td><td style="text-align: center">                  
+</td></tr><tr><td> Amazon DynamoDB      </td><td> NoSQL / Key-value   </td><td> Commercial                     </td><td style="text-align: center">                  
+</td></tr><tr><td> FoundationDB         </td><td> NoSQL / Key-value   </td><td> Commercial                     </td><td style="text-align: center">                  
+</td></tr><tr><td> LevelDB              </td><td> NoSQL / Key-value   </td><td> BSD New                        </td><td> Small            
+</td></tr><tr><td> MemcacheDB           </td><td> NoSQL / Key-value   </td><td> BSD                            </td><td style="text-align: center">                  
+</td></tr><tr><td> Oracle NoSQL         </td><td> NoSQL / Key-value   </td><td> AGPLv3 / Commercial            </td><td style="text-align: center">                  
+</td></tr><tr><td> Redis                </td><td> NoSQL / Key-value   </td><td> BSD                            </td><td> Medium           
+</td></tr><tr><td> Riak                 </td><td> NoSQL / Key-value   </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td> Tarantool            </td><td> NoSQL / Key-value   </td><td> BSD                            </td><td> Small            
+</td></tr><tr><td> Voldemort            </td><td> NoSQL / Key-value   </td><td> Apache License 2.0             </td><td> Small            
+</td></tr><tr><td style="text-align: center">                      </td><td style="text-align: center">                     </td><td style="text-align: center">                                </td><td style="text-align: center">                  
+</td></tr><tr><td> <a class="missing wiki">CouchBase?</a>            </td><td> NoSQL / Document    </td><td> Commercial / Community edition </td><td> Small            
+</td></tr><tr><td> CouchDB              </td><td> NoSQL / Document    </td><td> Apache License 2.0             </td><td> Medium           
+</td></tr><tr><td> MongoDB              </td><td> NoSQL / Document    </td><td> AGPLv3                         </td><td> Large            
+</td></tr><tr><td> OrientDB             </td><td> NoSQL / Document    </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td> RavenDB              </td><td> NoSQL / Document    </td><td> AGPLv3                         </td><td style="text-align: center">                  
+</td></tr><tr><td> RethinkDB            </td><td> NoSQL / Document    </td><td> AGPLv3                         </td><td> Small            
+</td></tr><tr><td> Terrastore           </td><td> NoSQL / Document    </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td style="text-align: center">                      </td><td style="text-align: center">                     </td><td style="text-align: center">                                </td><td style="text-align: center">                  
+</td></tr><tr><td> Accumulo             </td><td> NoSQL / Column      </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td> Amazon SimpleDB      </td><td> NoSQL / Column      </td><td> Commercial                     </td><td style="text-align: center">                  
+</td></tr><tr><td> Cassandra            </td><td> NoSQL / Column      </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td> HBase                </td><td> NoSQL / Column      </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td> Hypertable           </td><td> NoSQL / Column      </td><td> GPLv2                          </td><td style="text-align: center">                  
+</td></tr><tr><td style="text-align: center">                      </td><td style="text-align: center">                     </td><td style="text-align: center">                                </td><td style="text-align: center">                  
+</td></tr><tr><td> FlockDB              </td><td> NoSQL / Graph       </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr><tr><td> Infinite Graph       </td><td> NoSQL / Graph       </td><td> <acronym title="European Union">EU</acronym>LA / Commercial              </td><td style="text-align: center">                  
+</td></tr><tr><td> <a class="missing wiki">InfoGrid?</a>             </td><td> NoSQL / Graph       </td><td> AGPLv1                         </td><td> Small            
+</td></tr><tr><td> Neo4J                </td><td> NoSQL / Graph       </td><td> GPLv3 / AGPLv3 / commercial    </td><td style="text-align: center">                  
+</td></tr><tr><td> OrientDB             </td><td> NoSQL / Graph       </td><td> Apache License 2.0             </td><td style="text-align: center">                  
+</td></tr></table>
+<h2 id="Technicaldetails">Technical details</h2>
+<table class="wiki">
+<tr><th> Name </th><th> Consistency </th><th> Atomicity </th><th> Scalability 
+</th></tr><tr><td> ZODB </td><td> Strong </td><td> Transactions </td><td> <a class="missing wiki">RelStorage?</a>, NEOPPOD, ZRS  (commercial) 
+</td></tr><tr><td> MySQL </td><td>  Strong </td><td> Transactions </td><td> Auto-sharding, Master-Slave replication 
+</td></tr><tr><td> PostgresSQL </td><td> Strong </td><td> Transactions </td><td> Master-Slave replication, App-level sharding 
+</td></tr><tr><td> MongoDB </td><td> Strong  </td><td> Single doc modification, see below </td><td> Auto-sharding, Master-Slave, Replica sets (Primary-Secondary) 
+</td></tr><tr><td> Cassandra </td><td> Eventual </td><td> Atomic batches (since 1.2), otherwise row-level </td><td> "Auto-sharding", Peer-to-peer replication 
+</td></tr><tr><td> Redis </td><td> Strong </td><td> Transactions, no rollback </td><td> Master-slave replication, App-level sharding 
+</td></tr><tr><td> Neo4J </td><td> Strong </td><td> Transactions </td><td> Master-slave replication 
+</td></tr><tr><td> Riak </td><td> Eventual </td><td> None </td><td> "Auto-sharding", Peer-to-peer replication 
+</td></tr><tr><td> CouchDB / CouchBase </td><td> Eventual </td><td> Single doc modification, see below </td><td>  Master-slave replication, App-level sharding (CouchDB), Auto-sharding (CouchBase) 
+</td></tr><tr><td> HBase </td><td> Strong </td><td> Row-level </td><td> Master-slave replication,  Auto-sharding 
+</td></tr><tr><td> Voldemort </td><td> Eventual </td><td> Key-level </td><td> "Auto-sharding", Peer-to-peer replication 
+</td></tr></table>
+<h2 id="CouchDB">CouchDB</h2>
+<h4 id="Disadvantages">Disadvantages</h4>
+<ul><li>Requires packing ("compaction");
+</li></ul><h2 id="Redis">Redis</h2>
+<h3 id="Advantages">Advantages</h3>
+<ul><li>Overall very good as non-authoritative storage
+</li><li>Includes several useful data structures (ordered sets, hash tables)
+</li><li>Easy to use, simple API
+</li><li>The data set is all the time in memory, and can optionally be made persistent
+</li></ul><h3 id="Disadvantages1">Disadvantages</h3>
+<ul><li>The data set has to fit in memory;
+</li><li>Despite providing some nice data structures, it is still a key-value storage;
+</li></ul><h3 id="Links">Links</h3>
+<ul><li>Official docs
+<ul><li><a class="ext-link" href="http://redis.io/topics/persistence"><span class="icon">​</span> Redis Persistence</a>
+</li><li><a class="ext-link" href="http://redis.io/topics/replication"><span class="icon">​</span> Replication</a>
+</li></ul></li><li>Others
+<ul><li><a class="ext-link" href="http://instagram-engineering.tumblr.com/post/12202313862/storing-hundreds-of-millions-of-simple-key-value-pairs#_=_ "><span class="icon">​</span> Storing hundreds of millions of simple key-value pairs in Redis</a>
+</li><li><a class="ext-link" href="http://blog.gomiso.com/2011/05/24/how-redis-can-ruin-your-day-and-what-you-can-do-to-fix-it/"><span class="icon">​</span> How redis can ruin your day, and what you can do to fix it</a>
+</li></ul></li></ul><h2 id="ZODB">ZODB</h2>
+<h3 id="Replication">Replication</h3>
+<ul><li><a class="ext-link" href="https://pypi.python.org/pypi/zc.zrs/"><span class="icon">​</span>ZRS</a> - The Zeo Foundation has recently released it as open source software. It provides primary/secondary replication.
+</li></ul><h2 id="Riak">Riak</h2>
+<h3 id="Advantages1">Advantages</h3>
+<ul><li>Highly distributable
+</li><li>Supports several backends (Bitcask, LevelDB, Memory, ...)
+</li><li>The "links" feature allows many-to-many relationships to be easily established an queried
+</li></ul><h3 id="Disadvantages2">Disadvantages</h3>
+<ul><li>Ideal for large-scale distributed clusters, maybe not what we are looking for (overkill?)
+</li><li>It's still a key-value storage, and simpler solutions exist
+</li></ul><h3 id="Thingstobeconsidered">Things to be considered</h3>
+<ul><li>Erlang
+</li></ul><h3 id="Links1">Links</h3>
+<ul><li>Official docs
+<ul><li><a class="ext-link" href="http://basho.com/link-walking-by-example/"><span class="icon">​</span> Riak link walking by example</a>
+</li></ul></li><li>Others
+<ul><li><a class="ext-link" href="http://www.slideshare.net/seancribbs/introduction-to-riak-red-dirt-ruby-conf-training"><span class="icon">​</span> Introduction to Riak</a>
+</li><li><a class="ext-link" href="http://vimeo.com/21598799"><span class="icon">​</span> Riak and Scala at Yammer</a>
+</li><li><a class="ext-link" href="http://www.slideshare.net/jmuellerleile/scaling-with-riak-at-showyou"><span class="icon">​</span> Scaling with Riak at Showyou</a>
+</li></ul></li></ul><h2 id="PostgreSQL">PostgreSQL</h2>
+<h3 id="Advantages2">Advantages</h3>
+<ul><li><a class="ext-link" href="http://wiki.postgresql.org/wiki/What's_new_in_PostgreSQL_9.2#JSON_datatype "><span class="icon">​</span> JSON support</a> 
+</li></ul><h2 id="Links2">Links</h2>
+<h3 id="TechnicalInformation">Technical Information</h3>
+<ul><li><a class="ext-link" href="http://www.cs.berkeley.edu/~brewer/cs262b-2004/PODC-keynote.pdf"><span class="icon">​</span>Eric Brewer - "Towards Robust Distributed Systems"</a> 
+</li><li>Great explanation of <a class="ext-link" href="http://guide.couchdb.org/draft/consistency.html"><span class="icon">​</span> Eventual Consistency and CAP</a>
+</li><li><a class="ext-link" href="http://www.slideshare.net/chris.e.richardson/developing-polyglot-persistence-applications-devnexus-2013"><span class="icon">​</span> Developing polyglot persistence applications</a>
+</li><li><a class="ext-link" href="http://www.eaipatterns.com/docs/IEEE_Software_Design_2PC.pdf"><span class="icon">​</span> Your Coffee Shop Doesn’t Use Two-Phase Commit</a>
+</li><li><a class="ext-link" href="http://martinfowler.com/bliki/PolyglotPersistence.html"><span class="icon">​</span> Polyglot Persistence</a> (Martin Fowler)
+</li></ul><h4 id="MongoDB">MongoDB</h4>
+<ul><li><a class="ext-link" href="http://docs.mongodb.org/manual/tutorial/isolate-sequence-of-operations/"><span class="icon">​</span> Isolate Sequence of Operations</a>
+</li><li><a class="ext-link" href="http://docs.mongodb.org/manual/tutorial/perform-two-phase-commits/"><span class="icon">​</span> Perform Two-phase Commits</a>
+</li><li><a class="ext-link" href="http://www.infoq.com/presentations/MongoDB-at-SourceForge"><span class="icon">​</span> MongoDB at Sourceforge</a>
+</li></ul><ul><li>StackOverflow questions:
+<ul><li><a class="ext-link" href="http://stackoverflow.com/questions/9588207/mongodb-atomicity-concerns-modifying-a-document-in-memory"><span class="icon">​</span> MongoDB Atomicity Concerns — Modifying a document in memory</a>
+</li><li><a class="ext-link" href="http://stackoverflow.com/questions/7149890/what-does-mongodb-not-being-acid-compliant-really-mean"><span class="icon">​</span> What does MongoDB not being ACID compliant really mean?</a>
+</li></ul></li></ul><h4 id="CouchDB1">CouchDB</h4>
+<ul><li><a class="ext-link" href="http://stackoverflow.com/questions/299723/can-i-do-transactions-and-locks-in-couchdb"><span class="icon">​</span> Transactions and Locks in CouchDB</a>
+</li></ul><h4 id="PostgreSQL1">PostgreSQL</h4>
+<ul><li><a class="ext-link" href="http://instagram-engineering.tumblr.com/post/10853187575/sharding-ids-at-instagram"><span class="icon">​</span> Sharding IDs at Instagram</a>
+</li><li><a class="ext-link" href="http://petrohi.me/post/30848036722/scaling-out-postgres-partitioning"><span class="icon">​</span> Scaling out PostgreSQL</a>
+</li><li><a class="ext-link" href="http://www.slideshare.net/adorepump/database-tools-by-skype"><span class="icon">​</span> Database tools by Skype</a>
+</li><li><a class="ext-link" href="http://www.craigkerstiens.com/2012/11/30/sharding-your-database/"><span class="icon">​</span> Sharding your Database</a>
+</li></ul><h4 id="Cassandra">Cassandra</h4>
+<ul><li><a class="ext-link" href="http://www.slideshare.net/benjaminblack/introduction-to-cassandra-replication-and-consistency"><span class="icon">​</span> Introduction to Cassandra Replication and Consistency</a>
+</li></ul><h3 id="Comparisons">Comparisons</h3>
+<ul><li><a class="ext-link" href="http://docs.basho.com/riak/1.2.0/references/appendices/comparisons/"><span class="icon">​</span> Riak vs. Others</a> (Cassandra, CouchBase, CouchDB, HBase, MongoDB, Neo4j, DynamoDB)
+</li><li><a class="ext-link" href="http://www.slideshare.net/tim.lossen.de/cassandra-vs-redis"><span class="icon">​</span> Cassandra vs. Redis</a>
+</li><li><a class="ext-link" href="http://highscalability.com/blog/2010/12/6/what-the-heck-are-you-actually-using-nosql-for.html"><span class="icon">​</span> NoSQL use cases</a>
+</li><li><a class="ext-link" href="http://istc-bigdata.org/index.php/benchmarking-graph-databases/"><span class="icon">​</span> RDBMS vs Neo4j in PageRank and Shortest Path</a>
+</li><li><a class="ext-link" href="http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis"><span class="icon">​</span> Cassandra vs MongoDB vs CouchDB vs Redis vs Riak vs HBase vs Couchbase vs Neo4j vs Hypertable vs ElasticSearch vs Accumulo vs VoltDB vs Scalaris comparison</a>
+</li></ul><h3 id="LoveHate"><a class="missing wiki">Love/Hate?</a></h3>
+<ul><li><a class="ext-link" href="http://www.peterbe.com/plog/zodb-and-couchdb"><span class="icon">​</span> CouchDB and ZODB</a>
+</li><li><a class="ext-link" href="http://www.plope.com/Members/chrism/why_i_like_zodb"><span class="icon">​</span> Why I like ZODB</a>
+</li></ul><ul><li><a class="ext-link" href="http://www.slideshare.net/thobe/choosing-the-right-nosql-database"><span class="icon">​</span>http://www.slideshare.net/thobe/choosing-the-right-nosql-database</a>
+</li><li><a class="ext-link" href="http://www.slideshare.net/VeryFatBoy/nosql-roadshow-amsterdam-2012-15414012"><span class="icon">​</span>http://www.slideshare.net/VeryFatBoy/nosql-roadshow-amsterdam-2012-15414012</a>
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/FutureDB?action=diff&amp;version=94" title="Version 94 by ferhatelmas: accumulo as a possibility">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-10-07T10%3A47%3A05%2B02%3A00&amp;precision=second" title="See timeline at 10/07/13 10:47:05">2 years ago</a></span>
+            <span class="trac-print">Last modified on 10/07/13 10:47:05</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FFutureDB56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/FutureDB by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:30 GMT -->
+</html>

@@ -1,0 +1,150 @@
+[[PageOutline]]
+
+= Troubleshooting =
+
+You'll bump into one of these someday... that's for sure.
+
+[[BR]]
+
+== Internet Explorer ==
+
+=== ''Runtime Error: Expected Identifier, String or Number'': maybe caused by a trailing comma in an object declaration. ===
+
+In IE7, you cannot end a list of (key : value) pairs with a comma. Example:
+{{{
+#!js
+var people = {
+    1: "John",
+    2: "Peter",
+};
+}}}
+Will work in FF but not IE7 (because of the comma after "Peter").
+In IE7 you would get something like: ''Runtime Error: Expected Identifier, String or Number.''
+
+Other things that can cause this error are the use of reserved words in IE7, for example, "class":
+{{{
+#!js
+Html.div({class: 'myDiv'}); // => use className instead : Html.div({className: 'myDiv'}
+}}}
+
+or ''for'':
+
+{{{
+#!js
+var label = Html.label({for: "someId"},"some text"); 
+// => use htmlFor instead, like this:
+var label = Html.label({}, "some text");
+label.dom.htmlFor = 'someId';
+}}}
+
+=== ''Internet Explorer cannot open the Internet site - Operation aborted'': maybe caused by something you do at page load ===
+
+In IE7, during the initial page load, you cannot have a script modify / add elements to the `<body>` element if the script is not located directly inside the `<body>` element. Otherwise you will get a popup saying ''Internet Explorer cannot open the Internet site - Operation aborted'' and then a white page.
+
+As a result, for example you cannot directly show an `IndicoUI.Dialogs.Util.progress` dialog at page load without a trick (because it modifies the `<body>` to apply a shade to all of the page). The trick is to use `IndicoUI.executeOnLoad(function(){ .... } )` which is equivalent to `window.onload = ...` except that it will work for different scripts in different parts of the page that want to do something at page load (whereas if each of them wrote `window.onload = ...` directly, one would overwrite the other).
+
+=== Things you add dynamically but don't appear the way you want to (i.e. checked checkboxes) ===
+
+When you create an element with certain attributes, and then add it to the DOM, sometimes in IE7 those attributes don't take effect. For example if you create a checkbox that is already checked and then you add it to the DOM, it won't appear checked in IE7. The solution is to add it first to the DOM, then check it (yes, sometimes this just implies changing the order of a couple lines...).
+
+=== Dynamically generated checkboxes don't seem to have the `value` attribute you specified ===
+
+{{{
+#!js
+var checkbox = Html.checkbox({value: 'somevalue'});
+}}}
+will not work in IE7. You have to do:
+{{{
+#!js
+var checkbox = Html.checkbox();
+checkbox.dom.value = 'somevalue'
+}}}
+
+=== Problems showing elements you had hidden ===
+
+When you want to restore the style `display` value to its default value (because previously you set it to "none"), the best way is to set it to "" (empty string).
+This is useful for a table cell (td element) for example, because in FF its default `display` value is ''table-cell'' but in IE it's ''block''.
+
+=== Dynamic `colspan` problem ===
+
+When you change dinamically the `colspan` of a `td` (cell) element, or dinamically create a cell with a given `colspan`, in FF you have to do `elem.colspan = X` and in IE7 you have to do `elem.colSpan = X` (Notice the capital S you need for IE7). Solution? Do both, and each browser will ignore the other's :)
+
+=== Tables without `tbody` ===
+
+Creating a table from !JavaScript won't work (no visible result) unless you place a `tbody` node inside it.
+
+It's a [http://top-frog.com/archives/2006/07/09/javascript_ie_and_generating_tables known issue]...
+
+=== Dispatching events to elements that are not in the DOM tree ===
+
+If you try to dispatch an event to an element that is stored in some variable but no longer in the DOM tree (because for some reason you want to execute an event observer that is watching that element, such as the observers of a form field), it works fine in Firefox but not in IE. You will get an "Unknown error".
+
+Solution: call the observer yourself if you can, or duplicate its work if there is no other option.
+
+=== Pressing RETURN anywhere causes a form to be submitted ===
+
+This happens because apparently IE puts the focus on the first `<button/>` it manages to find. If a form element loses the focus, it will be immediately acquired by this same button (that's twice as weird). The solution is to use an `<input type="button" />` instead.
+
+
+[[BR]]
+
+== Template Engine ==
+
+=== Problem with special characters, such as ñ, á, etc. appearing as &ntilde; &aacute; etc ===
+
+If you are using ''.wohl-based'' context help, you should be aware that the content of any `.tpl` file with an associated `.wohl` will be modified (in particular, by the following line in `def __doMerge` - `ContextHelp.py`):
+
+{{{
+#!python
+xpathCtxt = doc.xpathNewContext()
+}}}
+ 
+This will substitute characters such as ñ, á, etc. by their HTML entities.
+This is usually not a problem (a browser renders a ñ and a &ntilde; the same way) except when you have those characters inside a javascript string.
+The solutions are:
+ * Not using .wohl files and use !JavaScript directly to put the ? signs with context help.
+ * If the !JavaScript string was generated with a `.tpl` file with an associated `.wohl` file, you can try using the `escapeHTMLForJS` method.
+
+=== Problem with HTML end tags inside JS strings disappearing ===
+If for some weird reason you are storing HTML code inside a JS String, and you see the end tags disappearing, again it can be the fault of the ''.wohl-based'' context help system.
+The problem lies with the `/` in the end tags such as `</span>`.
+Solutions include:
+ * Not using .wohl files for context help.
+ * Use the `escapeHTMLForJS` method so that `/` are turned into `\/`.
+
+
+
+[[BR]]
+
+== !PyDev ==
+
+=== After modifying the sites-available/default file to enable !PyDev debugging, Apache doesn't work ===
+For example, you try to access any link in Indico and, instead of being redirected where you expected, a "Save As" dialog with the .py file of the page you are trying to access appears.
+In this case, you probably did something wrong while configuring the sites-available/default file. Notice that the <Directory> statements should be either in sites-available/default or in /etc/apache2/apache2.conf (or whichever your apache configuration file is). If you add one in sites-available after having the same in apache2.conf make sure that all looks the same!
+For instance, if in apache2.conf you have this:
+
+
+{{{
+<Directory "/home/johndoe/cds-indico/indico/htdocs">
+    AddHandler python-program .py
+    PythonHandler mod_python.publisher
+    PythonDebug On
+    PythonPath "sys.path+['/home/johndoe/cds-indico/indico']"
+</Directory>
+}}}
+
+
+Your sites-available/default file will have to look like this:
+
+
+{{{
+<Directory "/home/johndoe/cds-indico/indico/htdocs">
+    AddHandler python-program .py
+    PythonHandler mod_python.publisher
+    PythonDebug On
+    PythonPath "sys.path+['/home/johndoe/cds-indico/indico','/home/johndoe/Desktop/eclipseFolder/plugins/org.python.pydev.debug_1.5.0.1251989166/pysrc/']"
+</Directory>
+}}}
+
+
+But remember that is more recommended to simply cut the <Directory> statement in apache2.conf and paste it in sites-available/default, adding the pydev plugin path to the pythonpath, rather than having both <Directory> for the same thing.

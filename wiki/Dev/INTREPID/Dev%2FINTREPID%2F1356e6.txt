@@ -1,0 +1,51 @@
+[[PageOutline]]
+
+== InTRePId 13 ==
+'''Title:''' CSS extension and Client-side templates
+
+'''Author:''' Pedro Ferreira
+
+'''Date:''' 15/05/2013
+
+'''Target version:''' 1.2
+
+'''Status:''' ''draft''
+
+
+=== Objectives ===
+
+ * Introduce a language that is more powerful than CSS, thus allowing us to better organize new stylesheet information and reduce the amount of replicated code;
+ * Introduce a client-side templating language, as a way of letting people create dynamic client-side interfaces with no need for "pre-generated" hidden HTML code and/or ugly giant jQuery "pseudo-template" chains; 
+
+=== Status quo ===
+
+Stylesheet-wise, we are using plain CSS, most of which is concentrated in `Default.css`. With the introduction of a new CSS file structure (`core.css`, `buttons.css`, et al...), it would be nice to make sure this code remains organized and in the most modular structure possible.
+CSS poses a series of problems:
+
+ * It lacks inheritance features, thus making it harder (or practically impossible) to re-use code
+ * It lacks variables and other constructs, hence making it impossible to set global style parameters without having to employ a lot of automatic or even manual replacement work
+
+Client-side templates are currently provided by underscore.js, but these are very primitive. underscore's templatinb language is extremely limited.
+
+=== Description ===
+
+==== Stylesheets
+
+|| Language || Nesting || Mixins || Variables || Syntax || Pure Python implementation? || Requirements ||
+|| SASS/SCSS || Yes || Yes || Yes || CSS superset or indented CSS-like|| [[https://github.com/Kronuz/pyScss | PySCSS]] (no SASS support) || Ruby '''or''' Python >= 2.5 (PySCSS) ||
+|| LESS || Yes || Yes || Yes || CSS superset || Incomplete || Node.js ||
+|| Stylus || Yes || Yes || Yes || Indented CSS-like || No || Python >= 2.5 ||
+
+
+==== JS Templating
+
+|| System || Syntax || Feature set || Extensibility ||
+|| Handlebars || Moustache-like || OK || High ||
+|| twig.js || "Jinja-like" || Very complete || High ||
+
+==== Links ====
+ * [[http://designshack.net/articles/css/sass-vs-stylus-who-wins-the-minimal-syntax-battle/ | SASS vs Stylus]]
+ * [[http://stackoverflow.com/questions/8411066/less-vs-sass-vs | LESS vs Sass vs?]]
+
+=== Comments ===
+[[AddComment]]

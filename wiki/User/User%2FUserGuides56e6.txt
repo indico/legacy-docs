@@ -1,0 +1,3 @@
+= User Guides =
+
+You can find extensive explanations on how to use Indico in our [http://indico.cern.ch/help.py Indico Help].

@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1038/Core.js.pack.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Core.js.pack.patch on Ticket #1038 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/1038/Core.js.pack.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/1038.html" title="Ticket #1038" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/1038.html">Back to Ticket #1038</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/1038.html">Ticket #1038</a>: Core.js.pack.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File Core.js.pack.patch,
+                <span title="5573 bytes">5.4 KB</span>
+                (added by makub, <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-06-01T14%3A42%3A24%2B02%3A00&amp;precision=second" title="See timeline at 06/01/12 14:42:24">3 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+added missing LDAPGroup
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>/data/indico/htdocs/js/indico/pack/Core.js.</a>
+        </h2>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File /data/indico/htdocs/js/indico/pack/Core.js.pack_orig0981 2012-06-01 14:05:53.665904928 +0200">
+                      old
+                  </th>
+                  <th title="File /data/indico/htdocs/js/indico/pack/Core.js.pack 2012-05-04 15:06:27.653904857 +0200">
+                      new
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>298</th><th>298</th><td class="l"><span>killProgress();}else{if(progress)</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>299</th><th> </th><td class="l"><span>killProgress();IndicoUtil.errorReport(error);}});},_manageAllConectedUserList:function(){},_personName:function(user){if(user._type=="Group"||user._type=="CERNGroup"<del></del>){var fullName=user.name;}else{if(user.pending){var fullName=$T('Non-registered user');}else{var fullName=user.familyName.toUpperCase()+(user.firstName?(', '+user.firstName):'');}}</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>299</th><td class="r"><span>killProgress();IndicoUtil.errorReport(error);}});},_manageAllConectedUserList:function(){},_personName:function(user){if(user._type=="Group"||user._type=="CERNGroup"<ins>||user._type=="LDAPGroup"/*1*/</ins>){var fullName=user.name;}else{if(user.pending){var fullName=$T('Non-registered user');}else{var fullName=user.familyName.toUpperCase()+(user.firstName?(', '+user.firstName):'');}}</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>300</th><th>300</th><td class="l"><span>if(this.nameOptions['title']&amp;&amp;user.title){fullName=user.title+' '+fullName;}</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L302">…</a></th>
+                  <th><a href="#L302">…</a></th>
+                  <td><em></em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>302</th><th>302</th><td class="l"><span>if((this.nameOptions['email']||user.pending)&amp;&amp;user.email){fullName+='&lt;small&gt; ('+user.email+')&lt;/small&gt;';}</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>303</th><th> </th><td class="l"><span>return fullName;},_component_order:['remove','edit','favorite','menu','arrows'],_components:{menu:function(user){var self=this;if(!user.pending&amp;&amp;user._type!="Group"&amp;&amp;user._type!="CERNGroup"<del></del>){var optionsMenuSpan=$('&lt;span/&gt;').css('float','right').hover(function(){$(this).addClass('mouseover');},function(){$(this).removeClass('mouseover');});var optionsMenuLink=$('&lt;a/&gt;').attr({id:user.id,'class':'dropDownMenu fakeLink',style:'margin-left:15px; margin-right:15px'}).append($T('More')).click(function(event){self.userOptions.onMenu.call(self,this,user);});optionsMenuSpan.append(optionsMenuLink);return optionsMenuSpan;}},favorite:function(user){if(user._type=="Avatar"){return $('&lt;span/&gt;').css({padding:'3px','float':'right'}).html(new ToggleFavouriteButton(user,{},IndicoGlobalVars['userData']['favorite-user-ids'][user.id]).draw().dom);}},remove:function(user){var self=this;return $('&lt;img/&gt;').attr({src:imageSrc("remove"),alt:$T('Remove ')+self.userCaption,title:$T('Remove this ')+self.userCaption+$T(' from the list'),'class':'UIRowButton2',style:"margin-right:10px; float:right; cursor:pointer;"}).click(function(event){self.userOptions.onRemove.call(self,user);});},edit:function(user,callback){var self=this;return $('&lt;img /&gt;').attr({src:imageSrc("edit"),alt:$T('Edit ')+this.userCaption,title:$T('Edit this ')+this.userCaption,'class':'UIRowButton2',style:'float: right; cursor: pointer;'}).click(function(event){self.userOptions.onEdit.call(self,user);});},arrows:function(user,callback_up,callback_down){var self=this;var arrow=function(direction,title){return $('&lt;img/&gt;').attr({src:imageSrc("arrow_"+direction),'alt':title,'title':title,style:'padding-top: 6px; float: left; cursor: pointer'});};return $('&lt;div/&gt;').append(arrow('up',$T('Move up')).click(function(event){self.userOptions.onArrowUp.call(self,user);}),arrow('down',$T('Move down')).click(function(event){self.userOptions.onArrowDown.call(self,user);}));}},onEdit:function(userData,all){var self=this;var user=$O(userData);var editUserPopup=new UserDataPopup($T('Edit ')+self.userCaption+$T(' data'),user,function(newData){if(editUserPopup.parameterManager.check()){if(!all)</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>303</th><td class="r"><span>return fullName;},_component_order:['remove','edit','favorite','menu','arrows'],_components:{menu:function(user){var self=this;if(!user.pending&amp;&amp;user._type!="Group"&amp;&amp;user._type!="CERNGroup"<ins>&amp;&amp;user._type!="LDAPGroup"</ins>){var optionsMenuSpan=$('&lt;span/&gt;').css('float','right').hover(function(){$(this).addClass('mouseover');},function(){$(this).removeClass('mouseover');});var optionsMenuLink=$('&lt;a/&gt;').attr({id:user.id,'class':'dropDownMenu fakeLink',style:'margin-left:15px; margin-right:15px'}).append($T('More')).click(function(event){self.userOptions.onMenu.call(self,this,user);});optionsMenuSpan.append(optionsMenuLink);return optionsMenuSpan;}},favorite:function(user){if(user._type=="Avatar"){return $('&lt;span/&gt;').css({padding:'3px','float':'right'}).html(new ToggleFavouriteButton(user,{},IndicoGlobalVars['userData']['favorite-user-ids'][user.id]).draw().dom);}},remove:function(user){var self=this;return $('&lt;img/&gt;').attr({src:imageSrc("remove"),alt:$T('Remove ')+self.userCaption,title:$T('Remove this ')+self.userCaption+$T(' from the list'),'class':'UIRowButton2',style:"margin-right:10px; float:right; cursor:pointer;"}).click(function(event){self.userOptions.onRemove.call(self,user);});},edit:function(user,callback){var self=this;return $('&lt;img /&gt;').attr({src:imageSrc("edit"),alt:$T('Edit ')+this.userCaption,title:$T('Edit this ')+this.userCaption,'class':'UIRowButton2',style:'float: right; cursor: pointer;'}).click(function(event){self.userOptions.onEdit.call(self,user);});},arrows:function(user,callback_up,callback_down){var self=this;var arrow=function(direction,title){return $('&lt;img/&gt;').attr({src:imageSrc("arrow_"+direction),'alt':title,'title':title,style:'padding-top: 6px; float: left; cursor: pointer'});};return $('&lt;div/&gt;').append(arrow('up',$T('Move up')).click(function(event){self.userOptions.onArrowUp.call(self,user);}),arrow('down',$T('Move down')).click(function(event){self.userOptions.onArrowDown.call(self,user);}));}},onEdit:function(userData,all){var self=this;var user=$O(userData);var editUserPopup=new UserDataPopup($T('Edit ')+self.userCaption+$T(' data'),user,function(newData){if(editUserPopup.parameterManager.check()){if(!all)</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>304</th><th>304</th><td class="l"><span>self._manageUserList(self.methods["edit"],self._getEditParams(newData));else</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/1038/Core.js.pack.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1038/Core.js.pack.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:42 GMT -->
+</html>

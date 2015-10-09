@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Documentation by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:54:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Documentation – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="TracGuide.html" />
+        <link rel="alternate" href="Documentation56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../wiki.html">wiki:</a><a class="pathentry" href="Documentation.html" title="View Documentation">Documentation</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="WikiStart.html">Start Page</a></li><li><a href="TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Documentation?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc trac-nav"><h2><a href="http://svn.ipd.uka.de/trac/javaparty/wiki/TracNav">TracNav</a></h2><ul><li><a class="wiki" href="WikiStart.html">Home</a></li><li><a class="wiki" href="Features.html">Features</a></li><li><a class="wiki" href="Download.html">Download</a></li><li class="active"><a class="wiki" href="Documentation.html">Documentation</a></li><li><a class="wiki" href="Community.html">Community</a></li><li><a class="wiki" href="Team.html">Team</a></li><li><a class="wiki" href="IndicoWorldWide.html">Indico world-wide</a></li><li><a class="wiki" href="Press.html">Press</a></li><li><a class="wiki" href="3rdPartyTools.html">3rd Party Tools</a></li><li><a class="wiki" href="apps.html">Apps</a></li><li><a href="../blog/index.html">News</a></li></ul></div><p>
+</p>
+<h1 id="Indico-Documentation">Indico - Documentation</h1>
+<p>
+This page's goal is to provide an integrated documentation source for both developers and administrators. Some links for resources targeted at users can also be found.
+</p>
+<h2 id="TableofContents">Table of Contents</h2>
+<p>
+Currently available documentation:
+</p>
+<p>
+<ul><li><strong>For developers</strong>
+<ul><li>Quick start
+<ul><li><a class="wiki" href="Dev/GettingStarted.html">Getting started</a>
+</li><li><a class="wiki" href="Dev/Collaboration.html">Indico world-wide collaboration</a>
+</li></ul></li><li>Development process
+<ul><li><a class="wiki" href="Dev/Process.html">Development Process</a>
+</li><li><a class="wiki" href="Dev/Tools.html">Development Tools</a>
+</li><li>Development practices:
+<ul><li><a class="wiki" href="Dev/DevPractices.html">Main Development Practices</a>
+</li><li><a class="wiki" href="Dev/DevPractices/DevelopmentGuidelines.html">Indico Guidelines</a>
+</li><li><a class="wiki" href="Dev/DevPractices/NamingConventions.html">Naming Conventions</a>
+</li><li><a class="wiki" href="Dev/DevPractices/UserInterfaceGuidelines.html">User Interface Guidelines</a>
+</li></ul></li><li>Testing:
+<ul><li><a class="wiki" href="Dev/Tests.html">Testing Indico</a>
+</li><li><a class="wiki" href="Dev/Tests/CheatSheet.html">Testing cheatsheet</a>
+</li></ul></li><li><a class="wiki" href="Dev/Doc.html">Writing documentation</a>
+</li><li><a class="wiki" href="Dev/Profile.html">Profiling requests</a>
+</li><li><a class="wiki" href="Dev/i18n.html">Internationalization (i18n)</a>
+</li><li><a class="wiki" href="Dev/Versioning.html">Version management</a>
+</li></ul></li><li>Existing documentation
+<ul><li><a class="wiki" href="Dev/Technical.html">Technical documentation</a>
+</li><li><a class="wiki" href="Dev/Tips.html">Tips &amp; Tricks</a>
+</li><li><a class="wiki" href="Dev/Troubleshooting.html">Troubleshooting</a>
+</li><li><a class="wiki" href="Dev/Ideas.html">Development Ideas</a>
+</li></ul></li><li><a class="wiki" href="Dev/BugReporting.html">Bug reporting</a>
+</li><li><a class="wiki" href="Dev/TasksToIntegrate.html">Tasks to integrate</a>
+</li></ul></li></ul>
+</p>
+<ul><li><strong>For administrators</strong>
+<ul><li>Installation:
+<ul><li>Latest stable version:
+<ul><li><a class="wiki" href="Admin/Installation1.html">Latest versions (1.2.x)</a>
+</li></ul></li><li>Previous versions:
+<ul><li><a class="wiki" href="Admin/Installation0.html">&gt;=0.98 - 1.1.x</a>
+<ul><li><a class="wiki" href="Admin/install/from0.html">How to migrate from 0.94 to 0.99</a>
+</li><li><a class="wiki" href="Admin/Debian0.html">From 0.97b to 0.98-rc1 on Debian Squeeze (by Cristiano  Valli)</a>
+</li></ul></li><li><a class="wiki" href="Admin/Installation.html">Older version 0.97</a>
+</li><li><a class="wiki" href="Admin/InstallationOlder.html">Previous versions</a>
+</li><li><a class="wiki" href="Admin/MigratingFromCDSAgenda.html">Migration from CDS Agenda</a>
+</li></ul></li></ul></li><li><a class="wiki" href="Admin/IndicoConfiguration.html">Indico configuration</a>
+</li><li><a class="wiki" href="Admin/Tools.html">Administration tools</a>
+</li><li><a class="wiki" href="Admin/DB.html">Database (ZODB)</a> 
+</li><li><a class="wiki" href="Plugins.html">Available Plugins</a>
+</li></ul></li><li><strong>Users</strong>
+<ul><li><a class="wiki" href="User/UserGuides.html">User Guides</a>
+</li></ul></li></ul><h2 id="SupportandOtherSourcesofInformation">Support and Other Sources of Information</h2>
+<p>
+If you are looking for a good place to ask a question about Indico, please consult the <a class="wiki" href="Community.html">Community</a> page.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Documentation?action=diff&amp;version=26" title="Version 26 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-07-18T11%3A21%3A58%2B02%3A00&amp;precision=second" title="See timeline at 07/18/14 11:21:58">15 months ago</a></span>
+            <span class="trac-print">Last modified on 07/18/14 11:21:58</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../chrome/tracnav/css/tracnav.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Documentation56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Documentation by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:54:38 GMT -->
+</html>

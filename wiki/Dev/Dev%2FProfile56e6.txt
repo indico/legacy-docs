@@ -1,0 +1,44 @@
+= Profiling in Indico =
+
+Basic python profiling is available to retrieve statistics about a request. The following explains
+how to set up and activate profiling under Indico.
+
+== 1. Activate profiling ==
+
+In the file ''MaKaC/common/Configuration.py'', change the entry "Profile" of the "default_values" dictionary to "True". This way, every time a request is sent to Indico, timing statistics about the methods called for the processing of this request will be outputted into the following files located in the tmp directory :
+
+ * ''!IndicoRequest.log'', which contains information about the request itself, what are its parameters and how much time it took to process it. Note that since the profiling adds overhead to your code, the timing results won't be fully accurate. Nevertheless, using them as an indication for the performance can still be handy. 
+ * ''!IndicoRequestProfile.log'', which is not directly readable. The next part explains how to view the results reported in it.
+
+Hence, by loading a page from Indico, the statistics will be loaded into those files transparently.
+
+== 2. View the profiling results ==
+
+Two options are available for reading the results outputted in ''!IndicoRequestProfile.log'' :
+
+ * Using the profile statistics browser[[BR]]
+   To display the content of the ''!IndicoRequestProfile.log'' file into a text-based browser, you can launch the pstats browser with the following command line:
+{{{
+python -m pstats IndicoRequestProfile.log
+}}}
+   You should be welcomed by a "Welcome to the profile statistics browser" message. By typing "help" you can retrieve the list of commands available.
+ * Drawing an interactive diagram[[BR]]
+   A few steps are needed for being able to view a graphical representation of the results:
+   - The following has to be installed on your system:
+     * Java ([http://java.com/en/])
+     * Graphviz (Linux: install it as a package. Windows: download [http://www.graphviz.org/Download_windows.php here])
+     * gprof2dot.py ([http://code.google.com/p/jrfonseca/wiki/Gprof2Dot])
+     * zgrviewer ([http://zvtm.sourceforge.net/zgrviewer.html#install])
+   - Transform the ''!IndicoRequestProfile.log'' file into a .dot file. We will use the gprof2dot.py script to achieve this:
+{{{
+python gprof2dot.py -f pstats IndicoRequestProfile.log -o xxx.dot
+}}}
+     This will generate a xxx.dot file. If you open it you will see that it's a text file describing a diagram.[[BR]]
+   - Visualize the .dot file. For doing this, lauch zgrviewer by running either run.sh or run.bat (they're located into the installation directory of zgrviewer) and open the .dot file.
+
+== 3. Resources ==
+
+Here are some helpful resources on Python code profiling/optimization:
+
+ * http://wiki.python.org/moin/PythonSpeed/PerformanceTips
+ * http://docs.python.org/library/profile.html

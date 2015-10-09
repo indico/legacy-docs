@@ -1,0 +1,13 @@
+= Alexis Castilla Hernández =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=acastill,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=acastill,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=acastill)]]

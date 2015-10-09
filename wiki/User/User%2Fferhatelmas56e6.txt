@@ -1,0 +1,13 @@
+= Ferhat Elmas =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=ferhatelmas, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=ferhatelmas,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=ferhatelmas)]]

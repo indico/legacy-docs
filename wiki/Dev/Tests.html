@@ -1,0 +1,679 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Tests by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Tests – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTests56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="Tests.html" title="View Dev/Tests">Tests</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Tests?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <ol>
+      <li>
+        <a href="#a0.Beforestarting">0. Before starting</a>
+      </li>
+      <li>
+        <a href="#a1.Unittests">1. Unit tests</a>
+        <ol>
+          <li>
+            <a href="#a1.a.Softwaretoinstall">1.a. Software to install</a>
+          </li>
+          <li>
+            <a href="#a1.b.Writingunittests">1.b. Writing unit tests</a>
+          </li>
+          <li>
+            <a href="#a1.c.NamingandFilesconvention">1.c. Naming and Files convention</a>
+          </li>
+          <li>
+            <a href="#a1.d.Runningtests">1.d. Running tests</a>
+          </li>
+          <li>
+            <a href="#a1.e.Ignoringtests">1.e. Ignoring tests</a>
+          </li>
+          <li>
+            <a href="#a1.f.Enablecodecoverage">1.f. Enable code coverage</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a2.Functionaltests">2. Functional tests</a>
+        <ol>
+          <li>
+            <a href="#a2.a.Softwaretoinstall">2.a. Software to install</a>
+          </li>
+          <li>
+            <a href="#a2.b.Writingtests">2.b. Writing tests</a>
+          </li>
+          <li>
+            <a href="#a2.c.Namingconventions">2.c. Naming conventions</a>
+          </li>
+          <li>
+            <a href="#a2.d.Runningtests">2.d. Running tests</a>
+          </li>
+          <li>
+            <a href="#a2.e.Summary">2.e. Summary</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a3.Sourceanalysis">3. Source analysis</a>
+        <ol>
+          <li>
+            <a href="#a3.a.Softwaretoinstall">3.a. Software to install</a>
+          </li>
+          <li>
+            <a href="#a3.b.Runninganalysis">3.b. Running analysis</a>
+          </li>
+          <li>
+            <a href="#a3.c.Configurationfile">3.c. Configuration file</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a4.JavascriptUnittests">4. Javascript Unit tests</a>
+        <ol>
+          <li>
+            <a href="#a4.a.Softwaretoinstall">4.a. Software to install</a>
+          </li>
+          <li>
+            <a href="#a4.b.Writingtests">4.b. Writing tests</a>
+          </li>
+          <li>
+            <a href="#a4.c.Runningtests">4.c. Running tests</a>
+          </li>
+          <li>
+            <a href="#a4.d.Codecoverage">4.d. Code coverage</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a5.Javascriptsourceanalysis">5. Javascript source analysis</a>
+        <ol>
+          <li>
+            <a href="#a5.a.Softwaretoinstall">5.a. Software to install</a>
+          </li>
+          <li>
+            <a href="#a5.b.Runningscan">5.b. Running scan</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a6.SeleniumGrid">6. Selenium Grid</a>
+        <ol>
+          <li>
+            <a href="#a6.a.Configuration">6.a. Configuration</a>
+          </li>
+          <li>
+            <a href="#a6.b.Runningtests">6.b. Running tests</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a7.Databases-FakevsProduction">7. Databases - Fake vs Production</a>
+      </li>
+      <li>
+        <a href="#a8.IntegrationserverCERNonly">8. Integration server (<acronym title="European Organization for Nuclear Research">CERN</acronym> only)</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h2 id="a0.Beforestarting">0. Before starting</h2>
+<p>
+Tests are in folder <em>tests</em> and they are organized according to their type. Tests will only succeed if you have a working installation of Indico.
+</p>
+<p>
+To run <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Tests/Summary"><span class="icon">​</span>all</a> the tests in the test suite:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span>
+</pre></div><p>
+or with <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Tests/Summary#a2.cCodecoverage"><span class="icon">​</span>coverage</a>:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --coverage --jscoverage
+</pre></div><p>
+Then reports will be generated in folder <em>tests/report</em>.
+</p>
+<hr />
+<p>
+In short, here are all the python packages you have to install with <em>easy_install</em>:
+</p>
+<div class="code"><pre>sudo easy_install nose
+sudo easy_install figleaf
+sudo easy_install twill
+sudo easy_install selenium
+</pre></div><p>
+and all the linux packages needed to install with <em>apt-get</em>:
+</p>
+<div class="code"><pre>sudo apt-get install lcov
+sudo apt-get install pylint
+sudo apt-get install rhino
+</pre></div><p>
+If you don't use linux, go through all the sections below to install the required packages.
+</p>
+<hr />
+<p>
+A configuration file <em>tests/tests.conf</em> is needed. Take a look at the example configuration file to make yours.
+</p>
+<p>
+You should configure the <a class="missing wiki">Start/Stop?</a> Production DB commands, and write something similar to (note the <strong>sudo</strong>):
+</p>
+<pre class="wiki">StartDBCmd = "sudo zdaemon -C /home/jdoe/indico/cds-indico/etc/zdctl.conf start"
+StopDBCmd  = "sudo zdaemon -C /home/jdoe/indico/cds-indico/etc/zdctl.conf stop"
+</pre><hr />
+<p>
+You need to configure your Apache server as followed:
+</p>
+<pre class="wiki">&lt;IfModule mpm_prefork_module&gt;
+    StartServers          5
+    MinSpareServers       5
+    MaxSpareServers       10
+    MaxClients            150
+    MaxRequestsPerChild   1
+&lt;/IfModule&gt;
+</pre><p>
+In Linux, the configuration file is located in <em>/etc/apache2/</em> and its name is either <em>httpd.conf</em> or <em>apache2.conf</em>.
+</p>
+<hr />
+<p>
+To ease the use of the framework, print this <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Tests/CheatSheet"><span class="icon">​</span>cheatsheet</a> and keep it around!
+</p>
+<h2 id="a1.Unittests">1. Unit tests</h2>
+<h3 id="a1.a.Softwaretoinstall">1.a. Software to install</h3>
+<p>
+We are using the framework <a class="ext-link" href="http://code.google.com/p/python-nose/"><span class="icon">​</span>Nosetests</a>. You can just install with:
+</p>
+<div class="code"><pre>sudo easy_install nose
+</pre></div><p>
+In case of problems, follow this <a class="ext-link" href="http://somethingaboutorange.com/mrl/projects/nose/0.11.1/"><span class="icon">​</span>Installation Guide for Nosetests</a>
+</p>
+<p>
+For code coverage, install <a class="ext-link" href="http://darcs.idyll.org/~t/projects/figleaf/doc/"><span class="icon">​</span>Figleaf</a>, which is based on <em>coverage.py</em>. You can install with:
+</p>
+<div class="code"><pre>sudo easy_install figleaf
+</pre></div><h3 id="a1.b.Writingunittests">1.b. Writing unit tests</h3>
+<p>
+You can either use the standard <a class="ext-link" href="http://docs.python.org/library/unittest.html"><span class="icon">​</span>UnitTest</a> package provided in python, or you can code in Nosetests style, this is how I organize a test file:
+</p>
+<div class="code"><pre><span class="c">#Note that the 2 following functions will be called for module, very handy if we need to run a single test</span>
+<span class="c">#So we do not need to specify a setup and teardown for each class</span>
+<span class="k">def</span> <span class="nf">setup_module</span><span class="p">():</span>
+    DBMgr<span class="o">.</span>getInstance<span class="p">()</span><span class="o">.</span>startRequest<span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">teardown_module</span><span class="p">():</span>
+    DBMgr<span class="o">.</span>getInstance<span class="p">()</span><span class="o">.</span>abort<span class="p">()</span>
+    DBMgr<span class="o">.</span>getInstance<span class="p">()</span><span class="o">.</span>endRequest<span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">TestCategories</span><span class="p">(</span>unittest<span class="o">.</span>TestCase<span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">testBasicAddAndRemoveConferences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+        c1<span class="o">.</span>_addConference<span class="p">(</span>conf1<span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span>croot<span class="o">.</span>getNumConferences<span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div><p>
+The complete documentation of nosetests can be found <a class="ext-link" href="http://somethingaboutorange.com/mrl/projects/nose/0.11.1/testing.html"><span class="icon">​</span>here</a>.
+Note that <strong>class TestCategories(unittest.TestCase)</strong> is inheriting from Python's <em>unittest</em> module, I recommend to do so. Since nosetests is based on this default module, it is fully compatible with its synthax. So when you write your tests, you can either use <em>unittest</em> synthax or nosetests' one.
+</p>
+<h3 id="a1.c.NamingandFilesconvention">1.c. Naming and Files convention</h3>
+<p>
+A test file should correspond to a source file.
+For example: <em>MaKaC_tests/conference_test.py</em> must only have tests for <em>MaKaC/conference.py</em>. Classes and functions names should also match.
+</p>
+<p>
+Of course, at some point testing many different things in a single file is also required. In this case, use explicit file names, like <em>moveWidget_test.py</em>.
+</p>
+<p>
+Nosetests uses this regular expression <em>(?:^|[b_.-])[Tt]est</em> to fetch tests, so our naming conventions will be:
+</p>
+<ul><li>Every file name has to end with <strong>_test.py</strong> (ie <em>indicop_test.py</em>)
+</li><li>Every class has to start with Test with a capital T <strong>class TestIndicop(unittest.TestCase)</strong>
+</li><li>Every function has to start with test <strong>def testIndicop()</strong>
+</li></ul><h3 id="a1.d.Runningtests">1.d. Running tests</h3>
+<p>
+To run all the unit tests:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --unit
+</pre></div><p>
+This will generate a report in <em>tests/report/pyunit.txt</em>.
+</p>
+<p>
+If you need to run only a specific test, use the flag <em>--specify</em> and use the nosetests convention:
+</p>
+<ul><li><em>folder.file:class.function</em>
+</li></ul><p>
+For you to know where to place files, in the previous case since we are making unit test, the internal <em>import</em> would be:
+</p>
+<blockquote>
+<p>
+import indico.tests.python.unit.<strong>folder.file</strong>
+</p>
+</blockquote>
+<p>
+For example:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --unit --specify<span class="o">=</span>indico.tests.python.unit.MaKaC_tests.conference_test:TestCategories.testBasicAddAndRemoveConferences
+</pre></div><p>
+Or you can also specify a set of tests like this:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --unit --specify<span class="o">=</span>indico.tests.python.unit.MaKaC_tests.conference_test:TestCategories
+</pre></div><p>
+and also only a file or a folder like this:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --unit --specify<span class="o">=</span>indico.tests.python.unit.MaKaC_tests
+</pre></div><p>
+If you use this <em>specify</em> flag the output will be displayed directly in the console and NOT be written in the report.
+</p>
+<h3 id="a1.e.Ignoringtests">1.e. Ignoring tests</h3>
+<p>
+If you need to ignore a test for some reason, to be ignored, a test has to raise a SkipTest exception. Here is what to do to ignore a whole module:
+</p>
+<div class="code"><pre><span class="k">def</span> <span class="nf">setup_module</span><span class="p">():</span>
+    <span class="c">#this test is a performance test and takes too much time to execute</span>
+    <span class="kn">import</span> <span class="nn">nose</span>
+    <span class="k">raise</span> nose<span class="o">.</span>SkipTest
+</pre></div><p>
+And to run the ignore tests anyway, you can either remove the raised exception or add the flag <em>--no-skip</em> directly in the code which is calling nosetests.
+</p>
+<h3 id="a1.f.Enablecodecoverage">1.f. Enable code coverage</h3>
+<p>
+To enable the code coverage, add the option <em>--coverage</em>:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --unit --coverage
+</pre></div><p>
+This will show you which parts of the code were executed during the unit tests you ran. An HTML report will be output in several files, you can find them in <em>tests/report/pycoverage</em>. Open the file <em>index.html</em> to see the summary of the coverage. These files will be overwritten each time a coverage test is run.
+</p>
+<p>
+Note that class and function definitions are executed on import, which is why <em>def blabla(self):</em> is green in the HTML report files. The contents of the functions themselves are not executed.
+</p>
+<h2 id="a2.Functionaltests">2. Functional tests</h2>
+<h3 id="a2.a.Softwaretoinstall">2.a. Software to install</h3>
+<ul><li>Note: Selenium is going to be merged with Google's webdriver (<a class="ext-link" href="http://selenium.googlecode.com/"><span class="icon">​</span>http://selenium.googlecode.com/</a>). So in the future, we might migrate to this new tool *
+</li></ul><p>
+You need:
+</p>
+<ul><li><a class="ext-link" href="http://www.mozilla.com/"><span class="icon">​</span>Firefox</a>
+</li><li><a class="ext-link" href="http://seleniumhq.org/download/"><span class="icon">​</span>Selenium IDE</a> (firefox add-on)
+</li><li><a class="ext-link" href="http://twill.idyll.org/"><span class="icon">​</span>Twill</a>, which you can install with:
+<div class="code"><pre> sudo easy_install twill
+</pre></div></li><li><a class="ext-link" href="http://pypi.python.org/pypi/selenium/"><span class="icon">​</span>Selenium egg</a>, which you can install with:
+<div class="code"><pre> sudo easy_install selenium
+</pre></div></li><li><strong>java</strong>, which <em>needs to be in your PATH</em>.
+</li></ul><p>
+Obsolete:
+</p>
+<ul><li><a class="ext-link" href="https://addons.mozilla.org/en-US/firefox/addon/1192"><span class="icon">​</span>XPather</a> (Firefox add-on) 
+</li></ul><h3 id="a2.b.Writingtests">2.b. Writing tests</h3>
+<p>
+Think of Selenium as the dumbest bot possibly existing :)
+</p>
+<p>
+Handy functions are located in the file <em>seleniumTestCase.py</em>. A dummy user is automatically created from this Class to carry on the creation of conferences and so.
+</p>
+<p>
+Here is the template of a Selenium's test file:
+</p>
+<div class="code"><pre><span class="kn">from</span> <span class="nn">seleniumTestCase</span> <span class="kn">import</span> SeleniumTestCase
+
+<span class="k">class</span> <span class="nc">ExampleTest</span><span class="p">(</span>SeleniumTestCase<span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        SeleniumTestCase<span class="o">.</span>setUp<span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">testMyFirstMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        sel <span class="o">=</span> <span class="bp">self</span><span class="o">.</span>selenium
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        SeleniumTestCase<span class="o">.</span>tearDown<span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="k">if</span> __name__ <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    unittest<span class="o">.</span>main<span class="p">()</span>
+</pre></div><p>
+Testing methods must start with the keyword <strong>test</strong>. Have a look at the file <em>example_test.py</em> to see how functional tests are written.
+</p>
+<p>
+You might find useful this piece of code for your method, for logging with the <em>dummyuser</em>
+</p>
+<div class="code"><pre>        sel<span class="o">.</span>open<span class="p">(</span><span class="s">"/indico/signIn.py"</span><span class="p">)</span>
+        sel<span class="o">.</span>type<span class="p">(</span><span class="s">"login"</span><span class="p">,</span> <span class="s">"dummyuser"</span><span class="p">)</span>
+        sel<span class="o">.</span>type<span class="p">(</span><span class="s">"password"</span><span class="p">,</span> <span class="s">"dummyuser"</span><span class="p">)</span>
+        sel<span class="o">.</span>click<span class="p">(</span><span class="s">"loginButton"</span><span class="p">)</span>
+        sel<span class="o">.</span>wait_for_page_to_load<span class="p">(</span><span class="s">"30000"</span><span class="p">)</span>
+</pre></div><hr />
+<p>
+If you create a new conference, you might want this conference to be deleted automatically if a test fails. Add this line just after the creation of the new conference or meeting:
+</p>
+<div class="code"><pre>SeleniumTestCase<span class="o">.</span>setConfID<span class="p">(</span><span class="bp">self</span><span class="p">,</span> sel<span class="o">.</span>get_location<span class="p">())</span>
+</pre></div><hr />
+<p>
+Since it is very time consuming and painful to debug Selenium's generated code, tests should be small and test specific part of Indico. Of course, a few overall tests are needed.
+</p>
+<p>
+Use Firefox's <em>Selenium IDE</em> to record your tests and set the output format to <em>python</em>, but be rigorous with the following points:
+</p>
+<ol><li>Selenium does not recognize Javascript auto-complete when a text is entered.<br /> <em>Solution:</em> Enter the whole word by hand.
+</li><li>Javascript Calendar does not work either.<br /> <em>Solution:</em> Enter the date by hand.
+</li><li>Do not make <em>clicks</em> or <em>assertions</em> on element containing <strong>IDs</strong>.<br /> <em>Solution:</em> Use XPath instead. Xpaths are easy to find with Firefox's plugin <em>XPather</em>.
+</li><li>When replaying, Selenium can get confused with buttons' names and can end up clicking on the wrong button.<br /> <em>Solution:</em> Once again, use XPath instead. Xpaths are easy to find with Firefox's plugin <em>XPather</em>. For example, instead of having <em><em>td/tr/bla</em></em><em>, we use the whole path which starts with <em></em></em><em>html/etc</em>
+</li><li>Popups and AJAX requests are very bothersome to test with Selenium. The latter would not wait for a page or a tab to load if we do not explicitly tell to do so.<br /> <em>Solution:</em> Use Selenium <em>waitForElementPresent</em> or <em>waitForText</em> function whenever a window pops up, a tab is loading or an AJAX request is sent:<br />
+<em>waitForElementPresent</em> will wait until the element introduced in <em>Target</em> is present. Note that you should always put an element that doesn't appear in the referer.<br />
+<em>waitForText</em> has a similar behaviour, but waits up until the element in <em>Target</em> has the value in <em>Value</em>.<br />
+</li></ol><p>
+And since Selenium is so unreliable about AJAX, to ensure that the action is performed, we do some brute forcing.
+</p>
+<p>
+So this generated code from Selenium:
+</p>
+<div class="code"><pre>sel<span class="o">.</span>click<span class="p">(</span><span class="s">"addLink"</span><span class="p">)</span>
+<span class="k">for</span> i <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s">"Session"</span> <span class="o">==</span> sel<span class="o">.</span>get_text<span class="p">(</span><span class="s">"link=Session"</span><span class="p">):</span> <span class="k">break</span>
+    <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    time<span class="o">.</span>sleep<span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span>fail<span class="p">(</span><span class="s">"time out"</span><span class="p">)</span>
+</pre></div><p>
+Becomes:
+</p>
+<div class="code"><pre>sel<span class="o">.</span>click<span class="p">(</span><span class="s">"addLink"</span><span class="p">)</span>
+<span class="k">for</span> i <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s">"Session"</span> <span class="o">==</span> sel<span class="o">.</span>get_text<span class="p">(</span><span class="s">"link=Session"</span><span class="p">):</span> <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span> sel<span class="o">.</span>click<span class="p">(</span><span class="s">"addLink"</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span> <span class="k">pass</span>
+    time<span class="o">.</span>sleep<span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span>fail<span class="p">(</span><span class="s">"time out"</span><span class="p">)</span>
+</pre></div><p>
+The only line to add is <strong>else: sel.click("addLink")</strong>.
+</p>
+<hr />
+<p>
+Finally, a test might work at several times and suddenly fail in the next run because of the reasons mentioned earlier. Running a test several times is a good indication to say if it is reliable or not. Check the test 10 times with the testing framework, just pointing at your test. Here's an example for a file called "testMyTest.py" in the folder "functional":
+</p>
+<pre class="wiki">python setup.py test --functional --specify=testMyTest --repeat=10
+</pre><h3 id="a2.c.Namingconventions">2.c. Naming conventions</h3>
+<p>
+Files are organized by topic. For example, if you want to test your new widget for the timetable, the test file has to be in the folder <em>timetable</em>. Overall tests are in folder <em>general</em>.
+</p>
+<p>
+Names have to be explicit and conformed to <em>nosetests</em> conventions. For example: <em>moveWidget_test.py</em>.
+</p>
+<p>
+Also, methods' name have to start with the keyword "test" (eg. testCreateLecture, testModifyConference, etc.).
+</p>
+<h3 id="a2.d.Runningtests">2.d. Running tests</h3>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --functional
+</pre></div><p>
+This will generate a report in <em>tests/report/pyfunctional.txt</em>.
+</p>
+<p>
+Also you can add the <em>--specify</em> flag as previously described for <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Tests#a1.d.Runningtests"><span class="icon">​</span>unit tests</a>.
+</p>
+<h3 id="a2.e.Summary">2.e. Summary</h3>
+<p>
+Watch this tutorial video TODO
+</p>
+<h2 id="a3.Sourceanalysis">3. Source analysis</h2>
+<h3 id="a3.a.Softwaretoinstall">3.a. Software to install</h3>
+<p>
+The only tool needed is 
+</p>
+<ul><li><a class="ext-link" href="http://www.logilab.org/857"><span class="icon">​</span>Pylint</a> and its associated libraries
+</li><li><a class="ext-link" href="http://www.logilab.org/project/logilab-astng"><span class="icon">​</span>Python Abstract Syntax Tree New Generation</a> and 
+</li><li><a class="ext-link" href="http://www.logilab.org/project/logilab-common"><span class="icon">​</span>Logilab common</a>.
+</li><li><strong>pylint</strong> needs to be in your PATH!
+</li></ul><p>
+In order to install all this and have pylint in your PATH, you can simply do:
+</p>
+<div class="code"><pre>sudo apt-get pylint
+</pre></div><h3 id="a3.b.Runninganalysis">3.b. Running analysis</h3>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --pylint
+</pre></div><p>
+This will generate a report in <em>tests/report/pylint.txt</em>.
+</p>
+<p>
+If you're using <em>Eclipse</em>, I strongly suggest to configure PyDev following this <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Tools#a2.CodeformattingtoolsforEclipsePyDev"><span class="icon">​</span>tutorial</a>.
+</p>
+<h3 id="a3.c.Configurationfile">3.c. Configuration file</h3>
+<p>
+You can have a look at the configuration file located in <em>tests/tests.conf</em> to see the conventions for maximum number of arguments, maximum length of line, etc...<br />
+Naming rules are done according to <a class="ext-link" href="http://www.python.org/dev/peps/pep-0008/"><span class="icon">​</span>PEP8</a> (extended with camelcase and numbers).<br />
+Useful <a class="ext-link" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html"><span class="icon">​</span>handouts</a>.
+</p>
+<p>
+Type checker is disabled, because pylint gets stuck when trying to infer types. But these kind of errors should be caught by unit tests.
+</p>
+<h2 id="a4.JavascriptUnittests">4. Javascript Unit tests</h2>
+<h3 id="a4.a.Softwaretoinstall">4.a. Software to install</h3>
+<p>
+We are using Google's <a class="ext-link" href="http://code.google.com/p/js-test-driver/downloads/list"><span class="icon">​</span>js-test-driver</a>. It allows to test javascript files on different browsers at the same time.
+</p>
+<p>
+Great <a class="ext-link" href="http://www.youtube.com/watch?v=V4wYrR6t5gE"><span class="icon">​</span>Video Tutorial</a> to get a general idea of the thing.
+</p>
+<p>
+Eclipse plugin: <a class="ext-link" href="http://code.google.com/p/js-test-driver/wiki/UsingTheEclipsePlugin"><span class="icon">​</span>http://code.google.com/p/js-test-driver/wiki/UsingTheEclipsePlugin</a> 
+</p>
+<p>
+For the code coverage, install <a class="ext-link" href="http://ltp.sourceforge.net/coverage/lcov/genhtml.1.php"><span class="icon">​</span>LCOV</a> to generate nice HTML files. You can install LCOV as a linux package:
+</p>
+<div class="code"><pre>sudo apt-get install lcov
+</pre></div><p>
+<strong>java</strong> and <strong>genhtml</strong> have to be in your PATH. genhtml is an executable part of the lcov package.
+</p>
+<h3 id="a4.b.Writingtests">4.b. Writing tests</h3>
+<p>
+First, before writing any line of code, make sure that your test file is in the tests folder (tests/javascript/unit/tests/).
+</p>
+<p>
+The structure of a js test file first declares the <em>testcase</em>, it is an identifier to run specific test cases, then a set up function, the actual tests and finally, if needed, a tear down function.
+</p>
+<div class="code"><pre><span class="nx">MoveTest</span> <span class="o">=</span> <span class="nx">TestCase</span><span class="p">(</span><span class="s2">"MoveTest"</span><span class="p">);</span>
+
+<span class="nx">MoveTest</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">setUp</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//your set up stuff
+</span><span class="p">};</span>
+
+<span class="nx">MoveTest</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">testUpdateEntry</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//your tests
+</span>    <span class="nx">assertEquals</span><span class="p">(</span><span class="s2">"MSG"</span><span class="p">,</span> <span class="nx">expectedValue</span><span class="p">,</span> <span class="nx">actualValue</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div><p>
+Objects mocking and variables setting typically take place in <em>setUp</em>. See example file <em><a class="missing wiki">Timetable/Base?</a>.js</em> to see how to do objects and functions mocking. And here are the functions you need to write tests <a class="ext-link" href="http://code.google.com/p/js-test-driver/wiki/TestCase"><span class="icon">​</span>small tutorial</a>
+</p>
+<p>
+Javascript unit tests are pretty easy to write, but it can get quickly messy, so do not forget to organize and to comment well your tests to keep them maintainable!
+</p>
+<h3 id="a4.c.Runningtests">4.c. Running tests</h3>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --jsunit
+</pre></div><p>
+This will generate a report in <em>tests/report/jsunit.txt</em>.
+</p>
+<p>
+To run a specific test:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --jsspecify<span class="o">=</span>TestCase.testname
+</pre></div><p>
+The output will be displayed directly in the console.
+</p>
+<h3 id="a4.d.Codecoverage">4.d. Code coverage</h3>
+<p>
+To activate code coverage, simply add the flag --jscoverage:
+</p>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --jsunit --jscoverage
+</pre></div><p>
+Html files are going to be generated automatically, open file <em>tests/report/jscoverage/index.html</em>.
+</p>
+<h2 id="a5.Javascriptsourceanalysis">5. Javascript source analysis</h2>
+<h3 id="a5.a.Softwaretoinstall">5.a. Software to install</h3>
+<ul><li><a class="ext-link" href="http://www.mozilla.org/rhino/"><span class="icon">​</span>Rhino</a> is needed to run the javascript source analysis.
+</li><li><strong>rhino</strong> needs to be in your PATH.
+</li></ul><p>
+You can install Rhino simply on Linux as a package:
+</p>
+<div class="code"><pre>sudo apt-get install rhino
+</pre></div><h3 id="a5.b.Runningscan">5.b. Running scan</h3>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --jslint
+</pre></div><p>
+This will generate a report in <em>tests/report/jslint.txt</em>.
+</p>
+<p>
+Plugins folders are scanned, but also javascript files in <em>indico/htdocs/js/indico</em>. Some folders are blacklisted, typically the folder <em>pack</em>. If you need to blacklist a folder, append the name of the folder in the file <em>tests/Indicop.py</em>, class Jsunit.
+</p>
+<p>
+As for pylint, you can run jslint scan directly from Eclipse. Instructions can be found <a class="ext-link" href="http://cdswaredev.cern.ch/indico/wiki/Dev/Tools#a4.JsLint"><span class="icon">​</span>here</a>.
+</p>
+<h2 id="a6.SeleniumGrid">6. Selenium Grid</h2>
+<p>
+Selenium Grid allows you to run your functional tests on all sort of browsers and OS. If you have the a Selenium Grid set up, the only thing you need to do to run your tests is to set your configuration file <em>tests.conf</em>. 
+</p>
+<h3 id="a6.a.Configuration">6.a. Configuration</h3>
+<p>
+A file configuration should contain the following:
+</p>
+<div class="code"><pre><span class="c">#------------------------------------------------------------------------------</span>
+<span class="c"># Selenium Grid</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+HubURL         <span class="o">=</span> <span class="s">"macuds04.cern.ch"</span>
+HubPort        <span class="o">=</span> <span class="mi">4444</span>
+HubEnv         <span class="o">=</span> <span class="p">[</span><span class="s">'Firefox on Windows'</span><span class="p">,</span>
+                  <span class="s">'IE on Windows'</span><span class="p">,</span> 
+                  <span class="s">'Safari on OS X'</span><span class="p">,</span>
+                  <span class="s">'Firefox on Linux'</span><span class="p">]</span>
+</pre></div><p>
+The use of <em>HubURL</em> and <em>HubPort</em> are straightforward. <em>HubEnv</em> contains the list of browsers and OS on which you want to run your functional tests. A list of the available environments can be found here <a class="ext-link" href="http://macuds04.cern.ch:4444/console"><span class="icon">​</span>http://macuds04.cern.ch:4444/console</a>. At <acronym title="European Organization for Nuclear Research">CERN</acronym>, our hub is on a iMac, which also has 2 RCs (Firefox and Safari). The rest of the RCs are instantiated from VirtualBoxes on the iMac.
+</p>
+<h3 id="a6.b.Runningtests">6.b. Running tests</h3>
+<div class="code"><pre>python setup.py <span class="nb">test</span> --grid
+</pre></div><p>
+This will generate a report in <em>tests/report/pygrid.txt</em>.
+Now lean back and enjoy a cup of tea! But most important, do <strong>NOT</strong> press CTRL-C! This will jam the hub and it will be unusable unless we restart it.
+</p>
+<h2 id="a7.Databases-FakevsProduction">7. Databases - Fake vs Production</h2>
+<p>
+The idea is to run the tests on the fake databases and temporary folders, so tests won't pollute anything with their ouputs.
+</p>
+<p>
+A fake database is instantiate at each run. Which means that if you have decided to run unit and functional tests, those tests are going to run on the same database, and after they have finished, this database will be deleted.
+</p>
+<p>
+To run only the unit tests, we can instantiate a database in parallel of the production database. However for the functional tests, we need to stop the production database (if running) in order to plug our fake database instead. This way, we will avoid to restart the apache server to run our tests. So make sure to provide the commands to stop and start the production database in the tests configuration file (<em>tests/tests.conf</em>).
+</p>
+<h2 id="a8.IntegrationserverCERNonly">8. Integration server (<acronym title="European Organization for Nuclear Research">CERN</acronym> only)</h2>
+<p>
+Each time you push code to your public repository, an integration server is going to run tests and give you a feedback. You can consult the builds status à this address: (currently down).
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Tests?action=diff&amp;version=136" title="Version 136 by aavilesd">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-04T15%3A08%3A56%2B02%3A00&amp;precision=second" title="See timeline at 04/04/13 15:08:56">3 years ago</a></span>
+            <span class="trac-print">Last modified on 04/04/13 15:08:56</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTests56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Tests by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:22 GMT -->
+</html>

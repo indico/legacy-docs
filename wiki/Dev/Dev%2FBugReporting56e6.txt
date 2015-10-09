@@ -1,0 +1,16 @@
+= Reporting Bugs =
+
+==== By mail
+
+When sending bug reports, please make sure you include a traceback of the error (if it's possible to get one). This can usually be obtained:
+
+ * from the Indico log file;
+ * from the web server error log file;
+ * from Indico's web interface, when the "Debug" option is enabled (administration);
+
+==== Trac Tickets
+
+The members of the team should have the following in consideration when reporting bugs using the Trac ticketing system:
+
+ * Use pre-formatted text whenever appropriate (i.e. tracebacks);
+ * Make sure tracebacks, etc. don't include sensitive information (passwords, modification keys '''and even session cookies''');

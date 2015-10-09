@@ -1,0 +1,37 @@
+= Pedro Ferreira =
+
+== Personal Plan ==
+=== Long term ===
+ * Performing feature integration and code review;
+ * Documenting Indico:
+   * Keeping the wiki tidy and organized (WikiCop);
+   * Trying out and suggesting new documentation mechanisms - Wiki (done), API docs, JS docs;
+
+=== Short/Medium term ===
+ * Making the setup process work:
+   * easy_install compatible; '''[DONE]'''
+   * easy deployment; '''[DONE]'''
+   * PyPi entry; '''[DONE]'''
+ * Improving the timetable management interface - drag&drop and reschedule features;
+ * Taking part in the performance optimization process;
+ * Working hard to release `v0.97` final;
+ * Working hard to release `v0.98` alpha;
+   * `livesync`
+   * new `scheduler` ("task daemon")
+
+=== Personal Quests ===
+
+ * `PickleJar`, now `fossilize`;
+ * Search Engine integration;
+ * The JavaScript widget toolkit;
+
+
+== Open Tickets ==
+[[TicketQuery(owner=pferreir, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=pferreir,status=closed)]]
+
+
+== Tickets Reported ==
+[[TicketQuery(reporter=pferreir)]]

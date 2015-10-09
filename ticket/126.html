@@ -1,0 +1,753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/126 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:13:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #126 (taskDaemon.py start: ImportError:cannot import name ConferenceSchedule)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="125.html" title="Ticket #125" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t1261fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t126a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="126a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="127.html" title="Ticket #127" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="125.html" title="Ticket #125">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="127.html" title="Ticket #127">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-13T23%3A39%3A42%2B01%3A00&amp;precision=second" title="See timeline at 01/13/10 23:39:42">6 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-15T11%3A46%3A31%2B01%3A00&amp;precision=second" title="See timeline at 01/15/10 11:46:31">6 years ago</a></p>
+    <p>Last modified <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-22T19%3A13%3A13%2B01%3A00&amp;precision=second" title="See timeline at 01/22/10 19:13:13">6 years ago</a></p>
+  </div>
+  <h2>
+    <a href="126.html" class="trac-id">#126</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=worksforme">worksforme</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">taskDaemon.py start: ImportError:cannot import name ConferenceSchedule</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=sylvestre">sylvestre</a></td>
+      <th id="h_owner">Owned by:</th>
+      <td headers="h_owner"><a href="http://old.indico-software.org/query?status=!closed&amp;owner=pferreir">pferreir</a></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v0.97.html">v0.97.0</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=Installation">Installation</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=0.97.0">0.97.0</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+After fixing by hand bug <a class="closed ticket" href="125.html" title="defect: After a standard installation (easy_install)  trashCan.py is empty (closed: worksforme)">#125</a> (getting the file from the source tree)<br />
+On the startup of taskDeamon.py, I get:<br />
+ImportError:cannot import name <a class="missing wiki">ConferenceSchedule?</a><br />
+</p>
+<p>
+I did a standard installation through easy_install.<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(1)</span></h3>
+        <div class="attachments">
+          <dl class="attachments">
+              <dt>
+    <a href="../attachment/ticket/126/schedule.html" title="View attachment">schedule.py</a><a href="../raw-attachment/ticket/126/schedule.py" class="trac-rawlink" title="Download">​</a>
+       (<span title="16384 bytes">16.0 KB</span>) -
+      added by <em>sylvestre</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-22T11%3A07%3A36%2B01%3A00&amp;precision=second" title="See timeline at 01/22/10 11:07:36">6 years ago</a>.
+  </dt>
+              <dd>
+                The Wrong file
+              </dd>
+          </dl>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../zip-attachment/ticket/126/index.html">.zip</a>
+          </p>
+          
+        </div>
+    </div>
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(17)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1263474409000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T14%3A06%3A49%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 14:06:49">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v0.97</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-2-1263475688000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T14%3A28%3A08%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 14:28:08">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-owner">
+      <strong class="trac-field-owner">Owner</strong>
+        set to <em>pferreir</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>assigned</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Is MaKaC/schedule.py OK? Maybe it's empty too?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-3-1263485872000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T17%3A17%3A52%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 17:17:52">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <pre class="wiki">I confirm that the file exists and is not empty.
+-rw-r--r-- 1 root root 16384 jan 13
+22:14 /usr/lib/python2.5/site-packages/cds_indico-0.97b-py2.5.egg/MaKaC/schedule.py
+
+And I don't have any other 0 size file:
+# find . -size 0
+./RSSinterface/__init__.py
+./PDFinterface/ttfonts/.keep
+./services/__init__.py
+./services/implementation/__init__.py
+./services/interface/__init__.py
+./services/interface/rpc/__init__.py
+./consoleScripts/__init__.py
+./fossils/__init__.py
+./po/__init__.py
+</pre><p>
+This is really weird. Is it possible to get a full traceback?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-4-1263491195000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T18%3A46%3A35%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 18:46:35">6 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Sorry there is no backtrace generated. I can test whatever you want.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-5-1263492814000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T19%3A13%3A34%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 19:13:34">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+The exception just shows up like this? No debugging output? This is really weird. How are you running the taskdaemon? <tt>easy_install</tt> should have installed it in your bin path.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1263493142000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T19%3A19%3A02%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 19:19:02">6 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+# taskDaemon start<br />
+Daemon started! (pid=13782)<br />
+</p>
+<p>
+ImportError:cannot import name <a class="missing wiki">ConferenceSchedule?</a><br />
+</p>
+<p>
+For what is worth, the strace show it finds the file but fails after that...<br />
+</p>
+<p>
+[pid 13926] open("/usr/lib/python2.5/site-packages/cds_indico-0.97b-py2.5.egg/MaKaC/schedule.py", O_RDONLY|O_LARGEFILE) = 4<br />
+[pid 13926] fstat64(4, {st_mode=S_IFREG|0644, st_size=16384, ...}) = 0<br />
+[pid 13926] open("/usr/lib/python2.5/site-packages/cds_indico-0.97b-py2.5.egg/MaKaC/schedule.pyc", O_RDONLY|O_LARGEFILE) = 5<br />
+[pid 13926] fstat64(5, {st_mode=S_IFREG|0644, st_size=18517, ...}) = 0<br />
+[pid 13926] mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb793b000<br />
+[pid 13926] read(5, "\263\362\r\n\3207NKc\0\0\0\0\0\0\0\0\21\0\0\0@\0\0\0s*\1\0\0d\0\0"..., 4096) = 4096<br />
+[pid 13926] fstat64(5, {st_mode=S_IFREG|0644, st_size=18517, ...}) = 0<br />
+[pid 13926] read(5, "5/site-packages/cds_indico-0.97b-"..., 12288) = 12288<br />
+[pid 13926] read(5, "\0\0R\27\0\0\0RE\0\0\0(\0\0\0\0(\0\0\0\0sM\0\0\0/usr/l"..., 4096) = 2133<br />
+[pid 13926] read(5, ""..., 4096)        = 0<br />
+[pid 13926] close(5)                    = 0<br />
+[pid 13926] munmap(0xb793b000, 4096)    = 0<br />
+[pid 13926] close(4)                    = 0<br />
+[pid 13926] close(3)                    = 0<br />
+[pid 13926] fstat64(1, {st_mode=S_IFCHR|0600, st_rdev=makedev(136, 1), ...}) = 0<br />
+[pid 13926] mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb793b000<br />
+[pid 13926] write(1, "ImportError:cannot import name Co"..., 50ImportError:cannot import name <a class="missing wiki">ConferenceSchedule?</a><br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1263493870000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T19%3A31%3A10%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 19:31:10">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Can you please diff the file you have with the one from the repository? It's very strange that it isn't able to import this particular class. If you do:<br />
+</p>
+<pre class="wiki">$ PYTHONPATH=indico/ python
+Python 2.6.3 (r263:75183, Oct 10 2009, 03:50:39) 
+[GCC 4.3.4] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; from MaKaC.schedule import ConferenceSchedule
+</pre>
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1263493961000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T19%3A32%3A41%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 19:32:41">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+(i meant <tt>PYTHONPATH=/path/to/your/indico/egg</tt>)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1263496822000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-14T20%3A20%3A22%2B01%3A00&amp;precision=second" title="See timeline at 01/14/10 20:20:22">6 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+OK, I found the issue.<br />
+</p>
+<p>
+I don't know why but the file from the easy_install (~10ko without any class) was different from the one in the tarball (~1ko with many classes).<br />
+</p>
+<p>
+Why it was there... I have not idea... Maybe the same  kind of problem as in <a class="closed ticket" href="125.html" title="defect: After a standard installation (easy_install)  trashCan.py is empty (closed: worksforme)">#125</a><br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-10-1263552377000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-15T11%3A46%3A17%2B01%3A00&amp;precision=second" title="See timeline at 01/15/10 11:46:17">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>assigned</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+I'll close it for lack of evidence. If someone else reports this issue I'll reopen it.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-11-1263552384000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-15T11%3A46%3A24%2B01%3A00&amp;precision=second" title="See timeline at 01/15/10 11:46:24">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        <em>fixed</em> deleted
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>closed</em> to <em>reopened</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-12-1263552391000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:12" class="cnum">
+    <a href="#comment:12">comment:12</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-15T11%3A46%3A31%2B01%3A00&amp;precision=second" title="See timeline at 01/15/10 11:46:31">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>worksforme</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>reopened</em> to <em>closed</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-13-1263552484000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:13" class="cnum">
+    <a href="#comment:13">comment:13</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-15T11%3A48%3A04%2B01%3A00&amp;precision=second" title="See timeline at 01/15/10 11:48:04">6 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+As you wish but I can reproduce it anytime ...<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-14-1263552807000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:14" class="cnum">
+    <a href="#comment:14">comment:14</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-15T11%3A53%3A27%2B01%3A00&amp;precision=second" title="See timeline at 01/15/10 11:53:27">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+You mean that if you delete the egg and <tt>easy_install</tt> it over again, it keeps failing?<br />
+Can you please attach your "class-less" <tt>schedule.py</tt>?<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change">
+                
+  <h3 class="change">
+    <span class="threading">
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-22T11%3A07%3A36%2B01%3A00&amp;precision=second" title="See timeline at 01/22/10 11:07:36">6 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-attachment">
+      <strong class="trac-field-attachment">Attachment</strong>
+        <a href="../attachment/ticket/126/schedule.html"><em>schedule.py</em></a><a href="../raw-attachment/ticket/126/schedule.py" title="Download" class="trac-rawlink">​</a>
+          added
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+The Wrong file<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-15-1264155116000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:15" class="cnum">
+    <a href="#comment:15">comment:15</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-22T11%3A11%3A56%2B01%3A00&amp;precision=second" title="See timeline at 01/22/10 11:11:56">6 years ago</a> by sylvestre
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+I reinstall cds indico to reproduce this bug and I can confirm that it is failing again.<br />
+</p>
+<p>
+Doing this:<br />
+cp /path/to/tarball/cds-indico-0.97b/indico/MaKaC/schedule.py /usr/lib/python2.5/site-packages/cds_indico-0.97b-py2.5.egg/MaKaC/schedule.py<br />
+fixes the issue<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-16-1264183993000000">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:16" class="cnum">
+    <a href="#comment:16">comment:16</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-01-22T19%3A13%3A13%2B01%3A00&amp;precision=second" title="See timeline at 01/22/10 19:13:13">6 years ago</a> by pferreir
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+OK, it seems the egg was somehow corrupted (weird...)<br />
+</p>
+<p>
+Can you please try it again?<br />
+</p>
+<p>
+Sorry for the trouble.<br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t1261fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t126a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="126a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/126 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:13:14 GMT -->
+</html>

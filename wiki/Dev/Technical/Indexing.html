@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Indexing by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/Indexing – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FIndexing56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Technical.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="Indexing.html" title="View Dev/Technical/Indexing">Indexing</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Technical.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/Indexing?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#Indexing">Indexing</a>
+    <ol>
+      <li>
+        <a href="#a1.ZODBDataStructures">1. ZODB Data Structures</a>
+        <ol>
+          <li>
+            <a href="#a1.1Tree">1.1 Tree</a>
+          </li>
+          <li>
+            <a href="#a1.2Treeset">1.2 Treeset</a>
+          </li>
+          <li>
+            <a href="#a1.3Set">1.3 Set</a>
+          </li>
+          <li>
+            <a href="#a1.4Bucket">1.4 Bucket</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a2.ZODBIndexingSolutions">2. ZODB Indexing Solutions</a>
+        <ol>
+          <li>
+            <a href="#a2.1ZCatalog">2.1 ZCatalog</a>
+          </li>
+          <li>
+            <a href="#a2.2ZopeIndexes">2.2 Zope Indexes</a>
+            <ol>
+              <li>
+                <a href="#a2.2.1TextIndex">2.2.1 Text Index</a>
+              </li>
+              <li>
+                <a href="#a2.2.2FieldIndex">2.2.2 Field Index</a>
+              </li>
+              <li>
+                <a href="#a2.2.3KeywordsIndex">2.2.3 Keywords Index</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a href="#a2.3Ad-hocIndexes">2.3 Ad-hoc Indexes</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#a3BestIndexingSolution">3 Best Indexing Solution</a>
+      </li>
+      <li>
+        <a href="#a4SetsMerging">4 Sets Merging</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="Indexing">Indexing</h1>
+<p>
+Python dictionaries are almost never not a good solution for ZODB
+applications that require map-like data structures, mainly because a
+regular dictionary stored in a ZODB storage needs to be completely
+unpickled each time one of its elements is requested (ZODB treats it as
+an atomic data structure). This is a problem for two reasons: primarily unpickling a very large dictionary is time-consuming and thus this operation can slow down the application and secondly a a single small change inside it causes the DB to commit the entire dictionary back again into the storage.
+</p>
+<h2 id="a1.ZODBDataStructures">1. ZODB Data Structures</h2>
+<p>
+ZODB implements different versions of these trees and different structures based on them.
+</p>
+<h3 id="a1.1Tree">1.1 Tree</h3>
+<p>
+ZODB provides a set of tree data structures that handles different variants. The difference between them is the type of the keys and values in mappings. The first two letters of the trees' names specify the mappings. The possible types are Object (a normal Python object, identified by <em>O</em>), Integer (a 32 bit integer, identified by $I$), Large Integer (a 64 bit integer, identified by <em>L</em>) and Float (a 32 bit floating point number, identified by <em>F</em>), and any possible couple of them can be use to build a tree data model, e.i. <em>OOBTree</em> (Object Key - Object Value), <em>IOBTree</em> (Integer Key - Object Value) and so on.
+Because of the fact that the element inside the tree are stored in sorted order, range searching is very efficient.
+</p>
+<h3 id="a1.2Treeset">1.2 Treeset</h3>
+<p>
+Another clever use of BTrees is building ordered sets. There are different kinds, i.e. <em>OOTreeSet</em>, <em>IITreeSet</em> and so on. The usage is very intuitive, they are sets, thus they don't have values, they just have keys. The performance is clearly worse than a classical set implemented as a consecutive array stored in memory, but the strength of the implementation is that, in spite of
+being stored as a BTree, the data structure is composed of several different nodes (Sets) that are accessed and fetched only if needed. Of course if it is known that the length of the set will be small, it does not make much sense the use of Treeset and it will be rather be a better idea to use normal persistent sets. Moreover, another advantage of Treesets over
+a normal Set is that if a single element inside it is modified, only the
+bucket containing the modified item has to be committed to the database.
+</p>
+<h3 id="a1.3Set">1.3 Set</h3>
+<p>
+ZODB offers its own version of persistent sets. There are different kinds, i.e. <em>OOTreeSet</em>, <em>IITreeSet</em> and so on. <em>OOSet</em> contains a set of arbitrary ordered objects, it can store anything but it is less than optimal besides the use of built-in types (strings, longs, date, etc). The implementation is the classical one, that is the set is allocated in a simple data block inside the memory, just like normal lists or dictionaries, and because of that, insertion and deletion have order of <em>O(n)</em>. This implementation requires the unpickling and the loading of the entire set every time a single element is needed.
+</p>
+<h3 id="a1.4Bucket">1.4 Bucket</h3>
+<p>
+Buckets are the individual building blocks for BTrees.
+They are provided as <em>OOBucket</em>, <em>IIBucket</em>, and so on. Basically they look like Sets except that they support key-value mappings.
+</p>
+<h2 id="a2.ZODBIndexingSolutions">2. ZODB Indexing Solutions</h2>
+<p>
+The ZODB package itself has been developed in order to be as light as possible, without any additional and unnecessary components, therefore it does not contain any indexing utilities. This choice is undoubtedly questionable, but this is not the aim of this report. Our goal is to explain and compare the different indexing solutions of a ZODB database. Basically there exist three solutions used to add this property to the basic package. The first one, and the most commonly used, is to add to the core of ZODB an external package developed explicitly for this purpose. It is called \textit{ZCatalog}. The second one, the so-called "ad-hoc solution", consists in creating your own indexing structure using the BTrees package of ZODB. This possibility is generally used when the web developer wants to create appropriate and optimized structures for a (or some) precise situations. On the other hand \textit{ZCatalog} is used for a complete website indexing, without taking care of any index implementation details. The choice between those two implementations has to be taken in function of the needed functionalities needed. The third possibility stays in the middle of the first two and it consists of using the already implemented indexes proposed by Zope. In the following sections, a detailed description of these possible solutions is presented.
+</p>
+<h3 id="a2.1ZCatalog">2.1 ZCatalog</h3>
+<p>
+<em>ZCatalog</em> (More information at: <a class="ext-link" href="http://www.zope.org/Documentation/How-To/ZCatalogTutorial"><span class="icon">​</span>http://www.zope.org/Documentation/How-To/ZCatalogTutorial</a>) is a package proposed and developed by Zope that indexes and references objects and makes queries on them. Basically it is the query engine of Zope. It is very simple to use and in can be integrated in any ZODB standalone application. It maintains indexes for each referenced attribute and it provides a basic query language that can be used to perform complex queries.
+</p>
+<h3 id="a2.2ZopeIndexes">2.2 Zope Indexes</h3>
+<p>
+Zope offers a less abstract way of creating indexes. There exist a package named zope.indexes that contains ready-to-use indexes of different kind, depending on the needs.
+</p>
+<h4 id="a2.2.1TextIndex">2.2.1 Text Index</h4>
+<p>
+The ZCTextIndex is used for full-text indexing. This index tokenizes the text and indexes every word in the indexing phase, then, during the runtime, it offers some useful features like relevance ranking, boolean operators and phrase matching.
+The indexing part consists in three different consecutive processors. The text to be indexed first passes through a <em>Splitter</em> that divides it using words. There exist different type of splitters depending on the needs, it can be a simple white-space splitter or a more complex HTML-aware splitter that removes any HTML markup from the input text, or even more specialised splitters (like ejSplitter, <a class="missing wiki">ChaSplitter?</a>) for foreign languages that don't use the same delimiters as in English.
+Successively the text to be indexed passes through a <em>Case Normalizer</em> that, if enabled, allows case-insensitive searches and finally it goes through a <em>Stop Word Remover</em> which removes all kind of common English words that are not helpful for searches and normally match most irrelevant documents.
+</p>
+<p>
+Each query, after going through the same processors used for the text indexing, scores documents relevance using one of these two algorithms, depending on the size of the query:
+</p>
+<ul><li><strong>Okapi BM25 Rank</strong>: this information retrieval solution is built on probability arguments about how words are placed inside the documents, and not on an abstract vector space model. 
+</li><li><strong>Cosine Rule</strong>: This algorithm implements the cosine similarity function described in \cite{cosine} at page 187. It basically computes the distance between two vector space models in order to determine the similarity between words.
+</li></ul><p>
+By default the Okapi inverted index is used.
+</p>
+<h4 id="a2.2.2FieldIndex">2.2.2 Field Index</h4>
+<p>
+This type of index considers the value of the attribute as one single element (even if it is composed of more than one word). This index has to be used in order to reference data that can not be considered as text, like numbers, dates, object type etc. The restriction imposed by this type of index is that one has to know exactly the value to search, otherwise he will not match any value.
+</p>
+<h4 id="a2.2.3KeywordsIndex">2.2.3 Keywords Index</h4>
+<p>
+This last index is a kind of hybrid between the field index and the text index. The values of the attributes are split into single words which are handled as key-words. If one or more key-words of the attribute are in a query, the object is considered as a match. For example an attribute with value "ZODB indexing problem" will match any of these queries: "ZODB", "indexing", "problem".
+</p>
+<h3 id="a2.3Ad-hocIndexes">2.3 Ad-hoc Indexes</h3>
+<p>
+The last possible solution is the one that creates from scratch new indexes that perfectly fits the needs using only the data structures offered by ZODB. This options requires a deep understanding of the needs and the possible solutions.
+</p>
+<h2 id="a3BestIndexingSolution">3 Best Indexing Solution</h2>
+<p>
+ZCatalog is the easier solution, but if an optimized index is needed then the best choice is to use an <em>IOBTree</em> as the external structure and <em>OOTreeSet</em> as the internal one. If one needs to store IDs then the best choice is an external <em>IOBTree</em> and an internal <em>IITreeSet</em>
+</p>
+<h2 id="a4SetsMerging">4 Sets Merging</h2>
+<p>
+As general rule, if more more than 2 sets need to be merged, use the <em>multiunion</em> algorithm provided by ZODB.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/Indexing?action=diff&amp;version=21" title="Version 21 by dgalimbe">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-07T12%3A09%3A56%2B02%3A00&amp;precision=second" title="See timeline at 09/07/10 12:09:56">5 years ago</a></span>
+            <span class="trac-print">Last modified on 09/07/10 12:09:56</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FIndexing56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/Indexing by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:15 GMT -->
+</html>

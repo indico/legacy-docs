@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Admin/IndicoConfiguration by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Admin/IndicoConfiguration – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Admin%252FIndicoConfiguration56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Admin.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Admin.html" title="View Admin">Admin</a><span class="pathentry sep">/</span><a class="pathentry" href="IndicoConfiguration.html" title="View Admin/IndicoConfiguration">IndicoConfiguration</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Admin.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Admin/IndicoConfiguration?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#a1.ExtraApacheConfiguration">1. Extra Apache Configuration</a>
+    <ol>
+      <li>
+        <ol>
+          <li>
+            <ol>
+              <li>
+                <a href="#Enablinggzipcompression">Enabling gzip compression</a>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#a2.EventStyles">2. Event Styles</a>
+  </li>
+  <li>
+    <a href="#a3.AddingaSearchEnginetoIndico">3. Adding a Search Engine to Indico</a>
+    <ol>
+      <li>
+        <a href="#ConfiguringLiveSync">Configuring LiveSync?</a>
+        <ol>
+          <li>
+            <a href="#withInvenio">with Invenio</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#ConfiguringtheSearchEngineAdapter">Configuring the Search Engine Adapter</a>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <a href="#a3.JobScheduler">3. Job Scheduler</a>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="a1.ExtraApacheConfiguration">1. Extra Apache Configuration</h1>
+<h4 id="Enablinggzipcompression">Enabling gzip compression</h4>
+<p>
+To turn this feature on, just add the following code to the apache configuration file:
+</p>
+<pre class="wiki">AddOutputFilterByType DEFLATE text/html text/plain text/xml 
+</pre><p>
+In this case, it will compress html, xml and plain text. If you want to compress more types just add them.<br />
+</p>
+<p>
+You may use this code in your .htaccess file as well, just choose between one of them. 
+Take in account that the DEFLATE filter is always inserted after RESOURCE filters like PHP or SSI. It never touches internal subrequests. 
+</p>
+<p>
+For further information: <a class="ext-link" href="http://httpd.apache.org/docs/2.0/mod/mod_deflate.html"><span class="icon">​</span>http://httpd.apache.org/docs/2.0/mod/mod_deflate.html</a>
+<br />
+To check whether gzip compression is working properly:
+</p>
+<ul><li><a class="ext-link" href="https://addons.mozilla.org/en-US/firefox/addon/60/"><span class="icon">​</span>In your browser</a>: Information -&gt; View Document Size
+</li><li><a class="ext-link" href="https://addons.mozilla.org/en-US/firefox/addon/3829/"><span class="icon">​</span>View the headers</a>: If you can find a line that says “Content-encoding: gzip” that means that this feature is working correctly.
+</li></ul><h1 id="a2.EventStyles">2. Event Styles</h1>
+<p>
+Meeting and lecture displays, as well as conferences "Timetable view" are created by a XSL transformation produced from the Indico event XML export. 
+The stylesheets applied to this XML are .xsl files and can be found into the MaKaC/webinterface/stylesheets directory in the Indico package (and in /where/is/python/lib/site-packages/MaKaC/webinterface/stylesheets directory once installed).
+</p>
+<p>
+Here some of the basic rules if you want to add your own style (XSL) to the events:
+</p>
+<ul><li>Each .xsl must have its own .css file named after itself (eg. there must be a standard.xsl file and a standard.css file)
+</li><li>In order to add a new style, create an XSL file and its CSS, and add the files to the above mentioned directory. 
+</li><li>Your style should then appear in the list of available styles: <a class="ext-link" href="http://myindicoserver.mydomain.org/adminStyles.py"><span class="icon">​</span>http://myindicoserver.mydomain.org/adminStyles.py</a>
+</li><li>From the previous link, you can choose to add it for lectures, meetings and/or conferences.
+</li></ul><h1 id="a3.AddingaSearchEnginetoIndico">3. Adding a Search Engine to Indico</h1>
+<p>
+Indico does not have a built-in search engine but can easily export all of its public data to any external search engine using the <a class="missing wiki">LiveSync?</a> plugin. There are two separate mechanisms within Indico that are used for this:
+</p>
+<ul><li>The Search Engine Adapter - provides an interface that allows remote search servers to be queried through Indico;
+</li><li><a class="missing wiki">LiveSync?</a> - allows Indico to periodically send updates on its data to remote servers;
+</li></ul><h2 id="ConfiguringLiveSync">Configuring <a class="missing wiki">LiveSync?</a></h2>
+<p>
+<a class="missing wiki">LiveSync?</a> is a metadata "push" mechanism that is used to keep other services up to date with the latest changes in an Indico instance.
+</p>
+<h3 id="withInvenio">with Invenio</h3>
+<p>
+The Invenio <a class="missing wiki">LiveSync?</a> plugin relies o the relatively young "batchupload" feature. So, first of all, please make sure that you are using a recent version of Invenio.
+</p>
+<p>
+The first step should be configuring Invenio so that it accepts connections from you Indico machine(s).
+</p>
+<div class="code"><pre>CFG_BATCHUPLOADER_WEB_ROBOT_AGENT <span class="o">=</span> invenio_webupload<span class="p">,</span>invenio_connector
+
+CFG_BATCHUPLOADER_WEB_ROBOT_RIGHTS <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'xxx.xxx.xxx.xxx'</span><span class="p">:</span> <span class="p">[</span><span class="s">'INDICOSEARCH'</span><span class="p">]</span>
+    <span class="p">}</span>
+</pre></div><p>
+Just set the correct IP addess for your Indico server.
+</p>
+<p>
+You should have your Invenio collections correctly set. At <acronym title="European Organization for Nuclear Research">CERN</acronym> we use the following layout:
+</p>
+<ul><li><strong>INDICOSEARCH</strong>
+<ul><li><strong>INDICOSEARCH.EVENTS</strong>: <tt>980__a:'*' -970__a:'.*.'</tt>
+<ul><li><strong>INDICOSEARCH.PUBLIC.EVENTS</strong>: <tt>980__a:"INDICOSEARCH.PUBLIC" -970__a:'.*.'</tt>
+</li><li><strong>INDICOSEARCH.PRIVATE.EVENTS</strong>: <tt>980__a:"INDICOSEARCH.PRIVATE" -970__a:'.*.'</tt>
+</li></ul></li><li><strong>INDICOSEARCH.CONTRIBS</strong>: <tt>980__a:'*' 970__a:'.*.'</tt>
+<ul><li><strong>INDICOSEARCH.PUBLIC.CONTRIBS</strong>: <tt>980__a:"INDICOSEARCH.PUBLIC" 970__a:'.*.'</tt>
+</li><li><strong>INDICOSEARCH.PRIVATE.CONTRIBS</strong>: <tt>980__a:"INDICOSEARCH.PRIVATE" 970__a:'.*.'</tt>
+</li></ul></li><li><strong>INDICOSEARCH.PUBLIC</strong>: <tt>980__a:"INDICOSEARCH.PUBLIC"</tt>
+<ul><li><strong>INDICOSEARCH.PUBLIC.EVENTS</strong>
+</li><li><strong>INDICOSEARCH.PUBLIC.CONTRIBS</strong>
+</li></ul></li><li><strong>INDICOSEARCH.PRIVATE</strong>: <tt>980__a:"INDICOSEARCH.PRIVATE"</tt>
+<ul><li><strong>INDICOSEARCH.PRIVATE.EVENTS</strong>
+</li><li><strong>INDICOSEARCH.PRIVATE.CONTRIBS</strong>
+</li></ul></li></ul></li></ul><p>
+Then, you'll need to create an "agent" under <tt>Plugins</tt> -&gt; <tt>Live Sync</tt> -&gt; <tt>Manage agents</tt> (it's all under "Server Administration").
+You'll probably have to enable the <a class="missing wiki">LiveSync?</a> plugin and the "<a class="missing wiki">InvenioBatchUploaderAgent?</a>" and then reload all plugins, so that Indico takes the new parameters into account.
+</p>
+<p>
+You can use something like:
+</p>
+<pre class="wiki">Agent ID: 'invenio1'
+Name: 'Invenio Agent'
+Server URL: &lt;your Invenio server URL&gt;
+</pre><p>
+Once you have your new "agent", you should click on <tt>Start activation process</tt> and then press <tt>OK</tt> on the dialog that pops-up. The message should be replaced by one saying <tt>As soon as the export process has finished, click here</tt>.
+</p>
+<p>
+After this, you'll need to import the whole existing metadata content into Invenio. This is when a command-line script comes handy:
+</p>
+<pre class="wiki">$ indico_livesync agent invenio1 export --fast
+</pre><p>
+Once this job is finished, you can go back to the Agent Management page and activate the Invenio agent.
+</p>
+<p>
+The last step should be executing:
+</p>
+<pre class="wiki">$ indico_livesync agent invenio1 add_task
+</pre><p>
+This will add a task to your scheduler (task daemon) queue that will periodically send updates to the Invenio server (make sure your scheduler is running).
+You should be able to see all the update operations by <tt>tail</tt>'ing scheduler.log (/opt/indico/log).
+</p>
+<h2 id="ConfiguringtheSearchEngineAdapter">Configuring the Search Engine Adapter</h2>
+<div class="code"><pre>IndicoSearchServer <span class="o">=</span> <span class="s">"http://your.search.engine"</span>
+indicoSearchClass <span class="o">=</span> MaKaC<span class="o">.</span>search<span class="o">.</span>invenioSEA<span class="o">.</span>InvenioSEA
+</pre></div><h1 id="a3.JobScheduler">3. Job Scheduler</h1>
+<p>
+Indico has a "background" job scheduler can handle several tasks, including generating statistics, sending alarms and periodically running <a class="missing wiki">LiveSync?</a>.
+</p>
+<p>
+It can be enabled with
+</p>
+<pre class="wiki">$ sudo -u apache indico_scheduler start
+</pre><p>
+Similarly,
+</p>
+<pre class="wiki">$ sudo -u apache indico_scheduler stop
+</pre><p>
+stops the daemon.
+</p>
+<p>
+The detailed log can be seen in <tt>scheduler.log</tt>, in your <tt>log</tt> sub-directory.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Admin/IndicoConfiguration?action=diff&amp;version=7" title="Version 7 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-10-08T16%3A26%3A14%2B02%3A00&amp;precision=second" title="See timeline at 10/08/12 16:26:14">3 years ago</a></span>
+            <span class="trac-print">Last modified on 10/08/12 16:26:14</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Admin%252FIndicoConfiguration56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Admin/IndicoConfiguration by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:42 GMT -->
+</html>

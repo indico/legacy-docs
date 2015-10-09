@@ -1,0 +1,49 @@
+= Release 0.96.2: =
+
+http://indico-software.org/wiki/Releases/Indico0.96.2#Download
+
+Once checked out, go to the indico/code/ directory then copy the indico/code/dist/config.xml file in there. Then proceed as usual ("setup.py upgrade" then "setup.py install")
+
+== UPGRADE INSTRUCTIONS ==
+
+To upgrade from version 0.8.14 and previous, you must run the script "Tools/Migration0.8.14To0.90.0.py" after the upgrade
+
+Indico now require python 2.4
+
+=== To upgrade from 0.90.3 and previous versions: ===
+
+    * if you want to use the new html cache feature make sure the XMLCacheDir in config.xml is set to a path which is writable by the http server. Else, disable the cache by going to the "Admin" "Main" page.
+    * PIL is now mandatory
+    * reportlab version must be 2.0
+    * run the following script:
+      * tools/indexes/reindexcalendars.py
+      * tools/indexes/reindexcategories.py
+      * tools/indexes/reindexOAIModificationDates.py (only needed if you use the OAI gateway)
+
+=== To upgrade from 0.92.2 and previous versions: ===
+
+    * run the following scripts:
+      * tools/updateAC.py
+      * tools/pendingsMigration.py
+
+=== To update from 0.94 and previous versions, you must run the following script before installation: ===
+
+    * tools/check_conflict_description_content.py
+
+=== To upgrade from 0.96.2 and previous versions, or CVS release_0_96-patches: ===
+
+    * install pytz:
+      * package: http://sourceforge.net/projects/pytz
+      * howto install: http://pytz.sourceforge.net
+    * install simplejson:
+      * package: http://pypi.python.org/pypi/simplejson/
+      * installation tips:
+        * ungzip and untar the package
+        * sudo python setup.py bdist_egg
+        * if you have easy_install: sudo easy_install -UZ simplejsonXXXXX.egg
+        * if you DO NOT have easy_install: unzip the egg file (actually it is a zip file) and copy the folder simplejson in your python/lib/site-packages folder
+    * run script tools/TZMigration.py (NOTE: firstly you have to install Indico package and then run this script)
+      * You must stop the Apache server while running the script because user interaction with Indico could cause inconsistencies. Indico migration at CERN took ~4 hours
+      * You will be asked to provide the category timezones file. You, as Indico admin, have to create this file in order to choose which timezone will be set to each of your categories. The file must have 2 columns (separated by 1 tab), the first one will contain the ID for each Indico category and the second one is the TZ for the corresponding category. Please, see an example [http://indico-software.org/download/categories-timezones.txt here].
+      * A complete list of timezone codes is [http://indico-software.org/download/timezone-codes.txt here]
+      * On the other hand, if you do not want to create the categories timezones file, you can provide an empty file as parameter. The script will add the categories to your server timezone (default timezone). And afterwards, you will be able to change the TZ for each category by hand.

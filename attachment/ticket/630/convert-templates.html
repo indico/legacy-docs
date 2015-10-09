@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/630/convert-templates.py by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      convert-templates.py on Ticket #630 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/630/convert-templates.py" type="application/x-python; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/630.html" title="Ticket #630" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../pygments/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/630.html">Back to Ticket #630</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/630.html">Ticket #630</a>: convert-templates.py</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File convert-templates.py,
+                <span title="1915 bytes">1.9 KB</span>
+                (added by jmonnich, <a class="timeline" href="http://old.indico-software.org/timeline?from=2011-01-31T15%3A13%3A11%2B01%3A00&amp;precision=second" title="See timeline at 01/31/11 15:13:11">5 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                <p>
+Script to convert old-style templates to new-style templates
+</p>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <table class="code"><thead><tr><th class="lineno" title="Line numbers">Line</th><th class="content"> </th></tr></thead><tbody><tr><th id="L1"><a href="#L1">1</a></th><td><span class="kn">import</span> <span class="nn">hashlib</span></td></tr><tr><th id="L2"><a href="#L2">2</a></th><td><span class="kn">import</span> <span class="nn">os</span></td></tr><tr><th id="L3"><a href="#L3">3</a></th><td><span class="kn">import</span> <span class="nn">re</span></td></tr><tr><th id="L4"><a href="#L4">4</a></th><td><span class="kn">import</span> <span class="nn">stat</span></td></tr><tr><th id="L5"><a href="#L5">5</a></th><td><span class="kn">import</span> <span class="nn">sys</span></td></tr><tr><th id="L6"><a href="#L6">6</a></th><td></td></tr><tr><th id="L7"><a href="#L7">7</a></th><td>MATCH_PYTHON_BLOCK <span class="o">=</span> re<span class="o">.</span>compile<span class="p">(</span><span class="s">'&lt;%.*?%&gt;'</span><span class="p">,</span> re<span class="o">.</span>DOTALL<span class="p">)</span></td></tr><tr><th id="L8"><a href="#L8">8</a></th><td>MATCH_FORMAT <span class="o">=</span> re<span class="o">.</span>compile<span class="p">(</span><span class="s">'%\(([^)]+)\)s'</span><span class="p">)</span></td></tr><tr><th id="L9"><a href="#L9">9</a></th><td>MATCH_DECLARE_NEW <span class="o">=</span> re<span class="o">.</span>compile<span class="p">(</span><span class="s">'&lt;%\s*declareTemplate\(newTemplateStyle\s*=\s*True\)\s*%&gt;</span><span class="se">\n</span><span class="s">*'</span><span class="p">)</span></td></tr><tr><th id="L10"><a href="#L10">10</a></th><td></td></tr><tr><th id="L11"><a href="#L11">11</a></th><td><span class="k">def</span> <span class="nf">sha1</span><span class="p">(</span>data<span class="p">):</span></td></tr><tr><th id="L12"><a href="#L12">12</a></th><td>    h <span class="o">=</span> hashlib<span class="o">.</span>sha1<span class="p">()</span></td></tr><tr><th id="L13"><a href="#L13">13</a></th><td>    h<span class="o">.</span>update<span class="p">(</span>data<span class="p">)</span></td></tr><tr><th id="L14"><a href="#L14">14</a></th><td>    <span class="k">return</span> h<span class="o">.</span>hexdigest<span class="p">()</span></td></tr><tr><th id="L15"><a href="#L15">15</a></th><td></td></tr><tr><th id="L16"><a href="#L16">16</a></th><td><span class="k">def</span> <span class="nf">fix_template</span><span class="p">(</span>path<span class="p">):</span></td></tr><tr><th id="L17"><a href="#L17">17</a></th><td>    <span class="k">print</span> <span class="s">"Fixing </span><span class="si">%s</span><span class="s">..."</span> <span class="o">%</span> path<span class="p">,</span></td></tr><tr><th id="L18"><a href="#L18">18</a></th><td>    f <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>path<span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span></td></tr><tr><th id="L19"><a href="#L19">19</a></th><td>    template <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="o">.</span>join<span class="p">(</span>line<span class="o">.</span>rstrip<span class="p">()</span> <span class="k">for</span> line <span class="ow">in</span> f<span class="p">)</span></td></tr><tr><th id="L20"><a href="#L20">20</a></th><td>    f<span class="o">.</span>close<span class="p">()</span></td></tr><tr><th id="L21"><a href="#L21">21</a></th><td></td></tr><tr><th id="L22"><a href="#L22">22</a></th><td>    stored_blocks <span class="o">=</span> <span class="p">{}</span></td></tr><tr><th id="L23"><a href="#L23">23</a></th><td>    <span class="k">def</span> <span class="nf">replace_blocks</span><span class="p">(</span>m<span class="p">):</span></td></tr><tr><th id="L24"><a href="#L24">24</a></th><td>        block <span class="o">=</span> m<span class="o">.</span>group<span class="p">(</span><span class="mi">0</span><span class="p">)</span></td></tr><tr><th id="L25"><a href="#L25">25</a></th><td>        block_hash <span class="o">=</span> sha1<span class="p">(</span>block<span class="p">)</span></td></tr><tr><th id="L26"><a href="#L26">26</a></th><td>        stored_blocks<span class="p">[</span>block_hash<span class="p">]</span> <span class="o">=</span> block</td></tr><tr><th id="L27"><a href="#L27">27</a></th><td>        <span class="k">return</span> <span class="s">'{{{</span><span class="si">%s</span><span class="s">}}}'</span> <span class="o">%</span> block_hash</td></tr><tr><th id="L28"><a href="#L28">28</a></th><td></td></tr><tr><th id="L29"><a href="#L29">29</a></th><td>    num_converted <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># list so we can modify it from inside the callback</span></td></tr><tr><th id="L30"><a href="#L30">30</a></th><td>    <span class="k">def</span> <span class="nf">convert_variables</span><span class="p">(</span>m<span class="p">):</span></td></tr><tr><th id="L31"><a href="#L31">31</a></th><td>        name <span class="o">=</span> m<span class="o">.</span>group<span class="p">(</span><span class="mi">1</span><span class="p">)</span></td></tr><tr><th id="L32"><a href="#L32">32</a></th><td>        num_converted<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span></td></tr><tr><th id="L33"><a href="#L33">33</a></th><td>        <span class="k">return</span> <span class="s">'&lt;</span><span class="si">%%</span><span class="s">= </span><span class="si">%s</span><span class="s"> </span><span class="si">%%</span><span class="s">&gt;'</span> <span class="o">%</span> name</td></tr><tr><th id="L34"><a href="#L34">34</a></th><td></td></tr><tr><th id="L35"><a href="#L35">35</a></th><td>    fixed <span class="o">=</span> MATCH_DECLARE_NEW<span class="o">.</span>sub<span class="p">(</span><span class="s">''</span><span class="p">,</span> template<span class="p">)</span></td></tr><tr><th id="L36"><a href="#L36">36</a></th><td>    fixed <span class="o">=</span> MATCH_PYTHON_BLOCK<span class="o">.</span>sub<span class="p">(</span>replace_blocks<span class="p">,</span> fixed<span class="p">)</span></td></tr><tr><th id="L37"><a href="#L37">37</a></th><td>    fixed <span class="o">=</span> MATCH_FORMAT<span class="o">.</span>sub<span class="p">(</span>convert_variables<span class="p">,</span> fixed<span class="p">)</span></td></tr><tr><th id="L38"><a href="#L38">38</a></th><td>    <span class="k">if</span> num_converted<span class="p">[</span><span class="mi">0</span><span class="p">]:</span></td></tr><tr><th id="L39"><a href="#L39">39</a></th><td>        fixed <span class="o">=</span> fixed<span class="o">.</span>replace<span class="p">(</span><span class="s">'</span><span class="si">%%</span><span class="s">'</span><span class="p">,</span> <span class="s">'%'</span><span class="p">)</span></td></tr><tr><th id="L40"><a href="#L40">40</a></th><td>    <span class="k">for</span> key<span class="p">,</span> block <span class="ow">in</span> stored_blocks<span class="o">.</span>iteritems<span class="p">():</span></td></tr><tr><th id="L41"><a href="#L41">41</a></th><td>        fixed <span class="o">=</span> fixed<span class="o">.</span>replace<span class="p">(</span><span class="s">'{{{</span><span class="si">%s</span><span class="s">}}}'</span> <span class="o">%</span> key<span class="p">,</span> block<span class="p">)</span></td></tr><tr><th id="L42"><a href="#L42">42</a></th><td></td></tr><tr><th id="L43"><a href="#L43">43</a></th><td>    <span class="k">if</span> fixed <span class="o">==</span> template<span class="p">:</span></td></tr><tr><th id="L44"><a href="#L44">44</a></th><td>        <span class="k">print</span> <span class="s">' nothing to do'</span></td></tr><tr><th id="L45"><a href="#L45">45</a></th><td>    <span class="k">else</span><span class="p">:</span></td></tr><tr><th id="L46"><a href="#L46">46</a></th><td>        <span class="k">print</span> <span class="s">' done [</span><span class="si">%d</span><span class="s">]'</span> <span class="o">%</span> num_converted<span class="p">[</span><span class="mi">0</span><span class="p">]</span></td></tr><tr><th id="L47"><a href="#L47">47</a></th><td>        f <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>path<span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span></td></tr><tr><th id="L48"><a href="#L48">48</a></th><td>        f<span class="o">.</span>write<span class="p">(</span>fixed<span class="p">)</span></td></tr><tr><th id="L49"><a href="#L49">49</a></th><td>        f<span class="o">.</span>close<span class="p">()</span></td></tr><tr><th id="L50"><a href="#L50">50</a></th><td></td></tr><tr><th id="L51"><a href="#L51">51</a></th><td></td></tr><tr><th id="L52"><a href="#L52">52</a></th><td><span class="k">def</span> <span class="nf">walktree</span><span class="p">(</span>top<span class="o">=</span><span class="s">'.'</span><span class="p">):</span></td></tr><tr><th id="L53"><a href="#L53">53</a></th><td>    names <span class="o">=</span> os<span class="o">.</span>listdir<span class="p">(</span>top<span class="p">)</span></td></tr><tr><th id="L54"><a href="#L54">54</a></th><td>    <span class="k">yield</span> top<span class="p">,</span> names</td></tr><tr><th id="L55"><a href="#L55">55</a></th><td>    <span class="k">for</span> name <span class="ow">in</span> names<span class="p">:</span></td></tr><tr><th id="L56"><a href="#L56">56</a></th><td>        <span class="k">try</span><span class="p">:</span></td></tr><tr><th id="L57"><a href="#L57">57</a></th><td>            st <span class="o">=</span> os<span class="o">.</span>lstat<span class="p">(</span>os<span class="o">.</span>path<span class="o">.</span>join<span class="p">(</span>top<span class="p">,</span> name<span class="p">))</span></td></tr><tr><th id="L58"><a href="#L58">58</a></th><td>        <span class="k">except</span> os<span class="o">.</span>error<span class="p">:</span></td></tr><tr><th id="L59"><a href="#L59">59</a></th><td>            <span class="k">continue</span></td></tr><tr><th id="L60"><a href="#L60">60</a></th><td>        <span class="k">if</span> stat<span class="o">.</span>S_ISDIR<span class="p">(</span>st<span class="o">.</span>st_mode<span class="p">):</span></td></tr><tr><th id="L61"><a href="#L61">61</a></th><td>            <span class="k">for</span> newtop<span class="p">,</span> children <span class="ow">in</span> walktree<span class="p">(</span>os<span class="o">.</span>path<span class="o">.</span>join<span class="p">(</span>top<span class="p">,</span> name<span class="p">)):</span></td></tr><tr><th id="L62"><a href="#L62">62</a></th><td>                <span class="k">yield</span> newtop<span class="p">,</span> children</td></tr><tr><th id="L63"><a href="#L63">63</a></th><td></td></tr><tr><th id="L64"><a href="#L64">64</a></th><td><span class="k">for</span> basepath<span class="p">,</span> children <span class="ow">in</span> walktree<span class="p">(</span><span class="s">'cds-indico'</span><span class="p">):</span></td></tr><tr><th id="L65"><a href="#L65">65</a></th><td>    <span class="k">for</span> child <span class="ow">in</span> children<span class="p">:</span></td></tr><tr><th id="L66"><a href="#L66">66</a></th><td>        <span class="k">if</span> child<span class="o">.</span>endswith<span class="p">(</span><span class="s">'.tpl'</span><span class="p">):</span></td></tr><tr><th id="L67"><a href="#L67">67</a></th><td>            fix_template<span class="p">(</span>os<span class="o">.</span>path<span class="o">.</span>join<span class="p">(</span>basepath<span class="p">,</span> child<span class="p">))</span></td></tr></tbody></table>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/630/convert-templates.py">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/630/convert-templates.py by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:12 GMT -->
+</html>

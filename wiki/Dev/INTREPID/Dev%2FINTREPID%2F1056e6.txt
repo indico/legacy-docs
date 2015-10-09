@@ -1,0 +1,46 @@
+[[PageOutline]]
+
+== InTRePId 10 ==
+'''Title:''' Metadata (Microformats, RDFa, etc) 
+
+'''Author:''' Pedro Ferreira
+
+'''Date:''' 11 Jul 2010
+
+'''Target version:''' ?
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * Providing useful information in indico pages, that can be reused by browsers and other applications;
+ * Improving the overall quality of the metadata that can be be extracted from Indico pages;
+
+=== Status quo ===
+
+Currently, Indico pages look nice and well organized. However, in terms of actual metadata, things are not as good as they could be. We generally try to repect the semantic of HTML tags, but there are still many situations where this could be improved.
+
+Modern browsers are starting to include some degree of support for Microformats and other lightweight semantic web technologies [1], and several plugins exist that make it easy to feed metadata into external applications (calendars, agendas, contact lists...)[2][3][4]. Providing some support for some of these technologies from within Indico would be definitely positive for user experience.
+
+In addition to this, Microformats/RDFa are starting to be consumed by search engines and other web services[5][6]. A good example of such a use case would be the location and date of an Indico event appearing directly under their search result in Google (for instances that choose to allow crawling of their pages).
+
+
+=== Description ===
+
+There are several metadata formats to be considered here:
+ * Microformats
+ * RDFa
+ * HTML5 Microdata - can be seen as an extension of Microformats;
+
+
+ * [1] https://developer.mozilla.org/en/Using_microformats
+ * [2] http://microformats.org/wiki/firefox-extensions
+ * [3] http://microformats.org/wiki/chrome-extensions
+ * [4] http://microformats.org/wiki/Internet_Explorer
+ * [5] http://googlewebmastercentral.blogspot.com/2009/05/introducing-rich-snippets.html
+ * [6] http://microformats.org/wiki/search_engines
+
+
+=== Comments ===
+[[AddComment]]

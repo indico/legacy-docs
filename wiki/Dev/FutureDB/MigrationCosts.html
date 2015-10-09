@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/FutureDB/MigrationCosts by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/FutureDB/MigrationCosts – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FFutureDB%252FMigrationCosts56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../FutureDB.html" title="View parent page" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../wiki.html">wiki:</a><a class="pathentry" href="../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../FutureDB.html" title="View Dev/FutureDB">FutureDB</a><span class="pathentry sep">/</span><a class="pathentry" href="MigrationCosts.html" title="View Dev/FutureDB/MigrationCosts">MigrationCosts</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../FutureDB.html">Up</a></li><li><a href="../../WikiStart.html">Start Page</a></li><li><a href="../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/FutureDB/MigrationCosts?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="MigrationCosts">Migration Costs</h1>
+<h2 id="SchemaMigration">Schema Migration</h2>
+<ul><li>Object-oriented logic ("manager", "holder", etc...) to table-like or key-value paradigm;
+<ul><li><tt>badgeTemplateManager</tt> -&gt; <tt>badgeConfig</tt> ...
+</li><li>Class logic has to be either abstracted (ORM?) or changed.
+</li></ul></li></ul><h3 id="Event">Event</h3>
+<h4 id="Simple">Simple</h4>
+<ul><li>id (str)
+</li><li>title (str)
+</li><li>created (datetime)
+</li><li>modified (datetime)
+</li><li>description (str)
+</li><li>start_date (datetime)
+</li><li>end_date (datetime)
+</li><li>timezone (str)
+</li><li>screen_start_date (datetime)
+</li><li>screen_end_date (datetime)
+</li><li>contact_info (str)
+</li><li>programDescription
+</li><li>owner(s)
+</li><li>logo (str)
+</li><li>contribTypes (dict)
+</li><li>sessionCoordinatorRights (list)
+</li><li>registrants (dict)
+</li><li>bookings (dict)
+</li><li>accessKey (str)
+</li><li>modifKey (str)
+</li><li>closed (bool)
+</li><li>visibility (int)
+</li><li>sections (list)
+</li><li>enableSessionSlots (bool)
+</li><li>enableSessions (bool)
+</li><li>autoSolveConflicts (bool)
+</li><li>keywords (str)
+</li><li>orgText (str)
+</li><li>comments (str)
+</li><li>shortTag (str)
+</li></ul><h4 id="Complex">Complex</h4>
+<ul><li>chairs (list)
+</li><li>sessions (list)
+</li><li>contributions (list)
+</li><li>program (list)
+</li><li>accessController (?)
+</li><li>materials (dict)
+</li><li>schedule (?)
+</li><li>alarms (dict)
+</li><li>abstractMgr (?)
+</li><li>trackCoordinators (?)
+</li><li>supportInfo (?)
+</li><li>authorIndex (?)
+</li><li>speakerIndex (?)
+</li><li>primAuthIdx (?)
+</li><li>sessionCoordinators (?)
+</li><li>submitterIdx (?)
+</li><li>boaConfig (?)
+</li><li>registrationForm (?)
+</li><li>evaluations (list)
+</li><li>pendingQueuesMgr (?)
+</li><li>participation (?)
+</li><li>logHandler (?)
+</li><li>reportNumberHolder (?)
+</li><li>badgeTemplateManager (?)
+</li><li>posterTemplateManager (?)
+</li><li>confPaperReview (?)
+</li><li>confAbstractReview (?)
+</li><li>CSBookingManager (?)
+</li></ul><h4 id="Reallyneeded">Really needed?</h4>
+<ul><li>chairmanText?
+</li><li>places?
+</li><li>rooms?
+</li><li>chairGen?
+</li><li>sessionGenerator?
+</li><li>contribGenerator
+</li><li>materialGenerator?
+</li><li>alarmCounter?
+</li><li>contribTypeGenerator?
+</li><li>evalutationCounter?
+</li><li>registrantGenerator?
+</li><li>paper, slides, video, poster, minutes?
+</li><li>observers?
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/FutureDB/MigrationCosts?action=diff&amp;version=3" title="Version 3 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-04-09T12%3A02%3A20%2B02%3A00&amp;precision=second" title="See timeline at 04/09/13 12:02:20">2 years ago</a></span>
+            <span class="trac-print">Last modified on 04/09/13 12:02:20</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FFutureDB%252FMigrationCosts56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/FutureDB/MigrationCosts by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:38:13 GMT -->
+</html>

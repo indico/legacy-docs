@@ -1,0 +1,252 @@
+[[PageOutline]]
+
+= 1. What is WSGI =
+
+WSGI stands for "Web Server Gateway Interface". It is a standard interface between web servers and Python web applications or frameworks, serving as a conceptual connection between them.
+
+The WSGI interface has two sides: the "server" or "gateway" side, and the "application" or "framework" side. The server side invokes a callable object that is provided by the application side, and communicates with him through the standard defined by WSGI. This way, server and application are completely separated, and they both follow the defined standard. Among other properties, WSGI enables web application portability across a variety of web servers and applications.
+
+For more information, the WSGI 1.0 standard is extensively described in the [http://www.python.org/dev/peps/pep-0333/ PEP 333 document].
+
+[[BR]]
+
+= 2. mod_wsgi =
+
+== 2.1. What is mod_wsgi ==
+
+mod_wsgi is an Apache module to support hosting WSGI applications in conjunction with the Apache web server. It intercepts requests to designated URLs and passes requests off to the WSGI application specified in the target WSGI script file that the URL maps to.
+
+[[BR]]
+
+== 2.2. Modes ==
+
+mod_wsgi has two modes of operation: '''embedded''' and '''daemon'''.
+
+The ''embedded'' mode is very similar to mod_python. In this mode, mod_wsgi will execute within the context of normal Apache child processes. Thus, working in this mode mod_wsgi doesn't have any control whatsoever over the handling of requests.
+
+The ''daemon'' mode is only available in UNIX systems, from apache 2.X versions. In contrast, in this mode mod_wsgi keeps running a ''socket'' or ''daemon'' which manages all requests and assign them to a process/thread. As a consequence, mod_wsgi has more control over the petitions received.
+
+Both modes can achieve high performances, and their suitability varies from one application to another. In Indico, the ''daemon'' mode is used if the server supports it.
+
+[[BR]]
+
+== 2.3. Server Performance ==
+
+For further considerations on the performance obtainable by the server, take a look at [http://code.google.com/p/modwsgi/#Server_Performance modwsgi project page]
+
+[[BR]]
+
+= 3. Configuring Indico with mod_wsgi =
+
+If you already have an installation of Indico with mod_python, you should first remove it before starting the mod_wsgi installation and configuration process. If this is not your case, you can skip this step.
+
+[[BR]]
+
+== 3.1. Removing mod_python ==
+
+Locate the apache configuration file (httpd.conf or apache2.conf). In Linux, it is located in /etc/apache2/.
+
+Edit the apache configuration file and make sure the next lines are commented (add a '#' at the start of each line):
+
+''For all examples in this document, let's pretend your username is '''jdoe''' ''
+
+{{{
+#        DocumentRoot /home/jdoe/cds-indico/indico/htdocs
+#        directoryIndex index.py index.html
+
+#        SetEnv PYTHON_EGG_CACHE /tmp/.python-eggs
+
+#<Directory "/home/jdoe/indico/cds-indico/indico/htdocs/services">
+#    PythonPath "sys.path+['/home/jdoe/indico/cds-indico/indico','/home/jdoe/indico/cds-indico/indico/htdocs']"
+#    SetHandler python-program
+#    PythonHandler MaKaC.services.handler
+#    Allow from All
+#</Directory>
+
+#<Directory "/home/jdoe/indico/cds-indico/indico/htdocs">
+#    AddHandler python-program .py
+#    PythonHandler mod_python.publisher
+#    PythonDebug On
+#    PythonPath "sys.path+['/home/jdoe/indico/cds-indico/indico']"
+#    Allow from All 
+#</Directory>
+
+#Alias /indico/images "/home/jdoe/indico/cds-indico/indico/htdocs/images"
+#Alias /indico/js "/home/jdoe/indico/cds-indico/indico/htdocs/js"
+#Alias /indico "/home/jdoe/indico/cds-indico/indico/htdocs"
+}}}
+
+Finally, you might want to disable mod_python and the previous Indico installation, for avoiding incompatibilities.
+
+ * In Linux, execute the next lines:
+{{{
+jdoe@localhost ~$ sudo a2dismod python
+jdoe@localhost ~$ sudo a2dissite [name of the old webpage file]
+}}}
+
+ In many cases the name of the old webpage file will be ''indico''. To make sure, you can try writing "sudo a2dissite " and pressing [tab] for autocompletion.
+
+ * Under Windows, you only have to comment the next line in the apache configuration file:
+{{{
+#LoadModule python_module modules/mod_python.so
+}}}
+
+
+[[BR]]
+
+== 3.2. Installing and configuring fresh and new mod_wsgi ==
+
+[[BR]]
+
+== 3.2.1. Installation on Linux ==
+
+Install mod_wsgi:
+{{{
+jdoe@localhost ~$ sudo apt-get install libapache2-mod-wsgi
+}}}
+
+Create a new file in the 'sites-available' folder of apache. It's located by default under '/etc/apache2/sites-available/'.
+{{{
+jdoe@localhost ~$ sudo gedit /etc/apache2/sites-available/indico
+}}}
+
+Copy the next lines into that file, making sure to replace 'jdoe' with your username:
+{{{
+AddDefaultCharset UTF-8
+<VirtualHost *:80>
+	# mod_wsgi indico
+
+	ErrorLog /var/log/apache2/error.log
+        LogLevel warn
+	
+	Alias /indico/images "/home/jdoe/indico/cds-indico/indico/htdocs/images"
+	Alias /indico/css "/home/jdoe/indico/cds-indico/indico/htdocs/css"
+	Alias /indico/js "/home/jdoe/indico/cds-indico/indico/htdocs/js"
+	Alias /indico/ihelp "/home/jdoe/indico/cds-indico/indico/htdocs/ihelp"
+
+	WSGIDaemonProcess WSGIDAEMON processes=5 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+		python-eggs=/home/jdoe/indico/tmp/egg-cache
+
+	WSGIScriptAlias /indico "/home/jdoe/indico/cds-indico/indico/htdocs/index.wsgi"
+	
+	<Directory "/home/jdoe/indico/cds-indico/indico">
+	    WSGIProcessGroup WSGIDAEMON
+	    WSGIApplicationGroup %{GLOBAL}
+	    AllowOverride None
+	    Options None
+	    Order deny,allow
+	    Allow from all
+	</Directory>
+</VirtualHost>
+}}}
+
+Here's the explanation of the above lines:
+
+    * Alias: Redirects some static locations to the containing folders, reducing load times.
+    * WSGIDaemonProcess: Create 5 daemon processes of 1 thread each with name WSGIDAEMON. Set the python-path and python-eggs paths. (The other two parameters are for robustness).
+    * WSGIScriptAlias: Redirect all petitions starting with /indico to the specified file.
+    * WSGIProcessGroup: Configure the execution with the settings of WSGIDAEMON.
+    * WSGIApplicationGroup: Set the execution to run under the same Python interpreter (the first created).
+
+
+Finally, enable wsgi, the new webpage and restart apache.
+{{{
+jdoe@localhost ~$ sudo a2enmod wsgi
+jdoe@localhost ~$ sudo a2ensite indico
+jdoe@localhost ~$ sudo apache2ctl restart
+}}}
+
+[[BR]]
+
+== 3.2.2. Installation on Windows ==
+
+Install mod_wsgi:
+
+You will have to [http://code.google.com/p/modwsgi/wiki/DownloadTheSoftware?tm=2#Windows_Binary_Downloads download the installer] and follow the  [http://code.google.com/p/modwsgi/wiki/InstallationOnWindows#Installation_On_Windows Windows installation guide]. Make sure the python version you have matches the required for the installer.
+
+Don't forget to add the wsgi module load to your apache configuration file (httpd.conf or apache2.conf):
+{{{
+LoadModule wsgi_module modules/mod_wsgi.so
+}}}
+
+Copy the next block into the apache configuration file, replacing ''instdir'' with your Indico installation directory:
+{{{
+# mod_wsgi indico
+Alias /indico/images "C:/instdir/indico/cds-indico/indico/htdocs/images"
+Alias /indico/css "C:/instdir/indico/cds-indico/indico/htdocs/css"
+Alias /indico/js "C:/instdir/indico/cds-indico/indico/htdocs/js"
+Alias /indico/ihelp "C:/instdir/indico/cds-indico/indico/htdocs/ihelp"
+
+WSGIScriptAlias /indico "C:/instdir/indico/cds-indico/indico/htdocs/index.wsgi"
+WSGIPythonPath "C:/instdir/indico/cds-indico";"C:/instdir/indico/cds-indico/indico"
+WSGIPythonEggs "C:/instdir/indico/tmp/egg-cache"
+
+<Directory "C:/instdir/indico/cds-indico/indico">
+    WSGIApplicationGroup %{GLOBAL}
+    AllowOverride None
+    Options None
+    Order deny,allow
+    Allow from all
+</Directory>
+}}}
+
+Restart apache.
+
+[[BR]]
+
+== 3.3. Enabling pydev (python debugger) ==
+
+To put the python debugger ''pydev'' back on track, you have to add the eclipse pydev path to the WSGI Python Path configured earlier.
+
+(These instructions should be added to the [http://indico-software.org/wiki/Dev/Tools#a1.Configuration previous ones])
+
+ a. Locate a folder similar to: .../eclipse/plugins/org.python.pydev.debug_1.5.9.2010063001/pysrc . Copy its address somewhere, we will need to paste it later in a couple places.
+
+ b. Add the folder to your Apache Python path. For this, edit the Apache configuration file (httpd.conf or apache2.conf).
+
+ b.1. In Linux, append the next line to your ''python-path'' line:
+{{{
+python-path=/home/jdoe/indico/cds-indico/indico/htdocs:/home/jdoe/indico/cds-indico/indico:.../eclipse/plugins/org.python.pydev.debug_1.5.9.2010063001/pysrc
+ \
+}}}
+
+ b.2. For Windows, you have to append it to the ''WSGIPythonPath'' line. Note the ";" between directories in the WSGIPythonPath:
+{{{
+WSGIPythonPath "C:/instdir/indico/cds-indico/indico/htdocs";"C:/instdir/indico/cds-indico/indico";".../eclipse/plugins/org.python.pydev.debug_1.5.9.2010063001/pysrc"
+ \
+}}}
+
+[[BR]]
+
+= 4. Troubleshooting =
+
+'''Q: I obtain an "Internal Server Error" whenever I try to access the page.'''[[BR]]
+A: Check the apache error log for further description. In Linux, it is located in ''/var/log/apache2/error.log''.
+
+'''Q: Under Linux, I obtain an "Internal Server Error", and checking the log it's an ''import'' error.'''[[BR]]
+A 1: You can try adding the next lines to the python path in apache. In the apache configuration file, add the line starting with '''python-path''' between the ''WSGIDaemonProcess'' and ''python-eggs'' lines.
+{{{
+	WSGIDaemonProcess WSGIDAEMON processes=5 threads=1 inactivity-timeout=3600 maximum-requests=10000 \
+		python-path=/home/jdoe/indico/cds-indico:/home/jdoe/indico/cds-indico/indico \
+		python-eggs=/home/jdoe/indico/tmp/egg-cache
+}}}
+
+'''Q: I obtain an "Internal Server Error", and checking the log it's yet another ''import'' error.'''[[BR]]
+A 2: Indico has changed the names of some packages, and you might have an outdated installation, causing the ''import'' instructions not to work. In this case, follow the next steps:
+{{{
+sudo rm -rf /usr/local/lib/python2.6/dist-packages/cds_indico_extras-0.1-py2.6.egg (or similar)
+sudo easy_install -U cds-indico
+sudo easy_install -U cds-indico-extras
+cd /home/jdoe/indico/cds-indico
+sudo python setup.py develop_config
+sudo zdaemon -C etc/zdctl.conf restart
+sudo apache2ctl restart
+}}}
+
+
+= 5. References =
+ * Phillip J. Eby, ''Python Web Server Gateway Interface v1.0'', [http://www.python.org/dev/peps/pep-0333/]
+ * Graham Dumpleton, [http://code.google.com/p/modwsgi/]
+ * WSGI Wiki, [http://wsgi.org/wsgi/]
+ * [http://lucumr.pocoo.org/2007/5/21/getting-started-with-wsgi Getting started with WSGI]
+ * [http://osdcpapers.cgpublisher.com/product/pub.84/prod.21 WSGI - Gateway or Glue?]

@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1077/0001-REF-Do-not-use-deprecated-md5-sha-modules.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      0001-REF-Do-not-use-deprecated-md5-sha-modules.patch on Ticket #1077 – Attachment
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../wiki/TracGuide.html" />
+        <link rel="alternate" href="../../../raw-attachment/ticket/1077/0001-REF-Do-not-use-deprecated-md5-sha-modules.patch" type="text/x-diff; charset=iso-8859-15" title="Original Format" />
+        <link rel="up" href="../../../ticket/1077.html" title="Ticket #1077" />
+        <link rel="start" href="../../../wiki.html" />
+        <link rel="stylesheet" href="../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/diff.css" type="text/css" /><link rel="stylesheet" href="../../../chrome/common/css/code.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../chrome/common/js/diff.js"></script>
+      <script type="text/javascript" src="../../../chrome/common/js/folding.js"></script>
+      <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          $('#preview table.code').enableCollapsibleColumns($('#preview table.code thead th.content'));
+        });
+      </script>
+    <link rel="stylesheet" type="text/css" href="../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../index.html"><img src="../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="last first"><a href="../../../ticket/1077.html">Back to Ticket #1077</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="attachment">
+        <h1><a href="../../../ticket/1077.html">Ticket #1077</a>: 0001-REF-Do-not-use-deprecated-md5-sha-modules.patch</h1>
+        <table id="info" summary="Description">
+          <tbody>
+            <tr>
+              <th scope="col">File 0001-REF-Do-not-use-deprecated-md5-sha-modules.patch,
+                <span title="2605 bytes">2.5 KB</span>
+                (added by pedersen, <a class="timeline" href="http://old.indico-software.org/timeline?from=2012-08-21T09%3A46%3A14%2B02%3A00&amp;precision=second" title="See timeline at 08/21/12 09:46:14">3 years ago</a>)</th>
+            </tr>
+            <tr>
+              <td class="message searchable">
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="preview" class="searchable">
+          
+  <div class="diff">
+  <ul class="entries">
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/export/oai2.py</a>
+        </h2>
+        <pre>From 3477cee63fa0faca4a4be452d71c3d46215786f2 Mon Sep 17 00:00:00 2001
+From: Bjoern Pedersen &lt;bjoern.pedersen@frm2.tum.de&gt;
+Date: Mon, 20 Aug 2012 14:00:39 +0200
+Subject: [PATCH] [REF] Do not use deprecated md5/sha modules
+
+ * use hashlib instead of the deprecated modules
+---
+ indico/MaKaC/export/oai2.py                        | 4 ++--
+ indico/MaKaC/services/interface/rpc/description.py | 4 ++--
+ indico/MaKaC/webinterface/session/base.py          | 4 ++--
+ 3 Dateien geÃ€ndert, 6 Zeilen hinzugefÃŒgt(+), 6 Zeilen entfernt(-)
+
+diff --git a/indico/MaKaC/export/oai2.py b/indico/MaKaC/export/oai2.py
+index 4700d48..59658be 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/export/oai2.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/export/oai2.py">
+                      b
+                  </th>
+                  <td><em> import string</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>28</th><th>28</th><td class="l"><span>from string import split</span> </td>
+                  </tr><tr>
+                          <th>29</th><th>29</th><td class="l"><span>import re</span> </td>
+                  </tr><tr>
+                          <th>30</th><th>30</th><td class="l"><span>import time</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>31</th><th> </th><td class="l"><span>import <del>md5</del></span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>31</th><td class="r"><span>import <ins>hashlib</ins></span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>32</th><th>32</th><td class="l"><span>from datetime import datetime</span> </td>
+                  </tr><tr>
+                          <th>33</th><th>33</th><td class="l"><span>from pytz import timezone</span> </td>
+                  </tr><tr>
+                          <th>34</th><th>34</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L1310">…</a></th>
+                  <th><a href="#L1310">…</a></th>
+                  <td><em> class OAIResponse:</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>1310</th><th>1310</th><td class="l"><span>&nbsp; &nbsp; def OAIGenResumptionToken(self):</span> </td>
+                  </tr><tr>
+                          <th>1311</th><th>1311</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; "Generates unique ID for resumption token management."</span> </td>
+                  </tr><tr>
+                          <th>1312</th><th>1312</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>1313</th><th> </th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; return <del>md5.new</del>(str(time.time())).hexdigest()</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>1313</th><td class="r"><span>&nbsp; &nbsp; &nbsp; &nbsp; return <ins>hashlib.md5</ins>(str(time.time())).hexdigest()</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>1314</th><th>1314</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>1315</th><th>1315</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>1316</th><th>1316</th><td class="l"><span>&nbsp; &nbsp; def OAICacheIn(self, resumptionToken, sysnos):</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/services/interface/rpc/description.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/services/interface/rpc/description.py b/indico/MaKaC/services/interface/rpc/description.py
+index 443c8ed..d7ce973 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/services/interface/rpc/description.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/services/interface/rpc/description.py">
+                      b
+                  </th>
+                  <td><em></em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>1</th><th>1</th><td class="l"><span>from MaKaC.common import Config</span> </td>
+                  </tr><tr>
+                          <th>2</th><th>2</th><td class="l"><span></span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>3</th><th> </th><td class="l"><span>import <del>sha</del></span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>3</th><td class="r"><span>import <ins>hashlib</ins></span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>4</th><th>4</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>5</th><th>5</th><td class="l"><span>def fetchClasses(module, namespace):</span> </td>
+                  </tr><tr>
+                          <th>6</th><th>6</th><td class="l"><span>&nbsp; &nbsp; table = {}</span> </td>
+                  </tr>
+            </tbody>
+              <tbody class="skipped">
+                <tr>
+                  <th><a href="#L52">…</a></th>
+                  <th><a href="#L52">…</a></th>
+                  <td><em> def describe(params, remoteHost, session):</em> </td>
+                </tr>
+              </tbody>
+            <tbody class="unmod">
+                  <tr>
+                          <th>52</th><th>52</th><td class="l"><span>&nbsp; &nbsp; from MaKaC.services.interface.rpc import handlers</span> </td>
+                  </tr><tr>
+                          <th>53</th><th>53</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>54</th><th>54</th><td class="l"><span>&nbsp; &nbsp; # a unique identifier for the service</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>55</th><th> </th><td class="l"><span>&nbsp; &nbsp; shaObj = <del>sha.new</del>(Config.getInstance().getBaseURL())</span> </td>
+                      </tr>
+                      <tr class="last">
+                        <th> </th><th>55</th><td class="r"><span>&nbsp; &nbsp; shaObj = <ins>hashlib.sha1</ins>(Config.getInstance().getBaseURL())</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>56</th><th>56</th><td class="l"><span>&nbsp; &nbsp; jsonRpcServiceId = shaObj.hexdigest()</span> </td>
+                  </tr><tr>
+                          <th>57</th><th>57</th><td class="l"><span>&nbsp; &nbsp; # endpoint</span> </td>
+                  </tr><tr>
+                          <th>58</th><th>58</th><td class="l"><span>&nbsp; &nbsp; jsonRpcServiceURL = Config.getInstance().getBaseURL() + '/services/json-rpc/'</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+      <li class="entry">
+        <h2>
+          <a>indico/MaKaC/webinterface/session/base.py</a>
+        </h2>
+        <pre>diff --git a/indico/MaKaC/webinterface/session/base.py b/indico/MaKaC/webinterface/session/base.py
+index b403f88..304a022 100644</pre>
+        <table class="trac-diff inline" summary="Differences" cellspacing="0">
+              <colgroup><col class="lineno" /><col class="lineno" /><col class="content" /></colgroup>
+              <thead>
+                <tr>
+                  <th title="File a/indico/MaKaC/webinterface/session/base.py">
+                      a
+                  </th>
+                  <th title="File b/indico/MaKaC/webinterface/session/base.py">
+                      b
+                  </th>
+                  <td><em> try:</em> </td>
+                </tr>
+              </thead>
+            <tbody class="unmod">
+                  <tr>
+                          <th>111</th><th>111</th><td class="l"><span></span> </td>
+                  </tr><tr>
+                          <th>112</th><th>112</th><td class="l"><span>except IOError:</span> </td>
+                  </tr><tr>
+                          <th>113</th><th>113</th><td class="l"><span>&nbsp; &nbsp; # this is much less secure than the above function</span> </td>
+                  </tr>
+            </tbody><tbody class="mod">
+                      <tr class="first">
+                        <th>114</th><th> </th><td class="l"><span>&nbsp; &nbsp; import <del>sha</del></span> </td>
+                      </tr><tr>
+                        <th>115</th><th> </th><td class="l"><span>&nbsp; &nbsp; _randstate = <del>sha.new</del>(str(time() + clock()))</span> </td>
+                      </tr>
+                      <tr>
+                        <th> </th><th>114</th><td class="r"><span>&nbsp; &nbsp; import <ins>hashlib</ins></span> </td>
+                      </tr><tr class="last">
+                        <th> </th><th>115</th><td class="r"><span>&nbsp; &nbsp; _randstate = <ins>hashlib.sha1</ins>(str(time() + clock()))</span> </td>
+                      </tr>
+            </tbody><tbody class="unmod">
+                  <tr>
+                          <th>116</th><th>116</th><td class="l"><span>&nbsp; &nbsp; def randlong(bytes):</span> </td>
+                  </tr><tr>
+                          <th>117</th><th>117</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; """Return bits of random data as a long integer."""</span> </td>
+                  </tr><tr>
+                          <th>118</th><th>118</th><td class="l"><span>&nbsp; &nbsp; &nbsp; &nbsp; global _randstate</span> </td>
+                  </tr>
+            </tbody>
+        </table>
+      </li>
+  </ul>
+</div>
+
+        </div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="../../../raw-attachment/ticket/1077/0001-REF-Do-not-use-deprecated-md5-sha-modules.patch">Original Format</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/attachment/ticket/1077/0001-REF-Do-not-use-deprecated-md5-sha-modules.patch by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:40:47 GMT -->
+</html>

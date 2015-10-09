@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Admin/Tools by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Admin/Tools – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Admin%252FTools56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Admin.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Admin.html" title="View Admin">Admin</a><span class="pathentry sep">/</span><a class="pathentry" href="Tools.html" title="View Admin/Tools">Tools</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Admin.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Admin/Tools?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#AdministrationTools">Administration Tools</a>
+    <ol>
+      <li>
+        <a href="#IndicoShell">Indico Shell</a>
+        <ol>
+          <li>
+            <ol>
+              <li>
+                <a href="#Installing">Installing</a>
+              </li>
+              <li>
+                <a href="#v0.97">&lt; v0.97</a>
+              </li>
+              <li>
+                <a href="#v0.971">v0.97+</a>
+              </li>
+              <li>
+                <a href="#v0.98">v0.98</a>
+              </li>
+              <li>
+                <a href="#Example">Example</a>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="AdministrationTools">Administration Tools</h1>
+<h2 id="IndicoShell">Indico Shell</h2>
+<p>
+If for any reason you need direct access to the Indico DB, or to manually run some task, etc... indicoShell may be of your interest.
+indicoShell is a simple <a class="ext-link" href="http://ipython.scipy.org/"><span class="icon">​</span>IPython</a>-based environment that automatically sets up some basic structures that will help you in your management tasks.
+</p>
+<h4 id="Installing">Installing</h4>
+<h4 id="v0.97">&lt; v0.97</h4>
+<p>
+If for some reason you are using an older version of Indico, you can always download the required files from our <a class="wiki" href="../Download.html#Gitsources">Git repo</a>, or simply through our web interface:
+</p>
+<ul><li><a class="source" href="http://old.indico-software.org/browser/indico/bin/utils/indicoShell.py?rev=v0.97-series">indico/bin/utils/indicoShell.py@v0.97-series</a><a class="trac-rawlink" href="../../export/v0.97-series/indico/bin/utils/indicoShell.py" title="Download">​</a>
+</li><li><a class="source" href="http://old.indico-software.org/browser/indico/bin/utils/indicoShell.sh?rev=v0.97-series">indico/bin/utils/indicoShell.sh@v0.97-series</a><a class="trac-rawlink" href="../../export/v0.97-series/indico/bin/utils/indicoShell.sh" title="Download">​</a>
+</li></ul><h4 id="v0.971">v0.97+</h4>
+<p>
+indicoShell is part of the Indico distribution for all the v0.97-series releases. It's located inside <tt>bin/utils</tt>. You should adapt <tt>indicoShell.sh</tt> (or <tt>indicoShell.bat</tt> under Windows) to suit your Indico environment (set the <tt>INDICOPATH</tt> environment variable, or just ignore it if Indico is already installed in your system-wide python package directory).
+</p>
+<h4 id="v0.98">v0.98</h4>
+<p>
+From 0.98 on, the Indico Shell is available from the binary path of any server that has Indico installed:
+</p>
+<pre class="wiki">jdoe ~$ indico_shell
+</pre><p>
+IPython is required (you can simply easy_install/pip it). Windows users will also need to install <a class="ext-link" href="http://ipython.scipy.org/moin/PyReadline/Intro"><span class="icon">​</span>PyReadline</a>.
+</p>
+<h4 id="Example">Example</h4>
+<p>
+It should be very straightforward to use indicoShell:
+</p>
+<div class="code"><pre>In <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> AvatarHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="mi">22116</span><span class="p">)</span>
+Out<span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">&lt;</span>MaKaC<span class="o">.</span>user<span class="o">.</span>Avatar <span class="nb">object</span> at <span class="mh">0xb6f2822c</span><span class="o">&gt;</span>
+
+In <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> AvatarHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="mi">22116</span><span class="p">)</span><span class="o">.</span>getFullName<span class="p">()</span>
+Out<span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s">'FERREIRA, Jose Pedro'</span>
+
+In <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> a <span class="o">=</span> AvatarHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="mi">22116</span><span class="p">)</span> 
+
+In <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> a<span class="o">.</span>setSurName<span class="p">(</span><span class="s">'Doe'</span><span class="p">)</span>
+
+In <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> a<span class="o">.</span>getFullName<span class="p">()</span> 
+Out<span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="s">'DOE, Jose Pedro'</span>
+</pre></div><p>
+Erasing an user and commiting changes to DB:
+</p>
+<div class="code"><pre>In <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> AvatarHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+Out<span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">&lt;</span>MaKaC<span class="o">.</span>user<span class="o">.</span>Avatar <span class="nb">object</span> at <span class="mh">0xb6f2822c</span><span class="o">&gt;</span>
+
+In <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> a <span class="o">=</span> AvatarHolder<span class="p">()</span><span class="o">.</span>getById<span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
+
+In <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> AvatarHolder<span class="p">()</span><span class="o">.</span>remove<span class="p">(</span>a<span class="p">)</span>
+
+In <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> dbi<span class="o">.</span>commit<span class="p">()</span>
+</pre></div><p>
+Erasing the DB:
+</p>
+<div class="code"><pre>In <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> a <span class="o">=</span> dbi<span class="o">.</span>getDBConnection<span class="p">()</span><span class="o">.</span>root<span class="p">()</span>
+
+In <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> a<span class="o">.</span>clear<span class="p">()</span>
+
+In <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> dbi<span class="o">.</span>commit<span class="p">()</span>
+</pre></div><p>
+A hands-on example for DB-exploration has been given <a class="ext-link" href="https://indico.cern.ch/contributionDisplay.py?sessionId=3&amp;contribId=29&amp;confId=235520"><span class="icon">​</span>in the 1st InDiCo workshop</a>.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Admin/Tools?action=diff&amp;version=9" title="Version 9 by hoffmann: Add link to hands-on session for indico_shell in 1IW">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-09-26T12%3A33%3A26%2B02%3A00&amp;precision=second" title="See timeline at 09/26/13 12:33:26">2 years ago</a></span>
+            <span class="trac-print">Last modified on 09/26/13 12:33:26</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Admin%252FTools56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Admin/Tools by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:44 GMT -->
+</html>

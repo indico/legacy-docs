@@ -1,0 +1,262 @@
+From 2f121a28af4305a81caa350d6f296e91df2e94a7 Mon Sep 17 00:00:00 2001
+From: Bjoern Pedersen <bjoern.pedersen@frm2.tum.de>
+Date: Mon, 20 Aug 2012 15:23:26 +0200
+Subject: [PATCH] [REF] Do not use derepcated sets.Set
+
+ * change from deprecated sets.Set to set.
+---
+ bin/recovery/backup.py                          |  5 ++---
+ indico/MaKaC/booking.py                         |  1 -
+ indico/MaKaC/webinterface/pages/conferences.py  |  5 ++---
+ indico/MaKaC/webinterface/rh/conferenceModif.py |  7 +++----
+ indico/MaKaC/webinterface/rh/sessionModif.py    |  7 +++----
+ indico/MaKaC/webinterface/rh/trackModif.py      |  7 +++----
+ indico/MaKaC/webinterface/timetable.py          | 11 +++++------
+ indico/htdocs/scripts/Forthcoming.py            |  7 +++----
+ indico/htdocs/scripts/SSLPdisplay.py            |  2 +-
+ indico/htdocs/scripts/createCategoryHeader.py   |  2 +-
+ indico/tests/runners.py                         |  3 +--
+ 11 Dateien geändert, 24 Zeilen hinzugefügt(+), 33 Zeilen entfernt(-)
+
+diff --git a/bin/recovery/backup.py b/bin/recovery/backup.py
+index 4a61093..1077047 100644
+--- a/bin/recovery/backup.py
++++ b/bin/recovery/backup.py
+@@ -22,7 +22,6 @@ import os
+ import sys
+ ## TO BE CHANGED:
+ #sys.path.append('C:/Documents and Settings/smilenko/My Documents/project/indico/code/code')
+-import sets
+ from distutils import sysconfig
+ from datetime import datetime
+ from MaKaC.common import Config
+@@ -41,12 +40,12 @@ python = os.path.join(sysconfig.get_config_vars()["exec_prefix"], "python")
+ repozo = "C:/Python23/Scripts/repozo.py"
+ 
+ def main():
+-    tmp = sets.Set(os.listdir(backupsPath))
++    tmp = set(os.listdir(backupsPath))
+     name = datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
+     os.system("%s %s %s %s %s %s %s %s %s"%(python, repozo, "-B", "-f",\
+     "\"%s\""%os.path.join(currentPath, dataFile), "-F", "-z", "-r",\
+     "\"%s\""%backupsPath))
+-    names = sets.Set(os.listdir(backupsPath))
++    names = set(os.listdir(backupsPath))
+     names.difference_update(tmp)
+     for n in names:
+         os.rename(os.path.join(backupsPath, n), os.path.join(backupsPath,\
+diff --git a/indico/MaKaC/booking.py b/indico/MaKaC/booking.py
+index f4d342c..ce1be9b 100644
+--- a/indico/MaKaC/booking.py
++++ b/indico/MaKaC/booking.py
+@@ -21,7 +21,6 @@
+ import os
+ import re
+ import tempfile
+-import sets
+ import os.path
+ import copy
+ from pytz import timezone
+diff --git a/indico/MaKaC/webinterface/pages/conferences.py b/indico/MaKaC/webinterface/pages/conferences.py
+index 6938df5..7106855 100644
+--- a/indico/MaKaC/webinterface/pages/conferences.py
++++ b/indico/MaKaC/webinterface/pages/conferences.py
+@@ -7583,9 +7583,8 @@ class WConfMyStuffMySessions(wcomponents.WTemplated):
+         if self._aw.getUser() is None:
+             return ""
+         #ls=self._conf.getCoordinatedSessions(self._aw.getUser())+self._conf.getManagedSession(self._aw.getUser())
+-        from sets import Set
+-        ls = Set(self._conf.getCoordinatedSessions(self._aw.getUser()))
+-        ls = list(ls | Set(self._conf.getManagedSession(self._aw.getUser())))
++        ls = set(self._conf.getCoordinatedSessions(self._aw.getUser()))
++        ls = list(ls | set(self._conf.getManagedSession(self._aw.getUser())))
+         if len(ls)<=0:
+             return ""
+         res=[]
+diff --git a/indico/MaKaC/webinterface/rh/conferenceModif.py b/indico/MaKaC/webinterface/rh/conferenceModif.py
+index 7f8f228..ee62237 100644
+--- a/indico/MaKaC/webinterface/rh/conferenceModif.py
++++ b/indico/MaKaC/webinterface/rh/conferenceModif.py
+@@ -29,7 +29,6 @@ from pytz import timezone
+ import MaKaC.webinterface.common.timezones as convertTime
+ import MaKaC.common.timezoneUtils as timezoneUtils
+ from BTrees.OOBTree import OOBTree
+-from sets import Set
+ from MaKaC.webinterface.common.abstractDataWrapper import AbstractParam
+ import MaKaC.review as review
+ import MaKaC.webinterface.urlHandlers as urlHandlers
+@@ -5113,9 +5112,9 @@ class RHAbstractsParticipantList(RHConfModifCFABase):
+         submitters = OOBTree()
+         primaryAuthors = OOBTree()
+         coAuthors = OOBTree()
+-        submitterEmails = Set()
+-        primaryAuthorEmails = Set()
+-        coAuthorEmails = Set()
++        submitterEmails = set()
++        primaryAuthorEmails = set()
++        coAuthorEmails = set()
+ 
+         self._setGroupsToDisplay()
+ 
+diff --git a/indico/MaKaC/webinterface/rh/sessionModif.py b/indico/MaKaC/webinterface/rh/sessionModif.py
+index 8984a4b..b8cf40d 100644
+--- a/indico/MaKaC/webinterface/rh/sessionModif.py
++++ b/indico/MaKaC/webinterface/rh/sessionModif.py
+@@ -42,7 +42,6 @@ from MaKaC.PDFinterface.conference import ConfManagerContribsToPDF
+ from MaKaC.common import Config
+ from BTrees.OOBTree import OOBTree
+ from BTrees.IOBTree import IOBTree
+-from sets import Set
+ from datetime import datetime,timedelta,date
+ from MaKaC.errors import FormValuesError
+ from MaKaC.conference import SessionChair
+@@ -1388,9 +1387,9 @@ class RHContribsParticipantList(RHSessionModUnrestrictedContribMngCoordBase):
+         speakers = OOBTree()
+         primaryAuthors = OOBTree()
+         coAuthors = OOBTree()
+-        speakerEmails = Set()
+-        primaryAuthorEmails = Set()
+-        coAuthorEmails = Set()
++        speakerEmails = set()
++        primaryAuthorEmails = set()
++        coAuthorEmails = set()
+ 
+         self._setGroupsToDisplay()
+         for contribId in self._contribIds:
+diff --git a/indico/MaKaC/webinterface/rh/trackModif.py b/indico/MaKaC/webinterface/rh/trackModif.py
+index b82a47f..b5eee4e 100644
+--- a/indico/MaKaC/webinterface/rh/trackModif.py
++++ b/indico/MaKaC/webinterface/rh/trackModif.py
+@@ -18,7 +18,6 @@
+ ## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
+ ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ 
+-from sets import Set
+ 
+ from BTrees.OOBTree import OOBTree
+ 
+@@ -749,9 +748,9 @@ class RHAbstractsParticipantList(RHTrackAbstractsBase):
+         submitters = OOBTree()
+         primaryAuthors = OOBTree()
+         coAuthors = OOBTree()
+-        submitterEmails = Set()
+-        primaryAuthorEmails = Set()
+-        coAuthorEmails = Set()
++        submitterEmails = set()
++        primaryAuthorEmails = set()
++        coAuthorEmails = set()
+ 
+         self._setGroupsToDisplay()
+ 
+diff --git a/indico/MaKaC/webinterface/timetable.py b/indico/MaKaC/webinterface/timetable.py
+index 14918c0..7b3b0bb 100644
+--- a/indico/MaKaC/webinterface/timetable.py
++++ b/indico/MaKaC/webinterface/timetable.py
+@@ -20,7 +20,6 @@
+ 
+ import MaKaC.schedule as schedule
+ import MaKaC.conference as conference
+-import sets
+ from datetime import timedelta,datetime
+ import pytz
+ from pytz import timezone
+@@ -537,19 +536,19 @@ class Day(object):
+         return False
+ 
+     def getContainerMaxOverlap(self):
+-        contSet = sets.Set()
++        contSet = set()
+         for slot in self.getSlotList():
+-            contSet.union_update( sets.Set(slot.getContainerList()) )
++            contSet.update( set(slot.getContainerList()) )
+         max = 0
+         for cont in contSet:
+             max += cont.getMaxOverlap(self)
+         return max
+ 
+     def getNumContainers(self):
+-        containerSet = sets.Set()
++        containerSet = set()
+         for slot in self.getSlotList():
+-            slotContainerSet = sets.Set(slot.getContainerList())
+-            containerSet.union_update(slotContainerSet)
++            slotContainerSet = set(slot.getContainerList())
++            containerSet.update(slotContainerSet)
+         return len(containerSet)
+ 
+     def removeSlot(self, slot):
+diff --git a/indico/htdocs/scripts/Forthcoming.py b/indico/htdocs/scripts/Forthcoming.py
+index 65878b3..7f9d31e 100644
+--- a/indico/htdocs/scripts/Forthcoming.py
++++ b/indico/htdocs/scripts/Forthcoming.py
+@@ -19,7 +19,6 @@
+ ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ 
+ import sys,re
+-import sets
+ 
+ from MaKaC.common.general import *
+ from MaKaC.common import db
+@@ -86,16 +85,16 @@ def sortByStartDate(conf1,conf2):
+ 
+ def getConfList(startdate,ids):
+   #create result set
+-  res = sets.Set()
++  res = set()
+   #instanciate indexes
+   im = indexes.IndexesHolder()
+   catIdx = im.getIndex('category')
+   calIdx = im.getIndex('calendar')
+   c1 = calIdx.getObjectsStartingAfter(startdate)
+   for id in ids:
+-    confIds=sets.Set(catIdx.getItems(id))
++    confIds=set(catIdx.getItems(id))
+     confIds.intersection_update(c1)
+-    res.union_update(confIds)
++    res.update(confIds)
+   res = list(res)
+   res.sort(sortByStartDate)
+   return res
+diff --git a/indico/htdocs/scripts/SSLPdisplay.py b/indico/htdocs/scripts/SSLPdisplay.py
+index c2f36b2..52c9189 100644
+--- a/indico/htdocs/scripts/SSLPdisplay.py
++++ b/indico/htdocs/scripts/SSLPdisplay.py
+@@ -125,7 +125,7 @@ def index(req, **params):
+     for id in ids:
+       confIds=sets.Set(catIdx.getItems(id))
+       confIds.intersection_update(c1)
+-      res.union_update(confIds)
++      res.update(confIds)
+ 
+     res = list(res)
+     res.sort(sortByStartDate)
+diff --git a/indico/htdocs/scripts/createCategoryHeader.py b/indico/htdocs/scripts/createCategoryHeader.py
+index 5492c0c..45afe32 100644
+--- a/indico/htdocs/scripts/createCategoryHeader.py
++++ b/indico/htdocs/scripts/createCategoryHeader.py
+@@ -57,7 +57,7 @@ def index(req, **params):
+ 
+   for cid in ids:
+     confIds = calIdx.getObjectsInDays(cid, startdate, enddate)
+-    res.union_update(confIds)
++    res.update(confIds)
+ 
+   res = list(res)
+   res.sort(sortByStartDate)
+diff --git a/indico/tests/runners.py b/indico/tests/runners.py
+index d9dc7f7..6fb570b 100644
+--- a/indico/tests/runners.py
++++ b/indico/tests/runners.py
+@@ -643,8 +643,7 @@ class JSLintTestRunner(BaseTestRunner):
+ 
+         # Folders which are not going to be scanned.
+         # Files are going to be find recursively in the other folders
+-        import sets
+-        blackList = sets.Set(['pack', 'Loader.js', 'Common', 'i18n'])
++        blackList = set(['pack', 'Loader.js', 'Common', 'i18n'])
+ 
+         #checking if rhino is accessible
+         statusOutput = commands.getstatusoutput("rhino -?")
+-- 
+1.7.12.rc0.10.g476109f
+

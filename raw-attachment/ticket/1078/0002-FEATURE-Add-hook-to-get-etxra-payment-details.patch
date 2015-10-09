@@ -1,0 +1,133 @@
+From 180166a29006b56908ccca9e847365201b116110 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= <bjoern.pedersen@frm2.tum.de>
+Date: Wed, 22 Aug 2012 13:41:09 +0200
+Subject: [PATCH 2/4] [FEATURE] Add hook to get etxra payment details
+
+Add a hook in the payment module to get extra details from indiviual
+payment submodules
+---
+ indico/MaKaC/common/mail.py       | 36 ++++++++++++++++++------------------
+ indico/MaKaC/registration.py      | 24 ++++++++++++++++++++++--
+ indico/MaKaC/webinterface/mail.py |  3 ++-
+ 3 files changed, 42 insertions(+), 21 deletions(-)
+
+diff --git a/indico/MaKaC/common/mail.py b/indico/MaKaC/common/mail.py
+index ffe0f13..e95a577 100644
+--- a/indico/MaKaC/common/mail.py
++++ b/indico/MaKaC/common/mail.py
+@@ -144,24 +144,24 @@ class GenericMailer:
+             for ctype, vpath, content in attachments:
+ 
+                 maintype, subtype = ctype.split('/', 1)
+-            if maintype == 'text':
+-                # Note: we should handle calculating the charset
+-                msg = MIMEText(content , _subtype=subtype)
+-            elif maintype == 'image':
+-                with open(content, 'rb') as fp:
+-                    msg = MIMEImage(fp.read(), _subtype=subtype)
+-            elif maintype == 'audio':
+-                with open(content, 'rb') as fp:
+-                    msg = MIMEAudio(fp.read(), _subtype=subtype)
+-            else:
+-                with open(content, 'rb') as fp:
+-                    msg = MIMEBase(maintype, subtype)
+-                    msg.set_payload(fp.read())
+-                    # Encode the payload using Base64
+-                    encoders.encode_base64(msg)
+-            # Set the filename parameter
+-            msg.add_header('Content-Disposition', 'attachment', filename=vpath)
+-            outer.attach(msg)
++                if maintype == 'text':
++                    # Note: we should handle calculating the charset
++                    msg = MIMEText(content , _subtype=subtype)
++                elif maintype == 'image':
++                    with open(content, 'rb') as fp:
++                        msg = MIMEImage(fp.read(), _subtype=subtype)
++                elif maintype == 'audio':
++                    with open(content, 'rb') as fp:
++                        msg = MIMEAudio(fp.read(), _subtype=subtype)
++                else:
++                    with open(content, 'rb') as fp:
++                        msg = MIMEBase(maintype, subtype)
++                        msg.set_payload(fp.read())
++                        # Encode the payload using Base64
++                        encoders.encode_base64(msg)
++                # Set the filename parameter
++                msg.add_header('Content-Disposition', 'attachment', filename=vpath)
++                outer.attach(msg)
+ 
+ 
+         toList = notification.getToList()
+diff --git a/indico/MaKaC/registration.py b/indico/MaKaC/registration.py
+index b836f1a..cb6e84d 100644
+--- a/indico/MaKaC/registration.py
++++ b/indico/MaKaC/registration.py
+@@ -804,7 +804,7 @@ Congratulations, your registration to %s was successful%s See your information b
+         else:
+             return False
+ 
+-    def sendEmailNewRegistrantDetailsPay(self, regForm,registrant):
++    def sendEmailNewRegistrantDetailsPay(self, regForm, registrant):
+         if not registrant.getConference().getModPay().isEnableSendEmailPaymentDetails():
+             return
+         fromAddr = regForm.getNotificationSender()
+@@ -812,6 +812,22 @@ Congratulations, your registration to %s was successful%s See your information b
+         getTitle=strip_ml_tags(registrant.getConference().getTitle())
+         idRegistrant=registrant.getIdPay()
+         detailPayment=registrant.getConference().getModPay().getPaymentDetails()
++
++        msgs = []
++        attachments = []
++        for ePayMod in registrant.getConference().getModPay().getSortedEnabledModPay():
++                try:
++                    msgs.append(ePayMod.getExtraPaymentDetails(registrant))
++                except Exception:
++                    pass
++                try:
++                    attach = ePayMod.getExtraPaymentDetailsAttachment(registrant)
++                    attachments.append(attach)
++                except Exception:
++                    pass
++        detailPayment = detailPayment + "\n".join(msgs)
++        if len(attachments) < 1:
++            attachments = None
+         subject=_("""Payment summary for '%s': %s""")%(strip_ml_tags(registrant.getConference().getTitle()), registrant.getFullName())
+         body= _("""
+ Please use this information for your payment (except for e-payment):\n
+@@ -876,7 +892,11 @@ Please use this information for your payment (except for e-payment):\n
+                 registrant.getConference().getModPay().getPaymentReceiptMsg(),
+                 "\n".join(booking), body, paymentMsg)
+             to=registrant.getEmail().strip()
+-            maildata = { "fromAddr": fromAddr, "toList": [to], "subject": subject, "body": bodyReg }
++            maildata = { "fromAddr": fromAddr,
++                         "toList": [to],
++                         "subject": subject,
++                         "body": bodyReg ,
++                         "attachments": attachments}
+             GenericMailer.send(GenericNotification(maildata))
+ 
+     def sendEmailNewRegistrantConfirmPay(self, regForm,registrant):
+diff --git a/indico/MaKaC/webinterface/mail.py b/indico/MaKaC/webinterface/mail.py
+index f78fedb..43a63e7 100644
+--- a/indico/MaKaC/webinterface/mail.py
++++ b/indico/MaKaC/webinterface/mail.py
+@@ -24,6 +24,7 @@ from MaKaC.common import Config
+ from MaKaC.i18n import _
+ 
+ 
++
+ def getSubjectIndicoTitle():
+     minfo=HelperMaKaCInfo.getMaKaCInfoInstance()
+     systitle="Indico"
+@@ -145,7 +146,7 @@ class GenericNotification :
+         return True
+ 
+     def getAttachments(self):
+-        return self._bodyHTML
++        return self._attachments
+ 
+     def setAttachments(self, attachments):
+         if attachments is None :
+-- 
+1.8.0.1.244.g77b598b
+

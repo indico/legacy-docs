@@ -1,0 +1,104 @@
+= MARCXML Metadata =
+
+== Summary of MARC fields currently exported ==
+
+=== Events ===
+||= Tag =||= Indexes =||= Subfield =||= Content =||
+|| 111 || `__` || a ||  title ||
+|| || || 9 ||  start date/time ||
+|| || || z ||  end date/time ||
+|| || || c ||  location ||
+|| || || g ||  full id ||
+|| 518 || `__` || d ||  start date/time ||
+|| 520 || `__` || a ||  description ||
+|| 653 || 1_ || a ||  keywords ||
+|| 650 || _7 || a ||  full category path ||
+|| || 27 || a ||  event type (conference, meeting or lecture) ||
+|| 856 || 4_ || u ||  link url (can be several) ||
+|| || || y ||  link title (can be several, goes together with 4_u) ||
+|| 961 || `__` || c ||  creation date ||
+|| || || x ||  modification date ||
+|| 970 || `__` || a ||  full id ||
+|| 980 || `__` || a ||  collection (private/public) ||
+
+
+=== Contributions ===
+
+||= Tag =||= Indexes =||= Subfield =||= Content =||
+|| 300 || `__` || a || duration ||
+|| 111 || `__` || g || event id (parent) ||
+|| 035 || `__` || a ||  full id (INDICO.123.s1t2 _> event 123, session 1, contribution 2 - the session number is irrelevant, as contrib ids inside events do not repeat) ||
+|| || || 9 ||  'Indico' ||
+|| 518 || `__` || r || location ||
+|| || || d || start date/time ||
+|| || || h || end date/time ||
+|| 520 || `__` || a || description ||
+|| 611 || 24 || a || event (parent) title ||
+|| 088 || `__` || a || associated report number (can be several) ||
+|| 653 || 1_ || a || keywords ||
+|| 650 || _7 || a || full category path ||
+|| || 17 || 2 || 'SzGeCERN' ||
+|| || || a || title of containing track (if present) ||
+|| 100 || `__` || a || full name of the primary author ||
+|| || || e || role(s) of primary author ("Primary author", "Author", "Speaker") - can be several ||
+|| || || u || affiliation of primary author ||
+|| 700 || `__` || a || full name of author (can be several) ||
+|| || || e || roles of author ("Primary author", "Author", "Speaker") - can be several, goes together with `__`a) ||
+|| || || u || affiliation of author (goes together with `__`a and `__`e) ||
+|| 962 || `__` || b || parent event's full id ||
+|| 970 || `__` || a || full id ||
+|| 980 || `__` || a || collection (private/public) ||
+|| 856 || 4_ || u ||  link url (can be several) ||
+|| || || y ||  link title (can be several, goes together with 4_u) ||
+
+'''together with is info, goes a list of files/links (resources) contained in the contribution - see below'''
+
+
+=== Subcontributions ===
+
+||= Tag =||= Indexes =||= Subfield =||= Content =||
+|| 300 || `__` || a || duration ||
+|| 111 || `__` || g || event id (grandparent) ||
+|| 035 || `__` || a ||  full id (INDICO.123.s1t2.7 _> event 123, session 1, contribution 2, subcontribution 5 - the session number is irrelevant, as contrib ids inside events do not repeat) ||
+|| || || 9 ||  'Indico' ||
+|| 518 || `__` || r || location ||
+|| || || d || start date/time ||
+|| 520 || `__` || a || description ||
+|| 611 || 24 || a || event (grandparent) title ||
+|| 088 || `__` || a || associated report number (can be several) ||
+|| 653 || 1_ || a || keywords ||
+|| 650 || _7 || a || full category path ||
+|| || 17 || 2 || 'SzGeCERN' ||
+|| || || a || title of containing track (if present) ||
+|| 100 || `__` || a || full name of the primary author ||
+|| ||  || e || role(s) of primary author ("Primary author", "Author", "Speaker") - can be several ||
+|| ||  || u || affiliation of primary author ||
+|| 700 || `__` || a || full name of author (can be several) ||
+|| ||  || e || roles of author ("Primary author", "Author", "Speaker") - can be several, goes together with `__`a) ||
+|| ||  || u || affiliation of author (goes together with `__`a and `__`e) ||
+|| 962 || `__` || b || parent event's full id ||
+|| 970 || `__` || a || full id ||
+|| 980 || `__` || a || collection (private/public) ||
+|| 856 || 4_ || u ||  link url (can be several) ||
+|| ||  || y ||  link title (can be several, goes together with 4_u) ||
+
+'''together with is info, goes a list of files/links (resources) contained in the contribution as well as ACL info - see below'''
+
+=== Resources ===
+
+||= Tag =||= Indexes =||= Subfield =||= Content =||
+|| 856 || 4_ || u || URL ||
+|| || || y || title ||
+|| || || x || 'resource' ||
+|| || || s || file size (only for files) ||
+
+=== Resource Access (ACL)===
+
+||= Tag =||= Indexes =||= Subfield =||= Content =||
+|| 506 || `1_` for protected and `0_` for public  || d || group/user name (several) ||
+||  ||   || f || `username` or `group` depending on whether the above `d`'s are one or another ||
+||  ||   || 3 || the resource id the ACL applies to (empty for the record object) ||
+
+=== Deleted Records ===
+
+Independently of the record type, 980`__`c should hold the value "DELETED". No more information is sent in the metadata.

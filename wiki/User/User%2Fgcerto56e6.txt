@@ -1,0 +1,13 @@
+= Giuseppe Certo =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=gcerto,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=gcerto,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=gcerto)]]

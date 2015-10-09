@@ -1,0 +1,13 @@
+= Iason Andriopoulos =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=iandriop, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=iandriop,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=iandriop)]]

@@ -1,0 +1,1288 @@
+From 86f79924f165ff77b682e11ddc1fae7842155603 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Pedersen?= <bjoern.pedersen@frm2.tum.de>
+Date: Wed, 17 Apr 2013 18:42:57 +0200
+Subject: [PATCH 4/4] Add Mailorder payment module
+
+---
+ .../tpls/confirmEPaymentBankTransferInvoice.tpl    |  37 ++
+ .../MaKaC/plugins/EPayment/mailorderCC/__init__.py |  28 ++
+ .../MaKaC/plugins/EPayment/mailorderCC/epayment.py | 414 +++++++++++++++++++++
+ .../mailorderCC/tpls/CancelEPaymentmailorderCC.tpl |   8 +
+ .../tpls/ConfModifEPaymentmailorderCC.tpl          |  28 ++
+ .../tpls/ConfModifEPaymentmailorderCCDataModif.tpl |  31 ++
+ .../tpls/confirmEPaymentmailorderCC.tpl            |  18 +
+ .../tpls/confirmEPaymentmailorderCCInvoice.tpl     |  17 +
+ .../EPayment/mailorderCC/webinterface/__init__.py  |  21 ++
+ .../mailorderCC/webinterface/pages/__init__.py     |  21 ++
+ .../mailorderCC/webinterface/pages/ePayments.py    | 171 +++++++++
+ .../mailorderCC/webinterface/rh/__init__.py        |  37 ++
+ .../mailorderCC/webinterface/rh/ePaymentModif.py   | 155 ++++++++
+ .../mailorderCC/webinterface/urlHandlers.py        |  71 ++++
+ .../mailorderCC/webinterface/wcomponents.py        |  47 +++
+ indico/htdocs/mailorderCC.py                       |  31 ++
+ setup.py                                           |   1 +
+ 17 files changed, 1136 insertions(+)
+ create mode 100644 indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransferInvoice.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/epayment.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/tpls/CancelEPaymentmailorderCC.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCC.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCCDataModif.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCC.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCCInvoice.tpl
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/ePayments.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/__init__.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/ePaymentModif.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/urlHandlers.py
+ create mode 100644 indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/wcomponents.py
+ create mode 100644 indico/htdocs/mailorderCC.py
+
+diff --git a/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransferInvoice.tpl b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransferInvoice.tpl
+new file mode 100644
+index 0000000..8377c1c
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/bankTransfer/tpls/confirmEPaymentBankTransferInvoice.tpl
+@@ -0,0 +1,37 @@
++
++    <table width="60%" align="center" border="0" style="border: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2" style="text-align:center; background:#E5E5E5; color:gray">${ message }</td>
++        </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Account Owner</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountOwner }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Bank</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountBank }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">BLZ</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountBLZ }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Number</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountNumber }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">IBAN</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountIBAN }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">SWIFT</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountSwift }</pre></td>
++    </tr>
++        <tr>
++            <td class="dataCaptionTD"> <span class="dataCaptionFormat">Subject</span></td>
++            <td bgcolor="white" width="100%" class="blacktext"><pre>PK-Nr ${ pknumber} ID ${ id }</pre></td>
++        </tr>
++        <tr>
++            <td align="center" colspan="2" bgcolor="white" style="padding-bottom:10px">${ trinfo }</td>
++        </tr>
++    </table>
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/__init__.py b/indico/MaKaC/plugins/EPayment/mailorderCC/__init__.py
+new file mode 100644
+index 0000000..8038199
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/__init__.py
+@@ -0,0 +1,28 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++__metadata__ = {
++    'type': "EPayment",
++    'name': "mailorderCC"
++    }
++
++MODULE_ID = 'mailorderCC'
++
++modules = {}
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/epayment.py b/indico/MaKaC/plugins/EPayment/mailorderCC/epayment.py
+new file mode 100644
+index 0000000..b1d5f99
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/epayment.py
+@@ -0,0 +1,414 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.epayment import BaseEPayMod, BaseTransaction
++import MaKaC.webinterface.urlHandlers as urlHandlers
++from MaKaC.webinterface.common.tools import strip_ml_tags
++import tempfile, os
++
++from MaKaC.plugins.EPayment.mailorderCC.webinterface import urlHandlers as localUrlHandlers
++from MaKaC.plugins.EPayment.mailorderCC import MODULE_ID
++
++try :
++    from PIL import Image
++except ImportError, e:
++    from MaKaC.PDFinterface.base import Image
++from MaKaC.PDFinterface.base import escape, Int2Romans
++from datetime import timedelta, datetime
++from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
++from reportlab.lib.units import inch, cm
++from reportlab.lib import colors
++from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT, TA_RIGHT
++from reportlab.rl_config import defaultPageSize
++from reportlab.platypus import Table, TableStyle, KeepTogether, XPreformatted
++from reportlab.pdfgen import canvas
++from MaKaC.common.timezoneUtils import DisplayTZ, nowutc
++from MaKaC.registration import Registrant
++from MaKaC.PDFinterface.base import PDFBase, Paragraph, Spacer, PageBreak, Preformatted, FileDummy, setTTFonts, PDFSizes, modifiedFontSize, SimpleParagraph
++from reportlab.lib.pagesizes import landscape, A4
++from MaKaC.webinterface.common.tools import strip_ml_tags
++import re
++from MaKaC.i18n import _
++from indico.util.i18n import i18nformat
++from MaKaC.common import Config
++
++class mailorderCCMod(BaseEPayMod):
++    _accountOwner = ""
++
++    def __init__(self, data=None):
++        BaseEPayMod.__init__(self)
++        self._title = "Credit card by mailorder"
++        self._detailPayment = ""
++        self._accountOwner = ""
++        self._pknumber = ""
++        self._faxreceiver = ""
++        self._mailreceiver = ""
++        if data is not None:
++            self.setValues(data)
++        self._id = "mailorderCC"
++
++    def getId(self):
++        try:
++            if self._id:
++                pass
++        except AttributeError, e:
++            self._id = "mailorderCC"
++        return self._id
++
++    def clone(self, newSessions):
++        sesf = mailorderCCMod()
++        sesf.setTitle(self.getTitle())
++
++
++        return sesf
++
++    def setValues(self, data):
++        try:
++            self.setTitle(data.get("title", "epayment"))
++            self.setdetailPayment(data.get("detailPayment", ""))
++            self.setAccountOwner(data.get("accountOwner", ""))
++            self.setPKNumber(data.get("pknumber", ""))
++            self.setFaxReceiver(data.get("faxreceiver", ""))
++            self.setMailReceiver(data.get("mailreceiver", ""))
++        except:
++            pass
++    def getNewTempFile(self):
++        cfg = Config.getInstance()
++        tempPath = cfg.getUploadedFilesTempDir()
++        tempFile = tempfile.mkstemp( prefix='mailordercc', suffix=".pdf", dir = tempPath )
++        return tempFile
++
++    def getExtraPaymentDetailsAttachment(self, registrant):
++
++        (handle, path) = self.getNewTempFile()
++        fil = os.fdopen(handle, 'wb')
++        data = MailorderToPDF(registrant).getPDFBin()
++        fil.write(data)
++        fil.close()
++        return ('application/pdf', 'mailordercc.pdf', path)
++
++
++    def getExtraPaymentDetailsHTML(self, registrant):
++
++        txt = """<p> Please check the attached pdf for info how to pay by  
++        credit card via mailorder</p>"""
++        return txt
++
++    def getExtraPaymentDetails(self, registrant):
++        txt = """\n\n\tPlease check the attached pdf for info how to pay by  
++        credit card via mailorder.\n"""
++        return txt
++
++    def getdetailPayment(self):
++        return self._detailPayment
++    def setdetailPayment(self, detailPayment):
++        self._detailPayment = detailPayment
++
++    def getAccountOwner(self):
++        return self._accountOwner
++    def setAccountOwner(self, accountOwner):
++        self._accountOwner = accountOwner
++
++    def getPKNumber(self):
++        return self._pknumber
++    def setPKNumber(self, pknumber):
++        self._pknumber = pknumber
++
++    def getFaxReceiver(self):
++        if hasattr(self, '_faxreceiver'):
++            return self._faxreceiver
++        return ''
++    def setFaxReceiver(self, Receiver):
++        self._faxreceiver = Receiver
++    def getMailReceiver(self):
++        if hasattr(self, '_mailreceiver'):
++            return self._mailreceiver
++        return ''
++    def setMailReceiver(self, Receiver):
++        self._mailreceiver = Receiver
++
++    def getTitle(self):
++        return self._title
++    def setTitle(self, title):
++        self._title = title
++
++    def getUrl(self, registrant):
++        return localUrlHandlers.UHPayConfirmmailorderCC.getURL(registrant)
++
++    def getFormHTML(self, prix, Currency, conf, registrant, lang="en_GB", secure=False):
++        url_return = localUrlHandlers.UHPayConfirmmailorderCC.getURL(registrant)
++        url_cancel_return = localUrlHandlers.UHPayCancelmailorderCC.getURL(registrant)
++        url_notify = localUrlHandlers.UHPayParamsmailorderCC.getURL(registrant)
++        s = """ <form action="%s" method="POST" id="%s">
++                        <input type="hidden" name="cmd" value="_xclick">
++                        <input type="hidden" name="item_name" value="%s">
++                        <input type="hidden" name="amount" value="%s">
++                        <INPUT TYPE="hidden" NAME="currency_code" value="%s">
++                        <input type="hidden" name="charset" value="utf-8">
++                        <input type="hidden" name="return" value="%s">
++                        <input type="hidden" name="cancel_return" value="%s">
++                        <input type="hidden" name="notify_url" value="%s">
++                   </form>
++                       """ % (self.getUrl(registrant), self.getId(), "%s: registration for %s" % (registrant.getFullName(), strip_ml_tags(conf.getTitle())), prix, Currency, \
++                            url_return, url_cancel_return, url_notify)
++        #s=cgi.escape(s)
++        return s
++
++    def getConfModifEPaymentURL(self, conf):
++        return localUrlHandlers.UHConfModifEPaymentmailorderCC.getURL(conf)
++
++
++
++class TransactionmailorderCCMod(BaseTransaction):
++
++    def __init__(self, parms):
++        BaseTransaction.__init__(self)
++        self._Data = parms
++
++    def isChangeable(self): return True
++
++    def getId(self):
++        try:
++            if self._id:
++                pass
++        except AttributeError, e:
++            self._id = "mailorderCC"
++        return self._id
++
++    def getTransactionHTML(self):
++        payMod = getPayMod()
++        return"""<table>
++                          <tr>
++                            <td align="right"><b>Payment with:</b></td>
++                            <td align="left">Credit card by mailorder</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>OrderTotal:</b></td>
++                            <td align="left">%s %s</td>
++                          </tr>
++                          <tr><td>%s</td></tr>
++                        </table>%s""" % (self._Data["OrderTotal"], \
++                             self._Data["Currency"], self._Data["payer_id"], payMod.getdetailPayment())
++
++
++class TransactionmailorderCC(BaseTransaction):
++
++    def __init__(self, parms):
++        BaseTransaction.__init__(self)
++        self._Data = parms
++
++
++    def getId(self):
++        try:
++            if self._id:
++                pass
++        except AttributeError, e:
++            self._id = "mailorderCC"
++        return self._id
++
++    def getTransactionHTML(self):
++        payMod = getPayMod()
++        return"""<table>
++                          <tr>
++                            <td align="right"><b>Payment with:</b></td>
++                            <td align="left">Credit card by mailorder</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>Payment Date:</b></td>
++                            <td align="left">%s</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>Payment ID:</b></td>
++                            <td align="left">%s</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>Order Total:</b></td>
++                            <td align="left">%s %s</td>
++                          </tr>
++                          <tr>
++                            <td align="right"><b>verify sign:</b></td>
++                            <td align="left">%s</td>
++                          </tr>
++                              <tr>
++        <td align="right"><b>account Owner</b></td>
++        <td align="left">%s</td>
++    </tr>
++        <tr>
++            <td align="right"><b>Subject</b></td>
++            <td align="left">PK-Nr %s ID %s</td>
++        </tr>
++
++                        </table>""" % ("", self._Data["payer_id"], self._Data["mc_gross"], \
++                             self._Data["mc_currency"], self._Data["verify_sign"],
++                             payMod.getAccountOwner(),
++                             payMod.getPKNumber(), self._Data["payer_id"])
++
++    def getTransactionTxt(self):
++        payMod = getPayMod()
++
++
++        return"""
++\tPayment with:mailorderCC\n
++\tPayment Date:%s\n
++\tPayment ID:%s\n
++\tOrder Total:%s %s\n
++\tverify sign:%s\n
++\n
++\tAccount Owner: %s\n
++\tSubject: PK-Nr %s  ID %s\n
++""" % ("", self._Data["payer_id"], self._Data["mc_gross"], \
++                             self._Data["mc_currency"], self._Data["verify_sign"],
++                             payMod.getAccountOwner(),
++                             payMod.getPKNumber(), self._Data["payer_id"])
++
++
++
++def getPayMod():
++    return mailorderCCMod()
++
++def getPayModClass():
++    return mailorderCCMod
++
++
++class MailorderToPDF(PDFBase):
++
++    def __init__(self, registrant):
++        self._registrant = registrant
++        story = [Spacer(1 * cm, 1 * cm)]
++        doc = None
++        PDFBase.__init__(self, doc, story)
++        self._title = _("params")
++        self._PAGE_HEIGHT = defaultPageSize[1]
++        self._PAGE_WIDTH = defaultPageSize[0]
++        self.paymod = self._registrant.getConference().getModPay().getPayModByTag('mailorderCC')
++        self.paymod.setValues(self._registrant.getConference())
++        self._fontsize = 'normal'
++        self.style0 = ParagraphStyle({})
++        self.style0.fontName = "Helvetica"
++        self.style0.alignment = TA_LEFT
++        self.style1 = ParagraphStyle({})
++        self.style1.fontName = "Helvetica-Bold"
++        self.style1.fontSize = modifiedFontSize(24, self._fontsize)
++        self.style1.leading = modifiedFontSize(36, self._fontsize)
++        self.style1.alignment = TA_CENTER
++        self.style2 = ParagraphStyle({})
++        self.style2.fontName = "Helvetica"
++        self.style2.fontSize = modifiedFontSize(14, self._fontsize)
++        self.style2.leading = modifiedFontSize(20, self._fontsize)
++        self.style2.alignment = TA_CENTER
++
++    def getBody(self, story=None, indexedFlowable={}, level=1):
++        if not story:
++            story = self._story
++
++        #style = ParagraphStyle({})
++        #style.fontSize = 12
++        sdate = self._registrant.getConference().getStartDate()
++        edate = self._registrant.getConference().getEndDate()
++        cLoc = self._registrant.getConference().getLocation().getName()
++        cTitle = strip_ml_tags(self._registrant.getConference().getTitle())
++
++
++        regfullname = self._registrant.getFullName()
++        institut = self._registrant.getInstitution()
++        address = self._registrant.getAddress()
++        email = self._registrant.getEmail()
++        city = self._registrant.getCity()
++        country = self._registrant.getCountry()
++        fax = self._registrant.getFax()
++        total = self._registrant.getTotal()
++        idRegistrant = self._registrant.getIdPay()
++        #text = i18nformat(""" _("Abstract ID") : %s""")%self._abstract.getId()
++        #p = Paragraph(text, style, part=escape(self._abstract.getTitle()))
++        p = Paragraph(sdate.strftime('%d. %B %Y') + '-' + edate.strftime('%d. %B %Y'), self.style2)
++        story.append(p)
++        p = Paragraph(cTitle, self.style1)
++        story.append(p)
++        p = Paragraph(cLoc, self.style2)
++        story.append(p)
++        story.append(Spacer(cm, cm))
++        p = Paragraph("Dear %s," % regfullname, self.style0)
++        story.append(p)
++        p = Paragraph("Thank you for signing up for %s. "
++                     "We have received the following information:" % cTitle, self.style0)
++        story.append(p)
++        story.append(Spacer(1 * cm, 1 * cm))
++        tableInfo = []
++        tableInfo.append(['Name', regfullname])
++        tableInfo.append(['Institut', institut])
++        tableInfo.append(['Address', address])
++        tableInfo.append(['city', city])
++        tableInfo.append(['Country', country])
++        tableInfo.append(['e-mail', email])
++        tableInfo.append(['FAX', fax])
++        tableInfo.append(['Total', total])
++        tableInfo.append(['Registration-ID', idRegistrant])
++
++        t = Table(tableInfo)
++        t.setStyle(TableStyle([('ALIGN', (-1, 0), (-1, -1), 'RIGHT'),
++                               ('ALIGN', (0, 0), (0, -1), 'LEFT'),
++                               ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
++                               ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
++                       ]))
++
++        story.append(t)
++        story.append(Spacer(cm, cm))
++        self.getCCBlock()
++
++    def getCCBlock(self):
++
++
++        p = Paragraph("Credit card", self.style2)
++        self._story.append(p)
++        p = Paragraph (
++"""Payment by credit card can only be accepted if  required data are complete 
++and the form is sent either by fax to:""", self.style0)
++        self._story.append(p)
++        p = Paragraph("* %s" % self.paymod.getFaxReceiver(), self.style0)
++        self._story.append(p)
++        p = Paragraph("or by post to:", self.style0)
++        self._story.append(p)
++        p = Paragraph("* %s" % self.paymod.getMailReceiver(), self.style0)
++        self._story.append(p)
++
++        p = Paragraph('Credit card details received via email/internet cannot be accepted.', self.style0)
++        self._story.append(p)
++        self._story.append(Spacer(1 * cm, 1 * cm))
++        tInfo = [
++            ['Credit card company', '[ ] Mastercard     [ ] Visa (we cannot accept other cards)'],
++            ['Credit card number (16 digits)', ''],
++            ['Security code (3 or 4 digits)', ''],
++            ['Valid through (mm/yyyy)', ''],
++            ['Name of card holder', ''],
++            ['Address of card holder', ''],
++            ['Amount', str(self._registrant.getTotal()) + '€'],
++            ['Signature of the cardholder', '']]
++        t = Table(tInfo)
++        t.setStyle(TableStyle([('ALIGN', (-1, 0), (-1, -1), 'RIGHT'),
++                               ('ALIGN', (0, 0), (0, -1), 'LEFT'),
++                               ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
++                               ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
++                       ]))
++        self._story.append(t)
++
++
++
++    def firstPage(self, c, doc):
++        return
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/CancelEPaymentmailorderCC.tpl b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/CancelEPaymentmailorderCC.tpl
+new file mode 100644
+index 0000000..69f1221
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/CancelEPaymentmailorderCC.tpl
+@@ -0,0 +1,8 @@
++    <table width="60%" align="center" border="0" style="border: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2" style="text-align:center; background:#E5E5E5; color:gray">${ message }</td>
++        </tr>
++        <tr>
++            <td align="center" colspan="2" bgcolor="white" style="padding-bottom:10px">${ messagedetailPayment }</td>
++        </tr>
++    </table>
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCC.tpl b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCC.tpl
+new file mode 100644
+index 0000000..86efb57
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCC.tpl
+@@ -0,0 +1,28 @@
++<table width="90%" align="left" border="0">
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Title</span></td>
++        <td bgcolor="white" width="100%" class="blacktext">${ title }</td>
++        <form action=${ dataModificationURL } method="POST">
++        <td rowspan="3" valign="bottom" align="right">
++            <input type="submit" value="modify">
++        </td>
++        </form>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Account Owner</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountOwner }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">PK-Number</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ pknumber }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Fax receiver</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ faxreceiver }</pre></td>
++    </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Mail receiver</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ mailreceiver }</pre></td>
++    </tr>
++    <tr><td>&nbsp;</td></tr>
++</table>
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCCDataModif.tpl b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCCDataModif.tpl
+new file mode 100644
+index 0000000..0d23d8b
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/ConfModifEPaymentmailorderCCDataModif.tpl
+@@ -0,0 +1,31 @@
++<form action=${ postURL } method="POST">
++    <table width="80%" align="center" border="0" style="border-left: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2">Configuration of Credit card by mailorder</td>
++        </tr>
++        <tr>
++            <td nowrap class="dataCaptionTD"><span class="titleCellFormat">Title</span></td>
++            <td align="left"><input type="text" name="title" size="60" value="${ title }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat">Account Owner</span></td>
++            <td align="left"><input type="text" name="accountOwner" size="90" value="${ accountOwner }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat">Fax receiver</span></td>
++            <td align="left"><input type="text" name="faxreceiver" size="120" value="${ faxreceiver }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat">Mail receiver</span></td>
++            <td align="left"><input type="text" name="mailreceiver" size="120" value="${ mailreceiver }"></td>
++        </tr>
++        <tr>
++            <td class="dataCaptionTD"><span class="dataCaptionFormat">PK-Number</span></td>
++            <td align="left"><input type="text" name="pknumber" size="60" value="${ pknumber }"></td>
++        </tr>
++        <tr><td>&nbsp;</td></tr>
++        <tr>
++            <td colspan="2" align="left"><input type="submit" value="OK">&nbsp;<input type="submit" value="cancel" name="cancel"></td>
++        </tr>
++    </table>
++</form>
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCC.tpl b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCC.tpl
+new file mode 100644
+index 0000000..23e8303
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCC.tpl
+@@ -0,0 +1,18 @@
++
++    <table width="60%" align="center" border="0" style="border: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2" style="text-align:center; background:#E5E5E5; color:gray">${ message }</td>
++        </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Account Owner</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountOwner }</pre></td>
++    </tr>
++        <tr>
++            <td class="dataCaptionTD"> <span class="dataCaptionFormat">Subject</span></td>
++            <td bgcolor="white" width="100%" class="blacktext"><pre>PK-Nr ${ pknumber} ID ${ id }</pre></td>
++        </tr>
++        <tr>
++            <td align="center" colspan="2" bgcolor="white" style="padding-bottom:10px">${ trinfo }</td>
++        </tr>
++        <tr><t></td><td><a href=${ pdfurl } >Download mailorder form</a></td></tr>
++    </table>
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCCInvoice.tpl b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCCInvoice.tpl
+new file mode 100644
+index 0000000..aab3d6c
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/tpls/confirmEPaymentmailorderCCInvoice.tpl
+@@ -0,0 +1,17 @@
++
++    <table width="60%" align="center" border="0" style="border: 1px solid #777777">
++        <tr>
++            <td class="groupTitle" colspan="2" style="text-align:center; background:#E5E5E5; color:gray">${ message }</td>
++        </tr>
++    <tr>
++        <td class="dataCaptionTD"><span class="dataCaptionFormat">Account Owner</span></td>
++        <td bgcolor="white" width="100%" class="blacktext"><pre>${ accountOwner }</pre></td>
++    </tr>
++       <tr>
++            <td class="dataCaptionTD"> <span class="dataCaptionFormat">Subject</span></td>
++            <td bgcolor="white" width="100%" class="blacktext"><pre>PK-Nr ${ pknumber} ID ${ id }</pre></td>
++        </tr>
++        <tr>
++            <td align="center" colspan="2" bgcolor="white" style="padding-bottom:10px">${ trinfo }</td>
++        </tr>
++    </table>
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/__init__.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/__init__.py
+new file mode 100644
+index 0000000..46ad351
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/__init__.py
+@@ -0,0 +1,21 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++modules = {}
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/__init__.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/__init__.py
+new file mode 100644
+index 0000000..46ad351
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/__init__.py
+@@ -0,0 +1,21 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++modules = {}
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/ePayments.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/ePayments.py
+new file mode 100644
+index 0000000..adc0e99
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/pages/ePayments.py
+@@ -0,0 +1,171 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++import MaKaC.webinterface.pages.conferences as conferences
++import MaKaC.webinterface.pages.registrationForm as registrationForm
++from MaKaC.webinterface import wcomponents
++from xml.sax.saxutils import quoteattr
++from MaKaC.common import Configuration
++from MaKaC.webinterface import urlHandlers
++import MaKaC
++from MaKaC.i18n import _
++
++
++from MaKaC.plugins.EPayment.mailorderCC import MODULE_ID
++from MaKaC.plugins.EPayment.mailorderCC.webinterface.wcomponents import WTemplated
++from MaKaC.plugins.EPayment.mailorderCC.webinterface import urlHandlers as localUrlHandlers
++
++
++
++class WPConfModifEPaymentmailorderCCBase(registrationForm.WPConfModifRegFormBase):
++
++    def _createTabCtrl(self):
++        self._tabCtrl = wcomponents.TabControl()
++        self._tabMain = self._tabCtrl.newTab("main", _("Main"), \
++                localUrlHandlers.UHConfModifEPaymentmailorderCC.getURL(self._conf))
++        wf = self._rh.getWebFactory()
++        if wf:
++            wf.customiseTabCtrl(self._tabCtrl)
++        self._setActiveTab()
++
++    def _setActiveTab(self):
++        pass
++
++    def _setActiveSideMenuItem(self):
++        self._regFormMenuItem.setActive(True)
++
++    def _getPageContent(self, params):
++        self._createTabCtrl()
++        banner = wcomponents.WEpaymentBannerModif(self._conf.getModPay().getPayModByTag(MODULE_ID), self._conf).getHTML()
++        html = wcomponents.WTabControl(self._tabCtrl, self._getAW()).getHTML(self._getTabContent(params))
++        return banner + html
++
++    def _getTabContent(self, params):
++        return "nothing"
++
++class WPConfModifEPaymentmailorderCC(WPConfModifEPaymentmailorderCCBase):
++
++    def _getTabContent(self, params):
++        wc = WConfModifEPaymentmailorderCC(self._conf)
++        p = {
++             'dataModificationURL': quoteattr(str(localUrlHandlers.UHConfModifEPaymentmailorderCCDataModif.getURL(self._conf)))
++            }
++        return wc.getHTML(p)
++
++class WConfModifEPaymentmailorderCC(WTemplated):
++
++    def __init__(self, conference):
++        self._conf = conference
++
++    def getVars(self):
++        vars = WTemplated.getVars(self)
++        modmailorderCC = self._conf.getModPay().getPayModByTag(MODULE_ID)
++        vars["title"] = modmailorderCC.getTitle()
++        vars["accountOwner"] = modmailorderCC.getAccountOwner()
++        vars["pknumber"] = modmailorderCC.getPKNumber()
++        vars["faxreceiver"] = modmailorderCC.getFaxReceiver()
++        vars["mailreceiver"] = modmailorderCC.getMailReceiver()
++        return vars
++
++class WPConfModifEPaymentmailorderCCDataModif(WPConfModifEPaymentmailorderCCBase):
++
++    def _getTabContent(self, params):
++        wc = WConfModifEPaymentmailorderCCDataModif(self._conf)
++        p = {'postURL': quoteattr(str(localUrlHandlers.UHConfModifEPaymentmailorderCCPerformDataModif.getURL(self._conf)))
++            }
++        return wc.getHTML(p)
++
++class WConfModifEPaymentmailorderCCDataModif(WTemplated):
++
++    def __init__(self, conference):
++        self._conf = conference
++
++    def getVars(self):
++        vars = WTemplated.getVars(self)
++        modmailorderCC = self._conf.getModPay().getPayModByTag(MODULE_ID)
++        vars["title"] = modmailorderCC.getTitle()
++        vars["accountOwner"] = modmailorderCC.getAccountOwner()
++        vars["pknumber"] = modmailorderCC.getPKNumber()
++        vars["faxreceiver"] = modmailorderCC.getFaxReceiver()
++        vars["mailreceiver"] = modmailorderCC.getMailReceiver()
++        return vars
++
++class WPconfirmEPaymentmailorderCC(conferences.WPConferenceDefaultDisplayBase):
++    #navigationEntry = navigation.NERegistrationFormDisplay
++
++    def __init__(self, rh, conf, reg):
++        conferences.WPConferenceDefaultDisplayBase.__init__(self, rh, conf)
++        self._registrant = reg
++
++
++    def _getBody(self, params):
++        wc = WconfirmEPaymentmailorderCC(self._conf, self._registrant)
++        return wc.getHTML()
++
++    def _defineSectionMenu(self):
++        conferences.WPConferenceDefaultDisplayBase._defineSectionMenu(self)
++        self._sectionMenu.setCurrentItem(self._regFormOpt)
++
++
++class WconfirmEPaymentmailorderCC(WTemplated):
++    def __init__(self, configuration, registrant):
++        self._registrant = registrant
++        self._conf = configuration
++
++    def getVars(self):
++        vars = WTemplated.getVars(self)
++        modmailorderCC = self._conf.getModPay().getPayModByTag(MODULE_ID)
++        vars["message"] = "Thank you for the payment!<br/> You have choosen payment by mailorderCC<br>"\
++                          "Please see the information below for details."
++        vars["accountOwner"] = modmailorderCC.getAccountOwner()
++        vars["pknumber"] = modmailorderCC.getPKNumber()
++        vars["faxreceiver"] = modmailorderCC.getFaxReceiver()
++        vars["mailreceiver"] = modmailorderCC.getMailReceiver()
++        vars["id"] = self._registrant.getIdPay()
++        vars["trinfo"] = "%s:%s" % (self._registrant.getFirstName(), self._registrant.getSurName())
++        vars['pdfurl'] = quoteattr(str(localUrlHandlers.UHPayMailorderCCDisplayPDF.getURL(self._registrant)))
++
++        return vars
++
++class WPCancelEPaymentmailorderCC(conferences.WPConferenceDefaultDisplayBase):
++    #navigationEntry = navigation.NERegistrationFormDisplay
++
++    def __init__(self, rh, conf, reg):
++        conferences.WPConferenceDefaultDisplayBase.__init__(self, rh, conf)
++        self._registrant = reg
++
++    def _getBody(self, params):
++        wc = WCancelEPaymentmailorderCC(self._conf, self._registrant)
++        return wc.getHTML()
++
++    def _defineSectionMenu(self):
++        conferences.WPConferenceDefaultDisplayBase._defineSectionMenu(self)
++        self._sectionMenu.setCurrentItem(self._regFormOpt)
++
++class WCancelEPaymentmailorderCC(WTemplated):
++    def __init__(self, conference, reg):
++        self._conf = conference
++        self._registrant = reg
++
++    def getVars(self):
++        vars = WTemplated.getVars(self)
++        vars["message"] = "You have cancelled your transaction.\nPlease check your email in order to complete your mailorderCC transaction."
++        vars["messagedetailPayment"] = "%s:%s" % (self._registrant.getFirstName(), self._registrant.getSurName())
++        return vars
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/__init__.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/__init__.py
+new file mode 100644
+index 0000000..1fe3d4d
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/__init__.py
+@@ -0,0 +1,37 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++modules = {}
++
++
++
++def getRHByTag(self, tag):
++    """Do the link between url handlers and request handlers"""
++    for mod in self.modules.values():
++        for RH in mod.__dict__.keys():
++            try:
++                if mod.__dict__[RH]._requestTag == tag:
++                    return mod.__dict__[RH]
++            except:
++                pass
++
++
++def preprocessParams(params):
++    return True
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/ePaymentModif.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/ePaymentModif.py
+new file mode 100644
+index 0000000..9e62e8a
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/rh/ePaymentModif.py
+@@ -0,0 +1,155 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.webinterface.rh.ePaymentModif import RHEPaymentModifBase, RHConferenceBaseDisplay, RHRegistrationFormDisplayBase
++import MaKaC.webinterface.urlHandlers as urlHandlers
++from datetime import datetime
++from MaKaC.common.timezoneUtils import nowutc
++from MaKaC.common import Config
++
++from MaKaC.plugins.EPayment.mailorderCC.webinterface.pages import ePayments
++from MaKaC.plugins.EPayment.mailorderCC.webinterface import urlHandlers as localUrlHandlers
++from MaKaC.plugins.EPayment.mailorderCC import epayment as ePayment
++from MaKaC.plugins.EPayment.mailorderCC import MODULE_ID
++from MaKaC.webinterface.common.tools import cleanHTMLHeaderFilename
++
++
++class RHEPaymentmodifmailorderCC( RHEPaymentModifBase ):
++    _requestTag = "modifmailorderCC"
++
++    def _process( self ):
++        p = ePayments.WPConfModifEPaymentmailorderCC( self, self._conf )
++        return p.display()
++
++class RHEPaymentmodifmailorderCCDataModif( RHEPaymentModifBase ):
++    _requestTag = "modifmailorderCCData"
++
++    def _process( self ):
++        p = ePayments.WPConfModifEPaymentmailorderCCDataModif( self, self._conf )
++        return p.display()
++
++class RHEPaymentmodifmailorderCCPerformDataModif( RHEPaymentModifBase ):
++    _requestTag = "modifmailorderCCPerformDataModif"
++
++    def _checkParams( self, params ):
++        RHEPaymentModifBase._checkParams( self, params )
++        self._params=params
++        self._cancel = params.has_key("cancel")
++
++    def _process( self ):
++        if not self._cancel:
++            ses = self._conf.getModPay().getPayModByTag(MODULE_ID)
++            ses.setValues(self._params)
++        self._redirect(localUrlHandlers.UHConfModifEPaymentmailorderCC.getURL(self._conf))
++
++
++
++
++
++class RHEPaymentconfirmmailorderCC( RHRegistrationFormDisplayBase ):
++    _requestTag = "confirm"
++
++    def _checkParams( self, params ):
++        RHRegistrationFormDisplayBase._checkParams( self, params )
++        self._registrant=None
++        regId= params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _processIfActive( self ):
++        if self._registrant is not None:
++            p = ePayments.WPconfirmEPaymentmailorderCC( self,self._conf,self._registrant)
++            return p.display()
++
++class RHAbstractDisplayPDF( RHRegistrationFormDisplayBase ):
++    _requestTag = 'pdf'
++
++    def _checkParams( self, params ):
++        RHRegistrationFormDisplayBase._checkParams( self, params )
++        self._registrant=None
++        regId= params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _process( self ):
++        filename = "%sMailorderCCForm.pdf"%self._target.getTitle()
++        pdf = ePayment.MailorderToPDF(self._registrant)
++        data = pdf.getPDFBin()
++        #self._req.headers_out["Accept-Ranges"] = "bytes"
++        self._req.headers_out["Content-Length"] = "%s"%len(data)
++        cfg = Config.getInstance()
++        mimetype = cfg.getFileTypeMimeType( "PDF" )
++        self._req.content_type = """%s"""%(mimetype)
++        self._req.headers_out["Content-Disposition"] = """inline; filename="%s\""""%cleanHTMLHeaderFilename(filename)
++        return data
++    
++class RHEPaymentCancelmailorderCC( RHRegistrationFormDisplayBase ):
++    _requestTag = "cancel"
++
++    def _checkParams( self, params ):
++        RHRegistrationFormDisplayBase._checkParams( self, params )
++        self._registrant=None
++        regId=params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _processIfActive( self ):
++        if self._registrant is not None:
++            p = ePayments.WPCancelEPaymentmailorderCC( self,self._conf ,self._registrant)
++            return p.display()
++
++
++class RHEPaymentValideParammailorderCC( RHConferenceBaseDisplay ):
++    _requestTag = "params"
++
++    def _checkParams( self, params ):
++        RHConferenceBaseDisplay._checkParams(self, params)
++        self._regForm = self._conf.getRegistrationForm()
++        self._params=params
++        self._registrant=None
++        regId=params.get("registrantId","")
++        if regId is not None:
++            self._registrant=self._conf.getRegistrantById(regId)
++
++    def _checkProtection(self):
++        # Just bypass everything else, as we want the payment service
++        # to acknowledge the payment
++        pass
++
++    def _process( self ):
++        regForm = self._conf.getRegistrationForm()
++        if not regForm.isActivated() or not self._conf.hasEnabledSection("regForm"):
++            p = regForm.WPRegFormInactive( self, self._conf )
++            return p.display()
++        else:
++            if self._registrant is not None:
++                #self._registrant.setPayed(True)
++                d={}
++                #d["payment_date"]=nowutc()
++                d["payer_id"]=self._params.get("payer_id")
++                d["mc_currency"]=self._params.get("mc_currency")
++                d["mc_gross"]=self._params.get("mc_gross")
++                d["verify_sign"]=self._params.get("verify_sign")
++                tr=ePayment.TransactionmailorderCC(d)
++                self._registrant.setTransactionInfo(tr)
++                self._regForm.getNotification().sendEmailNewRegistrantConfirmPay(self._regForm,self._registrant )
++
++
++
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/urlHandlers.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/urlHandlers.py
+new file mode 100644
+index 0000000..6b7aafd
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/urlHandlers.py
+@@ -0,0 +1,71 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.webinterface.urlHandlers import URLHandler as MainURLHandler
++from MaKaC.plugins.EPayment import mailorderCC
++
++class EPURLHandler(MainURLHandler):
++    
++    _requestTag = ""
++    
++    def getURL( cls, target=None ):
++        """Gives the full URL for the corresponding request handler. In case
++            the target parameter is specified it will append to the URL the 
++            the necessary parameters to make the target be specified in the url.
++            
++            Parameters:
++                target - (Locable) Target object which must be uniquely 
++                    specified in the URL so the destination request handler
++                    is able to retrieve it. 
++        """
++        #url = MainURLHandler.getURL(target)
++        url = cls._getURL()
++        if target is not None:
++            url.setParams( target.getLocator() )
++        url.addParam( "EPaymentName",  mailorderCC.MODULE_ID)
++        url.addParam( "requestTag", cls._requestTag )
++        return url
++    getURL = classmethod( getURL )
++
++class UHConfModifEPayment(EPURLHandler):
++    _relativeURL = "confModifEpayment.py/modifModule"
++
++class UHConfModifEPaymentmailorderCC( UHConfModifEPayment ):
++    _requestTag = "modifmailorderCC"  
++class UHConfModifEPaymentmailorderCCDataModif( UHConfModifEPayment ):
++    _requestTag = "modifmailorderCCData"    
++class UHConfModifEPaymentmailorderCCPerformDataModif( UHConfModifEPayment ):
++    _requestTag = "modifmailorderCCPerformDataModif"   
++
++
++class UHPay(EPURLHandler):
++    _relativeURL = "payment.py"
++
++class UHPayConfirmmailorderCC( UHPay ):
++    _requestTag = "confirm"      
++
++class UHPayCancelmailorderCC( UHPay ):
++    _requestTag = "cancel"        
++
++class UHPayParamsmailorderCC( UHPay ):
++    _requestTag = "params"  
++
++class UHPayMailorderCCDisplayPDF( UHPay ):
++    _requestTag = "pdf"  
+diff --git a/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/wcomponents.py b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/wcomponents.py
+new file mode 100644
+index 0000000..02b84ca
+--- /dev/null
++++ b/indico/MaKaC/plugins/EPayment/mailorderCC/webinterface/wcomponents.py
+@@ -0,0 +1,47 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++from MaKaC.webinterface import wcomponents
++import os
++import MaKaC.common.Configuration as Configuration
++
++from MaKaC.plugins.EPayment import mailorderCC
++
++class WTemplated(wcomponents.WTemplated):
++
++    def _setTPLFile(self):
++        """Sets the TPL (template) file for the object. It will try to get
++            from the configuration if there's a special TPL file for it and
++            if not it will look for a file called as the class name+".tpl"
++            in the configured TPL directory.
++        """
++        cfg = Configuration.Config.getInstance()
++
++        dir = os.path.join(mailorderCC.__path__[0], "tpls")
++        file = cfg.getTPLFile( self.tplId )
++        if file == "":
++            file = "%s.tpl"%self.tplId
++        self.tplFile = os.path.join(dir, file)
++
++        hfile = self._getSpecificTPL(os.path.join(dir,'chelp'),
++                                     self.tplId,
++                                     extension='wohl')
++
++        self.helpFile = os.path.join(dir,'chelp',hfile)
+diff --git a/indico/htdocs/mailorderCC.py b/indico/htdocs/mailorderCC.py
+new file mode 100644
+index 0000000..e5f6eee
+--- /dev/null
++++ b/indico/htdocs/mailorderCC.py
+@@ -0,0 +1,31 @@
++# -*- coding: utf-8 -*-
++##
++##
++## This file is part of CDS Indico.
++## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
++##
++## CDS Indico is free software; you can redistribute it and/or
++## modify it under the terms of the GNU General Public License as
++## published by the Free Software Foundation; either version 2 of the
++## License, or (at your option) any later version.
++##
++## CDS Indico is distributed in the hope that it will be useful, but
++## WITHOUT ANY WARRANTY; without even the implied warranty of
++## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++## General Public License for more details.
++##
++## You should have received a copy of the GNU General Public License
++## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
++## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
++
++import MaKaC.webinterface.rh.ePaymentModif as ePaymentModif
++def confirm(req, **params):
++    return ePaymentModif.RHEPaymentConfirmmailorderCC( req ).process( params )
++
++def cancel(req, **params):
++    return ePaymentModif.RHEPaymentCancelmailorderCC ( req ).process( params )
++def pdf(req, **params):
++    return ePaymentModif.RHAbstractDisplayPDF( req ).process( params )
++
++def getAttachedFile(req,**params):
++    return ePaymentModif.RHGetAttachedFile(req).process(params)
+\ No newline at end of file
+diff --git a/setup.py b/setup.py
+index 71936b9..9292200 100644
+--- a/setup.py
++++ b/setup.py
+@@ -533,6 +533,7 @@ if __name__ == '__main__':
+             EPayment.yellowPay = MaKaC.plugins.EPayment.yellowPay
+             EPayment.skipjack = MaKaC.plugins.EPayment.skipjack
+             EPayment.bankTransfer = MaKaC.plugins.EPayment.bankTransfer
++            EPayment.mailorderCC = MaKaC.plugins.EPayment.mailorderCC
+ 
+             importer.invenio = indico.ext.importer.invenio
+             importer.dummy = indico.ext.importer.dummy
+-- 
+1.8.0.1.244.g77b598b
+

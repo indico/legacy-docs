@@ -1,0 +1,12 @@
+= Git and Windows =
+
+http://kylecordes.com/2008/04/30/git-windows-go/
+
+ * Install Git-1.6.3.2-preview20090608.exe (http://code.google.com/p/msysgit/)
+  * in the part "adjusting your PATH environment, choose the second option.
+ * Use the new Git terminal when you want to clone, pull, commit, etc.
+
+'''Attention''': You should set `autocrlf` to false, otherwise you'll probably have unmodified files marked as modified:
+{{{
+git config core.autocrlf false
+}}}

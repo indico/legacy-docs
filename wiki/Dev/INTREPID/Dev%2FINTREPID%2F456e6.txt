@@ -1,0 +1,43 @@
+[[PageOutline]]
+
+== InTRePId 4 ==
+'''Title:''' Create a unified notification mechanism
+
+'''Author:''' ''Pedro Ferreira''
+
+'''Date:''' 5 Feb 2010
+
+'''Target version:''' v0.98 (?)
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * To unify all the code concerning e-mails and other possible kinds of notifications;
+ * To conveniently log every notification sent to Indico users;
+ * To reduce the scattering of notification code (that becomes very hard to manage);
+
+=== Status quo ===
+
+Currently, we send notification e-mails using different mechanisms and origin addresses. These notifications may have different "from" and "to" addresses and various contents (sometimes hardcoded, sometimes templates).
+
+=== Description ===
+
+The plan would be to provide a single API, capable of processing templates, that would receive basic information, such as i.e. the template to use and recipients, and the kind of "From" address to be shown (no reply, server support, conference support... or even custom). This API should be made in the way that would eventually allow it to be extended to other communication media: instant messaging, SMS, Google Wave (if it ever goes somewhere), telepathic waves, telegraph, etc...
+
+==== Short example ====
+{{{
+#!python
+>>> from futureindico.templateFramework import Template
+>>> msgTemplate = Template('InvitationLetter.tpl').generate({firstName: 'John', lastName: 'Doe', 'eventName': 'Paranormal Physics 2012'})
+>>> from futureindico.notification import NotificationManager, Sender, Protocol
+>>> task = NotificationManager.makeTask(Sender.NOREPLY, ['John Doe <jdoe@example.com>'],[], msgTemplate, [Protocol.get('email'), Protocol.get('sms')])
+>>> from futureindico.taskdaemon import Client
+>>> client = Client.getInstance()
+>>> client.queue(task)
+>>> ('312312311231', datetime.datetime(2012, 10, 10, 20, 0))
+}}}
+
+=== Comments ===
+[[AddComment]]

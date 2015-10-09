@@ -1,0 +1,922 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1369 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:32:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1369 (Search shows only one out of two users)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1368.html" title="Ticket #1368" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t13691fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1369a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1369a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1370.html" title="Ticket #1370" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1368.html" title="Ticket #1368">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1370.html" title="Ticket #1370">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-12T16%3A53%3A18%2B02%3A00&amp;precision=second" title="See timeline at 08/12/13 16:53:18">2 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T17%3A03%3A09%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 17:03:09">2 years ago</a></p>
+  </div>
+  <h2>
+    <a href="1369.html" class="trac-id">#1369</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=fixed">fixed</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">Search shows only one out of two users</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=hoffmann">hoffmann</a></td>
+      <th id="h_owner">Owned by:</th>
+      <td headers="h_owner"><a href="http://old.indico-software.org/query?status=!closed&amp;owner=arescope">arescope</a></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=high">high</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-4.html">v1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=Search">Search</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=0.99">0.99</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+When two users have identical e-mail addresses (maybe it is necessary that they have also identical last/first name, I did not check), then only one of them is displayed when searching on<br />
+</p>
+<blockquote>
+<p>
+<a class="ext-link" href="https://www.cta-observatory.org/indico/userList.py?sSurName=cheikh"><span class="icon">​</span>https://www.cta-observatory.org/indico/userList.py?sSurName=cheikh</a><br />
+</p>
+</blockquote>
+<p>
+(or equivalent) and other search dialogs in <a class="missing wiki">InDiCo?</a>.<br />
+</p>
+<p>
+That should (and hopefuly can) be changed rapidly.<br />
+</p>
+<p>
+While it is correct that new users cannot "reuse" an existing e-mail address, they may change their address afterwards. Thus it may happen that inactive accounts are displayed, while active accounts are "hidden" by the system. A merge (over HTTP) needs a working search, so it is not possible any more. (Well, a workaround is to change the address slightly for one record, and both appear again.)<br />
+Merge with indico_shell also works fine. But better fix the problem in the search result display.<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(18)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1376319683805503">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-12T17%3A01%3A23%2B02%3A00&amp;precision=second" title="See timeline at 08/12/13 17:01:23">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+PS, just for the records: ah.mergeAvatar from indico_shell did not seem to do the job. <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-2-1376321561639113">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-12T17%3A32%3A41%2B02%3A00&amp;precision=second" title="See timeline at 08/12/13 17:32:41">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v1.1</em> to <em>v1.2</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-3-1376409420004922">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:3" class="cnum">
+    <a href="#comment:3">comment:3</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:4" class="follow-up">↓ 4</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-13T17%3A57%3A00%2B02%3A00&amp;precision=second" title="See timeline at 08/13/13 17:57:00">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        changed from <em>v1.2</em> to <em>v1.1</em>
+    </li><li class="trac-field-owner">
+      <strong class="trac-field-owner">Owner</strong>
+        set to <em>arescope</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>assigned</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-4-1376458442397861">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:4" class="cnum">
+    <a href="#comment:4">comment:4</a>
+  </span>
+        in reply to:
+    <a href="#comment:3">↑ 3</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-14T07%3A34%3A02%2B02%3A00&amp;precision=second" title="See timeline at 08/14/13 07:34:02">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1369.html#comment:3" title="Comment 3 for Ticket #1369">jbenito</a>:<br />
+Oh, if it is back on v1.1 milestone, I have to give my comments quicker ;-)<br />
+</p>
+<ol><li>I beleive I understand a bit better the implications of search now: The one in "userList.py" does not seem to yield exactly the same as the one in the AJAX window/widget, which is used for example to fill the "user merge" users or to find users in almost every place elsewhere in InDiCo.
+</li></ol><p>
+(By the way: The .../userList.py?sSurname=hoff way to search users from InDiCo starting from external URLs is extremely helpful. Do never remove it!)<br />
+</p>
+<ol start="2"><li>There are three states in the life of an avatar: unconfirmed, active, deleted. My original report concerned only the first to states. However, in some cases it can be useful to target a search on status (active being the default, active+unconfirmed seeming to be the presently implemented filter). One or several checkboxes (alike "include disabled accounts" for example) would be useful for systems, where the standard InDiCo user registry is still used.
+</li></ol><p>
+So, while you are on it, maybe you want to take into account these points, too.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-5-1376472564448933">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:5" class="cnum">
+    <a href="#comment:5">comment:5</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:6" class="follow-up">↓ 6</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-14T11%3A29%3A24%2B02%3A00&amp;precision=second" title="See timeline at 08/14/13 11:29:24">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+After taking a look I discover why only showing only one record. It is because we use the email as key in multiples places. It is because we take into account that the email can be only registered one, and shall be unique. The problem related to might be due a previous bug where the email could be changed. Now you cannot create new users with an existing email, event if its unconfirmed, and you cannot either change to an existing used email.<br />
+</p>
+<p>
+So I suggest you to modify manually the email of the duplicated with:<br />
+</p>
+<pre class="wiki">av = AvatarHolder().getById(USERID)
+av.setEmail(NEWEMAIL)
+dbi.commit()
+</pre><p>
+ <br />
+Anyway we are going to write in the log a Warning message about the issue in order to let the administrators handle the problem.<br />
+</p>
+<p>
+Cheers,<br />
+</p>
+<p>
+Alberto<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-6-1376473737818965">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:6" class="cnum">
+    <a href="#comment:6">comment:6</a>
+  </span>
+        in reply to:
+    <a href="#comment:5">↑ 5</a>
+        ;
+          <span>follow-up:</span>
+    <a href="#comment:7" class="follow-up">↓ 7</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-14T11%3A48%3A57%2B02%3A00&amp;precision=second" title="See timeline at 08/14/13 11:48:57">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1369.html#comment:5" title="Comment 5 for Ticket #1369">arescope</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+After taking a look I discover why only showing only one record. It is because we use the email as key in multiples places. It is because we take into account that the email can be only registered one, and shall be unique. The problem related to might be due a previous bug where the email could be changed. Now you cannot create new users with an existing email, event if its unconfirmed, and you cannot either change to an existing used email.<br />
+</p>
+</blockquote>
+<p>
+You are right. This bug implies another ticket: Emails can be changed to produce duplicates (as opposed to your statement!).<br />
+</p>
+<p>
+Unless something changed wrt 0.99, try (on <a class="missing wiki">InDiCo?</a> built-in registry): <br />
+</p>
+<ul><li>Create user A, email a@…
+</li><li>Create user B, email b@…
+</li><li>(Approve (validate) both!)
+</li><li>Edit user A's email to be b@….
+</li></ul><p>
+Now user A and B have email b@… :-)<br />
+</p>
+<blockquote class="citation">
+<p>
+So I suggest you to modify manually the email of the duplicated with:<br />
+</p>
+<pre class="wiki">av = AvatarHolder().getById(USERID)
+av.setEmail(NEWEMAIL)
+dbi.commit()
+</pre><p>
+ <br />
+Anyway we are going to write in the log a Warning message about the issue in order to let the administrators handle the problem.<br />
+</p>
+</blockquote>
+<p>
+No worry, I found a workaround by editing the duplicate e-mail addresses. (Still, in your recipe I would need to know the USERID of the "hidden" user.)<br />
+</p>
+<p>
+However, as long as the database itself does not contain a constraint about duplicate e-mails, you canot assume that there are not any! Therefore the search should take it into account.<br />
+</p>
+<p>
+I am not sure, if a log message is sufficient. It should be a periodic check to be really efficient. A single message in a long log may be drowned in the administrator's inbox.<br />
+</p>
+<p>
+And in any case, please note: My remark about waiting, approved and deleted avatar status is still valid. (Sorry, this ticket has several facets, but I am also just discovering.)<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-7-1376915921596591">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:7" class="cnum">
+    <a href="#comment:7">comment:7</a>
+  </span>
+        in reply to:
+    <a href="#comment:6">↑ 6</a>
+        ;
+          <span>follow-up:</span>
+    <a href="#comment:8" class="follow-up">↓ 8</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-19T14%3A38%3A41%2B02%3A00&amp;precision=second" title="See timeline at 08/19/13 14:38:41">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1369.html#comment:6" title="Comment 6 for Ticket #1369">hoffmann</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+Replying to <a class="closed" href="1369.html#comment:5" title="Comment 5 for Ticket #1369">arescope</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+After taking a look I discover why only showing only one record. It is because we use the email as key in multiples places. It is because we take into account that the email can be only registered one, and shall be unique. The problem related to might be due a previous bug where the email could be changed. Now you cannot create new users with an existing email, event if its unconfirmed, and you cannot either change to an existing used email.<br />
+</p>
+</blockquote>
+<p>
+You are right. This bug implies another ticket: Emails can be changed to produce duplicates (as opposed to your statement!).<br />
+</p>
+<p>
+Unless something changed wrt 0.99, try (on <a class="missing wiki">InDiCo?</a> built-in registry): <br />
+</p>
+<ul><li>Create user A, email a@…
+</li><li>Create user B, email b@…
+</li><li>(Approve (validate) both!)
+</li><li>Edit user A's email to be b@….
+</li></ul><p>
+Now user A and B have email b@… :-)<br />
+</p>
+</blockquote>
+<p>
+I tried in v1.1 and that is not possible in v1.1 :-). So it cannot be either created or modified to an existing email.<br />
+</p>
+<blockquote class="citation">
+<blockquote class="citation">
+<p>
+So I suggest you to modify manually the email of the duplicated with:<br />
+</p>
+<pre class="wiki">av = AvatarHolder().getById(USERID)
+av.setEmail(NEWEMAIL)
+dbi.commit()
+</pre><p>
+ <br />
+Anyway we are going to write in the log a Warning message about the issue in order to let the administrators handle the problem.<br />
+</p>
+</blockquote>
+<p>
+No worry, I found a workaround by editing the duplicate e-mail addresses. (Still, in your recipe I would need to know the USERID of the "hidden" user.)<br />
+</p>
+<p>
+However, as long as the database itself does not contain a constraint about duplicate e-mails, you canot assume that there are not any! Therefore the search should take it into account.<br />
+</p>
+<p>
+I am not sure, if a log message is sufficient. It should be a periodic check to be really efficient. A single message in a long log may be drowned in the administrator's inbox.<br />
+</p>
+<p>
+And in any case, please note: My remark about waiting, approved and deleted avatar status is still valid. (Sorry, this ticket has several facets, but I am also just discovering.)<br />
+</p>
+</blockquote>
+<p>
+I understand the point that we cannot put the constraint in the database but we already make the constraint in code now.<br />
+</p>
+<p>
+We could make an script but we think it is not necessary because it was a bug, and now its solved in the v1.1 so that issue will not happen again.<br />
+</p>
+<p>
+We think with that log message and update to v1.1 we do not need any check on top.<br />
+</p>
+<p>
+Best regards,<br />
+</p>
+<p>
+Alberto<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-8-1376919131849435">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:8" class="cnum">
+    <a href="#comment:8">comment:8</a>
+  </span>
+        in reply to:
+    <a href="#comment:7">↑ 7</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-19T15%3A32%3A11%2B02%3A00&amp;precision=second" title="See timeline at 08/19/13 15:32:11">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1369.html#comment:7" title="Comment 7 for Ticket #1369">arescope</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+I understand the point that we cannot put the constraint in the database but we already make the constraint in code now.<br />
+</p>
+<p>
+We could make an script but we think it is not necessary because it was a bug, and now its solved in the v1.1 so that issue will not happen again.<br />
+</p>
+<p>
+We think with that log message and update to v1.1 we do not need any check on top.<br />
+</p>
+</blockquote>
+<p>
+I agree. That's a way to solve the problem.<br />
+</p>
+<p>
+Remains the question how to find "deactivated" accounts (see above) with search.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-9-1377009374126996">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:9" class="cnum">
+    <a href="#comment:9">comment:9</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T16%3A36%3A14%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 16:36:14">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+I made an small patch with a checkbox in order to show only active users, that it will be unchecked by default. <br />
+</p>
+<p>
+The default behaviour, that is the one currently in v1.1 is that it will show not confirmed, active and disabled.<br />
+</p>
+<p>
+Best regards,<br />
+</p>
+<p>
+Alberto<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-10-1377009453414029">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:10" class="cnum">
+    <a href="#comment:10">comment:10</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T16%3A37%3A33%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 16:37:33">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>assigned</em> to <em>awaiting_merge</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-11-1377010887196238">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:11" class="cnum">
+    <a href="#comment:11">comment:11</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T17%3A01%3A27%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 17:01:27">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+OK, I do not know in which dialog you made the checkbox. But in some dialogs/circumstances it may be important not to <strong>allow</strong> inactive users (adding to groups for example).<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-12-1377012313882090">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:12" class="cnum">
+    <a href="#comment:12">comment:12</a>
+  </span>
+          <span>follow-up:</span>
+    <a href="#comment:13" class="follow-up">↓ 13</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T17%3A25%3A13%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 17:25:13">2 years ago</a> by arescope
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Hi,<br />
+</p>
+<p>
+I did in the userList.py search functionallity.<br />
+</p>
+<p>
+for the popup dialogs always search active users only, because the popup search is for users where you want to give permissions, etc so need to be active.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-13-1377015645856453">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:13" class="cnum">
+    <a href="#comment:13">comment:13</a>
+  </span>
+        in reply to:
+    <a href="#comment:12">↑ 12</a>
+        ;
+          <span>follow-up:</span>
+    <a href="#comment:14" class="follow-up">↓ 14</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-20T18%3A20%3A45%2B02%3A00&amp;precision=second" title="See timeline at 08/20/13 18:20:45">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1369.html#comment:12" title="Comment 12 for Ticket #1369">arescope</a>:<br />
+ <br />
+</p>
+<blockquote class="citation">
+<p>
+for the popup dialogs always search active users only, because the popup search is for users where you want to give permissions, etc so need to be active.<br />
+</p>
+</blockquote>
+<p>
+No, in the userMerge.py I want to be able to merge active and inactive users! <br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-14-1377068911511136">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:14" class="cnum">
+    <a href="#comment:14">comment:14</a>
+  </span>
+        in reply to:
+    <a href="#comment:13">↑ 13</a>
+        ;
+          <span>follow-up:</span>
+    <a href="#comment:15" class="follow-up">↓ 15</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-21T09%3A08%3A31%2B02%3A00&amp;precision=second" title="See timeline at 08/21/13 09:08:31">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <blockquote class="citation">
+<blockquote class="citation">
+<p>
+for the popup dialogs always search active users only, because the popup search is for users where you want to give permissions, etc so need to be active.<br />
+</p>
+</blockquote>
+<p>
+No, in the userMerge.py I want to be able to merge active and inactive users! <br />
+</p>
+</blockquote>
+<p>
+Dirk, you can always activate the user before merging it. I believe Alberto has already done part of the development that you need but unfortunately we cannot continue working on this for so long (merging active and inactive users requires a bit more of care).  I would suggest that we can open a different ticket with this functionality for whoever can contribute (since, as you may understand, <acronym title="European Organization for Nuclear Research">CERN</acronym> is not benefiting from it. We do not have such a use case.).<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-15-1377086713709726">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:15" class="cnum">
+    <a href="#comment:15">comment:15</a>
+  </span>
+        in reply to:
+    <a href="#comment:14">↑ 14</a>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-21T14%3A05%3A13%2B02%3A00&amp;precision=second" title="See timeline at 08/21/13 14:05:13">2 years ago</a> by hoffmann
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Replying to <a class="closed" href="1369.html#comment:14" title="Comment 14 for Ticket #1369">jbenito</a>:<br />
+</p>
+<blockquote class="citation">
+<p>
+Dirk, you can always activate the user before merging it. <br />
+</p>
+</blockquote>
+<p>
+No, only when there is still an Identity left for the Avatar (which is not the case for our database).<br />
+</p>
+<p>
+But I agree to set this aspect to a lower priority.<br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-16-1377155664424929">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:16" class="cnum">
+    <a href="#comment:16">comment:16</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T09%3A14%3A24%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 09:14:24">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+    <div class="comment searchable">
+      <p>
+Ok, ticket created <a class="new ticket" href="1376.html" title="defect: Allow merging of active with inactive users (new)">#1376</a><br />
+</p>
+
+    </div>
+
+              </div>
+              <div class="change" id="trac-change-17-1377183694934698">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:17" class="cnum">
+    <a href="#comment:17">comment:17</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T17%3A01%3A34%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 17:01:34">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>awaiting_merge</em> to <em>merging</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-18-1377183789037115">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:18" class="cnum">
+    <a href="#comment:18">comment:18</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-08-22T17%3A03%3A09%2B02%3A00&amp;precision=second" title="See timeline at 08/22/13 17:03:09">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>merging</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+commit: <a class="changeset" href="http://old.indico-software.org/changeset/00a9936ae87a018192fb82fda992c389d40e1e17/indico" title="[IMP] Search only active users in userList.py
+
+- fixes #1369">00a9936ae87a018192fb82fda992c389d40e1e17</a><br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t13691fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1369a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1369a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1369 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:32:21 GMT -->
+</html>

@@ -1,0 +1,319 @@
+= Internationalization: Quick Start =
+
+From v0.98 on, Indico relies on [http://babel.edgewall.org Babel] in order to manage language dictionaries and provide some basic date formatting and other locale-related functions.
+
+== Writing i18n-aware code ==
+
+=== The basics ===
+
+First of all, this video is highly recommended: https://www.youtube.com/watch?v=0j74jcxSunY
+
+The basic tool in code i18n is `_()`. In indico, this function is available by default (no need to import!) everywhere. So, the code:
+
+{{{
+#!python
+print _('Fetch the cow')
+}}}
+
+would be displayed as:
+
+{{{
+Fetchez la vache
+}}}
+
+considering that we had a [wikipedia:Franglais Franglais] dictonary loaded. A dictionary is just a map that associates an "original string" with a "translated string". Every language will have its own dictionary, that is application dependent and had to be loaded beforehand (we will see more below). 
+
+Anyone who has done (web) interface programming before can immediately see some tricky use cases that would not work. For example:
+
+{{{
+#!python
+print _('Fetch %d cows' % number)
+}}}
+
+would imply that we have an infinite dictionary. Of course the fix is easy:
+
+{{{
+#!python
+print _('Fetch %d cows') % number
+}}}
+
+And both Babel and `msgfmt` can handle format strings, and even warn you whenever the translation does not include the correct characters, etc.
+
+=== Plurals ===
+
+However, this is not enough. Suppose that 'number = 1'. How do we handle that? We could add an `if` expression and a single translation for "Fetch 1 cow". However, there is an easier/cleaner way:
+
+{{{
+#!python
+from indico.util.i18n import ungettext # unicode ngettext
+print ungettext("Fetch %s cow", "Fetch %s cows", number) % number
+}}}
+
+You might be asking why we do not simply do:
+
+{{{
+#!python
+print "%s %s %s" % (_("Fetch"), number, ungettext("cow", "cows", number)) 
+}}}
+
+The answer is: we should '''never''' make any assumptions about the order of words in a sentence. If in English it is generally true that the verb comes before the object, for other languages that may not be right. That's why it's better to spend some more characters and translate the whole sentence - like this, translators won't see themselves limited by the assumptions you've done in your code.
+
+Another good example:
+
+{{{
+#!python
+print ungettext('Fetch the cow', 'Fetch the cows', number)
+}}}
+
+Which in Franglais would be `Fetchez la vache` or `Fetchez les vaches` (notice that the article changes!). So, make '''no assumptions''' about phrase articulation.
+
+=== Translating variable sentences ===
+
+...speaking of which, a common case that keeps showing up while developing i18n code is one in which a part of a sentence changes:
+
+{{{
+Your abstract is set as ACCEPTED
+Your abstract is set as REFUSED
+}}}
+
+which many people fall into the temptation of writing as:
+
+{{{
+#!python
+_("Your abstract is set as") + " " + _(state)
+}}}
+
+Even worse are more general terms such as:
+
+{{{
+#!python
+_("Delete") + " " + _(state)
+}}}
+
+Why should we assume that "delete" has the same translation in every possible context? Not to mention, again, the positioning of the verb in the sentence and possible declensions.
+
+A better (yet not perfect) approach would be:
+
+{{{
+#!python
+_("Your abstract is set as {0}").format(_(state))
+}}}
+
+The ideal would be, of course, to translate the whole sentence. One could mark all possible results as translatable:
+
+{{{
+#!python
+N_("Your abstract is set as ACCEPTED")
+N_("Your abstract is set as REFUSED")
+}}}
+
+And then just translate the whole thing:
+
+{{{
+#!python
+_("Your abstract is set as {0}".format(_(state)))
+}}}
+
+This can, however, get pretty messy if there are many possible states. You will always have to try finding a compromise between handling i18n in a fair and language-agnostic way while keeping the amount/complexity of code under control.
+
+You will bump into this case particularly when trying to make text that contains HTML code i18n-aware. String formatting can help, but many times you will find out that there is no optimal solution, only a lesser evil.
+
+=== !Dates/Times ===
+
+It is tempting to use Python stdlib's `strftime()` each time we want to convert a `datetime` to a string. However, this function uses the currently set locale by default (process-specific), which is not thread safe. Babel provides a `format_datetime` function that works more or less the same way and can take a locale as parameter. We put a wrapper around it so that it takes the currently defined (thread-specific) Indico locale, making things easier for everyone.
+
+{{{
+#!python
+>>> from indico.util.date_time import format_datetime, now_utc
+
+>>> format_datetime(now_utc())
+'28 Jul 2011 12:38:03'
+
+>>> format_datetime(now_utc(), locale="fr_FR")
+'28 juil. 2011 12:39:23'
+
+>>> format_datetime(now_utc(), locale="fr_FR", format="long", timezone='Europe/Zurich')
+'28 juillet 2011 12:40:05 +0000'
+}}}
+
+Timezones are also supported:
+
+{{{
+#!python
+>>> from pytz import timezone
+>>> format_datetime(now_utc(), locale='pt_PT', format='full', timezone=timezone('Europe/Zurich'))
+'quinta-feira, 28 de Julho de 2011 14H45m18s Horário Suíça'
+}}}
+
+Custom formats may be specified using [http://babel.edgewall.org/wiki/Documentation/dates.html#pattern-syntax LDML]:
+
+{{{
+#!python
+>>> format_datetime(now_utc(), locale='es_ES', format='yyyy G')
+'2011 d.C.'
+}}}
+
+More information can be found at [http://babel.edgewall.org/wiki/Documentation/dates.html Babel's docs on Date Formatting].
+
+
+=== !Days/Months ===
+
+A special case of date/time translation is the translation of ''fixed names'' for week days or months. 
+Presently "Mon", "Tue", ... and "Jan", "Feb", ... are translated strings in PO files.
+Obviously we would a function for that, rather than requesting all translations from human translators.
+[http://babel.edgewall.org/wiki/Documentation/display.html Here] are the instructions, 
+if you need to get properly translated week day and month names, etc.
+
+
+=== The use of English ===
+
+As a matter of fact, many languages import '''english''' expressions in common or technical discussions.
+Also it may happen that users with different interface languages have to discuss matters or problems in Indico.
+Therefore the suggestion is to use explanatory translations for Indico-software related terms.
+{{{
+#!python
+print _('%s : status set to %s) % (xy, _("PENDING"))
+print _('%s : status set to %s) % (xy, _("REFUSED"))
+print _('%s : status set to %s) % (xy, _("ACCEPTED"))
+}}}
+The german translations could be: 
+|| PENDING || PENDING (Warteschlange) ||
+|| REFUSED || REFUSED (abgelehnt) ||
+|| ACCEPTED || ACCEPTED (bestätigt) ||
+
+A similar complication is the case of "material" (example en-fr) and the pre-defined values:
+|| Slides || Transparents ||
+|| Minutes || Compte-rendu ||
+Whereas a "fr" user should be able to submit his slides as '''Transparencies''', an "en" reader should see them under '''Slides'''.
+
+
+=== Punctuation ===
+
+Punctuations and marks should be integrated in the original strings 
+{{{
+#!python
+print _('Error: <font color="red">%s</font>') % _('Cannot perform!')
+}}}
+rather than added automatically
+{{{
+#!python
+print _('Error: <font color="red">%s!</font>') % _('Cannot perform')  # WRONG!
+}}}
+
+Explanation: 
+In this example the spanish equivalent would use the form {{{'¡No puede ejecutar!'}}}, 
+whereas french typography requests {{{'Ne peut pas exécuter&nbsp;!'}}}.
+
+
+=== Numerical values ===
+
+If you are using numbers, percentages, etc. maybe you should see [http://babel.edgewall.org/wiki/Documentation/numbers.html this].
+
+
+=== Common mistakes ===
+It is very hard to write/maintain an application that is 100% internationalized, since this requires a great deal of coordination not only with the translators, but between developers as well. Not only people usually forget to properly internationalize strings, but also when they remember to do so they choose to do it at the wrong place. Here are some examples of some good/bad practices.
+
+For example:
+
+{{{
+#!python
+class UserContainer(object):
+    _userTypes = {
+        # wrong!
+        'admin': _('Administrator'),
+        'regular': _('Regular user')
+    }
+
+    # ...
+
+    def getUserType(self):
+        # can you spot the problem?
+        return UserContainer._userTypes[self.user_type]
+}}}
+
+Why is this wrong? Class attributes are initialized only once, '''at module load time'''. So, since modules are normally only loaded once '''per process''', a French user that is using this app will ''theoretically'' (see paragraph below) get the same translation as a Japanese one. The '''right way''' to do so would be delaying translation till the template is rendered: we could have a dictionary of "English" strings and then just call `_()` from the piece of template (or other i18n-safe code) that calls `getUserType`.
+
+Using `L_()` instead of `_()` would solve the problem as lazy translation would be forced, thus avoiding the immediate translation of the string at module load time.
+
+Another classic mistake is:
+
+{{{
+#!python
+
+from persistent import Persistent
+
+# ...
+
+class User(Persistent):
+    def __init__(self, name, position):
+        self.position = _(position)
+}}}
+
+This one should be easier to spot, if you consider that `Persistent` objects are stored in the database. By translating `position`, we get it in the language that was in use at the time of object creation. The right way to do it is, once again, to translate "as late as possible".
+
+== Managing dictionaries ==
+
+This section concerns the programmatical management of the internationalisation files within InDiCo. 
+If you want to use new translations or test your developments, you should read this.
+
+Babel does all the dirty work of extracting internationalised strings for us, and to create the respective `messages.pot` file. Since it is [http://babel.edgewall.org/wiki/Documentation/setup.html integrated with setuptools], nothing more than `setup.py` is needed.
+
+=== For developers ===
+
+==== Extracting messages ====
+
+Extracting messages is the first step in the translation process. This should be done after any modification that includes new text strings that are displayed in the user interface or changes existing ones. 
+
+{{{
+python setup.py extract_messages
+python setup.py extract_messages_js
+}}}
+
+Notice that there are two catalogs: one for Python/Mako code (server side), and another one for JavaScript (client side). This allows us to have a lighter, client-side JavaScript dictionary.
+
+==== Creating a new dictionary ====
+In order to create a new translation dictionary for a new locale, you should use:
+
+{{{
+python setup.py init_catalog --locale=pt_PT
+python setup.py init_catalog_js --locale=pt_PT
+}}}
+
+(Replace `pt_PT` with your locale's name)
+
+This will take `messages.pot` and `messages-js.pot` and create new empty translation files (`messages.po` and `messages-js.po`) under the appropriate locale dir (`indico/locale/pt_PT` in this case).
+
+==== Updating existing dictionaries ====
+
+After every message extraction, you should update the dictionaries that may already exist with the new catalog. That can be done using the following commands:
+
+{{{
+python setup.py update_catalog
+python setup.py update_catalog_js
+}}}
+
+After this, it's time to commit the result and push it to the global repo, so that Transifex will automatically fetch it and make it available for all the different translators. If for some reason this automatic mechanism doesn't work, you can always manually upload the `*.pot` files.
+
+==== Compiling ====
+
+After all translation work is finished, you should replace the `*.po` files with the ones downloaded from Transifex, and compile the dictionaries:
+
+{{{
+python setup.py compile_catalog
+python setup.py compile_catalog_js
+}}}
+
+Notice that the JS dictionary gets converted to JS/JSON code instead of an `*.mo`.
+
+And now the translations are ready for use by Indico or binary distribution.
+
+
+=== For translators ===
+
+We have created a [https://www.transifex.net/projects/p/indico/ transifex project for Indico]. If you wish to take part in the translation effort, apply for the team corresponding to your language, or propose the creation of a new one if needed.
+
+== Resources ==
+
+[[http://pyvideo.org/video/1746/internationalization-and-localization-done-right | Here's a nice presentation]], by Ruchi Varshney, on i18n done right in Python. The examples are Django-based, but the principles are the exact same.
+
+[[AddComment]]

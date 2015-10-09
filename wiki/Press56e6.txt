@@ -1,0 +1,24 @@
+[[TracNav(TOC|noreorder)]]
+
+= Press releases and conference contributions =
+
+== Articles
+
+ * [http://cerncourier.com/cws/article/cnl/40385 Article] from CERN Computer Newsletter, September 2009
+ * [http://cdsweb.cern.ch/search.py?recid=688962 Video News] from [http://bulletin.cern.ch/eng/bulletin.php?bullno=51/2002 CERN Bulletin, No 51], December 2002 (requires [http://www.real.com/ RealPlayer])
+ * [http://cdsweb.cern.ch/search.py?recid=46032&ln=en Article] from [http://bulletin.cern.ch/eng/bulletin.php?bullno=42/2002 CERN Bulletin, No 42], October 2002
+
+== Presentations
+
+ * Presentation at [indico:98057 IT-UDS Group Meeting] - Indico Test Framework ([http://indico-software.org/material/test_framework.pdf pdf]) - Pedro Ferreira - 22nd June 2010
+ * Presentation at [http://indico.cern.ch/contributionDisplay.py?contribId=47&sessionId=21&materialId=0&confId=65786 JaCoW 2009 Team Meeting] - J.B. Gonzalez Lopez - 2nd November 2009
+ * !Paper/Presentation at [http://indico.cern.ch/contributionDisplay.py?sessionId=64&contribId=13&confId=35523 CHEP 2009] - J.B. Gonzalez Lopez - 24th March 2009
+ * Posters from CHEP'04 (poster1 [http://indico-software.org/material/indico_poster1.pdf pdf] - [http://indico-software.org/material/indico_poster1.eps eps]; poster2 [http://indico-software.org/material/indico_poster2.pdf pdf] - [http://indico-software.org/material/indico_poster2.eps eps]; poster3 [http://indico-software.org/material/indico_poster3.pdf pdf] - [http://indico-software.org/material/indico_poster3.eps eps]) 
+ * [http://indico-software.org/material/Indico_HEPIX_20051008.ppt Presentation of Indico to HEPiX fall meeting 2005] - T. Baron - 8th October 2005
+ * [http://indico-software.org/material/Indico_DTF_20050609.ppt Comparison and migration of CDS Agenda to Indico / Desktop Forum] - T. Baron - 9th June 2005
+ * [http://indico-software.org/material/Indico_HEPIX_20050526.ppt Presentation of Indico at HEPiX spring meeting 2005] - M. Draper - 26th May 2005
+ * [http://agenda.cern.ch/askArchive.php?base=agenda&categ=a021436&id=a021436s1t2/transparencies General presentation of the project] - T. Baron - [http://www.jacow.org/ JACOW] Workshop in Berkeley, November 2002
+
+== Videos
+
+ * [http://pyvideo.org/video/964/24-indico-a-scientific-collaboration-platform Poster presentation at PyCon 2012] - Pedro Ferreira

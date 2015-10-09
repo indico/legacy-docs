@@ -1,0 +1,15 @@
+2013-04-24 14:45:41,892 indico.requestHandler - ERROR base.py:372 -- Request 139769020801744 failed: "'identityId'"                                                                          
+Traceback (most recent call last):                                                                                                                                                           
+  File "/usr/lib64/python2.7/site-packages/indico-1.0-py2.7.egg/MaKaC/webinterface/rh/base.py", line 575, in process                                                                         
+    res = self._process()                                                                                                                                                                    
+  File "/usr/lib64/python2.7/site-packages/indico-1.0-py2.7.egg/MaKaC/webinterface/rh/users.py", line 492, in _process                                                                       
+    return p.display()                                                                                                                                                                       
+  File "/usr/lib64/python2.7/site-packages/indico-1.0-py2.7.egg/MaKaC/webinterface/pages/base.py", line 190, in display                                                                      
+    self._display( params ), \                                                                                                                                                               
+  File "/usr/lib64/python2.7/site-packages/indico-1.0-py2.7.egg/MaKaC/webinterface/pages/main.py", line 159, in _display                                                                     
+    body = WMainBase(self._getBody( params ), self._timezone, self._getNavigationDrawer(),                                                                                                   
+  File "/usr/lib64/python2.7/site-packages/indico-1.0-py2.7.egg/MaKaC/webinterface/pages/admins.py", line 1488, in _getBody                                                                  
+    html = wcomponents.WTabControl( self._tabCtrl, self._getAW() ).getHTML( self._getTabContent( params ) )                                                                                  
+  File "/usr/lib64/python2.7/site-packages/indico-1.0-py2.7.egg/MaKaC/webinterface/pages/admins.py", line 1672, in _getTabContent                                                            
+    identity = self._avatar.getIdentityById(self._params["identityId"],"Local")                                                                                                              
+KeyError: 'identityId'

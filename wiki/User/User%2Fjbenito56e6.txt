@@ -1,0 +1,10 @@
+= José Benito González López =
+
+== Open Tickets ==
+[[TicketQuery(owner=jbenito, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Closed Tickets ==
+[[TicketQuery(owner=jbenito,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=jbenito)]]

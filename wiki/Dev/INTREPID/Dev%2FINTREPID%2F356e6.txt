@@ -1,0 +1,28 @@
+[[PageOutline]]
+
+== InTRePId 3 ==
+'''Title:''' Standardize the way of processing dates in javascript.
+
+'''Author:''' ''Cesar Muñoz''
+
+'''Date:''' 12 Jan 2010
+
+'''Target version:''' [milestone:v0.98 v0.98] (?)
+
+'''Status:''' draft
+
+
+=== Objectives ===
+
+ * Set a common way of processing dates with JS.
+
+=== Status quo ===
+
+ * Currently, there is no control.
+
+=== Description ===
+
+ * [http://www.datejs.com/ datejs] could be used for date/time parsing and computing;
+
+=== Comments ===
+[[AddComment]]

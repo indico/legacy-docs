@@ -1,0 +1,13 @@
+= Jakub Trzaskoma =
+
+== Personal plan ==
+
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=jatrzask, format=table, order=priority, group=milestone,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=jatrzask,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=jatrzask)]]

@@ -1,0 +1,139 @@
+[[PageOutline]]
+
+
+= Note =
+
+If you are just getting started and have no public Git repository, please read first the [wiki:Collaboration Collaboration guide], so that you can first set it up. Then, continue reading this page. 
+
+If you are trying to install Indico on Windows, please use the [wiki:GettingStartedWin Windows guide].
+
+= Setup =
+
+== '''0. Preparation''' ==
+
+You will need:
+  * Python 2.6+ (2.7+ encouraged);
+  * Python development packages [`python-dev` or `python-devel` depending on your linux distro] 
+  * Virtualenv;
+  * `libxml2` and `libxslt` development packages;
+  * git [git-core in some distros]
+
+== 1. Preparing your Python virtual environment ==
+
+{{{#!sh
+$ cd ~/code
+$ virtualenv indico
+New python executable in indico/bin/python
+Installing setuptools............done.
+Installing pip...............done.
+$ cd indico
+$ source bin/activate
+}}}
+
+You can leave the virtualenv anytime using the `deactivate` command.
+
+
+== 2. Preparing the Development Environment ==
+
+So, now we need to get Indico from Git. If you are using GitHub as a public repo, clone your "forked repo" instead.
+
+{{{#!sh
+$ git clone git://github.com/indico/indico.git src
+}}}
+
+Then:
+
+{{{#!sh
+$ cd src
+$ pip install --allow-all-external -r requirements.txt 
+$ python setup.py develop_config
+}}}
+
+Follow the instructions. By the end of the process you should have Indico installed in your virtualenv. The config script should also provide you with some instructions on how to start the DB. That's what we'll do in the next section.
+
+During the requirements installation you may get a missing library error , for instance : /usr/bin/ld: cannot find -lz .Please install the missing library manually (f.e apt-get install zlib1g-dev).
+
+== 3. Adding the pre-commit hook ==
+
+This [http://git.io/4EeNZA pre-commit hook] will check your code for [http://www.python.org/dev/peps/pep-0008/ PEP8] problems before you commit. We recommend that you set it up:
+
+{{{#!sh
+$ pip install pep8
+$ curl -L http://git.io/4EeNZA > .git/hooks/pre-commit
+}}}
+
+== 4. Install external modules ==
+
+We need to install the external modules (jQuery, qTip, etc...)
+
+{{{#!sh
+$ fab setup_deps
+}}}
+
+Some known issues:
+
+ * Missing `curl`: try to run the command with --show=debug to confirm, but most probably you will need to install `curl`
+ * Mac OS: make sure you have installed [https://developer.apple.com/xcode/ XCode]
+ * Sometimes `fab setup_deps` just fails (e.g. failing to download some package) and retrying usually works ;)
+
+
+== 5. Launching Indico ==
+
+1. Since you are running Indico from a virtualenv, you do not need root privileges. This said, you should `chown` your whole Indico directory (the one you specified in `developer_config` and that contains `log`, `db`, etc...) to your user:
+
+{{{#!sh
+$ chown -R youruser:youruser /home/youruser/code/indico
+}}}
+
+2. You should also edit `etc/zdctl.conf` and replace:
+
+{{{
+user www-data
+}}}
+
+With
+
+{{{
+user youruser
+}}}
+
+3. Finally, you'll have to edit `etc/indico.conf` and replace all the occurrences of the URL `http://localhost` with `http://localhost:8000` and `https://localhost` with `https://localhost:8443`. Done it? Great.
+
+4. To start the ZODB database, type:
+
+{{{#!sh
+$ zdaemon -C etc/zdctl.conf start
+}}}
+
+5. Then, start a development web server:
+
+{{{#!sh
+$ indico_shell --web-server --with-ssl --reload-on-change
+}}}
+
+6. Open your browser and go to http://localhost:8443/indico/ - Indico should be up and running! 
+
+== 6. What do I do now? ==
+
+Now you need to setup your Git repo and start working.
+
+
+= Git =
+
+== Learning Git ==
+
+Read [http://git-scm.com/documentation Git's online manual].
+Maybe you'll want to print the [https://na1.salesforce.com/help/doc/en/salesforce_git_developer_cheatsheet.pdf cheat sheet] and put it on your wall. Go ahead, print it!
+
+There is also a very nice [http://try.github.com/ GitHub page] with an interactive Git walkthrough.
+
+=== Configuring Git ===
+
+The first time you use Git you will need to set up your identity:
+
+{{{
+git config --global user.name "John Doe"
+git config --global user.email john.doe@cern.ch
+}}}
+
+That should be enough.

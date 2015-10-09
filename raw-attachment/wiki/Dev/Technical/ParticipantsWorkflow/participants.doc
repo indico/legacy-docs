@@ -1,0 +1,36 @@
+digraph participants {
+     a [label="added n/a", color="#dddddd"];
+     b [label="added present"];
+     c [label="invited n/a", color="#dddddd"];
+     d [label="invited n/a"];
+     e [label="accepted n/a", color="#dddddd"];
+     f [label="accepted present"];
+     g [label="rejected n/a", color="#dddddd"];
+     h [label="rejected n/a"];
+     i [label="accepted absent"];
+     j [label="added absent"];
+     k [label="excused n/a"];
+     l [label="I", shape="box", color="#dddddd", style="filled"];
+
+     a -> b;
+     b -> j [label="set as absent"];
+     j -> b [label="set as present"];
+     c -> d;
+     c -> g [label="reject"];
+     c -> e [label="accept"];
+     d -> f [label="accept"];
+     d -> h [label="reject"];
+     e -> f;
+     g -> h;
+     f -> i [label="set as absent"];
+     i -> f [label="set as present"];
+     j -> k [label="excuse absence"];
+     i -> k [label="excuse absence"];
+
+     l -> b;
+     l -> a;
+     l -> c;
+
+     {rank=same; a c} 
+     {rank=same; e g} 
+ }

@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/JS/Popups by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/Technical/JS/Popups – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FTechnical%252FJS%252FPopups56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../JS.html" title="View parent page" />
+        <link rel="start" href="../../../../wiki.html" />
+        <link rel="stylesheet" href="../../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../../index.html"><img src="../../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../../wiki.html">wiki:</a><a class="pathentry" href="../../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../../Technical.html" title="View Dev/Technical">Technical</a><span class="pathentry sep">/</span><a class="pathentry" href="../JS.html" title="View Dev/Technical/JS">JS</a><span class="pathentry sep">/</span><a class="pathentry" href="Popups.html" title="View Dev/Technical/JS/Popups">Popups</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../JS.html">Up</a></li><li><a href="../../../WikiStart.html">Start Page</a></li><li><a href="../../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/Technical/JS/Popups?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h2 id="a1.Exclusivepopup">1. Exclusive pop up</h2>
+<h3 id="Description">Description</h3>
+<p>
+This is the most basic pop up. It just created a simple pop up without buttons. Therefore, it is mostly used to show simple information, like the progress dialog pop up. Although basic, this pop up is exclusive, which means that the user won't be able to interact with the interface out of the pop up.
+</p>
+<h3 id="Example">Example</h3>
+<p>
+<a style="padding:0; border:none" href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopup.html"><img src="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopup.png" /></a>
+</p>
+<p>
+For further information, you can check the file Base.js, in which there are some implementations of an Exclusive pop up. However, here's the code to get the pop up of the image above:
+</p>
+<pre class="wiki">type("ProgressDialog",["ExclusivePopup"],
+     {
+         draw: function() {
+             return this.ExclusivePopup.prototype.draw.call(
+                 this,
+                 Html.div('loadingPopup',
+                          Html.div('text', this.text)),
+                 {background: '#424242', border: 'none', padding: '20px'});
+         }
+     },
+     function(text) {
+         if (text === undefined) {
+             this.text = $T('Loading...');
+         } else {
+             this.text = text;
+         }
+         this.ExclusivePopup();
+     }
+    );
+</pre><h2 id="a2.Exclusivepopupwithbuttons">2. Exclusive pop up with buttons</h2>
+<h3 id="Description1">Description</h3>
+<p>
+As you can guess by its name, it's a pop up like the one before, but with buttons. It's the "standard" pop up
+</p>
+<h3 id="Example1">Example</h3>
+<p>
+<a style="padding:0; border:none" href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons2.html"><img src="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons2.png" /></a>
+</p>
+<p>
+There are several examples of <a class="missing wiki">ExclusivePopupWithButtons?</a> in the file Popup.js. However, this is the code for the pop up above:
+</p>
+<pre class="wiki">/**
+ * Utility function to display a simple alert popup.
+ * You can think of it as an "confirm" replacement.
+ * It will have a title, a close button, an OK button and a Cancel button.
+ * @param {Html or String} title The title of the error popup.
+ * @param {Element} content Anything you want to put inside.
+ * @param {function} handler A function that will be called with a boolean as argument:
+ *                   true if the user pressers "ok", or false if the user presses "cancel"
+ */
+type("ConfirmPopup", ["ExclusivePopupWithButtons"],
+    {
+         draw: function() {
+             var self = this;
+
+             var okButton = Html.input('button', {style:{marginRight: pixels(3)}}, $T('OK'));
+             okButton.observeClick(function(){
+                 self.close();
+                 self.handler(true);
+             });
+
+             var cancelButton = Html.input('button', {style:{marginLeft: pixels(3)}}, $T('Cancel'));
+             cancelButton.observeClick(function(){
+                 self.close();
+                 self.handler(false);
+             });
+
+             return this.ExclusivePopupWithButtons.prototype.draw.call(this,
+                     this.content,
+                     Html.div({}, okButton, cancelButton));
+         }
+    },
+
+    function(title, content, handler) {
+        var self = this;
+
+        this.content = content;
+        this.handler = handler;
+        this.ExclusivePopupWithButtons(Html.div({style:{textAlign: 'center'}}, title), function(){
+            self.handler(false);
+            return true;
+        });
+    }
+);
+</pre><p>
+Nevertheless, the pop up can be as complex as you want. Here you have another example:
+</p>
+<p>
+<a style="padding:0; border:none" href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons.html"><img src="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons.png" /></a>
+</p>
+<h2 id="a3.Exclusivepopupwithbuttonsandpreload">3. Exclusive pop up with buttons and preload</h2>
+<h3 id="Description2">Description</h3>
+<p>
+Sometimes, you may need to do an AJAX request to the server, in order to display some information in the pop up. If so, this is your pop up!
+</p>
+<h3 id="Specificinformation">Specific information</h3>
+<p>
+In this case, you will need to inherit from two different types:
+</p>
+<pre class="wiki">type("AddChatroomDialog", ["ExclusivePopupWithButtons", "PreLoadHandler"],
+{
+...
+}
+</pre><p>
+Also, the functions used to do the preload must be specified like this:
+</p>
+<pre class="wiki">type("AddChatroomDialog", ["ExclusivePopupWithButtons", "PreLoadHandler"],
+{
+  _preload: [
+    function(hook) {
+        var self = this;
+        var killProgress = IndicoUI.Dialogs.Util.progress($T("Fetching information..."));
+        indicoRequest(
+          'my.request',
+          {
+             myparam: param
+          },
+          function(result, error) {
+              if (!error) {
+                  killProgress();
+                  ...
+                  hook.set(true);
+              }
+              else {
+                  killProgress();
+                  IndicoUtil.errorReport(error);
+              }
+          }        
+    },
+    function(hook) {
+    ...
+    }
+  ],
+  ...
+</pre><p>
+Since events in javascript are asynchronous, we need the variable hook to inform that the request ended. Once all the preload functions set their hook to true the dialog is drawn.
+</p>
+<p>
+To execute the preload functions you need to tell the dialog to do so.. This can be done in the dialog's constructor, like this:
+</p>
+<pre class="wiki">this.PreLoadHandler(
+   self._preload,
+   function() {
+      self.open();
+   });
+this.execute();
+</pre><p>
+Without this.execute(), it won't work.
+</p>
+<h3 id="Example2">Example</h3>
+<p>
+In this case, we need a preload function to get the chat rooms created by the user. Therefore, we make the request to fetch them, and once we have them we draw the pop up with all the information.
+</p>
+<p>
+<a style="padding:0; border:none" href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtonsAndPreload.html"><img src="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtonsAndPreload.png" /></a>
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/Technical/JS/Popups?action=diff&amp;version=6" title="Version 6 by cemunoz">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-28T12%3A01%3A30%2B02%3A00&amp;precision=second" title="See timeline at 09/28/10 12:01:30">5 years ago</a></span>
+            <span class="trac-print">Last modified on 09/28/10 12:01:30</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(4)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopup.html" title="View attachment">ExclusivePopup.png</a><a href="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopup.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="3883 bytes">3.8 KB</span>) -
+      added by <em>cemunoz</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-28T09%3A34%3A05%2B02%3A00&amp;precision=second" title="See timeline at 09/28/10 09:34:05">5 years ago</a>.
+              </li>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons.html" title="View attachment">ExclusivePopupWithButtons.png</a><a href="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="23688 bytes">23.1 KB</span>) -
+      added by <em>cemunoz</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-28T09%3A38%3A44%2B02%3A00&amp;precision=second" title="See timeline at 09/28/10 09:38:44">5 years ago</a>.
+              </li>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtonsAndPreload.html" title="View attachment">ExclusivePopupWithButtonsAndPreload.png</a><a href="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtonsAndPreload.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="18702 bytes">18.3 KB</span>) -
+      added by <em>cemunoz</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-28T09%3A39%3A03%2B02%3A00&amp;precision=second" title="See timeline at 09/28/10 09:39:03">5 years ago</a>.
+              </li>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons2.html" title="View attachment">ExclusivePopupWithButtons2.png</a><a href="../../../../raw-attachment/wiki/Dev/Technical/JS/Popups/ExclusivePopupWithButtons2.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="15724 bytes">15.4 KB</span>) -
+      added by <em>cemunoz</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2010-09-28T11%3A27%3A47%2B02%3A00&amp;precision=second" title="See timeline at 09/28/10 11:27:47">5 years ago</a>.
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../../../zip-attachment/wiki/Dev/Technical/JS/Popups/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FTechnical%252FJS%252FPopups56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/Technical/JS/Popups by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:22 GMT -->
+</html>

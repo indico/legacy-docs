@@ -1,0 +1,11 @@
+--- indico-0.98/indico/MaKaC/webinterface/common/currency.py	2012-03-31 13:57:51.000000000 +0200
++++ indico-0.98/indico/MaKaC/webinterface/common/currency.py	2012-03-31 14:01:49.000000000 +0200
+@@ -21,7 +21,7 @@
+ from xml.sax.saxutils import quoteattr, escape
+ 
+ class CurrencyRegistry:
+-    _items = ["","CHF","EUR","USD", "GBP", "CZK"]
++    _items = ["","CHF","EUR","USD","GBP","CZK","ZAR"]
+ 
+     def getList( self ):
+         return self._items

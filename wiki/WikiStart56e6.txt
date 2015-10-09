@@ -1,0 +1,39 @@
+{{{
+#!html
+<div style="font-size: 2em; background: #eedddd; padding: 0.5em; width: 700px;">We are now using <a href="https://github.com/indico/indico/issues">GitHub</a> for issue tracking!</div>
+}}}
+
+
+[[TracNav(TOC|noreorder)]]
+
+= Indico =
+
+Following the tradition of CDS Agenda, the CERN Document Server Software Consortium developed a web application to schedule and organise events, from simple lectures to complex meetings, workshops and conferences with sessions and contributions. The tool also includes an advanced user delegation mechanism, allow paper reviewing, archival of conference information and electronic proceedings.
+
+The Indico software was originally developed in the framework of the EU !InDiCo project. Nowadays, Indico is a free software licensed under terms of GNU General Public License ('''GPL''').
+
+Indico is currently in production at [http://www.cern.ch CERN] at [http://indico.cern.ch]. You are welcome to have a look at the set of features, and subscribe to the [wiki:Community#MailingLists mailing lists] in order to be kept informed about future releases. 
+
+== Latest News ==
+[[BlogList(recent=5)]]
+
+== New tickets for v1.9 ==
+
+[[TicketQuery(status=new&milestone=v1.9, max=5, desc=1)]]
+
+[query:status=new|assigned|reopened&milestone=v1.9 View all]
+
+
+== Fixed tickets ==
+
+[[TicketQuery(status=closed&resolution=fixed, max=5, desc=1)]]
+
+[query:status=closed&resolution=fixed View all]
+
+== Links ==
+ * [http://github.com/indico/indico GitHub Repo]
+ * [http://www.ohloh.net/p/indico/ Ohloh project page]
+ * [https://github.com/indico/ GitHub Repo]
+ * [https://www.transifex.net/projects/p/indico/ Translation page]
+ * [http://indico.rtfd.org Read the docs]
+ * [http://indico-next.cern.ch Latest DEV version of Indico for Beta Testers]

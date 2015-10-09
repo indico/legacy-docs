@@ -1,0 +1,1850 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/ticket/1425 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      #1425 (First Install Indico)
+     – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="prev" href="1424.html" title="Ticket #1424" />
+        <link rel="last" href="1598.html" title="Ticket #1598" />
+        <link rel="help" href="../wiki/TracGuide.html" />
+        <link rel="alternate" href="t14251fd1.csv?format=csv" type="text/csv" class="csv" title="Comma-delimited Text" /><link rel="alternate" href="t1425a63a.tsv?format=tab" type="text/tab-separated-values" class="tab" title="Tab-delimited Text" /><link rel="alternate" href="1425a409?format=rss" type="application/rss+xml" class="rss" title="RSS Feed" />
+        <link rel="next" href="1426.html" title="Ticket #1426" />
+        <link rel="start" href="../wiki.html" />
+        <link rel="stylesheet" href="../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../chrome/common/css/ticket.css" type="text/css" />
+        <link rel="first" href="1.html" title="Ticket #1" />
+        <link rel="shortcut icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="610bde29a97e49ea483b83be";
+      var comments_prefs={"comments_only":"false","comments_order":"oldest"};
+    </script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../chrome/common/js/auto_preview.js"></script>
+    <script type="text/javascript" src="../chrome/common/js/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+      /*<![CDATA[*/
+        $("#attachments").toggleClass("collapsed");
+        $("#trac-up-attachments").click(function () {
+          $("#attachments").removeClass("collapsed");
+          return true;
+        });
+        $("#modify").parent().toggleClass("collapsed");
+        /* only enable control elements for the currently selected action */
+        var actions = $("#action input[name='action']");
+        function updateActionFields() {
+          actions.each(function () {
+            $(this).siblings().find("*[id]").enable($(this).checked());
+            $(this).siblings().filter("*[id]").enable($(this).checked());
+          });
+        }
+        actions.click(updateActionFields);
+        updateActionFields();
+        function setRevertHandler() {
+          $("button.trac-revert").click(function() {
+            var div = $("div", this);
+            var field_name = div[0].id.substr(7);
+            var field_value = div.text();
+            var input = $("#propertyform *[name=field_" + field_name + "]");
+            if (input.length > 0) {
+              if (input.filter("input[type=radio]").length > 0) {
+                input.val([field_value]);
+              } else if (input.filter("input[type=checkbox]").length > 0) {
+                input.val(field_value == "1" ? [field_value] : []);
+              } else {
+                input.val(field_value);
+              }
+            } else { // Special case for CC checkbox
+              input = $("#propertyform input[name=cc_update]").val([]);
+            }
+            input.change();
+            $(this).closest("li").remove();
+            return false;
+          });
+        }
+        setRevertHandler();
+        var comment_focused = false;
+        $("#comment").focus(function() { comment_focused = true; })
+                     .blur(function() { comment_focused = false; });
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          var items = $(reply);
+          // Update ticket box
+          $("#ticket").replaceWith(items.filter('#ticket'));
+          // Unthread, unrevert and update changelog
+          if (!$('#trac-comments-oldest').checked())
+            $('#trac-comments-oldest').click().change();
+          $("#changelog").replaceWith(items.filter("#changelog"));
+          if ($('#trac-comments-only-toggle').attr('checked'))
+            $('#trac-comments-only-toggle').click().attr('checked', true);
+          // Show warning
+          var new_changes = $("#changelog .trac-new");
+          $("#trac-edit-warning").toggle(new_changes.length != 0);
+          if (new_changes.length != 0)
+            $("#changelog").parent().show().removeClass("collapsed");
+          // Update view time
+          $("#propertyform input[name='view_time']").replaceWith(items.filter("input[name='view_time']"));
+          // Update preview
+          var preview = $("#ticketchange").html(items.filter('#preview').children());
+          var show_preview = preview.children().length != 0;
+          $("#ticketchange").toggle(show_preview);
+          setRevertHandler();
+          // Collapse property form if comment editor has focus
+          if (show_preview && comment_focused)
+            $("#modify").parent().addClass("collapsed");
+        }, "#ticketchange .trac-loading");
+        $("#trac-comment-editor").autoSubmit({preview_comment: '1'}, function(data, reply) {
+          var comment = $("#trac-comment-editor").next("div.comment").html(reply);
+          comment.toggle(comment.children().length != 0);
+        }, "#changelog .trac-loading");
+        /*]]>*/
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../index.html"><img src="../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li class="active"><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span>&larr; <a class="prev" href="1424.html" title="Ticket #1424">Previous Ticket</a></span></li><li class="last"><span><a class="next" href="1426.html" title="Ticket #1426">Next Ticket</a> &rarr;</span></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="ticket">
+        <div id="ticket" class="trac-content ">
+  <div class="date">
+    <p>Opened <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-06T15%3A49%3A44%2B01%3A00&amp;precision=second" title="See timeline at 11/06/13 15:49:44">2 years ago</a></p>
+    <p>Closed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-08T15%3A19%3A50%2B01%3A00&amp;precision=second" title="See timeline at 11/08/13 15:19:50">2 years ago</a></p>
+  </div>
+  <h2>
+    <a href="1425.html" class="trac-id">#1425</a>
+    <span class="trac-status">
+      <a href="http://old.indico-software.org/query?status=closed">closed</a>
+    </span>
+    <span class="trac-type">
+      <a href="http://old.indico-software.org/query?status=!closed&amp;type=defect">defect</a>
+    </span>
+    <span class="trac-resolution">
+      (<a href="http://old.indico-software.org/query?status=closed&amp;resolution=fixed">fixed</a>)
+    </span>
+  </h2>
+  <h1 id="trac-ticket-title" class="searchable">
+    <span class="summary">First Install Indico</span>
+  </h1>
+  <table class="properties">
+    <tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable"><a href="http://old.indico-software.org/query?status=!closed&amp;reporter=spardi">spardi</a></td>
+      <th id="h_owner" class="missing">Owned by:</th>
+      <td headers="h_owner"></td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;priority=normal">normal</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="closed milestone" href="../milestone/v1-4.html">v1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;component=General">General</a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://old.indico-software.org/query?status=!closed&amp;version=1.1">1.1</a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords" class="missing">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc" class="missing">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr>
+  </table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <div class="searchable">
+      <p>
+Hi,<br />
+I would like to install indico 1.1.1 for the fist time (no migration).<br />
+I tryed to use the following  guide <a href="http://indico-software.org/wiki/Admin/Installation0.98">http://indico-software.org/wiki/Admin/Installation0.98</a> <br />
+with Scientific Linux 6.4 with the standard repository + epel.<br />
+Unfortunaly dosent work.<br />
+the command pip install reportlab PIL is not able to complete the installation.<br />
+Then I tryed to install manually the dipendences but the version required in the following page are to new and I cannot found it in any repository.<br />
+<a href="http://indico-software.org/browser/indico/requirements.txt?rev=9d536609a836e012731b8c97ce426c3a682d12d8">http://indico-software.org/browser/indico/requirements.txt?rev=9d536609a836e012731b8c97ce426c3a682d12d8</a><br />
+</p>
+<p>
+Please suggest me which version of SL I can use, or which yum repository I must add to install indico.<br />
+</p>
+<p>
+As follow the errors that I obtail when I try to execute the command pip install reportlab PIL.<br />
+Thank you<br />
+</p>
+<p>
+Silvio<br />
+</p>
+<p>
+[root@matsrv yum.repos.d]# pip install reportlab PIL<br />
+Downloading/unpacking reportlab<br />
+</p>
+<blockquote>
+<p>
+Downloading reportlab-2.7.tar.gz (2.0MB): 2.0MB downloaded<br />
+Running setup.py egg_info for package reportlab<br />
+</p>
+<blockquote>
+<p>
+################################################<br />
+#Attempting install of _rl_accel, sgmlop &amp; pyHnj<br />
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel'<br />
+################################################<br />
+################################################<br />
+#Attempting install of _renderPM<br />
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/renderPM'<br />
+# installing without freetype no ttf, sorry!<br />
+# You need to install a static library version of the freetype2 software<br />
+# If you need truetype support in renderPM<br />
+# You may need to edit setup.cfg (win32)<br />
+# or edit this file to access the library if it is installed<br />
+################################################<br />
+Downloading standard T1 font curves<br />
+Finished download of standard T1 font curves<br />
+</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>
+########## SUMMARY INFO #########<br />
+################################################<br />
+#Attempting install of _rl_accel, sgmlop &amp; pyHnj<br />
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel'<br />
+################################################<br />
+################################################<br />
+#Attempting install of _renderPM<br />
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/renderPM'<br />
+# installing without freetype no ttf, sorry!<br />
+# You need to install a static library version of the freetype2 software<br />
+# If you need truetype support in renderPM<br />
+# You may need to edit setup.cfg (win32)<br />
+# or edit this file to access the library if it is installed<br />
+################################################<br />
+Downloading standard T1 font curves<br />
+Finished download of standard T1 font curves<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+Downloading/unpacking PIL<br />
+</p>
+<blockquote>
+<p>
+You are installing a potentially insecure and unverifiable file. Future versions of pip will default to disallowing insecure files.<br />
+Downloading PIL-1.1.7.tar.gz (506kB): 506kB downloaded<br />
+Running setup.py egg_info for package PIL<br />
+</p>
+<blockquote>
+<p>
+WARNING: <em> not a valid package name; please use only.-separated package names in setup.py<br />
+</em></p>
+</blockquote>
+</blockquote>
+<p>
+Installing collected packages: reportlab, PIL<br />
+</p>
+<blockquote>
+<p>
+Running setup.py install for reportlab<br />
+</p>
+<blockquote>
+<p>
+################################################<br />
+#Attempting install of _rl_accel, sgmlop &amp; pyHnj<br />
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel'<br />
+################################################<br />
+################################################<br />
+#Attempting install of _renderPM<br />
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/renderPM'<br />
+# installing without freetype no ttf, sorry!<br />
+# You need to install a static library version of the freetype2 software<br />
+# If you need truetype support in renderPM<br />
+# You may need to edit setup.cfg (win32)<br />
+# or edit this file to access the library if it is installed<br />
+################################################<br />
+Standard T1 font curves already downloaded<br />
+building '_rl_accel' extension<br />
+gcc -pthread -fno-strict-aliasing -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -DNDEBUG -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -fPIC -I/usr/include/python2.6 -c /tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c -o build/temp.linux-x86_64-2.6/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.o<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:11:20: error: Python.h: No such file or directory<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:35: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:36: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:39: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:47: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:121: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:194: error: expected ‘)’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:238: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:287: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:313: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:322: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:332: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:364: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:398: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:432: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:455: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:478: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:495: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:496: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:497: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:515: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:524:21: error: compile.h: No such file or directory<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:525:25: error: frameobject.h: No such file or directory<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:526:23: error: traceback.h: No such file or directory<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘_add_TB’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: (Each undeclared identifier is reported only once<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: for each function it appears in.)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘py_srcfile’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘py_funcname’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘py_globals’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘empty_tuple’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘empty_string’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:530: error: ‘<a class="missing wiki">PyCodeObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:530: error: ‘py_code’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:531: error: ‘<a class="missing wiki">PyFrameObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:531: error: ‘py_frame’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:533: warning: implicit declaration of function ‘PyString_FromString’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:537: warning: implicit declaration of function ‘PyModule_GetDict’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:537: error: ‘moduleObject’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:539: warning: implicit declaration of function ‘PyTuple_New’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:543: warning: implicit declaration of function ‘PyCode_New’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:560: warning: implicit declaration of function ‘PyFrame_New’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:561: warning: implicit declaration of function ‘PyThreadState_Get’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:568: warning: implicit declaration of function ‘PyTraceBack_Here’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:570: warning: implicit declaration of function ‘Py_XDECREF’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:577: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:739: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:850: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:929: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:943: error: expected specifier-qualifier-list before ‘PyObject_HEAD’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘<a class="missing wiki">BoxFree?</a>’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:955: warning: implicit declaration of function ‘PyMem_DEL’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:958: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_set_int’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: error: ‘v’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: warning: implicit declaration of function ‘PyNumber_Int’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: error: ‘value’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:962: warning: implicit declaration of function ‘PyInt_AsLong’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:963: warning: implicit declaration of function ‘Py_DECREF’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:967: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_set_double’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: error: ‘v’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: warning: implicit declaration of function ‘PyNumber_Float’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: error: ‘value’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:971: warning: implicit declaration of function ‘PyFloat_AsDouble’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:976: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_set_character’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:978: error: ‘value’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:978: error: ‘Py_None’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:979: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘is_none’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:982: warning: implicit declaration of function ‘PyString_AsString’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:984: warning: implicit declaration of function ‘PyString_GET_SIZE’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:985: warning: implicit declaration of function ‘PyErr_Format’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:985: error: ‘PyExc_AttributeError’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:988: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘character’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:989: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘is_none’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:995: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_setattr’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: warning: implicit declaration of function ‘strcmp’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘width’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: error: ‘value’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: error: too many arguments to function ‘Box_set_double’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:998: error: too many arguments to function ‘Box_set_character’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:999: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘stretch’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:999: error: too many arguments to function ‘Box_set_double’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1000: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘shrink’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1000: error: too many arguments to function ‘Box_set_double’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1001: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘penalty’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1001: error: too many arguments to function ‘Box_set_double’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1002: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘flagged’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1002: error: too many arguments to function ‘Box_set_int’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1007: error: ‘PyExc_AttributeError’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘_Glue_compute_width’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘is_glue’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘width’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘shrink’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘stretch’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1015: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘width’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1018: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1025: error: array type has incomplete element type<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1026: error: ‘PyCFunction’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1026: error: expected ‘}’ before ‘Glue_compute_width’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1030: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1039: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1053: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘<a class="missing wiki">BoxType?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1079: error: expected ‘)’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1099: error: expected ‘)’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1116: error: expected ‘)’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1135: error: expected specifier-qualifier-list before ‘<a class="missing wiki">PyListObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1139: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1145: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1156: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1172: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_methods’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1181: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_type’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1183: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1183: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘BoxList_init’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1185: error: ‘PyList_Type’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1185: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1185: error: expected expression before ‘)’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1186: error: ‘<a class="missing wiki">BoxListobject?</a>’ has no member named ‘state’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1190: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1195: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_getsets’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1200: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_type’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1270: error: array type has incomplete element type<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1271: error: ‘_a85_encode’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1271: error: ‘METH_VARARGS’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1272: error: ‘_a85_decode’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1273: error: ‘escapePDF’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1274: error: ‘_instanceEscapePDF’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1275: error: ‘_fp_str’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1276: error: ‘_sameFrag’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1277: error: ‘ttfonts_calcChecksum’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1278: error: ‘ttfonts_calcChecksumL’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1279: error: ‘ttfonts_add32’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1280: error: ‘ttfonts_add32L’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1281: error: ‘hex32’ undeclared here (not in a function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1282: error: expected ‘}’ before ‘unicode2T1’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1283: error: expected ‘}’ before ‘_instanceStringWidthU’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1284: error: expected ‘}’ before ‘_instanceStringWidthTTF’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1285: error: expected ‘}’ before ‘_reset’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1287: error: expected ‘}’ before ‘Box’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1288: error: expected ‘}’ before ‘Glue’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1289: error: expected ‘}’ before ‘Penalty’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘init_rl_accel’:<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1299: error: ‘moduleObject’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1299: warning: implicit declaration of function ‘Py_InitModule3’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1302: error: ‘<a class="missing wiki">ErrorObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1303: warning: implicit declaration of function ‘PyErr_NewException’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1306: warning: implicit declaration of function ‘Py_INCREF’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1307: error: ‘moduleVersion’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1308: warning: implicit declaration of function ‘PyModule_AddObject’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1312: error: ‘<a class="missing wiki">BoxType?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1312: error: ‘PyType_Type’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1313: error: ‘BoxList_type’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1313: error: ‘PyList_Type’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1314: warning: implicit declaration of function ‘PyType_Ready’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1316: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1316: error: expected expression before ‘)’ token<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1320: warning: implicit declaration of function ‘PyErr_Occurred’<br />
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1320: warning: implicit declaration of function ‘Py_FatalError’<br />
+error: command 'gcc' failed with exit status 1<br />
+Complete output from command /usr/bin/python -c "import setuptools;<span class="underline">file</span>='/tmp/pip_build_root/reportlab/setup.py';exec(compile(open(<span class="underline">file</span>).read().replace('\r\n', '\n'), <span class="underline">file</span>, 'exec'))" install --record /tmp/pip-sdm4ke-record/install-record.txt --single-version-externally-managed:<br />
+################################################<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+#Attempting install of _rl_accel, sgmlop &amp; pyHnj<br />
+</p>
+<p>
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel'<br />
+</p>
+<p>
+################################################<br />
+</p>
+<p>
+################################################<br />
+</p>
+<p>
+#Attempting install of _renderPM<br />
+</p>
+<p>
+#extensions from '/tmp/pip_build_root/reportlab/src/rl_addons/renderPM'<br />
+</p>
+<p>
+# installing without freetype no ttf, sorry!<br />
+</p>
+<p>
+# You need to install a static library version of the freetype2 software<br />
+</p>
+<p>
+# If you need truetype support in renderPM<br />
+</p>
+<p>
+# You may need to edit setup.cfg (win32)<br />
+</p>
+<p>
+# or edit this file to access the library if it is installed<br />
+</p>
+<p>
+################################################<br />
+</p>
+<p>
+Standard T1 font curves already downloaded<br />
+</p>
+<p>
+running install<br />
+</p>
+<p>
+running build<br />
+</p>
+<p>
+running build_py<br />
+</p>
+<p>
+creating build<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab<br />
+</p>
+<p>
+copying src/reportlab/rl_config.py -&gt; build/lib.linux-x86_64-2.6/reportlab<br />
+</p>
+<p>
+copying src/reportlab/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/doughnut.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/barcharts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/utils.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/lineplots.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/linecharts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/piecharts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/areas.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/textlabels.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/legends.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/axes.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/markers.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/utils3d.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/spider.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/slidebox.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+copying src/reportlab/graphics/charts/dotbox.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/charts<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/linechart_with_markers.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/radar.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/scatter_lines_markers.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/clustered_bar.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/line_chart.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/stacked_column.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/filled_radar.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/stacked_bar.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/excelcolors.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/runall.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/scatter.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/simple_pie.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/clustered_column.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/exploded_pie.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/scatter_lines.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/bubble.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+copying src/reportlab/graphics/samples/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/samples<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/flags.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/signsandsymbols.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/eventcal.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/grids.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/markers.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgets/table.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/widgets<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/qr.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/usps.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/eanbc.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/usps4s.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/code93.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/code128.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/common.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/code39.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/widgets.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/test.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/fourstate.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/barcode/lto.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics/barcode<br />
+</p>
+<p>
+copying src/reportlab/graphics/renderPS.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/testdrawings.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/testshapes.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/renderSVG.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/renderbase.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/widgetbase.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/renderPM.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/renderPDF.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/shapes.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+copying src/reportlab/graphics/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/graphics<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/xmllib.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/sequencer.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/PyFontify.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/colors.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/utils.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/geomutils.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/pygments2xpre.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/arciv.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/units.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/randomtext.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/abag.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/fonts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/extformat.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/rparsexml.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/boxstuff.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/codecharts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/corp.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/formatters.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/textsplit.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/fontfinder.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/pagesizes.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/enums.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/set_ops.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/yaml.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/pdfencrypt.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/normalDate.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/testutils.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/validators.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/styles.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/logger.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/rltempfile.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+copying src/reportlab/lib/attrmap.py -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_standard.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_timesitalic.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_timesroman.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_courieroblique.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_can_cmap_data.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_zapfdingbats.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/rl_codecs.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/cidfonts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_helveticaoblique.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_zapfdingbats.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_cidfontdata.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_macroman.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_helvetica.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_timesbolditalic.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/ttfonts.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/pdfform.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_symbol.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_symbol.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/pdfutils.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_macexpert.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/pdfpattern.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/pdfmetrics.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/pdfdoc.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_courier.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_courierbold.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_courierboldoblique.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_timesbold.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_winansi.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_enc_pdfdoc.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_helveticaboldoblique.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+copying src/reportlab/pdfbase/_fontdata_widths_helveticabold.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfbase<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/pdfgeom.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/textobject.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/pathobject.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/canvas.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/pycanvas.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+copying src/reportlab/pdfgen/pdfimages.py -&gt; build/lib.linux-x86_64-2.6/reportlab/pdfgen<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/frames.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/flowables.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/doctemplate.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/figures.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/xpreformatted.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/paraparser.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/tableofcontents.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/para.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/paragraph.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/<span class="underline">init</span>.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+copying src/reportlab/platypus/tables.py -&gt; build/lib.linux-x86_64-2.6/reportlab/platypus<br />
+</p>
+<p>
+creating build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/00readme.txt -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/bitstream-vera-license.txt -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/DarkGarden-copying-gpl.txt -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/DarkGarden-copying.txt -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/DarkGarden-readme.txt -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/DarkGarden.sfd -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/DarkGardenMK.afm -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/DarkGardenMK.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/Vera.ttf -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/VeraBd.ttf -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/VeraBI.ttf -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/VeraIt.ttf -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_abi<span class="underline"></span>.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_ab<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_ai<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_a<span class="underline"></span><span class="underline">.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</span></p>
+<p>
+copying src/reportlab/fonts/cobo<span class="underline"></span>.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/cob<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/com<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/coo<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_ebi<span class="underline"></span>.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_eb<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_ei<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/_er<span class="underline"></span>_.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</p>
+<p>
+copying src/reportlab/fonts/sy<span class="underline"></span><span class="underline">.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</span></p>
+<p>
+copying src/reportlab/fonts/zd<span class="underline"></span><span class="underline">.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</span></p>
+<p>
+copying src/reportlab/fonts/zx<span class="underline"></span><span class="underline">.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</span></p>
+<p>
+copying src/reportlab/fonts/zy<span class="underline"></span><span class="underline">.pfb -&gt; build/lib.linux-x86_64-2.6/reportlab/fonts<br />
+</span></p>
+<p>
+copying src/reportlab/lib/hyphen.mashed -&gt; build/lib.linux-x86_64-2.6/reportlab/lib<br />
+</p>
+<p>
+running build_ext<br />
+</p>
+<p>
+building '_rl_accel' extension<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6/tmp<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6/tmp/pip_build_root<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6/tmp/pip_build_root/reportlab<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6/tmp/pip_build_root/reportlab/src<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6/tmp/pip_build_root/reportlab/src/rl_addons<br />
+</p>
+<p>
+creating build/temp.linux-x86_64-2.6/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel<br />
+</p>
+<p>
+gcc -pthread -fno-strict-aliasing -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -DNDEBUG -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -fPIC -I/usr/include/python2.6 -c /tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c -o build/temp.linux-x86_64-2.6/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.o<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:11:20: error: Python.h: No such file or directory<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:35: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:36: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:39: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:47: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:121: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:194: error: expected ‘)’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:238: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:287: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:313: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:322: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:332: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:364: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:398: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:432: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:455: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:478: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:495: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:496: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:497: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:515: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:524:21: error: compile.h: No such file or directory<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:525:25: error: frameobject.h: No such file or directory<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:526:23: error: traceback.h: No such file or directory<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘_add_TB’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: (Each undeclared identifier is reported only once<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: for each function it appears in.)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘py_srcfile’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘py_funcname’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘py_globals’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘empty_tuple’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: error: ‘empty_string’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:529: warning: left-hand operand of comma expression has no effect<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:530: error: ‘<a class="missing wiki">PyCodeObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:530: error: ‘py_code’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:531: error: ‘<a class="missing wiki">PyFrameObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:531: error: ‘py_frame’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:533: warning: implicit declaration of function ‘PyString_FromString’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:537: warning: implicit declaration of function ‘PyModule_GetDict’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:537: error: ‘moduleObject’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:539: warning: implicit declaration of function ‘PyTuple_New’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:543: warning: implicit declaration of function ‘PyCode_New’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:560: warning: implicit declaration of function ‘PyFrame_New’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:561: warning: implicit declaration of function ‘PyThreadState_Get’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:568: warning: implicit declaration of function ‘PyTraceBack_Here’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:570: warning: implicit declaration of function ‘Py_XDECREF’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:577: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:739: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:850: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:929: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:943: error: expected specifier-qualifier-list before ‘PyObject_HEAD’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘<a class="missing wiki">BoxFree?</a>’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:955: warning: implicit declaration of function ‘PyMem_DEL’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:958: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_set_int’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: error: ‘v’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: warning: implicit declaration of function ‘PyNumber_Int’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:960: error: ‘value’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:962: warning: implicit declaration of function ‘PyInt_AsLong’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:963: warning: implicit declaration of function ‘Py_DECREF’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:967: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_set_double’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: error: ‘v’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: warning: implicit declaration of function ‘PyNumber_Float’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:969: error: ‘value’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:971: warning: implicit declaration of function ‘PyFloat_AsDouble’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:976: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_set_character’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:978: error: ‘value’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:978: error: ‘Py_None’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:979: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘is_none’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:982: warning: implicit declaration of function ‘PyString_AsString’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:984: warning: implicit declaration of function ‘PyString_GET_SIZE’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:985: warning: implicit declaration of function ‘PyErr_Format’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:985: error: ‘PyExc_AttributeError’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:988: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘character’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:989: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘is_none’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:995: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘Box_setattr’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: warning: implicit declaration of function ‘strcmp’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘width’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: error: ‘value’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:997: error: too many arguments to function ‘Box_set_double’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:998: error: too many arguments to function ‘Box_set_character’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:999: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘stretch’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:999: error: too many arguments to function ‘Box_set_double’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1000: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘shrink’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1000: error: too many arguments to function ‘Box_set_double’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1001: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘penalty’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1001: error: too many arguments to function ‘Box_set_double’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1002: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘flagged’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1002: error: too many arguments to function ‘Box_set_int’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1007: error: ‘PyExc_AttributeError’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘_Glue_compute_width’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘is_glue’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘width’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘shrink’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1014: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘stretch’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1015: error: ‘<a class="missing wiki">BoxObject?</a>’ has no member named ‘width’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1018: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1025: error: array type has incomplete element type<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1026: error: ‘PyCFunction’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1026: error: expected ‘}’ before ‘Glue_compute_width’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1030: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1039: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1053: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘<a class="missing wiki">BoxType?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1079: error: expected ‘)’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1099: error: expected ‘)’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1116: error: expected ‘)’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1135: error: expected specifier-qualifier-list before ‘<a class="missing wiki">PyListObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1139: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1145: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1156: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1172: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_methods’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1181: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_type’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1183: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1183: error: expected declaration specifiers or ‘...’ before ‘<a class="missing wiki">PyObject?</a>’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘BoxList_init’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1185: error: ‘PyList_Type’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1185: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1185: error: expected expression before ‘)’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1186: error: ‘<a class="missing wiki">BoxListobject?</a>’ has no member named ‘state’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: At top level:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1190: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘*’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1195: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_getsets’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1200: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘<span class="underline">attribute</span>’ before ‘BoxList_type’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1270: error: array type has incomplete element type<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1271: error: ‘_a85_encode’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1271: error: ‘METH_VARARGS’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1272: error: ‘_a85_decode’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1273: error: ‘escapePDF’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1274: error: ‘_instanceEscapePDF’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1275: error: ‘_fp_str’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1276: error: ‘_sameFrag’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1277: error: ‘ttfonts_calcChecksum’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1278: error: ‘ttfonts_calcChecksumL’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1279: error: ‘ttfonts_add32’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1280: error: ‘ttfonts_add32L’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1281: error: ‘hex32’ undeclared here (not in a function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1282: error: expected ‘}’ before ‘unicode2T1’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1283: error: expected ‘}’ before ‘_instanceStringWidthU’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1284: error: expected ‘}’ before ‘_instanceStringWidthTTF’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1285: error: expected ‘}’ before ‘_reset’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1287: error: expected ‘}’ before ‘Box’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1288: error: expected ‘}’ before ‘Glue’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1289: error: expected ‘}’ before ‘Penalty’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c: In function ‘init_rl_accel’:<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1299: error: ‘moduleObject’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1299: warning: implicit declaration of function ‘Py_InitModule3’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1302: error: ‘<a class="missing wiki">ErrorObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1303: warning: implicit declaration of function ‘PyErr_NewException’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1306: warning: implicit declaration of function ‘Py_INCREF’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1307: error: ‘moduleVersion’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1308: warning: implicit declaration of function ‘PyModule_AddObject’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1312: error: ‘<a class="missing wiki">BoxType?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1312: error: ‘PyType_Type’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1313: error: ‘BoxList_type’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1313: error: ‘PyList_Type’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1314: warning: implicit declaration of function ‘PyType_Ready’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1316: error: ‘<a class="missing wiki">PyObject?</a>’ undeclared (first use in this function)<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1316: error: expected expression before ‘)’ token<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1320: warning: implicit declaration of function ‘PyErr_Occurred’<br />
+</p>
+<p>
+/tmp/pip_build_root/reportlab/src/rl_addons/rl_accel/_rl_accel.c:1320: warning: implicit declaration of function ‘Py_FatalError’<br />
+</p>
+<p>
+error: command 'gcc' failed with exit status 1<br />
+</p>
+<hr />
+<p>
+Cleaning up...<br />
+Command /usr/bin/python -c "import setuptools;<span class="underline">file</span>='/tmp/pip_build_root/reportlab/setup.py';exec(compile(open(<span class="underline">file</span>).read().replace('\r\n', '\n'), <span class="underline">file</span>, 'exec'))" install --record /tmp/pip-sdm4ke-record/install-record.txt --single-version-externally-managed failed with error code 1 in /tmp/pip_build_root/reportlab<br />
+Traceback (most recent call last):<br />
+</p>
+<blockquote>
+<p>
+File "/usr/bin/pip", line 9, in &lt;module&gt;<br />
+</p>
+<blockquote>
+<p>
+load_entry_point('pip==1.4.1', 'console_scripts', 'pip')()<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/pip-1.4.1-py2.6.egg/pip/<span class="underline">init</span>.py", line 148, in main<br />
+</p>
+<blockquote>
+<p>
+return command.main(args[1:], options)<br />
+</p>
+</blockquote>
+<p>
+File "/usr/lib/python2.6/site-packages/pip-1.4.1-py2.6.egg/pip/basecommand.py", line 169, in main<br />
+</p>
+<blockquote>
+<p>
+text = '\n'.join(complete_log)<br />
+</p>
+</blockquote>
+</blockquote>
+<p>
+<a class="missing wiki">UnicodeDecodeError?</a>: 'ascii' codec can't decode byte 0xe2 in position 89: ordinal not in range(128)<br />
+[root@matsrv yum.repos.d]#<br />
+</p>
+
+    </div>
+  </div>
+</div>
+          
+
+        <div>
+          <div style="position: relative">
+            <form id="prefs" method="get" action="http://old.indico-software.org/prefs" style="position: absolute; right: 0">
+              <div id="trac-comments-order">
+                <input type="radio" id="trac-comments-oldest" name="trac-comments-order" value="oldest" checked="checked" />
+                <label for="trac-comments-oldest">Oldest first</label>
+                <input type="radio" id="trac-comments-newest" name="trac-comments-order" value="newest" />
+                <label for="trac-comments-newest">Newest first</label>
+                <span id="trac-threaded-toggle" style="display: none">
+                  <input type="radio" id="trac-comments-threaded" name="trac-comments-order" value="threaded" />
+                  <label for="trac-comments-threaded">Threaded</label>
+                </span>
+              </div>
+              <div>
+                <input id="trac-comments-only-toggle" type="checkbox" />
+                <label for="trac-comments-only-toggle">Comments only</label>
+              </div>
+            </form>
+          </div>
+          <h3 class="foldable">Change History <span class="trac-count">(2)</span></h3>
+          <div id="changelog">
+              <div class="change" id="trac-change-1-1383758106349674">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:1" class="cnum">
+    <a href="#comment:1">comment:1</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-06T18%3A15%3A06%2B01%3A00&amp;precision=second" title="See timeline at 11/06/13 18:15:06">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-milestone">
+      <strong class="trac-field-milestone">Milestone</strong>
+        set to <em>v1.1</em>
+    </li>
+  </ul>
+
+              </div>
+              <div class="change" id="trac-change-2-1383920390776264">
+                
+  <h3 class="change">
+    <span class="threading">
+      <span id="comment:2" class="cnum">
+    <a href="#comment:2">comment:2</a>
+  </span>
+    </span>
+        Changed <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-08T15%3A19%3A50%2B01%3A00&amp;precision=second" title="See timeline at 11/08/13 15:19:50">2 years ago</a> by jbenito
+  </h3>
+  <div class="trac-ticket-buttons">
+  </div>
+  <ul class="changes">
+    <li class="trac-field-resolution">
+      <strong class="trac-field-resolution">Resolution</strong>
+        set to <em>fixed</em>
+    </li><li class="trac-field-status">
+      <strong class="trac-field-status">Status</strong>
+        changed from <em>new</em> to <em>closed</em>
+    </li>
+  </ul>
+    <div class="comment searchable">
+      <p>
+Hi, this is because you must install python-devel first.<br />
+Try: apt-get install python-devel<br />
+</p>
+
+    </div>
+
+              </div>
+          </div>
+        </div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="../wiki/TracTickets.html">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="first">
+          <a rel="nofollow" href="t14251fd1.csv?format=csv" class="csv">Comma-delimited Text</a>
+        </li><li>
+          <a rel="nofollow" href="t1425a63a.tsv?format=tab" class="tab">Tab-delimited Text</a>
+        </li><li class="last">
+          <a rel="nofollow" href="1425a409?format=rss" class="rss">RSS Feed</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/ticket/1425 by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:39:45 GMT -->
+</html>

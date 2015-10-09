@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/DevPractices by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/DevPractices – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FDevPractices56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Dev.html" title="View parent page" />
+        <link rel="start" href="../../wiki.html" />
+        <link rel="stylesheet" href="../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../index.html"><img src="../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../wiki.html">wiki:</a><a class="pathentry" href="../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="DevPractices.html" title="View Dev/DevPractices">DevPractices</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Dev.html">Up</a></li><li><a href="../WikiStart.html">Start Page</a></li><li><a href="../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/DevPractices?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+</p><div class="wiki-toc">
+<ol>
+  <li>
+    <a href="#DevelopmentPractices">Development Practices</a>
+    <ol>
+      <li>
+        <a href="#a1.Basics">1. Basics</a>
+      </li>
+      <li>
+        <a href="#a2.VersionControl">2. Version Control</a>
+      </li>
+      <li>
+        <a href="#a3.Security">3. Security</a>
+      </li>
+      <li>
+        <a href="#a4.HTMLSpecificRules">4. HTML Specific Rules</a>
+      </li>
+      <li>
+        <a href="#a5.UserInterfaceguidelines">5. User Interface guidelines</a>
+      </li>
+    </ol>
+  </li>
+</ol>
+</div><p>
+</p>
+<h1 id="DevelopmentPractices">Development Practices</h1>
+<h2 id="a1.Basics">1. Basics</h2>
+<ul><li>Common Principles
+<ul><li>First, learn Indico development style and workflow, then develop your module.
+</li><li><strong>Follow and keep Indico layers</strong>: Main core, rh, pages, wcomponents, services.
+</li><li>As usual, no need to reinvent the wheel;
+</li><li>There's a library that does it? Use it (unless the cost of using it is higher than that of doing it yourself);
+</li><li>Use known <a class="ext-link" href="http://en.wikipedia.org/wiki/Software_design_patterns" title="Software_design_patterns in WikiPedia"><span class="icon">​</span>design patterns</a> as much as possible - patterns are a common language that allow us to better communicate ideas, and programming languages and libraries tend to follow them as well;
+</li><li>If it's <strong>not obvious</strong>, add a <strong>comment</strong>;
+</li><li>Use <strong>UTF-8</strong> as encoding by default for every single file.
+</li><li>Follow our <a class="wiki" href="DevPractices/NamingConventions.html">naming conventions</a>.
+</li><li>Please, don't commit any trailing white spaces (see <a class="wiki" href="GitWorkflow.html">Dev/GitWorkflow</a>)! If using Eclipse, <a href="Tools.html#a1.AnyEditToolstoremovetrailingwhitespaces">AnyEditTools</a> can help to remove trailing white spaces in all kind of test files.
+</li></ul></li></ul><ul><li>Python
+<ul><li>Use always <strong>4 white spaces instead of TABs</strong>!
+</li><li>Use consistent names for variables.
+</li><li>Comment always your classes and methods, even if they look trivial for you.
+</li><li>Use comments whenever you feel that people will not find out what a particular segment of code does just by reading it.
+</li><li>Try to follow the <a class="ext-link" href="http://www.python.org/dev/peps/pep-0008/"><span class="icon">​</span>PEP08</a> when formatting your Python code.
+<ul><li>Exception: historically variable names in Indico's Python are <em>camelCase</em> instead of using <em>lower_case_with_underscores</em>. The current development team still likes <em>camelCase</em>.
+</li></ul></li><li>Speak Python <a class="ext-link" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html"><span class="icon">​</span>language</a>
+</li><li>Got new code? <strong><a class="ext-link" href="http://en.wikipedia.org/wiki/Automated_code_review" title="Automated_code_review in WikiPedia"><span class="icon">​</span>Pylint</a> it</strong> before adding it to the repo.
+</li><li>There are several tools for Eclipse than can help you to properly format your code and use Pylint, see <a href="Tools.html#a2.PyDevcodeformatter">PyDev formatter</a> and <a href="Tools.html#a3.PylintwithPyDev">Pylint with PyDev</a>.
+</li></ul></li></ul><ul><li>JavaScript
+<ul><li><strong><a class="ext-link" href="http://en.wikipedia.org/wiki/Automated_code_review" title="Automated_code_review in WikiPedia"><span class="icon">​</span>jslint</a> your files</strong> as often as possible. It helps you prevent a lot of stupid mistakes. Emacs users have a nice <a class="ext-link" href="http://www.emacswiki.org/emacs/FlymakeJavaScript"><span class="icon">​</span>jslint mode</a> for that. Or see <a href="Tools.html#a4.JsLint">this guide</a> to use jslint from Eclipse.
+</li></ul></li></ul><h2 id="a2.VersionControl">2. Version Control</h2>
+<p>
+Check the <a class="wiki" href="GitWorkflow.html">Git Workflow</a> page.
+</p>
+<h2 id="a3.Security">3. Security</h2>
+<p>
+<a class="ext-link" href="http://indicobeta.cern.ch/event/75551" title="75551 in CERN Indico"><span class="icon">​</span>75551</a> contains a presentation on the topic. Most of it is described by the <a class="wiki" href="SecurityGuidelines.html">Security Guidelines</a>
+</p>
+<p>
+If you are working at <acronym title="European Organization for Nuclear Research">CERN</acronym>, we strongly recommend you to follow the course <a class="ext-link" href="http://cta.cern.ch/cta2/f?p=110:9:2375776445054375::NO::X_COURSE_ID,X_STATUS:4064,D"><span class="icon">​</span>Developing secure software</a>
+</p>
+<h2 id="a4.HTMLSpecificRules">4. HTML Specific Rules</h2>
+<p>
+Have Indico 100% HTML4.01 compliant (so far, this is an utopia for Indico...)
+</p>
+<h2 id="a5.UserInterfaceguidelines">5. User Interface guidelines</h2>
+<p>
+See the <a class="wiki" href="DevPractices/UserInterfaceGuidelines.html">User Interface Guidelines</a> page.
+</p>
+</div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/DevPractices?action=diff&amp;version=26" title="Version 26 by pferreir">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2014-03-19T17%3A34%3A25%2B01%3A00&amp;precision=second" title="See timeline at 03/19/14 17:34:25">19 months ago</a></span>
+            <span class="trac-print">Last modified on 03/19/14 17:34:25</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FDevPractices56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/DevPractices by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 14:56:13 GMT -->
+</html>

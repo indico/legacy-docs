@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+  
+
+
+  
+<!-- Mirrored from old.indico-software.org/wiki/Dev/FutureDB/Schema/RoomBooking by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      Dev/FutureDB/Schema/RoomBooking – Indico
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="http://old.indico-software.org/search" />
+        <link rel="help" href="../../../TracGuide.html" />
+        <link rel="alternate" href="Dev%252FFutureDB%252FSchema%252FRoomBooking56e6.txt?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="../Schema.html" title="View parent page" />
+        <link rel="start" href="../../../../wiki.html" />
+        <link rel="stylesheet" href="../../../../chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="../../../../chrome/common/css/wiki.css" type="text/css" />
+        <link rel="shortcut icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="../../../../chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="http://old.indico-software.org/search/opensearch" title="Search Indico" />
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="../../../../chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../../../../chrome/site/style.css" />
+  </head>
+  <body>
+    <div id="siteheader">
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="../../../../index.html"><img src="../../../../chrome/site/indico.png" alt="Indico" /></a>
+      </div>
+      <form id="search" action="http://old.indico-software.org/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://old.indico-software.org/login">Login</a></li><li class="last"><a href="../../../../prefs.html">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="../../../../wiki.html">Wiki</a></li><li><a href="http://old.indico-software.org/timeline">Timeline</a></li><li><a href="../../../../roadmap.html">Roadmap</a></li><li><a href="http://old.indico-software.org/browser">Browse Source</a></li><li><a href="http://old.indico-software.org/report">View Tickets</a></li><li><a href="http://old.indico-software.org/search">Search</a></li><li class="last"><a href="../../../../blog.html">Blog</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="../../../../wiki.html">wiki:</a><a class="pathentry" href="../../../Dev.html" title="View Dev">Dev</a><span class="pathentry sep">/</span><a class="pathentry" href="../../FutureDB.html" title="View Dev/FutureDB">FutureDB</a><span class="pathentry sep">/</span><a class="pathentry" href="../Schema.html" title="View Dev/FutureDB/Schema">Schema</a><span class="pathentry sep">/</span><a class="pathentry" href="RoomBooking.html" title="View Dev/FutureDB/Schema/RoomBooking">RoomBooking</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="../Schema.html">Up</a></li><li><a href="../../../WikiStart.html">Start Page</a></li><li><a href="../../../TitleIndex.html">Index</a></li><li class="last"><a href="http://old.indico-software.org/wiki/Dev/FutureDB/Schema/RoomBooking?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="SchemaforRoomBookingModule">Schema for Room Booking Module</h1>
+<h2 id="CurrentSchema">Current Schema</h2>
+<p>
+<a style="padding:0; border:none" href="../../../../attachment/wiki/Dev/FutureDB/Schema/RoomBooking/db.html"><img src="../../../../raw-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/db.png" alt="better custom attributes" title="better custom attributes" /></a>
+</p>
+<h2 id="CurrentUML">Current UML</h2>
+<p>
+<a style="padding:0; border:none" href="../../../../attachment/wiki/Dev/FutureDB/Schema/RoomBooking/uml.html"><img src="../../../../raw-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/uml.png" alt="latest uml" title="latest uml" /></a>
+</p>
+<h2 id="Aspect">Aspect</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>           </th><th> <strong>After</strong>                
+</th></tr><tr><td> id(str)                  </td><td> id(int)                      
+</td></tr><tr><td> name                     </td><td> name(str)                    
+</td></tr><tr><td> defaultOnStartup(bool)   </td><td style="text-align: center">                              
+</td></tr><tr><td> centerLatitude(str)      </td><td> center_latitude(str)         
+</td></tr><tr><td> centerLongitude(str)     </td><td> center_longitude(str)        
+</td></tr><tr><td> zoomLevel(str)           </td><td> zoom_level(short)            
+</td></tr><tr><td> topLeftLatitude(str)     </td><td> top_left_latitude(str)       
+</td></tr><tr><td> topLeftLongitude(str)    </td><td> top_left_longitude(str)      
+</td></tr><tr><td> bottomRightLatitude(str) </td><td> bottom_right_latitude(str)   
+</td></tr><tr><td style="text-align: right"> bottomRightLongitude(str)</td><td> bottom_right_longitude(str)  
+</td></tr><tr><td style="text-align: center">                          </td><td> location_id(int)             
+</td></tr></table>
+<h2 id="Location">Location</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>           </th><th> <strong>After</strong>                     
+</th></tr><tr><td style="text-align: center">                          </td><td> id(int)                           
+</td></tr><tr><td> aspects(lists)           </td><td style="text-align: center">                                   
+</td></tr><tr><td> avcSupportEmails(list)   </td><td> support_emails(str)               
+</td></tr><tr><td> friendlyName(str)        </td><td> name(str)                         
+</td></tr><tr><td style="text-align: center">                          </td><td> default_aspect_id(int)            
+</td></tr></table>
+<h2 id="Room">Room</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>                      </th><th> <strong>After</strong>                                             
+</th></tr><tr><td> id(int)                             </td><td> id(int)                                                   
+</td></tr><tr><td> dailyBookablePeriod(list)           </td><td style="text-align: center">                                                           
+</td></tr><tr><td> equipment(str)                      </td><td style="text-align: center">                                                           
+</td></tr><tr><td> locationName(str)                   </td><td> location_id(int)                                          
+</td></tr><tr><td> name(str)                           </td><td> name(str)                                                 
+</td></tr><tr><td> nonBookableDates(list)              </td><td style="text-align: center">                                                           
+</td></tr><tr><td> photoId(str)                        </td><td style="text-align: center">                                                           
+</td></tr><tr><td> avaibleVC(list)                     </td><td style="text-align: center">                                                           
+</td></tr><tr><td> building(int)                       </td><td> building(str)                                             
+</td></tr><tr><td> capacity(int)                       </td><td> capacity(str)                                             
+</td></tr><tr><td> comments(str)                       </td><td> comments(str)                                             
+</td></tr><tr><td> customAtts(dict)                    </td><td style="text-align: center">                                                           
+</td></tr><tr><td> division(str)                       </td><td> division(str)                                             
+</td></tr><tr><td> floor(str)                          </td><td> floor(str)                                                
+</td></tr><tr><td> isActive(bool)                      </td><td> is_active(bool)                                           
+</td></tr><tr><td> isReservable(bool)                  </td><td> is_reservable(bool)                                       
+</td></tr><tr><td> latitude(str)                       </td><td> latitude(str)                                             
+</td></tr><tr><td> longitude(str)                      </td><td> longitude(str)                                            
+</td></tr><tr><td> maxAdvanceDays(int)                 </td><td> max_advance_days(int)                                     
+</td></tr><tr><td> responsibleId(str)                  </td><td> owner_id(str)                                             
+</td></tr><tr><td> resvEndNotification(bool)           </td><td> notification_for_end(bool)                                
+</td></tr><tr><td> resvStartNotification(bool)         </td><td> notification_for_start(int)                               
+</td></tr><tr><td> resvNotificationAssistance(bool)    </td><td> notification_for_assistance(bool)                         
+</td></tr><tr><td> resvNotificationToResponsible(bool) </td><td> notification_for_responsible(bool)                        
+</td></tr><tr><td> resvStartNotificationBefore(int)    </td><td style="text-align: center">                                                           
+</td></tr><tr><td> resvsNeedConfirmation(bool)         </td><td> reservations_need_confirmation(bool)                      
+</td></tr><tr><td> roomNr(str)                         </td><td> number(str)                                               
+</td></tr><tr><td> site(str)                           </td><td> site(str)                                                 
+</td></tr><tr><td> surfaceArea(int)                    </td><td> surface_area(int)                                         
+</td></tr><tr><td> telephone(str)                      </td><td> telephone(str)                                            
+</td></tr><tr><td> whereIsKey(str)                     </td><td> key_location(str)                                         
+</td></tr></table>
+<h2 id="Reservation">Reservation</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>                      </th><th> <strong>After</strong>                                             
+</th></tr><tr><td> id(int)                             </td><td> id(int)                                                   
+</td></tr><tr><td> excludedDays(list)                  </td><td style="text-align: center">                                                           
+</td></tr><tr><td> createdDate(datetime)               </td><td> created_at(datetime)                                      
+</td></tr><tr><td> startDate(datetime)                 </td><td> start_date(datetime)                                      
+</td></tr><tr><td> endDate(datetime)                   </td><td> end_date(datetime)                                        
+</td></tr><tr><td> bookedForId(str)                    </td><td> booked_for_id(str)                                        
+</td></tr><tr><td> bookedForName(str)                  </td><td> booked_for_name(str)                                      
+</td></tr><tr><td> createdBy(str)                      </td><td> created_by(str)                                           
+</td></tr><tr><td> contactEmail(str)                   </td><td> contact_email(str)                                        
+</td></tr><tr><td> contactPhone(str)                   </td><td> contact_phone(str)                                        
+</td></tr><tr><td> isCancelled(bool)                   </td><td> is_cancelled(bool)                                        
+</td></tr><tr><td> isConfirmed(bool)                   </td><td> is_confirmed(bool)                                        
+</td></tr><tr><td> isRejected(bool)                    </td><td> is_rejected(bool)                                         
+</td></tr><tr><td> needsAVCSupport(bool)               </td><td style="text-align: center">                                                           
+</td></tr><tr><td> needsAssistance(bool)               </td><td style="text-align: center">                                                           
+</td></tr><tr><td> reason(str)                         </td><td> reason(str)                                               
+</td></tr><tr><td> repeatibility(str)                  </td><td> repeat_unit(short)                                        
+</td></tr><tr><td style="text-align: center">                                     </td><td> repeat_period(short)                                      
+</td></tr><tr><td> history(list)                       </td><td> edit_id(int)                                              
+</td></tr><tr><td> room(str)                           </td><td> room_id(int)                                              
+</td></tr><tr><td> startEndNotification(set)           </td><td style="text-align: center">                                                           
+</td></tr><tr><td> useVC(list)                         </td><td style="text-align: center">                                                           
+</td></tr><tr><td> usesAVC(bool)                       </td><td style="text-align: center">                                                           
+</td></tr></table>
+<h2 id="HistoryEdit">History (Edit)</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>                      </th><th> <strong>After</strong>                                             
+</th></tr><tr><td> info(list)                          </td><td> info(str)                                                 
+</td></tr><tr><td> responsibleUser(str)                </td><td> avatar_id(str)                                       
+</td></tr><tr><td style="text-align: center">                                     </td><td> reservation_id(int)                                       
+</td></tr><tr><td> timestamp(datetime)                 </td><td> timestamp(datetime)                                       
+</td></tr></table>
+<h2 id="Blocking">Blocking</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>                      </th><th> <strong>After</strong>                                             
+</th></tr><tr><td> createdBy(str)                      </td><td> created_by(str)                                           
+</td></tr><tr><td> createdDate(datetime)               </td><td> created_at(datetime)                                      
+</td></tr><tr><td> startDate(date)                     </td><td> start_date(date)                                          
+</td></tr><tr><td> endDate(date)                       </td><td> end_date(date)                                            
+</td></tr><tr><td> id(int)                             </td><td> id(int)                                                   
+</td></tr><tr><td> message(str)                        </td><td> reason(str)                                               
+</td></tr><tr><td> allowed(list)                       </td><td style="text-align: center">                                                           
+</td></tr><tr><td> blockedRooms(list)                  </td><td style="text-align: center">                                                           
+</td></tr></table>
+<h2 id="BlockedRoom">Blocked Room</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>                      </th><th> <strong>After</strong>                                             
+</th></tr><tr><td> active(bool)                        </td><td> is_active(bool)                                           
+</td></tr><tr><td> notificationSent(bool)              </td><td> notification_sent(bool)                                   
+</td></tr><tr><td> rejectedBy(str)                     </td><td> rejected_by(str)                                          
+</td></tr><tr><td> rejectionReason(str)                </td><td> rejection_reason(str)                                     
+</td></tr><tr><td> roomGUID(str)                       </td><td> room_id(int)                                              
+</td></tr><tr><td style="text-align: center">                                     </td><td> blocking_id(int)                                          
+</td></tr></table>
+<h2 id="BlockingPrincipal">Blocking Principal</h2>
+<table class="wiki">
+<tr><th> <strong>Before</strong>                      </th><th> <strong>After</strong>                                             
+</th></tr><tr><td> id(str)                             </td><td> entity_id(str)                                            
+</td></tr><tr><td> type(str)                           </td><td> entity_type(str)                                          
+</td></tr><tr><td style="text-align: center">                                     </td><td> blocking_id(int)                                          
+</td></tr></table>
+<h2 id="NewTables">New Tables</h2>
+<h3 id="RoomAttributeReservationAttribute"><a class="missing wiki">RoomAttribute/ReservationAttribute?</a></h3>
+<ul><li>key(str)
+</li><li>value(str)
+</li><li>room_id/reservation_id(int)
+</li></ul><h3 id="ReservationExcludedDay">Reservation Excluded Day</h3>
+<ul><li>start_date(datetime)
+</li><li>end_time(datetime)
+</li><li>reservation_id(int)
+</li></ul><h3 id="ReservationNotifications">Reservation Notifications</h3>
+<p>
+  
+</p>
+<ul><li>reservation_id(int)
+</li><li>occurrence(datetime)
+</li></ul><h3 id="ReservationEdit">Reservation Edit</h3>
+<p>
+ 
+</p>
+<ul><li>reservation_id(int)
+</li><li>avatar_id(int)
+</li><li>timestamp(datetime)
+</li><li>info(str)
+</li></ul><h3 id="Photo">Photo</h3>
+<ul><li>id(int)
+</li><li>room_id(int)
+</li><li>content(blob)
+</li></ul><h3 id="NonBookableDate"><a class="missing wiki">NonBookable?</a> Date</h3>
+<ul><li>start_date(datetime)
+</li><li>end_date(datetime)
+</li><li>room_id(int)
+</li></ul><h3 id="BookableTime">Bookable Time</h3>
+<ul><li>start_time(time)
+</li><li>end_time(time)
+</li><li>room_id(int)
+</li></ul><h2 id="ReplacedClasses">Replaced Classes</h2>
+<h3 id="Equipment">Equipment</h3>
+<p>
+ 
+</p>
+<ul><li>id(int)
+</li><li>name(str)
+</li><li>location(str)
+</li></ul><h3 id="CustomAtts"><a class="missing wiki">CustomAtts?</a></h3>
+<p>
+ 
+</p>
+<ul><li>info(dict)
+</li></ul><h3 id="Holiday">Holiday</h3>
+<p>
+                       
+</p>
+<ul><li>day(datetime)
+</li></ul><h2 id="Discuss">Discuss</h2>
+<h3 id="a5.11.2013">5.11.2013</h3>
+<p>
+ 
+</p>
+<ul><li>Notification manager(notification related data will be put into separate tables)
+<ul><li>Relationship would be 1-to-1 so there is no real benefit.
+</li><li>Access pattern makes cumbersome of the usage of this modification.
+</li></ul></li><li>How to store photos? Blob, filesystem or 3rd party system? What about auto thumbnail generation? related to <a class="new ticket" href="../../../../ticket/1176.html" title="defect: Small/Large photo upload (new)">#1176</a> and <a class="new ticket" href="../../../../ticket/1389.html" title="defect: Automatic thumbnail generation (new)">#1389</a>
+<ul><li>Store as blob to make simpler
+</li></ul></li><li>Blocking principal? Edit? - What does it mean to you? Do you like the name?
+<ul><li>Edit -&gt; <a class="missing wiki">ReservationEditLog?</a>
+</li><li><a class="missing wiki">ReservationNotification?</a> -&gt; <a class="missing wiki">ReservationNotificationLog?</a>
+</li><li><a class="missing wiki">BlockingPrincipal?</a> -&gt; <a class="missing wiki">BlockingEvader?</a>
+</li></ul></li><li>Repeatibility: <strong>repeat_unit</strong> and <strong>repeat_period</strong>
+<ul><li>Customizable for any repeatibility
+</li><li><strong>repeat_step</strong> instead of <strong>repeat_period</strong>
+</li></ul></li><li>Where to put <tt>indico.core.db.rb.main</tt> for db and graph generator? <tt>bin/utils</tt>
+<ul><li>Split into two as db init and graph generator
+</li><li>Database initializer is kept in <tt>indico.core.db</tt>
+</li><li>Schema and UML class diagram generator -&gt; <tt>bin/utils/createDatabaseGraph.py</tt>
+</li></ul></li><li>Where to put schema? <tt>indico.ext.roombooking</tt>
+<ul><li>Room booking isn't a plugin so kept in core: <tt>indico.core.db.rb</tt>
+</li></ul></li><li>Custom attributes 
+<ul><li>key_id | value | entity_id (chosen)
+</li><li>pickled_object | entity_id
+</li><li>json_as_string | entity_id
+</li></ul></li></ul><h3 id="a29.11.2013">29.11.2013</h3>
+<p>
+ 
+</p>
+<ul><li>Reservation Notifications
+<ul><li>prepopulate occurrances of reservations with one more column that specifies if notification is already sent
+</li><li>date of a reservation is fixed of modifiable? (current fixed but future?)
+</li><li>datetime processing is backend specific, utc time stamp as int instead? (i.e. sqlite)
+</li><li><a class="new ticket" href="../../../../ticket/266.html" title="defect: Allow to modify the ocurrences/periods hours/time (new)">#266</a> (changable dates), <a class="new ticket" href="../../../../ticket/1437.html" title="defect: Provide &#34;human&#34; booking periods (new)">#1437</a> (humanized repetition)
+</li></ul></li><li>Naming of attributes
+<ul><li>Booking Simba List
+</li><li>I don't know
+</li><li>Internal vs user facing attributes such that user can see <tt>I don't really know</tt> but we can denote it differently such as <tt>unknown</tt>, etc. Key tables requires one more column.
+</li></ul></li><li>Attribute Key and Values
+<ul><li>Current: (Reservation|Room|Location)Attribute(Key)?
+</li><li>What about keeping attribute tables (which hold values as string automatically encoded/decoded to/from JSON) but putting keys into one table (shared by all)? It may require one more column for type to see all keys are available for one entity, let's say room.
+</li></ul></li><li>Many-to-many room-reversation relationship
+<ul><li>One reservation can book multiple rooms. Currently, each reservation has only one room but what about reserving all rooms of a big conference into one reservation? 
+</li></ul></li><li>Modular migration
+<ul><li>first time migration
+<ul><li>a lot of boilerplate but necessary code
+</li><li>code/package structure: 
+<ul><li>might create <tt>utils</tt> which can be reused in the migration of other parts
+</li></ul></li></ul></li><li>further migrations: alembic? (written by sqlalchemy creator)
+</li></ul></li></ul><h2 id="Pitfalls">Pitfalls</h2>
+<ul><li>Graph generator requires <tt>pydot</tt> which has a dependency of <tt>pyparsing</tt> but version matters:
+<div class="code"><pre><span class="nv">$ </span>pip uninstall pyparsing
+<span class="nv">$ </span>pip install <span class="nv">pyparsing</span><span class="o">==</span>1.5.7
+<span class="nv">$ </span>pip install pydot
+</pre></div></li></ul><ul><li>Graph generator isn't compatible with SQLAlchemy 0.8.x upwards.
+<div class="code"><pre><span class="nv">$ </span>pip uninstall sqlalchemy-schemadisplay
+<span class="c"># compatibility fix for renamed `local_side` to `local_columns`
+</span><span class="nv">$ </span>pip install https://github.com/Surgo/sqlalchemy_schemadisplay/zipball/master 
+</pre></div></li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://old.indico-software.org/wiki/Dev/FutureDB/Schema/RoomBooking?action=diff&amp;version=17" title="Version 17 by ferhatelmas: further elaboration in discuss topics">Last modified</a> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-12-03T13%3A31%3A23%2B01%3A00&amp;precision=second" title="See timeline at 12/03/13 13:31:23">22 months ago</a></span>
+            <span class="trac-print">Last modified on 12/03/13 13:31:23</span>
+          </div>
+        
+        
+      </div>
+      
+    <div id="attachments">
+        <h3 class="foldable">Attachments <span class="trac-count">(4)</span></h3>
+        <div>
+          <ul>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/FutureDB/Schema/RoomBooking/test.html" title="View attachment">test.png</a><a href="../../../../raw-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/test.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="69980 bytes">68.3 KB</span>) -
+      added by <em>ferhatelmas</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-04T13%3A53%3A27%2B01%3A00&amp;precision=second" title="See timeline at 11/04/13 13:53:27">2 years ago</a>.
+                <q>big and small for photos</q>
+              </li>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/FutureDB/Schema/RoomBooking/schema.html" title="View attachment">schema.png</a><a href="../../../../raw-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/schema.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="72027 bytes">70.3 KB</span>) -
+      added by <em>ferhatelmas</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-08T13%3A52%3A07%2B01%3A00&amp;precision=second" title="See timeline at 11/08/13 13:52:07">2 years ago</a>.
+                <q>latest schema</q>
+              </li>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/FutureDB/Schema/RoomBooking/uml.html" title="View attachment">uml.png</a><a href="../../../../raw-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/uml.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="180699 bytes">176.5 KB</span>) -
+      added by <em>ferhatelmas</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-08T13%3A52%3A23%2B01%3A00&amp;precision=second" title="See timeline at 11/08/13 13:52:23">2 years ago</a>.
+                <q>latest uml</q>
+              </li>
+              <li>
+    <a href="../../../../attachment/wiki/Dev/FutureDB/Schema/RoomBooking/db.html" title="View attachment">db.png</a><a href="../../../../raw-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/db.png" class="trac-rawlink" title="Download">​</a>
+       (<span title="96894 bytes">94.6 KB</span>) -
+      added by <em>ferhatelmas</em> <a class="timeline" href="http://old.indico-software.org/timeline?from=2013-11-20T17%3A49%3A00%2B01%3A00&amp;precision=second" title="See timeline at 11/20/13 17:49:00">23 months ago</a>.
+                <q>better custom attributes</q>
+              </li>
+          </ul>
+          <p>
+            Download all attachments as: <a rel="nofollow" href="../../../../zip-attachment/wiki/Dev/FutureDB/Schema/RoomBooking/index.html">.zip</a>
+          </p>
+        </div>
+    </div>
+
+    </div>
+    <script type="text/javascript">
+        jQuery.loadStyleSheet("../../../../pygments/trac.css", "text/css");
+    </script>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="Dev%252FFutureDB%252FSchema%252FRoomBooking56e6.txt?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="../../../../chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="../../../../about.html"><strong>Trac 1.0</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right"><a href="http://indico-software.org/">http://indico-software.org</a></p>
+    </div>
+    <div id="sitefooter">
+    </div>
+  </body>
+
+<!-- Mirrored from old.indico-software.org/wiki/Dev/FutureDB/Schema/RoomBooking by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2015 15:12:33 GMT -->
+</html>

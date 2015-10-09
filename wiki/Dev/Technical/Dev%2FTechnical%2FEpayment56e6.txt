@@ -1,0 +1,197 @@
+= E-payment plugins =
+
+== What's an epayment plugin? ==
+
+This is a module that allows you to set up conferences with epayment capabilities. Hence, people registering in your conference will be able to pay online using paypal, worldpay, yellowpay, etc.
+
+== How to develop a new epayment plugin? ==
+
+The first thing you should do, it is to have a look to the other plugins that have already been developed. You should even consider to create a new plugin by copying one of existing ones (e.g. paypal) and modifying the main methods. This is because the structure is mainly the same and you have just to change some specific methods and webpages.
+
+Steps:
+
+  * The first step to add a new plugin it is to create a new folder in `MaKaC/plugins/EPayment/` (e.g. `payPal`).
+  * Once you have the folder, add a file called `__init__.py` with the following content:
+
+{{{
+#!python
+# -*- coding: utf-8 -*-
+##
+## $Id$
+##
+## This file is part of CDS Indico.
+## Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 CERN.
+##
+## CDS Indico is free software; you can redistribute it and/or
+## modify it under the terms of the GNU General Public License as
+## published by the Free Software Foundation; either version 2 of the
+## License, or (at your option) any later version.
+##
+## CDS Indico is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with CDS Indico; if not, write to the Free Software Foundation, Inc.,
+## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
+from MaKaC.plugins import getModules, initModule
+
+pluginType = "EPayment"
+pluginName = "PayPal"
+
+
+modules = {}
+topModule = None
+}}}
+
+(Note that you have to write the correct `pluginName`)
+
+  * Now, create the file `epayment.py` at the same level that `__init__.py`.
+  * This file should have at least:
+    * Two classes, one in order to implement the basic operations for the epayment module, and another one for the transactions. Both classes have to inherit from the base ones. E.g.: class  `PayPalMod(BaseEPayMod)`, and class `TransactionPayPal(BaseTransaction)`. These classes have to overload a few base methods at least:
+
+{{{
+#!python
+class PayPalMod(BaseEPayMod):
+
+    def __init__(self):
+        self._enabled = True
+        self._title = "paypal"     #add your title
+        self._id = ""
+   
+    def getFormHTML(self,prix,Currency):
+        """
+        Returns the html form that will be used to send the information to the epayment server.
+        """
+   
+    def getConfModifEPaymentURL(self, conf):
+        """
+        For each plugin there is just one URL for all requests. The plugin will have its own parameters to manage different ones (have a look to urlHandler.py). This method returns that general URL.
+        """
+      
+    def setValues(self, data):
+    """
+    Saves the values coming in a dict (data) in the corresponding class variables. (e.g. title, url, business, etc)
+    """
+
+    # add more specific methods here
+
+
+class TransactionPayPal(BaseTransaction):
+
+    def __init__(self,parms):
+        BaseTransaction.__init__(self)
+        self._Data=parms  
+   
+    def getTransactionHTML(self):               
+     """
+         HTML piece of code with the information we got from the epayment transaction.
+     """            
+
+    def getTransactionTxt(self):               
+     """
+         Plain text with the information we got from the epayment transaction.
+     """       
+       
+     # add more specific methods here
+
+          o Two methods as follows:
+
+def getPayMod():
+    return PayPalMod()
+
+def getPayModClass():
+    return PayPalMod
+}}}
+
+  * Create the folders: `tpls` and `webinterface`.
+  * Within `tpls` you will place all the templates you need for your webpages
+  * Within `webinterface`, create `pages` and `rh`.
+    * `rh` will contain the request handlers in the same way as Indico main core.
+    * `pages` will contain the webpages creation in the same way as Indico main core.
+      * copy `wcomponents.py` from another plugin to yours (you need exactly the same)
+      * copy `urlHandlers.py` from another plugin to yours. Keep the classes `EPURLHandler` and `UHConfModifEPayment`. Remove the other ones and add yours for the new plugin.
+  * Up to here you have done the main structure for a plugin. Now it is time to create your RH and add the webpages you need. Each plugin is different because it can need to modify/add different information.
+
+''Tip: try to create your plugin from one that already exists.''
+
+== General Logic Flow ==
+ 
+This section is designed to give a high level overview of how the logic flows once the transaction has been processed at the vendor.  
+
+Essentially there are three steps in the process.
+
+  * Vendor calls back to `<indicoServer>/payment.py`.  In this code Indico will determine which plugin module request handler to invoke.  The request handlers for the plugin modules are located in the `ePaymentModif.py` python module in the plugins `webinterface/rh` directory.
+  * Plugin request handler processing
+  * Display the status of the transaction
+
+=== I. Vendor calls back to `<indicoServer>/payment.py`. ===
+
+The first step in the process is to determine which payment module to invoke.  This is done in the  `RHPaymentModule.process()` in `MaKaC/webinterface/rh/payment.py`.  This method simply traverses through the list of available payment modules for a match, and then combines the value of `_requestTag` to determine which request handler to call.
+
+Prior to the call to the vendor, information is coded and passed along with the transaction to be used to determine the proper request hander.  In particular, the name of the epayment module and the request tag should be supplied.  The epayment module name and request tag is added in the `urlHandlers.py` module:
+
+{{{
+#!python
+url.addParam( "EPaymentName",skipjack.pluginName )
+url.addParam( "requestTag", cls._requestTag )
+}}}
+
+The `pluginName` is set based on the contents of  `<plugin>/__init__.py`:
+
+{{{
+#!python
+pluginType = "EPayment"
+pluginName = "skipjack"
+}}}
+
+It is necessary that pluginName have a string that matches the name of the directory that the plugin is found.  For processing payments from the vendor, the `requestTag` should be set to "confirm".
+
+=== II. Plugin request handler processing. ===
+
+In the previous step, the `pluginName` and `requestTag` were used to direct processing into the correct `process()` module of the plugin.  The python file `MaKaC/plugins/EPayments/<PLUGIN>/webinterface/rh/ePaymentModif.py` contains the classes for the various values of `requestTag`.  The most interesting class for payment processing is the class `RHEPaymentConfirm<PLUGIN>`.  Notice in this class the `requestTag` is set to "confirm", which is how in (I) the correct module to call was computed.
+
+The `RHEPaymentConfirm<PLUGIN>` class contains a `_process()` method which does the processing of the return from the payment server.  The `params{}` dictionary will be filled with vendor specific information that can be used to determine things like whether the transaction was successful or not.  For example, in the skipjack module (class `RHEPaymentConfirmSkipjack()` in `MaKaC/plugins/EPayments/skipjack/webinterface/rh/ePaymentModif.py`)) the variable `szIsApproved` is checked to determine the status of the payment.  The following code fragment either calls a success page or an error page:
+
+{{{
+#!python
+if self._params.get('szIsApproved',"0") != '0':
+    self._registrant.setPayed(True)
+    d={}
+    d["shiptostate"]=self._params.get('shiptostate',"")
+
+    /* rest of the vendor specific information */
+
+    p=ePayments.WPEPaymentSkipjackAccepted(...)  
+    return p.display()
+else:
+    d={}
+    d["shiptostate"]=self._params.get('shiptostate',"")
+
+    /* rest of the vendor specific information */
+
+    p=ePayments.WPEPaymentSkipjackCancelled(....)
+    return p.display()
+}}}
+
+=== III. Display the status of the transaction ===
+
+In the previous code fragment in (II), a `display()` method is called which will present to the user information regarding the status of the payment transaction.  When an object of <X> has it's display method called, the page is constructed by creating the components of that page.  Pages are prefixed with classes beginning in WP, and components that make up the page are prefixed with W.  These classes inherit from the class `WTemplated` in `MaKaC/webinterface/components.py`.  
+
+When the display method is called, the `WPEPayment<module>Accept` (WPEPaymentSkipjackAccept for example) is invoked.  This code can be found in `MaKaC/plugins/EPayment/<plugin>/webinterface/pages/ePayments.py`.  This class has a method `_getBody()`, which incorporates the web component into the page:
+
+{{{
+#!python
+wc = WconfirmEPaymentSkipjack(self._conf, self._registrant)
+return wc.getHTML()
+}}}
+
+The web component `wconfirmEPaymentSkipjack` in this example (`wconfirmEPayment<plugin>` in general) will incorporate a tpl file by the name `confirmEPaymentSkipjack.tpl`, which is constructed by simply removing the 'w' prefix from the web component classname.  By convention the tpl files contain variables `trinfo` and `message` to display the status information.  These must be set properly in `vars{}`.
+
+The general case for plugin modules is to display the status of the transaction at this point, but due to the fact that Skipjack displays Indico generated HTML on the Skipjack server a "trick" is played to force a redirect back through the Indico code.  This is done using the `urlDisplay` variable which will cause a redirect to `<indicoserver>/payment.py` with a `_requestTag` set to "displayInfo". 
+
+
+''(... in progress)''
+

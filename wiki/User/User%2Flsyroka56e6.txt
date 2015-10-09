@@ -1,0 +1,14 @@
+= Leszek Syroka =
+
+== Personal plan ==
+
+ * Optimization
+
+== Tickets owned (open) ==
+[[TicketQuery(owner=lsyroka,status!=closed)]]
+
+== Tickets owned (closed) ==
+[[TicketQuery(owner=lsyroka,status=closed)]]
+
+== Tickets Reported ==
+[[TicketQuery(reporter=lsyroka)]]

@@ -1,0 +1,11 @@
+--- MaKaC/user_orig0981.py	2012-06-01 14:00:51.000000000 +0200
++++ MaKaC/user.py	2012-06-01 14:20:19.000000000 +0200
+@@ -40,7 +40,7 @@
+ from MaKaC.common.db import DBMgr
+ import MaKaC.common.info as info
+ from MaKaC.i18n import _
+-from MaKaC.authentication.LDAPAuthentication import LDAPAuthenticator, ldapFindGroups, ldapUserInGroup
++from MaKaC.authentication.LDAPAuthentication import LDAPAuthenticator, ldapFindGroups, ldapUserInGroup, ldapFindGroupMemberUids
+ 
+ from datetime import datetime, timedelta
+ 
